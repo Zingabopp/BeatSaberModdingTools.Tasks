@@ -1,0 +1,17 @@
+﻿<!-- 
+  This file is automatically imported by NuGet into a user's project
+  when it targets a single framework, or in classic (pre 2017) csproj projects.
+-->
+<Project TreatAsLocalProperty="TaskFolder;TaskAssembly" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <IsNetCoreApp Condition="$(MSBuildRuntimeType) == 'Core'">true</IsNetCoreApp>
+    <IsNetCoreApp Condition="$(IsNetCoreApp) != 'Core'">false</IsNetCoreApp>
+    <TaskFolder>netstandard2.0</TaskFolder>
+    <!--<TaskFolder Condition="$(IsNetCoreApp)">netstandard2.0</TaskFolder>
+    <TaskFolder Condition="!$(IsNetCoreApp)">net46</TaskFolder>-->
+    <TaskAssembly>$(MSBuildThisFileDirectory)..\tasks\$(TaskFolder)\BSMTTasks.dll</TaskAssembly>
+  </PropertyGroup>
+  <UsingTask TaskName="GetManifestInfo" AssemblyFile="$(TaskAssembly)" />
+  <UsingTask TaskName="GetCommitHash" AssemblyFile="$(TaskAssembly)" />
+  <UsingTask TaskName="ZipDir" AssemblyFile="$(TaskAssembly)" />
+</Project>
