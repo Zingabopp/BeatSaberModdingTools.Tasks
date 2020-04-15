@@ -1,6 +1,5 @@
-﻿using System;
-using Microsoft.Build.Framework;
-using Microsoft.Build.Utilities;
+﻿using Microsoft.Build.Framework;
+using System;
 using System.IO;
 using System.IO.Compression;
 using System.Threading;
@@ -18,7 +17,7 @@ namespace BSMTTasks
         {
             try
             {
-                var zipDir = new DirectoryInfo(Path.GetDirectoryName(Path.GetFullPath(ZipFileName)));
+                DirectoryInfo zipDir = new DirectoryInfo(Path.GetDirectoryName(Path.GetFullPath(ZipFileName)));
                 if (zipDir.Exists)
                     zipDir.Delete(true);
                 zipDir.Create();

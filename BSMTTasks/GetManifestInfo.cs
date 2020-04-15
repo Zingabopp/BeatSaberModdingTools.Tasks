@@ -1,6 +1,5 @@
-﻿using System;
-using Microsoft.Build.Framework;
-using Microsoft.Build.Utilities;
+﻿using Microsoft.Build.Framework;
+using System;
 using System.IO;
 
 namespace BSMTTasks

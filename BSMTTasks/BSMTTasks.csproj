@@ -3,7 +3,7 @@
   <PropertyGroup>
     <id>BSMTTasks</id>
     <Title>BSMTTasks</Title>
-    <Version>1.0.10</Version>
+    <Version>1.0.12</Version>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <developmentDependency>true</developmentDependency>
   </PropertyGroup>
@@ -31,11 +31,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.Build.Framework" Version="16.5.0">
-      <PrivateAssets>all</PrivateAssets>
-    </PackageReference>
-    <PackageReference Include="Microsoft.Build.Tasks.Core" Version="16.5.0">
-      <PrivateAssets>all</PrivateAssets>
-    </PackageReference>
+    <PackageReference Include="Microsoft.Build.Framework" Version="16.5.0" />
+    <PackageReference Include="Microsoft.Build.Tasks.Core" Version="16.5.0" />
   </ItemGroup>
 </Project>

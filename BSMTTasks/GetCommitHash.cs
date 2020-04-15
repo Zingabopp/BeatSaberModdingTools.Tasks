@@ -1,8 +1,7 @@
-﻿using System;
-using Microsoft.Build.Framework;
-using Microsoft.Build.Utilities;
-using System.Diagnostics;
+﻿using Microsoft.Build.Framework;
+using System;
 using System.ComponentModel;
+using System.Diagnostics;
 using System.IO;
 
 namespace BSMTTasks
