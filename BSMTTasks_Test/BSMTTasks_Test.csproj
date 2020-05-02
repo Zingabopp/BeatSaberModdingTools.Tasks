@@ -8,9 +8,12 @@
       <Output TaskParameter="CommitShortHash" PropertyName="CommitShortHash" />
     </GetCommitHash>
     <Message Importance="high" Text="$(CommitShortHash)" />
+    <IsProcessRunning ProcessName="Beat Saber">
+      <Output TaskParameter="IsRunning" PropertyName="IsRunning" />
+    </IsProcessRunning>
   </Target>
   <ItemGroup>
-    <PackageReference Include="BSMTTasks" Version="1.0.5">
+    <PackageReference Include="BSMTTasks" Version="1.0.14">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
