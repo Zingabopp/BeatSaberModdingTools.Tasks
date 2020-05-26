@@ -19,7 +19,7 @@ namespace BSMTTasks
             try
             {
                 string manifestFile = "manifest.json";
-                string assemblyFile = "Properties\\AssemblyInfo.cs";
+                string assemblyFile = Path.Combine("Properties", "AssemblyInfo.cs");
                 string manifest_gameVerStart = "\"gameVersion\"";
                 string manifest_versionStart = "\"version\"";
                 string manifest_gameVerLine = null;
