@@ -3,9 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.30002.166
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BSMTTasks", "BSMTTasks\BSMTTasks.csproj", "{69AE3C08-79E4-4AE8-A9BA-B580AA45F50C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BSMTTasks", "BSMTTasks\BSMTTasks.csproj", "{69AE3C08-79E4-4AE8-A9BA-B580AA45F50C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BSMTTasks_Test", "BSMTTasks_Test\BSMTTasks_Test.csproj", "{52FB58FA-4735-4854-884F-785EAA538BE3}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BSMTTasks_UnitTests", "BSMTTasks_UnitTests\BSMTTasks_UnitTests.csproj", "{B571D342-4BCA-4DEB-9223-27110B27FCF7}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -17,10 +17,10 @@ Global
 		{69AE3C08-79E4-4AE8-A9BA-B580AA45F50C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{69AE3C08-79E4-4AE8-A9BA-B580AA45F50C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{69AE3C08-79E4-4AE8-A9BA-B580AA45F50C}.Release|Any CPU.Build.0 = Release|Any CPU
-		{52FB58FA-4735-4854-884F-785EAA538BE3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{52FB58FA-4735-4854-884F-785EAA538BE3}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{52FB58FA-4735-4854-884F-785EAA538BE3}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{52FB58FA-4735-4854-884F-785EAA538BE3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B571D342-4BCA-4DEB-9223-27110B27FCF7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B571D342-4BCA-4DEB-9223-27110B27FCF7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B571D342-4BCA-4DEB-9223-27110B27FCF7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B571D342-4BCA-4DEB-9223-27110B27FCF7}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

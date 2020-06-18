@@ -1,0 +1,16 @@
+{
+  "$schema": "https://raw.githubusercontent.com/nike4613/ModSaber-MetadataFileSchema/master/Schema.json",
+  "author": "Zingabopp",
+  "description": "Fake manifest for BSMTTasks unit tests.",
+  "id": "BSMTTasks",
+  "name": "BSMTTasks",
+  "version": "1.1.0",
+  "dependsOn": {
+    "BeatSaberMarkupLanguage": "^1.2.2",
+    "BS Utils": "^1.4.8"
+  },
+  "links": {
+    "project-source": "https://github.com/Zingabopp/BSMTTasks"
+  },
+  "features": []
+}
