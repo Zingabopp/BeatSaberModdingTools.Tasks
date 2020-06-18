@@ -55,7 +55,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\BSMTTasks\BeatSaberModdingTools.Tasks.csproj" />
+    <ProjectReference Include="..\BeatSaberModdingTools.Tasks\BeatSaberModdingTools.Tasks.csproj" />
   </ItemGroup>
 
   <ItemGroup>

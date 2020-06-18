@@ -19,8 +19,8 @@
     <BuildOutputTargetFolder>tasks</BuildOutputTargetFolder>
     <Platforms>AnyCPU</Platforms>
     <PackageLicenseFile>LICENSE</PackageLicenseFile>
-    <PackageProjectUrl>https://github.com/Zingabopp/BSMTTasks</PackageProjectUrl>
-    <RepositoryUrl>https://github.com/Zingabopp/BSMTTasks</RepositoryUrl>
+    <PackageProjectUrl>https://github.com/Zingabopp/BeatSaberModdingTools.Tasks</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/Zingabopp/BeatSaberModdingTools.Tasks</RepositoryUrl>
     <Authors>Zingabopp</Authors>
     <Company>Zingabopp</Company>
     <Description>A set of MSBuild Tasks created for Beat Saber Modding Tools.</Description>

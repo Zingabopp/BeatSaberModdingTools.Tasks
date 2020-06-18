@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.30002.166
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BeatSaberModdingTools.Tasks", "BSMTTasks\BeatSaberModdingTools.Tasks.csproj", "{69AE3C08-79E4-4AE8-A9BA-B580AA45F50C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BeatSaberModdingTools.Tasks", "BeatSaberModdingTools.Tasks\BeatSaberModdingTools.Tasks.csproj", "{69AE3C08-79E4-4AE8-A9BA-B580AA45F50C}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BSMTTasks_UnitTests", "BSMTTasks_UnitTests\BSMTTasks_UnitTests.csproj", "{B571D342-4BCA-4DEB-9223-27110B27FCF7}"
 EndProject
