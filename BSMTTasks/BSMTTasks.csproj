@@ -3,7 +3,7 @@
   <PropertyGroup>
     <id>BSMTTasks</id>
     <Title>BSMTTasks</Title>
-    <Version>1.1.0</Version>
+    <Version>1.1.3</Version>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <developmentDependency>true</developmentDependency>
     <NoWarn>NU5100</NoWarn>

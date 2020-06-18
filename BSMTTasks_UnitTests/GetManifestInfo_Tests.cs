@@ -280,6 +280,8 @@ namespace BSMTTasks_UnitTests
                 Console.WriteLine(entry);
             }
             Assert.AreEqual(1, mockTaskLogger.LogEntries.Count);
+            MockLogEntry logEntry = mockTaskLogger.LogEntries.First();
+            Assert.AreEqual("Manifest file not found at Manifests\\DoesNotExist.json", logEntry.ToString());
             Assert.AreEqual(expectedResult, taskResult);
             Assert.AreEqual(expectedAssemblyVersion, getManifestInfo.AssemblyVersion);
             Assert.AreEqual(expectedPluginVersion, getManifestInfo.PluginVersion);

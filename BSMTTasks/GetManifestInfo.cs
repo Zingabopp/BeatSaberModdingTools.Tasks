@@ -43,7 +43,8 @@ namespace BSMTTasks
                 string manifest_versionLine = null;
                 if (!File.Exists(manifestFile))
                 {
-                    throw new FileNotFoundException("Could not find manifest: " + Path.GetFullPath(manifestFile));
+                    Logger.LogError($"Manifest file not found at {manifestFile}");
+                    return false;
                 }
                 string line;
                 int manifestVersionLineNum = 1;
