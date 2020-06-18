@@ -6,10 +6,19 @@ using System.IO;
 
 namespace BeatSaberModdingTools.Tasks
 {
+    /// <summary>
+    /// Gets the git commit short hash of the project.
+    /// </summary>
     public class GetCommitHash : Microsoft.Build.Utilities.Task
     {
+        /// <summary>
+        /// The directory of the project.
+        /// </summary>
         [Required]
         public virtual string ProjectDir { get; set; }
+        /// <summary>
+        /// First 8 characters of the current commit hash.
+        /// </summary>
         [Output]
         public virtual string CommitShortHash { get; protected set; }
 

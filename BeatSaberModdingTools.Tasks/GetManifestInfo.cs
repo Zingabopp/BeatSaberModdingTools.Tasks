@@ -7,20 +7,44 @@ using Microsoft.Build.Tasks;
 
 namespace BeatSaberModdingTools.Tasks
 {
+    /// <summary>
+    /// Reads a BSIPA manifest json file, compares the values to the project's assembly version, and outputs information from the manifest.
+    /// </summary>
     public class GetManifestInfo : Microsoft.Build.Utilities.Task
     {
         public const string ErrorString = "E.R.R";
         public ITaskLogger Logger;
+        /// <summary>
+        /// Beat Saber game version the mod or lib is compatible with, as reported by the manifest.
+        /// </summary>
         [Output]
         public virtual string GameVersion { get; protected set; }
+        /// <summary>
+        /// The mod or lib's version as reported by the manifest.
+        /// </summary>
         [Output]
         public virtual string PluginVersion { get; protected set; }
+        /// <summary>
+        /// Version of the assembly.
+        /// </summary>
         [Output]
         public virtual string AssemblyVersion { get; protected set; }
 
+        /// <summary>
+        /// Optional: Skip trying to read the assembly version of the project and use this value instead. Useful if the project already has a property with the assembly version.
+        /// </summary>
         public virtual string KnownAssemblyVersion { get; set; }
+        /// <summary>
+        /// Optional: Path to the manifest file. Default is 'manifest.json'.
+        /// </summary>
         public virtual string ManifestPath { get; set; }
+        /// <summary>
+        /// Optional: Path to the file containing the assembly information. Default is 'Properties\AssemblyInfo.cs'.
+        /// </summary>
         public virtual string AssemblyInfoPath { get; set; }
+        /// <summary>
+        /// If enabled, this task will report a failure if the assembly version and manifest version don't match or there was a problem getting the value for either of them.
+        /// </summary>
         public virtual bool ErrorOnMismatch { get; set; }
 
         public override bool Execute()

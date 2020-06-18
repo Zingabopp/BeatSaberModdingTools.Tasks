@@ -4,10 +4,19 @@ using System.Diagnostics;
 
 namespace BeatSaberModdingTools.Tasks
 {
+    /// <summary>
+    /// Checks if a process is currently running.
+    /// </summary>
     public class IsProcessRunning : Microsoft.Build.Utilities.Task
     {
+        /// <summary>
+        /// Name of the process.
+        /// </summary>
         [Required]
         public virtual string ProcessName { get; set; }
+        /// <summary>
+        /// True if the process is running, false otherwise.
+        /// </summary>
         [Output]
         public virtual bool IsRunning { get; set; }
 

@@ -6,10 +6,19 @@ using System.Threading;
 
 namespace BeatSaberModdingTools.Tasks
 {
+    /// <summary>
+    /// Zips the contents of a directory.
+    /// </summary>
     public class ZipDir : Microsoft.Build.Utilities.Task
     {
+        /// <summary>
+        /// Name of the directory to zip.
+        /// </summary>
         [Required]
         public virtual string DirectoryName { get; set; }
+        /// <summary>
+        /// Name of the created zip file.
+        /// </summary>
         [Required]
         public virtual string ZipFileName { get; set; }
 
