@@ -4,7 +4,7 @@ using System.ComponentModel;
 using System.Diagnostics;
 using System.IO;
 
-namespace BSMTTasks
+namespace BeatSaberModdingTools.Tasks
 {
     public class GetCommitHash : Microsoft.Build.Utilities.Task
     {

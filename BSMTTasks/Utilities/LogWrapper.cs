@@ -4,7 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace BSMTTasks.Utilties
+namespace BeatSaberModdingTools.Tasks.Utilties
 {
     public class LogWrapper : ITaskLogger
     {

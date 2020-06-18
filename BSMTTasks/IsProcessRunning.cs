@@ -2,7 +2,7 @@
 using System;
 using System.Diagnostics;
 
-namespace BSMTTasks
+namespace BeatSaberModdingTools.Tasks
 {
     public class IsProcessRunning : Microsoft.Build.Utilities.Task
     {

@@ -2,10 +2,10 @@
 using Microsoft.Build.Utilities;
 using System;
 using System.IO;
-using BSMTTasks.Utilties;
+using BeatSaberModdingTools.Tasks.Utilties;
 using Microsoft.Build.Tasks;
 
-namespace BSMTTasks
+namespace BeatSaberModdingTools.Tasks
 {
     public class GetManifestInfo : Microsoft.Build.Utilities.Task
     {

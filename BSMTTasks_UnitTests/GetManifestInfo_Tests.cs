@@ -1,5 +1,5 @@
-using BSMTTasks;
-using BSMTTasks.Utilties;
+using BeatSaberModdingTools.Tasks;
+using BeatSaberModdingTools.Tasks.Utilties;
 using Microsoft.Build.Framework;
 using Microsoft.Build.Utilities;
 using Microsoft.VisualStudio.TestTools.UnitTesting;

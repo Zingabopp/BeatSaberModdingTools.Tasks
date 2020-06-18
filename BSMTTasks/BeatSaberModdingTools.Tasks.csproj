@@ -11,8 +11,8 @@
 
   <PropertyGroup>
     <TargetFrameworks>netstandard2.0</TargetFrameworks>
-    <RootNamespace>BSMTTasks</RootNamespace>
-    <AssemblyName>BSMTTasks</AssemblyName>
+    <RootNamespace>BeatSaberModdingTools.Tasks</RootNamespace>
+    <AssemblyName>BeatSaberModdingTools.Tasks</AssemblyName>
     <CopyLocalLockFileAssemblies>true</CopyLocalLockFileAssemblies>
     <IsPackable>true</IsPackable>
     <IsTestProject>false</IsTestProject>
@@ -28,8 +28,8 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Content Include="BSMTTasks.TargetFramework.props" Pack="true" PackagePath="build\BSMTTasks.props" />
-    <Content Include="BSMTTasks.TargetFrameworks.props" Pack="true" PackagePath="buildMultiTargeting\BSMTTasks.props" />
+    <Content Include="BSMTTasks.TargetFramework.props" Pack="true" PackagePath="build\BeatSaberModdingTools.Tasks.props" />
+    <Content Include="BSMTTasks.TargetFrameworks.props" Pack="true" PackagePath="buildMultiTargeting\BeatSaberModdingTools.Tasks.props" />
   </ItemGroup>
 
   <ItemGroup>

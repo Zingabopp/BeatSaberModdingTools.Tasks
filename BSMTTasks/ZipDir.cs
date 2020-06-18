@@ -4,7 +4,7 @@ using System.IO;
 using System.IO.Compression;
 using System.Threading;
 
-namespace BSMTTasks
+namespace BeatSaberModdingTools.Tasks
 {
     public class ZipDir : Microsoft.Build.Utilities.Task
     {
