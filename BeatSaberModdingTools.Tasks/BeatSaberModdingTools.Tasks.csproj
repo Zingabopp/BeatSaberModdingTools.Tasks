@@ -8,7 +8,9 @@
     <developmentDependency>true</developmentDependency>
     <NoWarn>NU5100</NoWarn>
   </PropertyGroup>
-
+  <PropertyGroup Condition="'$(GITHUB_ACTIONS)' == 'true'">
+    <ContinuousIntegrationBuild>true</ContinuousIntegrationBuild>
+  </PropertyGroup>
   <PropertyGroup>
     <TargetFrameworks>netstandard2.0</TargetFrameworks>
     <RootNamespace>BeatSaberModdingTools.Tasks</RootNamespace>
@@ -25,8 +27,11 @@
     <Company>Zingabopp</Company>
     <Description>A set of MSBuild Tasks created for Beat Saber Modding Tools.</Description>
     <Copyright>Copyright © Zingabopp 2020</Copyright>
+    <RepositoryType>git</RepositoryType>
   </PropertyGroup>
-
+  <Target Name="CINotification" AfterTargets="Build">
+    <Message Text="CIBuild: '$(ContinuousIntegrationBuild)'" Importance="high" />
+  </Target>
   <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|netstandard2.0|AnyCPU'">
     <DocumentationFile>BeatSaberModdingTools.Tasks.xml</DocumentationFile>
   </PropertyGroup>
