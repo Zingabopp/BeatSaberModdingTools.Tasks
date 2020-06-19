@@ -242,10 +242,10 @@ namespace BeatSaberModdingTools.Tasks
                     assemblyFileVersion = assemblyFileVersionString.Substring(startColumn, endColumn - startColumn);
                     if (assemblyVersion != assemblyFileVersion)
                     {
-                        string message = "AssemblyVersion {0} does not match AssemblyFileVersion {1} in AssemblyInfo.cs";
+                        string message = "AssemblyVersion {0} does not match AssemblyFileVersion {1} in {2}";
                         if (errorOnMismatch)
-                            throw new ParsingException("Build", "BSMOD02", "", assemblyFile, assemblyFileVersionLineNum, startColumn + 1, assemblyFileVersionLineNum, endColumn + 1, message, assemblyVersion, assemblyFileVersion);
-                        Logger.LogWarning("Build", "BSMOD02", "", assemblyFile, assemblyFileVersionLineNum, startColumn + 1, assemblyFileVersionLineNum, endColumn + 1, message, assemblyVersion, assemblyFileVersion);
+                            throw new ParsingException("Build", "BSMOD02", "", assemblyFile, assemblyFileVersionLineNum, startColumn + 1, assemblyFileVersionLineNum, endColumn + 1, message, assemblyVersion, assemblyFileVersion, assemblyFile);
+                        Logger.LogWarning("Build", "BSMOD02", "", assemblyFile, assemblyFileVersionLineNum, startColumn + 1, assemblyFileVersionLineNum, endColumn + 1, message, assemblyVersion, assemblyFileVersion, assemblyFile);
                     }
 
                 }

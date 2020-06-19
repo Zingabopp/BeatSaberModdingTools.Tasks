@@ -24,7 +24,7 @@ namespace BSMTTasks_UnitTests
 
             bool taskResult = getManifestInfo.Execute();
             MockTaskLogger mockTaskLogger = getManifestInfo.Logger as MockTaskLogger;
-            foreach (var entry in mockTaskLogger.LogEntries)
+            foreach (MockLogEntry entry in mockTaskLogger.LogEntries)
             {
                 Console.WriteLine(entry);
             }
@@ -50,7 +50,7 @@ namespace BSMTTasks_UnitTests
             };
             bool taskResult = getManifestInfo.Execute();
             MockTaskLogger mockTaskLogger = getManifestInfo.Logger as MockTaskLogger;
-            foreach (var entry in mockTaskLogger.LogEntries)
+            foreach (MockLogEntry entry in mockTaskLogger.LogEntries)
             {
                 Console.WriteLine(entry);
             }
@@ -76,7 +76,7 @@ namespace BSMTTasks_UnitTests
             };
             bool taskResult = getManifestInfo.Execute();
             MockTaskLogger mockTaskLogger = getManifestInfo.Logger as MockTaskLogger;
-            foreach (var entry in mockTaskLogger.LogEntries)
+            foreach (MockLogEntry entry in mockTaskLogger.LogEntries)
             {
                 Console.WriteLine(entry);
             }
@@ -102,14 +102,14 @@ namespace BSMTTasks_UnitTests
             };
             bool taskResult = getManifestInfo.Execute();
             MockTaskLogger mockTaskLogger = getManifestInfo.Logger as MockTaskLogger;
-            foreach (var entry in mockTaskLogger.LogEntries)
+            foreach (MockLogEntry entry in mockTaskLogger.LogEntries)
             {
                 Console.WriteLine(entry);
             }
 
-            Assert.AreEqual(2, mockTaskLogger.LogEntries.Count); 
+            Assert.AreEqual(2, mockTaskLogger.LogEntries.Count);
             MockLogEntry logEntry = mockTaskLogger.LogEntries[0];
-            Assert.AreEqual("Unable to parse the AssemblyVersion from AssemblyInfos\\MissingAssemblyVersion.cs", logEntry.ToString());
+            Assert.AreEqual($"Unable to parse the AssemblyVersion from {assemblyFilePath}", logEntry.ToString());
             logEntry = mockTaskLogger.LogEntries[1];
             Assert.AreEqual("AssemblyVersion could not be determined.", logEntry.ToString());
             Assert.AreEqual(expectedResult, taskResult);
@@ -134,14 +134,14 @@ namespace BSMTTasks_UnitTests
             };
             bool taskResult = getManifestInfo.Execute();
             MockTaskLogger mockTaskLogger = getManifestInfo.Logger as MockTaskLogger;
-            foreach (var entry in mockTaskLogger.LogEntries)
+            foreach (MockLogEntry entry in mockTaskLogger.LogEntries)
             {
                 Console.WriteLine(entry);
             }
 
             Assert.AreEqual(1, mockTaskLogger.LogEntries.Count);
             MockLogEntry logEntry = mockTaskLogger.LogEntries.First();
-            Assert.AreEqual("Unable to parse the AssemblyVersion from AssemblyInfos\\MissingAssemblyVersion.cs", logEntry.ToString());
+            Assert.AreEqual($"Unable to parse the AssemblyVersion from {assemblyFilePath}", logEntry.ToString());
             Assert.AreEqual(expectedResult, taskResult);
             Assert.AreEqual(expectedAssemblyVersion, getManifestInfo.AssemblyVersion);
             Assert.AreEqual(expectedPluginVersion, getManifestInfo.PluginVersion);
@@ -161,7 +161,7 @@ namespace BSMTTasks_UnitTests
             getManifestInfo.AssemblyInfoPath = assemblyFilePath;
             bool taskResult = getManifestInfo.Execute();
             MockTaskLogger mockTaskLogger = getManifestInfo.Logger as MockTaskLogger;
-            foreach (var entry in mockTaskLogger.LogEntries)
+            foreach (MockLogEntry entry in mockTaskLogger.LogEntries)
             {
                 Console.WriteLine(entry);
             }
@@ -187,7 +187,7 @@ namespace BSMTTasks_UnitTests
             getManifestInfo.AssemblyInfoPath = assemblyFilePath;
             bool taskResult = getManifestInfo.Execute();
             MockTaskLogger mockTaskLogger = getManifestInfo.Logger as MockTaskLogger;
-            foreach (var entry in mockTaskLogger.LogEntries)
+            foreach (MockLogEntry entry in mockTaskLogger.LogEntries)
             {
                 Console.WriteLine(entry);
             }
@@ -212,13 +212,13 @@ namespace BSMTTasks_UnitTests
             getManifestInfo.AssemblyInfoPath = assemblyFilePath;
             bool taskResult = getManifestInfo.Execute();
             MockTaskLogger mockTaskLogger = getManifestInfo.Logger as MockTaskLogger;
-            foreach (var entry in mockTaskLogger.LogEntries)
+            foreach (MockLogEntry entry in mockTaskLogger.LogEntries)
             {
                 Console.WriteLine(entry);
             }
             Assert.AreEqual(1, mockTaskLogger.LogEntries.Count);
             MockLogEntry logEntry = mockTaskLogger.LogEntries.First();
-            Assert.AreEqual("AssemblyVersion 1.1.0 does not match AssemblyFileVersion 1.2.0 in AssemblyInfo.cs",logEntry.ToString());
+            Assert.AreEqual($"AssemblyVersion 1.1.0 does not match AssemblyFileVersion 1.2.0 in {assemblyFilePath}", logEntry.ToString());
             Assert.AreEqual(LogEntryType.Warning, logEntry.EntryType);
             Assert.AreEqual(36, logEntry.LineNumber);
             Assert.AreEqual(36, logEntry.EndLineNumber);
@@ -242,13 +242,13 @@ namespace BSMTTasks_UnitTests
             getManifestInfo.AssemblyInfoPath = assemblyFilePath;
             bool taskResult = getManifestInfo.Execute();
             MockTaskLogger mockTaskLogger = getManifestInfo.Logger as MockTaskLogger;
-            foreach (var entry in mockTaskLogger.LogEntries)
+            foreach (MockLogEntry entry in mockTaskLogger.LogEntries)
             {
                 Console.WriteLine(entry);
             }
             Assert.AreEqual(1, mockTaskLogger.LogEntries.Count);
             MockLogEntry logEntry = mockTaskLogger.LogEntries.First();
-            Assert.AreEqual("AssemblyVersion 1.1.0 does not match AssemblyFileVersion 1.2.0 in AssemblyInfo.cs", logEntry.ToString());
+            Assert.AreEqual($"AssemblyVersion 1.1.0 does not match AssemblyFileVersion 1.2.0 in {assemblyFilePath}", logEntry.ToString());
             Assert.AreEqual(LogEntryType.Error, logEntry.EntryType);
             Assert.AreEqual(36, logEntry.LineNumber);
             Assert.AreEqual(36, logEntry.EndLineNumber);
@@ -275,13 +275,13 @@ namespace BSMTTasks_UnitTests
 
             bool taskResult = getManifestInfo.Execute();
             MockTaskLogger mockTaskLogger = getManifestInfo.Logger as MockTaskLogger;
-            foreach (var entry in mockTaskLogger.LogEntries)
+            foreach (MockLogEntry entry in mockTaskLogger.LogEntries)
             {
                 Console.WriteLine(entry);
             }
             Assert.AreEqual(1, mockTaskLogger.LogEntries.Count);
             MockLogEntry logEntry = mockTaskLogger.LogEntries.First();
-            Assert.AreEqual("Manifest file not found at Manifests\\DoesNotExist.json", logEntry.ToString());
+            Assert.AreEqual($"Manifest file not found at {manifestPath}", logEntry.ToString());
             Assert.AreEqual(expectedResult, taskResult);
             Assert.AreEqual(expectedAssemblyVersion, getManifestInfo.AssemblyVersion);
             Assert.AreEqual(expectedPluginVersion, getManifestInfo.PluginVersion);
@@ -303,7 +303,7 @@ namespace BSMTTasks_UnitTests
 
             bool taskResult = getManifestInfo.Execute();
             MockTaskLogger mockTaskLogger = getManifestInfo.Logger as MockTaskLogger;
-            foreach (var entry in mockTaskLogger.LogEntries)
+            foreach (MockLogEntry entry in mockTaskLogger.LogEntries)
             {
                 Console.WriteLine(entry);
             }
@@ -330,7 +330,7 @@ namespace BSMTTasks_UnitTests
 
             bool taskResult = getManifestInfo.Execute();
             MockTaskLogger mockTaskLogger = getManifestInfo.Logger as MockTaskLogger;
-            foreach (var entry in mockTaskLogger.LogEntries)
+            foreach (MockLogEntry entry in mockTaskLogger.LogEntries)
             {
                 Console.WriteLine(entry);
             }
@@ -357,7 +357,7 @@ namespace BSMTTasks_UnitTests
 
             bool taskResult = getManifestInfo.Execute();
             MockTaskLogger mockTaskLogger = getManifestInfo.Logger as MockTaskLogger;
-            foreach (var entry in mockTaskLogger.LogEntries)
+            foreach (MockLogEntry entry in mockTaskLogger.LogEntries)
             {
                 Console.WriteLine(entry);
             }
@@ -384,13 +384,13 @@ namespace BSMTTasks_UnitTests
 
             bool taskResult = getManifestInfo.Execute();
             MockTaskLogger mockTaskLogger = getManifestInfo.Logger as MockTaskLogger;
-            foreach (var entry in mockTaskLogger.LogEntries)
+            foreach (MockLogEntry entry in mockTaskLogger.LogEntries)
             {
                 Console.WriteLine(entry);
             }
             Assert.AreEqual(1, mockTaskLogger.LogEntries.Count);
             MockLogEntry logEntry = mockTaskLogger.LogEntries.First();
-            Assert.AreEqual("GameVersion not found in Manifests\\NoGameVersionLine.json", logEntry.ToString());
+            Assert.AreEqual($"GameVersion not found in {manifestPath}", logEntry.ToString());
             Assert.AreEqual(expectedResult, taskResult);
             Assert.AreEqual(expectedAssemblyVersion, getManifestInfo.AssemblyVersion);
             Assert.AreEqual(expectedPluginVersion, getManifestInfo.PluginVersion);
@@ -411,13 +411,13 @@ namespace BSMTTasks_UnitTests
             getManifestInfo.AssemblyInfoPath = assemblyFilePath;
             bool taskResult = getManifestInfo.Execute();
             MockTaskLogger mockTaskLogger = getManifestInfo.Logger as MockTaskLogger;
-            foreach (var entry in mockTaskLogger.LogEntries)
+            foreach (MockLogEntry entry in mockTaskLogger.LogEntries)
             {
                 Console.WriteLine(entry);
             }
             Assert.AreEqual(1, mockTaskLogger.LogEntries.Count);
             MockLogEntry logEntry = mockTaskLogger.LogEntries.First();
-            Assert.AreEqual("Unable to parse the AssemblyFileVersion from AssemblyInfos\\BadAssemblyFileVersion.cs", logEntry.ToString());
+            Assert.AreEqual($"Unable to parse the AssemblyFileVersion from {assemblyFilePath}", logEntry.ToString());
             Assert.AreEqual(LogEntryType.Warning, logEntry.EntryType);
             Assert.AreEqual(36, logEntry.LineNumber);
             Assert.AreEqual(36, logEntry.EndLineNumber);
@@ -445,13 +445,13 @@ namespace BSMTTasks_UnitTests
             };
             bool taskResult = getManifestInfo.Execute();
             MockTaskLogger mockTaskLogger = getManifestInfo.Logger as MockTaskLogger;
-            foreach (var entry in mockTaskLogger.LogEntries)
+            foreach (MockLogEntry entry in mockTaskLogger.LogEntries)
             {
                 Console.WriteLine(entry);
             }
             Assert.AreEqual(1, mockTaskLogger.LogEntries.Count);
             MockLogEntry logEntry = mockTaskLogger.LogEntries.First();
-            Assert.AreEqual("Unable to parse the AssemblyFileVersion from AssemblyInfos\\BadAssemblyFileVersion.cs", logEntry.ToString());
+            Assert.AreEqual($"Unable to parse the AssemblyFileVersion from {assemblyFilePath}", logEntry.ToString());
             Assert.AreEqual(LogEntryType.Error, logEntry.EntryType);
             Assert.AreEqual(36, logEntry.LineNumber);
             Assert.AreEqual(36, logEntry.EndLineNumber);
@@ -481,7 +481,7 @@ namespace BSMTTasks_UnitTests
             };
             bool taskResult = getManifestInfo.Execute();
             MockTaskLogger mockTaskLogger = getManifestInfo.Logger as MockTaskLogger;
-            foreach (var entry in mockTaskLogger.LogEntries)
+            foreach (MockLogEntry entry in mockTaskLogger.LogEntries)
             {
                 Console.WriteLine(entry);
             }
@@ -518,13 +518,13 @@ namespace BSMTTasks_UnitTests
             };
             bool taskResult = getManifestInfo.Execute();
             MockTaskLogger mockTaskLogger = getManifestInfo.Logger as MockTaskLogger;
-            foreach (var entry in mockTaskLogger.LogEntries)
+            foreach (MockLogEntry entry in mockTaskLogger.LogEntries)
             {
                 Console.WriteLine(entry);
             }
             Assert.AreEqual(1, mockTaskLogger.LogEntries.Count);
             MockLogEntry logEntry = mockTaskLogger.LogEntries.First();
-            Assert.AreEqual("PluginVersion 1.2.0 in Manifests\\MismatchedVersions.json does not match AssemblyVersion 1.1.0 in AssemblyInfos\\MismatchedVersions.cs", logEntry.ToString());
+            Assert.AreEqual($"PluginVersion 1.2.0 in {manifestFilePath} does not match AssemblyVersion 1.1.0 in {assemblyFilePath}", logEntry.ToString());
             Assert.AreEqual(LogEntryType.Error, logEntry.EntryType);
             Assert.AreEqual(8, logEntry.LineNumber);
             Assert.AreEqual(8, logEntry.EndLineNumber);
@@ -552,14 +552,14 @@ namespace BSMTTasks_UnitTests
             };
             bool taskResult = getManifestInfo.Execute();
             MockTaskLogger mockTaskLogger = getManifestInfo.Logger as MockTaskLogger;
-            foreach (var entry in mockTaskLogger.LogEntries)
+            foreach (MockLogEntry entry in mockTaskLogger.LogEntries)
             {
                 Console.WriteLine(entry);
             }
 
             Assert.AreEqual(2, mockTaskLogger.LogEntries.Count);
             MockLogEntry logEntry = mockTaskLogger.LogEntries[0];
-            Assert.AreEqual(@"Could not find AssemblyInfo: AssemblyInfos\MissingAssemblyInfo.cs", logEntry.ToString());
+            Assert.AreEqual($"Could not find AssemblyInfo: {assemblyFilePath}", logEntry.ToString());
             logEntry = mockTaskLogger.LogEntries[1];
             Assert.AreEqual("AssemblyVersion could not be determined.", logEntry.ToString());
             Assert.AreEqual(expectedResult, taskResult);
@@ -584,14 +584,14 @@ namespace BSMTTasks_UnitTests
             };
             bool taskResult = getManifestInfo.Execute();
             MockTaskLogger mockTaskLogger = getManifestInfo.Logger as MockTaskLogger;
-            foreach (var entry in mockTaskLogger.LogEntries)
+            foreach (MockLogEntry entry in mockTaskLogger.LogEntries)
             {
                 Console.WriteLine(entry);
             }
 
             Assert.AreEqual(1, mockTaskLogger.LogEntries.Count);
             MockLogEntry logEntry = mockTaskLogger.LogEntries[0];
-            Assert.AreEqual(@"Could not find AssemblyInfo: AssemblyInfos\MissingAssemblyInfo.cs", logEntry.ToString());
+            Assert.AreEqual($"Could not find AssemblyInfo: {assemblyFilePath}", logEntry.ToString());
             Assert.AreEqual(expectedResult, taskResult);
             Assert.AreEqual(expectedAssemblyVersion, getManifestInfo.AssemblyVersion);
             Assert.AreEqual(expectedPluginVersion, getManifestInfo.PluginVersion);
