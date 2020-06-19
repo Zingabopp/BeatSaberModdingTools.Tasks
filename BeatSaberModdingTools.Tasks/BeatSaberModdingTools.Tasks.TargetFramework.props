@@ -4,10 +4,11 @@
 -->
 <Project TreatAsLocalProperty="BSMTTaskFolder;BSMTTaskAssembly" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
-    <IsNetCoreApp Condition="$(MSBuildRuntimeType) == 'Core'">true</IsNetCoreApp>
-    <IsNetCoreApp Condition="$(IsNetCoreApp) != 'Core'">false</IsNetCoreApp>
+    
     <BSMTTaskFolder>netstandard2.0</BSMTTaskFolder>
-    <!--<BSMTTaskFolder Condition="$(IsNetCoreApp)">netstandard2.0</BSMTTaskFolder>
+    <!--<IsNetCoreApp Condition="$(MSBuildRuntimeType) == 'Core'">true</IsNetCoreApp>
+    <IsNetCoreApp Condition="$(IsNetCoreApp) != 'Core'">false</IsNetCoreApp>
+    <BSMTTaskFolder Condition="$(IsNetCoreApp)">netstandard2.0</BSMTTaskFolder>
     <BSMTTaskFolder Condition="!$(IsNetCoreApp)">net46</BSMTTaskFolder>-->
     <BSMTTaskAssembly>$(MSBuildThisFileDirectory)..\tasks\$(BSMTTaskFolder)\BeatSaberModdingTools.Tasks.dll</BSMTTaskAssembly>
   </PropertyGroup>

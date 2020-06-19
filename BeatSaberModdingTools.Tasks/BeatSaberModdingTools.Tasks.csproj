@@ -12,7 +12,7 @@
     <ContinuousIntegrationBuild>true</ContinuousIntegrationBuild>
   </PropertyGroup>
   <PropertyGroup>
-    <TargetFrameworks>netstandard2.0</TargetFrameworks>
+    <TargetFramework>netstandard2.0</TargetFramework>
     <RootNamespace>BeatSaberModdingTools.Tasks</RootNamespace>
     <AssemblyName>BeatSaberModdingTools.Tasks</AssemblyName>
     <CopyLocalLockFileAssemblies>true</CopyLocalLockFileAssemblies>
@@ -38,16 +38,13 @@
     <IncludeSymbols>true</IncludeSymbols>
     <SymbolPackageFormat>snupkg</SymbolPackageFormat>
   </PropertyGroup>
-  <Target Name="CINotification" AfterTargets="Build">
-    <Message Text="CIBuild: '$(ContinuousIntegrationBuild)'" Importance="high" />
-  </Target>
   <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|netstandard2.0|AnyCPU'">
     <DocumentationFile>BeatSaberModdingTools.Tasks.xml</DocumentationFile>
   </PropertyGroup>
 
   <ItemGroup>
     <Content Include="BeatSaberModdingTools.Tasks.TargetFramework.props" Pack="true" PackagePath="build\BeatSaberModdingTools.Tasks.props" />
-    <Content Include="BeatSaberModdingTools.Tasks.TargetFrameworks.props" Pack="true" PackagePath="buildMultiTargeting\BeatSaberModdingTools.Tasks.props" />
+    <!--<Content Include="BeatSaberModdingTools.Tasks.TargetFrameworks.props" Pack="true" PackagePath="buildMultiTargeting\BeatSaberModdingTools.Tasks.props" />-->
   </ItemGroup>
 
   <ItemGroup>
@@ -60,10 +57,14 @@
     </None>
   </ItemGroup>
 
-  <ItemGroup>
+  <ItemGroup Condition=" '$(TargetFramework)' == 'netstandard2.0' ">
     <PackageReference Include="Microsoft.Build.Framework" Version="16.5.0" />
     <PackageReference Include="Microsoft.Build.Tasks.Core" Version="16.5.0" />
     <PackageReference Include="System.Diagnostics.Process" Version="4.3.0" />
     <PackageReference Include="Microsoft.SourceLink.GitHub" Version="1.0.0" PrivateAssets="All"/>
   </ItemGroup>
+  <Target Name="GithubActionsInfo" AfterTargets="Build">
+    <Message Text="::set-output name=filename::$(AssemblyName)-$(PackageVersion)" Importance="high" />
+    <Message Text="::set-output name=assemblyname::$(AssemblyName)" Importance="high" />
+  </Target>
 </Project>
