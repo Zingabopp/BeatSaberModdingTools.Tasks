@@ -20,6 +20,7 @@ jobs:
     - name: Install dependencies
       run: dotnet restore
     - name: Build
+      id: Build
       run: dotnet build --configuration Release --no-restore
     - name: Pack
       run: dotnet pack ./BeatSaberModdingTools.Tasks/BeatSaberModdingTools.Tasks.csproj -c Release -o ./artifacts --no-restore --include-symbols
