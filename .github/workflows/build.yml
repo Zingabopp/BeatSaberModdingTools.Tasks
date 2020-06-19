@@ -20,6 +20,11 @@ jobs:
     - name: Install dependencies
       run: dotnet restore
     - name: Build
-      run: dotnet build --configuration Release --no-restore
+      run: dotnet pack ./BeatSaberModdingTools.Tasks/BeatSaberModdingTools.Tasks.csproj -c Release -o ./artifacts --no-restore --include-symbols
     - name: Test
       run: dotnet test --no-restore --verbosity normal
+    - name: Upload Artifact
+      uses: actions/upload-artifact@v1
+      with:
+        name: ${{ steps.Build.outputs.filename }}
+        path: ./artifacts
