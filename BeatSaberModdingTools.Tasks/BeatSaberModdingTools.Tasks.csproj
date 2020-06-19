@@ -28,6 +28,15 @@
     <Description>A set of MSBuild Tasks created for Beat Saber Modding Tools.</Description>
     <Copyright>Copyright © Zingabopp 2020</Copyright>
     <RepositoryType>git</RepositoryType>
+    <!-- Optional: Publish the repository URL in the built .nupkg (in the NuSpec <Repository> element) -->
+    <PublishRepositoryUrl>true</PublishRepositoryUrl>
+
+    <!-- Optional: Embed source files that are not tracked by the source control manager in the PDB -->
+    <EmbedUntrackedSources>true</EmbedUntrackedSources>
+
+    <!-- Optional: Build symbol package (.snupkg) to distribute the PDB containing Source Link -->
+    <IncludeSymbols>true</IncludeSymbols>
+    <SymbolPackageFormat>snupkg</SymbolPackageFormat>
   </PropertyGroup>
   <Target Name="CINotification" AfterTargets="Build">
     <Message Text="CIBuild: '$(ContinuousIntegrationBuild)'" Importance="high" />
@@ -55,5 +64,6 @@
     <PackageReference Include="Microsoft.Build.Framework" Version="16.5.0" />
     <PackageReference Include="Microsoft.Build.Tasks.Core" Version="16.5.0" />
     <PackageReference Include="System.Diagnostics.Process" Version="4.3.0" />
+    <PackageReference Include="Microsoft.SourceLink.GitHub" Version="1.0.0" PrivateAssets="All"/>
   </ItemGroup>
 </Project>
