@@ -2,18 +2,19 @@
   This file is automatically imported by NuGet into a user's project
   when it targets a single framework, or in classic (pre 2017) csproj projects.
 -->
-<Project TreatAsLocalProperty="BSMTTaskFolder;BSMTTaskAssembly" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+<!--<Project TreatAsLocalProperty="BSMTTaskFolder;BSMTTaskAssembly" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">-->
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
-    
-    <BSMTTaskFolder>netstandard2.0</BSMTTaskFolder>
-    <!--<IsNetCoreApp Condition="$(MSBuildRuntimeType) == 'Core'">true</IsNetCoreApp>
+
+    <!--<BSMTTaskFolder>netstandard2.0</BSMTTaskFolder>-->
+    <IsNetCoreApp Condition="$(MSBuildRuntimeType) == 'Core'">true</IsNetCoreApp>
     <IsNetCoreApp Condition="$(IsNetCoreApp) != 'Core'">false</IsNetCoreApp>
     <BSMTTaskFolder Condition="$(IsNetCoreApp)">netstandard2.0</BSMTTaskFolder>
-    <BSMTTaskFolder Condition="!$(IsNetCoreApp)">net46</BSMTTaskFolder>-->
+    <BSMTTaskFolder Condition="!$(IsNetCoreApp)">net46</BSMTTaskFolder>
     <BSMTTaskAssembly>$(MSBuildThisFileDirectory)..\tasks\$(BSMTTaskFolder)\BeatSaberModdingTools.Tasks.dll</BSMTTaskAssembly>
   </PropertyGroup>
-  <UsingTask TaskName="GetManifestInfo" AssemblyFile="$(BSMTTaskAssembly)" />
-  <UsingTask TaskName="GetCommitHash" AssemblyFile="$(BSMTTaskAssembly)" />
-  <UsingTask TaskName="ZipDir" AssemblyFile="$(BSMTTaskAssembly)" />
-  <UsingTask TaskName="IsProcessRunning" AssemblyFile="$(BSMTTaskAssembly)" />
+  <UsingTask TaskName="BeatSaberModdingTools.Tasks.GetManifestInfo" AssemblyFile="$(BSMTTaskAssembly)" />
+  <UsingTask TaskName="BeatSaberModdingTools.Tasks.GetCommitHash" AssemblyFile="$(BSMTTaskAssembly)" />
+  <UsingTask TaskName="BeatSaberModdingTools.Tasks.ZipDir" AssemblyFile="$(BSMTTaskAssembly)" />
+  <UsingTask TaskName="BeatSaberModdingTools.Tasks.IsProcessRunning" AssemblyFile="$(BSMTTaskAssembly)" />
 </Project>
