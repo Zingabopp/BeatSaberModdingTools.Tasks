@@ -25,8 +25,12 @@ jobs:
         FrameworkPathOverride: /usr/lib/mono/4.6-api
       run: dotnet build --configuration Release --no-restore
     - name: Pack
+      env: 
+        FrameworkPathOverride: /usr/lib/mono/4.6-api
       run: dotnet pack ./BeatSaberModdingTools.Tasks/BeatSaberModdingTools.Tasks.csproj -c Release -o ./artifacts --no-restore --include-symbols
     - name: Test
+      env: 
+        FrameworkPathOverride: /usr/lib/mono/4.6-api
       run: dotnet test --no-restore --verbosity normal
     - name: Upload Artifact
       uses: actions/upload-artifact@v1
