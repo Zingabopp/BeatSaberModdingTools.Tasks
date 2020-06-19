@@ -24,6 +24,11 @@
             Reads a BSIPA manifest json file, compares the values to the project's assembly version, and outputs information from the manifest.
             </summary>
         </member>
+        <member name="F:BeatSaberModdingTools.Tasks.GetManifestInfo.ErrorString">
+            <summary>
+            Default output when a property can't be read.
+            </summary>
+        </member>
         <member name="P:BeatSaberModdingTools.Tasks.GetManifestInfo.GameVersion">
             <summary>
             Beat Saber game version the mod or lib is compatible with, as reported by the manifest.
@@ -58,6 +63,12 @@
             <summary>
             If enabled, this task will report a failure if the assembly version and manifest version don't match or there was a problem getting the value for either of them.
             </summary>
+        </member>
+        <member name="M:BeatSaberModdingTools.Tasks.GetManifestInfo.Execute">
+            <summary>
+            Executes the task.
+            </summary>
+            <returns></returns>
         </member>
         <member name="T:BeatSaberModdingTools.Tasks.IsProcessRunning">
             <summary>
