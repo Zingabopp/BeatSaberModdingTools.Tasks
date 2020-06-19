@@ -8,7 +8,7 @@
 
     <!--<BSMTTaskFolder>netstandard2.0</BSMTTaskFolder>-->
     <IsNetCoreApp Condition="$(MSBuildRuntimeType) == 'Core'">true</IsNetCoreApp>
-    <IsNetCoreApp Condition="$(IsNetCoreApp) != 'Core'">false</IsNetCoreApp>
+    <IsNetCoreApp Condition="$(MSBuildRuntimeType) != 'Core'">false</IsNetCoreApp>
     <BSMTTaskFolder Condition="$(IsNetCoreApp)">netstandard2.0</BSMTTaskFolder>
     <BSMTTaskFolder Condition="!$(IsNetCoreApp)">net46</BSMTTaskFolder>
     <BSMTTaskAssembly>$(MSBuildThisFileDirectory)..\tasks\$(BSMTTaskFolder)\BeatSaberModdingTools.Tasks.dll</BSMTTaskAssembly>
