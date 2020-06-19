@@ -12,6 +12,9 @@ namespace BeatSaberModdingTools.Tasks
     /// </summary>
     public class GetManifestInfo : Microsoft.Build.Utilities.Task
     {
+        /// <summary>
+        /// Default output when a property can't be read.
+        /// </summary>
         public const string ErrorString = "E.R.R";
         public ITaskLogger Logger;
         /// <summary>
@@ -47,6 +50,10 @@ namespace BeatSaberModdingTools.Tasks
         /// </summary>
         public virtual bool ErrorOnMismatch { get; set; }
 
+        /// <summary>
+        /// Executes the task.
+        /// </summary>
+        /// <returns></returns>
         public override bool Execute()
         {
             GameVersion = ErrorString;
