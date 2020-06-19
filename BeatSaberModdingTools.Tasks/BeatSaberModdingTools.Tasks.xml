@@ -1,0 +1,93 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>BeatSaberModdingTools.Tasks</name>
+    </assembly>
+    <members>
+        <member name="T:BeatSaberModdingTools.Tasks.GetCommitHash">
+            <summary>
+            Gets the git commit short hash of the project.
+            </summary>
+        </member>
+        <member name="P:BeatSaberModdingTools.Tasks.GetCommitHash.ProjectDir">
+            <summary>
+            The directory of the project.
+            </summary>
+        </member>
+        <member name="P:BeatSaberModdingTools.Tasks.GetCommitHash.CommitShortHash">
+            <summary>
+            First 8 characters of the current commit hash.
+            </summary>
+        </member>
+        <member name="T:BeatSaberModdingTools.Tasks.GetManifestInfo">
+            <summary>
+            Reads a BSIPA manifest json file, compares the values to the project's assembly version, and outputs information from the manifest.
+            </summary>
+        </member>
+        <member name="P:BeatSaberModdingTools.Tasks.GetManifestInfo.GameVersion">
+            <summary>
+            Beat Saber game version the mod or lib is compatible with, as reported by the manifest.
+            </summary>
+        </member>
+        <member name="P:BeatSaberModdingTools.Tasks.GetManifestInfo.PluginVersion">
+            <summary>
+            The mod or lib's version as reported by the manifest.
+            </summary>
+        </member>
+        <member name="P:BeatSaberModdingTools.Tasks.GetManifestInfo.AssemblyVersion">
+            <summary>
+            Version of the assembly.
+            </summary>
+        </member>
+        <member name="P:BeatSaberModdingTools.Tasks.GetManifestInfo.KnownAssemblyVersion">
+            <summary>
+            Optional: Skip trying to read the assembly version of the project and use this value instead. Useful if the project already has a property with the assembly version.
+            </summary>
+        </member>
+        <member name="P:BeatSaberModdingTools.Tasks.GetManifestInfo.ManifestPath">
+            <summary>
+            Optional: Path to the manifest file. Default is 'manifest.json'.
+            </summary>
+        </member>
+        <member name="P:BeatSaberModdingTools.Tasks.GetManifestInfo.AssemblyInfoPath">
+            <summary>
+            Optional: Path to the file containing the assembly information. Default is 'Properties\AssemblyInfo.cs'.
+            </summary>
+        </member>
+        <member name="P:BeatSaberModdingTools.Tasks.GetManifestInfo.ErrorOnMismatch">
+            <summary>
+            If enabled, this task will report a failure if the assembly version and manifest version don't match or there was a problem getting the value for either of them.
+            </summary>
+        </member>
+        <member name="T:BeatSaberModdingTools.Tasks.IsProcessRunning">
+            <summary>
+            Checks if a process is currently running.
+            </summary>
+        </member>
+        <member name="P:BeatSaberModdingTools.Tasks.IsProcessRunning.ProcessName">
+            <summary>
+            Name of the process.
+            </summary>
+        </member>
+        <member name="P:BeatSaberModdingTools.Tasks.IsProcessRunning.IsRunning">
+            <summary>
+            True if the process is running, false otherwise.
+            </summary>
+        </member>
+        <member name="T:BeatSaberModdingTools.Tasks.ZipDir">
+            <summary>
+            Zips the contents of a directory.
+            </summary>
+        </member>
+        <member name="P:BeatSaberModdingTools.Tasks.ZipDir.DirectoryName">
+            <summary>
+            Name of the directory to zip.
+            </summary>
+        </member>
+        <member name="P:BeatSaberModdingTools.Tasks.ZipDir.ZipFileName">
+            <summary>
+            Name of the created zip file.
+            </summary>
+        </member>
+    </members>
+</doc>

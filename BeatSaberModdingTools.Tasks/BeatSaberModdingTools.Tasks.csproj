@@ -27,6 +27,10 @@
     <Copyright>Copyright © Zingabopp 2020</Copyright>
   </PropertyGroup>
 
+  <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|netstandard2.0|AnyCPU'">
+    <DocumentationFile>BeatSaberModdingTools.Tasks.xml</DocumentationFile>
+  </PropertyGroup>
+
   <ItemGroup>
     <Content Include="BeatSaberModdingTools.Tasks.TargetFramework.props" Pack="true" PackagePath="build\BeatSaberModdingTools.Tasks.props" />
     <Content Include="BeatSaberModdingTools.Tasks.TargetFrameworks.props" Pack="true" PackagePath="buildMultiTargeting\BeatSaberModdingTools.Tasks.props" />
