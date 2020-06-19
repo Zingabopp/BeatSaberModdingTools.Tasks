@@ -22,6 +22,10 @@ namespace BeatSaberModdingTools.Tasks
         [Output]
         public virtual string CommitShortHash { get; protected set; }
 
+        /// <summary>
+        /// Executes the task.
+        /// </summary>
+        /// <returns>true if successful</returns>
         public override bool Execute()
         {
             CommitShortHash = "local";

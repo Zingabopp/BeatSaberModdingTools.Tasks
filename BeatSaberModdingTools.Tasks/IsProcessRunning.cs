@@ -20,6 +20,10 @@ namespace BeatSaberModdingTools.Tasks
         [Output]
         public virtual bool IsRunning { get; set; }
 
+        /// <summary>
+        /// Executes the task.
+        /// </summary>
+        /// <returns>true if successful</returns>
         public override bool Execute()
         {
             try

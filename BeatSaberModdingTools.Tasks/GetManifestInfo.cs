@@ -16,6 +16,9 @@ namespace BeatSaberModdingTools.Tasks
         /// Default output when a property can't be read.
         /// </summary>
         public const string ErrorString = "E.R.R";
+        /// <summary>
+        /// <see cref="ITaskLogger"/> instance used.
+        /// </summary>
         public ITaskLogger Logger;
         /// <summary>
         /// Beat Saber game version the mod or lib is compatible with, as reported by the manifest.
@@ -53,7 +56,7 @@ namespace BeatSaberModdingTools.Tasks
         /// <summary>
         /// Executes the task.
         /// </summary>
-        /// <returns></returns>
+        /// <returns>true if successful</returns>
         public override bool Execute()
         {
             GameVersion = ErrorString;
@@ -172,6 +175,12 @@ namespace BeatSaberModdingTools.Tasks
             }
         }
 
+        /// <summary>
+        /// Parses the assembly version from the given file.
+        /// </summary>
+        /// <param name="assemblyFile"></param>
+        /// <param name="errorOnMismatch"></param>
+        /// <returns></returns>
         public string GetAssemblyVersion(string assemblyFile, bool errorOnMismatch)
         {
             string assemblyVersionStart = "[assembly: AssemblyVersion(\"";
@@ -254,41 +263,93 @@ namespace BeatSaberModdingTools.Tasks
         }
     }
 
+    /// <summary>
+    /// Extensions for <see cref="ParsingException"/>.
+    /// </summary>
     public static class ParsingExceptionExtensions
     {
+        /// <summary>
+        /// Logs an error from the <see cref="ParsingException"/> using the given <see cref="ITaskLogger"/>.
+        /// </summary>
+        /// <param name="ex"></param>
+        /// <param name="Log"></param>
         public static void LogErrorFromException(this ParsingException ex, ITaskLogger Log)
         {
             Log.LogError("Build", "BSMOD02", "", ex.File, ex.LineNumber, ex.ColumnNumber, ex.EndLineNumber, ex.EndColumnNumber, ex.Message, ex.MessageArgs);
         }
     }
 
+    /// <summary>
+    /// Exception thrown on parsing errors.
+    /// </summary>
     public class ParsingException : Exception
     {
+        /// <summary>
+        /// Log entry SubCategory.
+        /// </summary>
         public readonly string SubCategory;
-        public readonly string WarningCode;
+        /// <summary>
+        /// Log entry MessageCode.
+        /// </summary>
+        public readonly string MessageCode;
+        /// <summary>
+        /// Log entry HelpKeyword.
+        /// </summary>
         public readonly string HelpKeyword;
+        /// <summary>
+        /// Log entry File name.
+        /// </summary>
         public readonly string File;
+        /// <summary>
+        /// Log entry line number.
+        /// </summary>
         public readonly int LineNumber;
+        /// <summary>
+        /// Log entry column number.
+        /// </summary>
         public readonly int ColumnNumber;
+        /// <summary>
+        /// Log entry end line number.
+        /// </summary>
         public readonly int EndLineNumber;
+        /// <summary>
+        /// Log entry end column number.
+        /// </summary>
         public readonly int EndColumnNumber;
+        /// <summary>
+        /// Log entry Message args.
+        /// </summary>
         public readonly object[] MessageArgs;
 
+        /// <inheritdoc/>
         public ParsingException(string message) : base(message)
         {
         }
 
+        /// <inheritdoc/>
         public ParsingException(string message, Exception innerException) : base(message, innerException)
         {
         }
-
-        public ParsingException(string subCategory, string warningCode, string helpKeyword,
+        /// <summary>
+        /// Creates a <see cref="ParsingException"/> using the given message data.
+        /// </summary>
+        /// <param name="subCategory"></param>
+        /// <param name="messageCode"></param>
+        /// <param name="helpKeyword"></param>
+        /// <param name="file"></param>
+        /// <param name="lineNumber"></param>
+        /// <param name="columnNumber"></param>
+        /// <param name="endLineNumber"></param>
+        /// <param name="endColumnNumber"></param>
+        /// <param name="message"></param>
+        /// <param name="messageArgs"></param>
+        public ParsingException(string subCategory, string messageCode, string helpKeyword,
             string file, int lineNumber, int columnNumber, int endLineNumber, int endColumnNumber,
             string message, params object[] messageArgs)
             : base(message)
         {
             SubCategory = subCategory;
-            WarningCode = warningCode;
+            MessageCode = messageCode;
             HelpKeyword = helpKeyword;
             File = file;
             LineNumber = lineNumber;

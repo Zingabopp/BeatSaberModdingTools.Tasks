@@ -22,6 +22,10 @@ namespace BeatSaberModdingTools.Tasks
         [Required]
         public virtual string ZipFileName { get; set; }
 
+        /// <summary>
+        /// Executes the task.
+        /// </summary>
+        /// <returns>true if successful</returns>
         public override bool Execute()
         {
             try
