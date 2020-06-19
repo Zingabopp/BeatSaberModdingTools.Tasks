@@ -1,8 +1,6 @@
 ﻿using Microsoft.Build.Framework;
 using Microsoft.Build.Utilities;
 using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace BeatSaberModdingTools.Tasks.Utilties
 {
@@ -35,7 +33,7 @@ namespace BeatSaberModdingTools.Tasks.Utilties
 
         /// <inheritdoc/>
         public void LogWarning(string subcategory, string warningCode, string helpKeyword, string file, int lineNumber, int columnNumber, int endLineNumber, int endColumnNumber, string message, params object[] messageArgs)
-            => Logger.LogWarning( subcategory,  warningCode,  helpKeyword,  file,  lineNumber,  columnNumber,  endLineNumber,  endColumnNumber,  message,  messageArgs);
+            => Logger.LogWarning(subcategory, warningCode, helpKeyword, file, lineNumber, columnNumber, endLineNumber, endColumnNumber, message, messageArgs);
 
         /// <inheritdoc/>
         public void LogWarning(string message, params object[] messageArgs) => LogWarning(message, messageArgs);

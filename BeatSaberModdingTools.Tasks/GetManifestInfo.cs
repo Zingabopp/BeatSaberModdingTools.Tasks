@@ -1,9 +1,7 @@
-﻿using Microsoft.Build.Framework;
-using Microsoft.Build.Utilities;
+﻿using BeatSaberModdingTools.Tasks.Utilties;
+using Microsoft.Build.Framework;
 using System;
 using System.IO;
-using BeatSaberModdingTools.Tasks.Utilties;
-using Microsoft.Build.Tasks;
 
 namespace BeatSaberModdingTools.Tasks
 {

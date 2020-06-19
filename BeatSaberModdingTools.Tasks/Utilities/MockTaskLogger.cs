@@ -1,7 +1,6 @@
 ﻿using Microsoft.Build.Framework;
 using System;
 using System.Collections.Generic;
-using System.Text;
 
 namespace BeatSaberModdingTools.Tasks.Utilties
 {
@@ -30,7 +29,7 @@ namespace BeatSaberModdingTools.Tasks.Utilties
                 EndColumnNumber = endColumnNumber,
                 Message = message,
                 MessageArgs = messageArgs,
-                Importance = MessageImportance.High                
+                Importance = MessageImportance.High
             });
         }
 
@@ -182,7 +181,7 @@ namespace BeatSaberModdingTools.Tasks.Utilties
             if (EntryType == LogEntryType.Exception)
                 return Exception.Message;
             string message = Message;
-            for(int i = 0; i < MessageArgs.Length; i++)
+            for (int i = 0; i < MessageArgs.Length; i++)
             {
                 message = message.Replace($"{{{i}}}", MessageArgs[i]?.ToString() ?? string.Empty);
             }

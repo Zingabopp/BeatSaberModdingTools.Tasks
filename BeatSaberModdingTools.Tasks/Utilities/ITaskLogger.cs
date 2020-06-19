@@ -1,7 +1,5 @@
 ﻿using Microsoft.Build.Framework;
 using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace BeatSaberModdingTools.Tasks.Utilties
 {
@@ -30,7 +28,7 @@ namespace BeatSaberModdingTools.Tasks.Utilties
         /// <param name="endColumnNumber"></param>
         /// <param name="message"></param>
         /// <param name="messageArgs"></param>
-        void LogWarning(string subcategory, string warningCode, string helpKeyword, string file, int lineNumber, int columnNumber, int endLineNumber, int endColumnNumber, string message, params object[] messageArgs); 
+        void LogWarning(string subcategory, string warningCode, string helpKeyword, string file, int lineNumber, int columnNumber, int endLineNumber, int endColumnNumber, string message, params object[] messageArgs);
         /// <summary>
         /// Logs a warning.
         /// </summary>
