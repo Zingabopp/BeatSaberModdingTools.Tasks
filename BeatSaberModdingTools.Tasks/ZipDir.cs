@@ -21,6 +21,11 @@ namespace BeatSaberModdingTools.Tasks
         /// </summary>
         [Required]
         public virtual string ZipFileName { get; set; }
+        /// <summary>
+        /// Full path to the created zip file.
+        /// </summary>
+        [Output]
+        public virtual string ZipPath { get; set; }
 
         /// <summary>
         /// Executes the task.
@@ -48,6 +53,7 @@ namespace BeatSaberModdingTools.Tasks
                     File.Delete(ZipFileName);
                 Log.LogMessage(MessageImportance.High, "Zipping Directory \"{0}\" to \"{1}\"", DirectoryName, ZipFileName);
                 ZipFile.CreateFromDirectory(DirectoryName, ZipFileName);
+                ZipPath = Path.GetFullPath(ZipFileName);
                 return true;
             }
             catch (Exception ex)
