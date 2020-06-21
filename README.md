@@ -39,8 +39,8 @@ Creates a zip archive from the given directory.
 Inputs:
 |Name|Type|Required?|Description|
 |---|---|---|---|
-|DirectoryName|string|Yes|Directory to zip.|
-|ZipFileName|string|Yes|Path of the created zip.|
+|SourceDirectory|string|Yes|Directory to zip.|
+|DestinationFile|string|Yes|Path of the created zip.|
 
 # IsProcessRunning
 Checks if the specified process is running.
