@@ -15,12 +15,12 @@ namespace BeatSaberModdingTools.Tasks
         /// Name of the directory to zip.
         /// </summary>
         [Required]
-        public virtual string DirectoryName { get; set; }
+        public virtual string SourceDirectory { get; set; }
         /// <summary>
         /// Name of the created zip file.
         /// </summary>
         [Required]
-        public virtual string ZipFileName { get; set; }
+        public virtual string DestinationFile { get; set; }
         /// <summary>
         /// Full path to the created zip file.
         /// </summary>
@@ -35,25 +35,16 @@ namespace BeatSaberModdingTools.Tasks
         {
             try
             {
-                DirectoryInfo zipDir = new DirectoryInfo(Path.GetDirectoryName(Path.GetFullPath(ZipFileName)));
-                if (zipDir.Exists)
-                    zipDir.Delete(true);
+                FileInfo zipFile = new FileInfo(DestinationFile);
+                DirectoryInfo zipDir = zipFile.Directory;
+                
                 zipDir.Create();
                 zipDir.Refresh();
-                int tries = 0;
-                while (!zipDir.Exists || tries < 10) // Prevents breaking when Explorer is in the folder.
-                {
-                    tries++;
-                    Thread.Sleep(50);
-                    zipDir.Create();
-                    zipDir.Refresh();
-                }
-
-                if (File.Exists(ZipFileName))
-                    File.Delete(ZipFileName);
-                Log.LogMessage(MessageImportance.High, "Zipping Directory \"{0}\" to \"{1}\"", DirectoryName, ZipFileName);
-                ZipFile.CreateFromDirectory(DirectoryName, ZipFileName);
-                ZipPath = Path.GetFullPath(ZipFileName);
+                if (zipFile.Exists)
+                    zipFile.Delete();
+                Log.LogMessage(MessageImportance.High, "Zipping Directory \"{0}\" to \"{1}\"", SourceDirectory, DestinationFile);
+                ZipFile.CreateFromDirectory(SourceDirectory, DestinationFile);
+                ZipPath = zipFile.FullName;
                 return true;
             }
             catch (Exception ex)

@@ -437,6 +437,11 @@
             Name of the created zip file.
             </summary>
         </member>
+        <member name="P:BeatSaberModdingTools.Tasks.ZipDir.ZipPath">
+            <summary>
+            Full path to the created zip file.
+            </summary>
+        </member>
         <member name="M:BeatSaberModdingTools.Tasks.ZipDir.Execute">
             <summary>
             Executes the task.
