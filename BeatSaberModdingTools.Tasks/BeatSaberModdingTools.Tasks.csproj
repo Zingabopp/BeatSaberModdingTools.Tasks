@@ -42,7 +42,8 @@
     <DocumentationFile>BeatSaberModdingTools.Tasks.xml</DocumentationFile>
     <PackageTags>Beat Saber;BeatSaberModdingTools</PackageTags>
     <PackageReleaseNotes>* Fixed certain LogWrapper methods calling themselves.
-* Added Output property to ZipDir task containing the zip's full path.</PackageReleaseNotes>
+* Added Output property to ZipDir task containing the zip's full path.
+* Renamed input parameters of ZipDir to SourceDirectory and DestinationFile</PackageReleaseNotes>
   </PropertyGroup>
 
   <ItemGroup>

@@ -427,12 +427,12 @@
             Zips the contents of a directory.
             </summary>
         </member>
-        <member name="P:BeatSaberModdingTools.Tasks.ZipDir.DirectoryName">
+        <member name="P:BeatSaberModdingTools.Tasks.ZipDir.SourceDirectory">
             <summary>
             Name of the directory to zip.
             </summary>
         </member>
-        <member name="P:BeatSaberModdingTools.Tasks.ZipDir.ZipFileName">
+        <member name="P:BeatSaberModdingTools.Tasks.ZipDir.DestinationFile">
             <summary>
             Name of the created zip file.
             </summary>
