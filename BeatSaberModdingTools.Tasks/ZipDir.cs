@@ -33,6 +33,7 @@ namespace BeatSaberModdingTools.Tasks
         /// <returns>true if successful</returns>
         public override bool Execute()
         {
+            string errorCode = null;
             try
             {
                 FileInfo zipFile = new FileInfo(DestinationFile);
@@ -42,6 +43,21 @@ namespace BeatSaberModdingTools.Tasks
                 zipDir.Refresh();
                 if (zipFile.Exists)
                     zipFile.Delete();
+                if (string.IsNullOrEmpty(SourceDirectory))
+                {
+                    errorCode = MessageCodes.ZipDir.ZipEmptySource;
+                    throw new ArgumentNullException($"{nameof(SourceDirectory)} cannot be null or empty.");
+                }
+                if (string.IsNullOrEmpty(DestinationFile))
+                {
+                    errorCode = MessageCodes.ZipDir.ZipEmptyDestination;
+                    throw new ArgumentNullException($"{nameof(DestinationFile)} cannot be null or empty.");
+                }
+                if (!Directory.Exists(SourceDirectory))
+                {
+                    errorCode = MessageCodes.ZipDir.ZipMissingSource;
+                    throw new DirectoryNotFoundException($"{nameof(SourceDirectory)} '{SourceDirectory}' not found.");
+                }
                 Log.LogMessage(MessageImportance.High, "Zipping Directory \"{0}\" to \"{1}\"", SourceDirectory, DestinationFile);
                 ZipFile.CreateFromDirectory(SourceDirectory, DestinationFile);
                 ZipPath = zipFile.FullName;
@@ -49,7 +65,18 @@ namespace BeatSaberModdingTools.Tasks
             }
             catch (Exception ex)
             {
-                Log.LogErrorFromException(ex);
+                if (string.IsNullOrEmpty(errorCode))
+                    errorCode = MessageCodes.ZipDir.ZipFailed;
+                if (BuildEngine != null)
+                {
+                    int line = BuildEngine.LineNumberOfTaskNode;
+                    int column = BuildEngine.ColumnNumberOfTaskNode;
+                    Log.LogError("Build", errorCode, null, BuildEngine.ProjectFileOfTaskNode, line, column, line, column, $"Error in {GetType().Name}: {ex.Message}");
+                }
+                else
+                {
+                    Log.LogError($"Error in {GetType().Name}: {ex.Message}");
+                }
                 return false;
             }
         }

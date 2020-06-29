@@ -66,6 +66,25 @@ namespace BeatSaberModdingTools.Tasks.Utilties
         }
 
         /// <inheritdoc/>
+        public void LogMessage(string subcategory, string code, string helpKeyword, string file, int lineNumber, int columnNumber, int endLineNumber, int endColumnNumber, MessageImportance messageImportance, string message, params object[] messageArgs)
+        {
+            LogEntries.Add(new MockLogEntry(LogEntryType.Message)
+            {
+                SubCategory = subcategory,
+                MessageCode = code,
+                HelpKeyword = helpKeyword,
+                File = file,
+                LineNumber = lineNumber,
+                ColumnNumber = columnNumber,
+                EndLineNumber = endLineNumber,
+                EndColumnNumber = endColumnNumber,
+                Message = message,
+                MessageArgs = messageArgs,
+                Importance = MessageImportance.High
+            });
+        }
+
+        /// <inheritdoc/>
         public void LogWarning(string subcategory, string warningCode, string helpKeyword, string file, int lineNumber, int columnNumber, int endLineNumber, int endColumnNumber, string message, params object[] messageArgs)
         {
             LogEntries.Add(new MockLogEntry(LogEntryType.Warning)

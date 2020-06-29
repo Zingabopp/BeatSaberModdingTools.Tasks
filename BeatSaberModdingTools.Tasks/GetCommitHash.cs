@@ -29,36 +29,30 @@ namespace BeatSaberModdingTools.Tasks
         public override bool Execute()
         {
             CommitShortHash = "local";
-            bool noGitFound = false;
+            string errorCode = null;
             try
             {
-                ProjectDir = Path.GetFullPath(ProjectDir);
-                Process process = new Process();
-                string arg = "rev-parse HEAD";
-                process.StartInfo = new ProcessStartInfo("git", arg);
-                process.StartInfo.UseShellExecute = false;
-                process.StartInfo.WorkingDirectory = ProjectDir;
-                process.StartInfo.RedirectStandardOutput = true;
-                process.Start();
-                string outText = process.StandardOutput.ReadToEnd();
-                if (outText.Length >= 7)
+                try
                 {
-                    CommitShortHash = outText.Substring(0, 7);
-                    return true;
+                    ProjectDir = Path.GetFullPath(ProjectDir);
+                    Process process = new Process();
+                    string arg = "rev-parse HEAD";
+                    process.StartInfo = new ProcessStartInfo("git", arg);
+                    process.StartInfo.UseShellExecute = false;
+                    process.StartInfo.WorkingDirectory = ProjectDir;
+                    process.StartInfo.RedirectStandardOutput = true;
+                    process.Start();
+                    string outText = process.StandardOutput.ReadToEnd();
+                    if (outText.Length >= 7)
+                    {
+                        CommitShortHash = outText.Substring(0, 7);
+                        return true;
+                    }
                 }
-            }
-            catch (Win32Exception)
-            {
-                noGitFound = true;
+                catch (Win32Exception)
+                {
+                }
 
-            }
-            catch (Exception ex)
-            {
-                Log.LogErrorFromException(ex);
-                return true;
-            }
-            try
-            {
                 string gitPath = Path.GetFullPath(Path.Combine(ProjectDir, ".git"));
                 string headPath = Path.Combine(gitPath, "HEAD");
                 string headContents = null;
@@ -81,13 +75,34 @@ namespace BeatSaberModdingTools.Tasks
                         CommitShortHash = headContents.Substring(0, 7);
                 }
             }
-            catch { }
+            catch (Exception ex)
+            {
+                if (string.IsNullOrEmpty(errorCode))
+                    errorCode = MessageCodes.GetCommitHash.GitFailed;
+                if (BuildEngine != null)
+                {
+                    int line = BuildEngine.LineNumberOfTaskNode;
+                    int column = BuildEngine.ColumnNumberOfTaskNode;
+                    Log.LogMessage("Build", errorCode, null, BuildEngine.ProjectFileOfTaskNode, line, column, line, column,
+                        MessageImportance.High, $"Error in {GetType().Name}: {ex.Message}");
+                }
+                else
+                {
+                    Log.LogMessage(MessageImportance.High, $"Error in {GetType().Name}: {ex.Message}");
+                }
+            }
             if (CommitShortHash == "local")
             {
-                if (noGitFound)
-                    Log.LogMessage(MessageImportance.High, "   'git' command not found, unable to retrieve current commit hash.");
+                if (BuildEngine != null)
+                {
+                    errorCode = MessageCodes.GetCommitHash.GitNoRepository;
+                    int line = BuildEngine.LineNumberOfTaskNode;
+                    int column = BuildEngine.ColumnNumberOfTaskNode;
+                    Log.LogMessage("Build", errorCode, null, BuildEngine.ProjectFileOfTaskNode, line, column, line, column,
+                        "Project does not appear to be in a git repository.");
+                }
                 else
-                    Log.LogMessage(MessageImportance.High, "   Unable to retrieve current commit hash.");
+                    Log.LogMessage(MessageImportance.High, "Project does not appear to be in a git repository.");
             }
             return true;
         }

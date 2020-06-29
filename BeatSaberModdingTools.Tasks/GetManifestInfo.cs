@@ -60,6 +60,7 @@ namespace BeatSaberModdingTools.Tasks
             GameVersion = ErrorString;
             PluginVersion = ErrorString;
             AssemblyVersion = ErrorString;
+            string errorCode = null;
             if (this.BuildEngine != null)
                 Logger = new LogWrapper(Log);
             else
@@ -75,8 +76,9 @@ namespace BeatSaberModdingTools.Tasks
                 string manifest_versionLine = null;
                 if (!File.Exists(manifestFile))
                 {
-                    Logger.LogError($"Manifest file not found at {manifestFile}");
-                    return false;
+                    errorCode = MessageCodes.GetManifestInfo.ManifestFileNotFound;
+                    throw new FileNotFoundException($"Manifest file not found at {manifestFile}");
+                    
                 }
                 string line;
                 int manifestVersionLineNum = 1;
@@ -104,7 +106,8 @@ namespace BeatSaberModdingTools.Tasks
                 }
                 else
                 {
-                    Logger.LogError("Build", "BSMOD04", "", manifestFile, 0, 0, 0, 0, "PluginVersion not found in {0}", manifestFile);
+                    Logger.LogError("Build", MessageCodes.GetManifestInfo.PluginVersionNotFound, "", 
+                        manifestFile, 0, 0, 0, 0, "PluginVersion not found in {0}", manifestFile);
                     PluginVersion = "E.R.R";
                     if (ErrorOnMismatch)
                         return false;
@@ -116,7 +119,8 @@ namespace BeatSaberModdingTools.Tasks
                 }
                 else
                 {
-                    Logger.LogError("Build", "BSMOD05", "", manifestFile, 0, 0, 0, 0, "GameVersion not found in {0}", manifestFile);
+                    Logger.LogError("Build", MessageCodes.GetManifestInfo.GameVersionNotFound, "", 
+                        manifestFile, 0, 0, 0, 0, "GameVersion not found in {0}", manifestFile);
                     GameVersion = "E.R.R";
                     if (ErrorOnMismatch)
                         return false;
@@ -138,7 +142,10 @@ namespace BeatSaberModdingTools.Tasks
                     catch (FileNotFoundException ex)
                     {
                         if (ErrorOnMismatch)
+                        {
+                            errorCode = MessageCodes.GetManifestInfo.AssemblyInfoNotFound;
                             throw;
+                        }
                         else
                             Logger.LogErrorFromException(ex);
                     }
@@ -153,10 +160,16 @@ namespace BeatSaberModdingTools.Tasks
                 {
                     if (ErrorOnMismatch)
                     {
-                        Logger.LogError("Build", "BSMOD01", "", manifestFile, manifestVersionLineNum, 1, manifestVersionLineNum, 1, "PluginVersion {0} in {1} does not match AssemblyVersion {2}{3}", PluginVersion, manifestFile, AssemblyVersion, assemblyFileMsg);
+                        Logger.LogError("Build", MessageCodes.GetManifestInfo.VersionMismatch, "", 
+                            manifestFile, manifestVersionLineNum, 1, manifestVersionLineNum, 1, 
+                            "PluginVersion {0} in {1} does not match AssemblyVersion {2}{3}", PluginVersion, 
+                            manifestFile, AssemblyVersion, assemblyFileMsg);
                         return false;
                     }
-                    Logger.LogMessage(MessageImportance.High, "PluginVersion {0} does not match AssemblyVersion {1}", PluginVersion, AssemblyVersion);
+                    Logger.LogMessage("Build", MessageCodes.GetManifestInfo.VersionMismatch, "",
+                            manifestFile, manifestVersionLineNum, 1, manifestVersionLineNum, 1, MessageImportance.High,
+                            "PluginVersion {0} in {1} does not match AssemblyVersion {2}{3}", PluginVersion,
+                            manifestFile, AssemblyVersion, assemblyFileMsg);
                 }
 
                 return true;
@@ -168,7 +181,18 @@ namespace BeatSaberModdingTools.Tasks
             }
             catch (Exception ex)
             {
-                Logger.LogErrorFromException(ex);
+                if (string.IsNullOrEmpty(errorCode))
+                    errorCode = MessageCodes.GetManifestInfo.GeneralFailure;
+                if (BuildEngine != null)
+                {
+                    int line = BuildEngine.LineNumberOfTaskNode;
+                    int column = BuildEngine.ColumnNumberOfTaskNode;
+                    Logger.LogError("Build", errorCode, null, BuildEngine.ProjectFileOfTaskNode, line, column, line, column, $"Error in {GetType().Name}: {ex.Message}");
+                }
+                else
+                {
+                    Logger.LogError($"Error in {GetType().Name}: {ex.Message}");
+                }
                 return false;
             }
         }
@@ -225,8 +249,10 @@ namespace BeatSaberModdingTools.Tasks
             else
             {
                 if (ErrorOnMismatch)
-                    throw new ParsingException("Build", "BSMOD03", "", assemblyFile, 0, 0, 0, 0, "Unable to parse the AssemblyVersion from {0}", assemblyFile);
-                Logger.LogWarning("Build", "BSMOD03", "", assemblyFile, 0, 0, 0, 0, "Unable to parse the AssemblyVersion from {0}", assemblyFile);
+                    throw new ParsingException("Build", MessageCodes.GetManifestInfo.AssemblyFileVersionParseFail, 
+                        "", assemblyFile, 0, 0, 0, 0, "Unable to parse the AssemblyVersion from {0}", assemblyFile);
+                Logger.LogWarning("Build", MessageCodes.GetManifestInfo.AssemblyFileVersionParseFail,
+                    "", assemblyFile, 0, 0, 0, 0, "Unable to parse the AssemblyVersion from {0}", assemblyFile);
                 return ErrorString;
             }
 
@@ -242,8 +268,12 @@ namespace BeatSaberModdingTools.Tasks
                     {
                         string message = "AssemblyVersion {0} does not match AssemblyFileVersion {1} in {2}";
                         if (errorOnMismatch)
-                            throw new ParsingException("Build", "BSMOD02", "", assemblyFile, assemblyFileVersionLineNum, startColumn + 1, assemblyFileVersionLineNum, endColumn + 1, message, assemblyVersion, assemblyFileVersion, assemblyFile);
-                        Logger.LogWarning("Build", "BSMOD02", "", assemblyFile, assemblyFileVersionLineNum, startColumn + 1, assemblyFileVersionLineNum, endColumn + 1, message, assemblyVersion, assemblyFileVersion, assemblyFile);
+                            throw new ParsingException("Build", MessageCodes.GetManifestInfo.AssemblyVersionMismatch, 
+                                "", assemblyFile, assemblyFileVersionLineNum, startColumn + 1, assemblyFileVersionLineNum, 
+                                endColumn + 1, message, assemblyVersion, assemblyFileVersion, assemblyFile);
+                        Logger.LogWarning("Build", MessageCodes.GetManifestInfo.AssemblyVersionMismatch, 
+                            "", assemblyFile, assemblyFileVersionLineNum, startColumn + 1, assemblyFileVersionLineNum, 
+                            endColumn + 1, message, assemblyVersion, assemblyFileVersion, assemblyFile);
                     }
 
                 }
@@ -253,8 +283,12 @@ namespace BeatSaberModdingTools.Tasks
                     endColumn = startColumn;
                     string message = "Unable to parse the AssemblyFileVersion from {0}";
                     if (errorOnMismatch)
-                        throw new ParsingException("Build", "BSMOD06", "", assemblyFile, assemblyFileVersionLineNum, startColumn, assemblyFileVersionLineNum, endColumn, message, assemblyFile);
-                    Logger.LogWarning("Build", "BSMOD06", "", assemblyFile, assemblyFileVersionLineNum, startColumn, assemblyFileVersionLineNum, endColumn, message, assemblyFile);
+                        throw new ParsingException("Build", MessageCodes.GetManifestInfo.AssemblyFileVersionParseFail, 
+                            "", assemblyFile, assemblyFileVersionLineNum, startColumn, 
+                            assemblyFileVersionLineNum, endColumn, message, assemblyFile);
+                    Logger.LogWarning("Build", MessageCodes.GetManifestInfo.AssemblyFileVersionParseFail, 
+                        "", assemblyFile, assemblyFileVersionLineNum, startColumn, assemblyFileVersionLineNum, 
+                        endColumn, message, assemblyFile);
                 }
             }
             return assemblyVersion;
@@ -273,7 +307,7 @@ namespace BeatSaberModdingTools.Tasks
         /// <param name="Log"></param>
         public static void LogErrorFromException(this ParsingException ex, ITaskLogger Log)
         {
-            Log.LogError("Build", "BSMOD02", "", ex.File, ex.LineNumber, ex.ColumnNumber, ex.EndLineNumber, ex.EndColumnNumber, ex.Message, ex.MessageArgs);
+            Log.LogError("Build", ex.MessageCode, "", ex.File, ex.LineNumber, ex.ColumnNumber, ex.EndLineNumber, ex.EndColumnNumber, ex.Message, ex.MessageArgs);
         }
     }
 

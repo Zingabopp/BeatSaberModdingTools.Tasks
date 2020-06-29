@@ -26,11 +26,13 @@ namespace BeatSaberModdingTools.Tasks
         /// <returns>true if successful</returns>
         public override bool Execute()
         {
+            string errorCode = null;
             try
             {
                 if (string.IsNullOrEmpty(ProcessName))
                 {
-                    return false;
+                    errorCode = MessageCodes.IsProcessRunning.EmptyProcessName;
+                    throw new ArgumentNullException(nameof(ProcessName), $"{nameof(ProcessName)} cannot be empty.");
                 }
                 foreach (Process proc in Process.GetProcesses())
                 {
@@ -44,7 +46,18 @@ namespace BeatSaberModdingTools.Tasks
             }
             catch (Exception ex)
             {
-                Log.LogErrorFromException(ex);
+                if (string.IsNullOrEmpty(errorCode))
+                    errorCode = MessageCodes.IsProcessRunning.GeneralFailure;
+                if (BuildEngine != null)
+                {
+                    int line = BuildEngine.LineNumberOfTaskNode;
+                    int column = BuildEngine.ColumnNumberOfTaskNode;
+                    Log.LogError("Build", errorCode, null, BuildEngine.ProjectFileOfTaskNode, line, column, line, column, $"Error in {GetType().Name}: {ex.Message}");
+                }
+                else
+                {
+                    Log.LogError($"Error in {GetType().Name}: {ex.Message}");
+                }
                 return false;
             }
         }

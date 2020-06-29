@@ -193,6 +193,52 @@
             </summary>
             <returns>true if successful</returns>
         </member>
+        <member name="T:BeatSaberModdingTools.Tasks.ReplaceInFile">
+            <summary>
+            Replaces a string pattern with a value in a file.
+            </summary>
+        </member>
+        <member name="P:BeatSaberModdingTools.Tasks.ReplaceInFile.File">
+            <summary>
+            File path.
+            </summary>
+        </member>
+        <member name="P:BeatSaberModdingTools.Tasks.ReplaceInFile.Pattern">
+            <summary>
+            Pattern to match (case sensitive).
+            </summary>
+        </member>
+        <member name="P:BeatSaberModdingTools.Tasks.ReplaceInFile.Substitute">
+            <summary>
+            String to substitute.
+            </summary>
+        </member>
+        <member name="P:BeatSaberModdingTools.Tasks.ReplaceInFile.UseRegex">
+            <summary>
+            Set to true if <see cref="P:BeatSaberModdingTools.Tasks.ReplaceInFile.Pattern"/> is a regular expression.
+            </summary>
+        </member>
+        <member name="P:BeatSaberModdingTools.Tasks.ReplaceInFile.RegexMultilineMode">
+            <summary>
+            Changes '^' and '$ so they match the beginning and end of a line instead of the entire string.
+            </summary>
+        </member>
+        <member name="P:BeatSaberModdingTools.Tasks.ReplaceInFile.RegexSinglelineMode">
+            <summary>
+            Changes the meaning of '.' so it matches every character except '\n' (newline).
+            </summary>
+        </member>
+        <member name="P:BeatSaberModdingTools.Tasks.ReplaceInFile.EscapeBackslash">
+            <summary>
+            Escapes the '\' character in Substitute with '\\'. Does not escape '\n'.
+            </summary>
+        </member>
+        <member name="M:BeatSaberModdingTools.Tasks.ReplaceInFile.Execute">
+            <summary>
+            Executes the task.
+            </summary>
+            <returns>true if successful</returns>
+        </member>
         <member name="T:BeatSaberModdingTools.Tasks.Utilties.ITaskLogger">
             <summary>
             Logging interface for easier unit testing.

@@ -17,4 +17,5 @@
   <UsingTask TaskName="BeatSaberModdingTools.Tasks.GetCommitHash" AssemblyFile="$(BSMTTaskAssembly)" />
   <UsingTask TaskName="BeatSaberModdingTools.Tasks.ZipDir" AssemblyFile="$(BSMTTaskAssembly)" />
   <UsingTask TaskName="BeatSaberModdingTools.Tasks.IsProcessRunning" AssemblyFile="$(BSMTTaskAssembly)" />
+  <UsingTask TaskName="BeatSaberModdingTools.Tasks.ReplaceInFile" AssemblyFile="$(BSMTTaskAssembly)" />
 </Project>

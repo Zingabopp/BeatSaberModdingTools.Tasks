@@ -49,6 +49,24 @@ namespace BeatSaberModdingTools.Tasks.Utilties
         /// <param name="message"></param>
         /// <param name="messageArgs"></param>
         void LogError(string subcategory, string errorCode, string helpKeyword, string file, int lineNumber, int columnNumber, int endLineNumber, int endColumnNumber, string message, params object[] messageArgs);
+
+        /// <summary>
+        /// Logs a message.
+        /// </summary>
+        /// <param name="subcategory"></param>
+        /// <param name="code"></param>
+        /// <param name="helpKeyword"></param>
+        /// <param name="file"></param>
+        /// <param name="lineNumber"></param>
+        /// <param name="columnNumber"></param>
+        /// <param name="endLineNumber"></param>
+        /// <param name="endColumnNumber"></param>
+        /// <param name="messageImportance"></param>
+        /// <param name="message"></param>
+        /// <param name="messageArgs"></param>
+        void LogMessage(string subcategory, string code, string helpKeyword, string file, 
+            int lineNumber, int columnNumber, int endLineNumber, int endColumnNumber, 
+            MessageImportance messageImportance, string message, params object[] messageArgs);
         /// <summary>
         /// Logs an error.
         /// </summary>
