@@ -7,6 +7,7 @@ using BeatSaberModdingTools.Tasks.Utilties;
 using System.Linq;
 using System.IO;
 using Microsoft.Build.Tasks;
+using System.Globalization;
 
 namespace BSMTTasks_UnitTests
 {
@@ -73,7 +74,7 @@ namespace BSMTTasks_UnitTests
             Assert.AreEqual(expectedReturn, task.Execute());
             MockTaskLogger logger = task.Logger as MockTaskLogger;
             var logMessage = logger.LogEntries.First();
-            Assert.AreEqual(expectedMessage, logMessage.Message.Replace(Environment.CurrentDirectory, "").TrimStart(Path.DirectorySeparatorChar, Path.AltDirectorySeparatorChar));
+            Assert.AreEqual(expectedMessage, logMessage.Message.Replace(Environment.CurrentDirectory + '/', ""));
             Assert.AreEqual(expectedMessageCode, logMessage.MessageCode);
         }
 
