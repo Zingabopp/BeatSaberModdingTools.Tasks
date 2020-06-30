@@ -22,6 +22,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Content Include="Data\GitData\.git\ms-persist.xml" />
     <Content Include="Data\ReplaceInFile\ReplaceTest.txt">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
@@ -84,6 +85,103 @@
     <None Update="Manifests\manifest.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Data\GitData\.git\objects\info\" />
+    <Folder Include="Data\GitData\.git\refs\tags\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="Data\GitData\.git\COMMIT_EDITMSG" />
+    <None Include="Data\GitData\.git\config" />
+    <None Include="Data\GitData\.git\description" />
+    <None Include="Data\GitData\.git\HEAD">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Data\GitData\.git\hooks\applypatch-msg.sample" />
+    <None Include="Data\GitData\.git\hooks\commit-msg.sample" />
+    <None Include="Data\GitData\.git\hooks\fsmonitor-watchman.sample" />
+    <None Include="Data\GitData\.git\hooks\post-update.sample" />
+    <None Include="Data\GitData\.git\hooks\pre-applypatch.sample" />
+    <None Include="Data\GitData\.git\hooks\pre-commit.sample" />
+    <None Include="Data\GitData\.git\hooks\pre-merge-commit.sample" />
+    <None Include="Data\GitData\.git\hooks\pre-push.sample" />
+    <None Include="Data\GitData\.git\hooks\pre-rebase.sample" />
+    <None Include="Data\GitData\.git\hooks\pre-receive.sample" />
+    <None Include="Data\GitData\.git\hooks\prepare-commit-msg.sample" />
+    <None Include="Data\GitData\.git\hooks\update.sample" />
+    <None Include="Data\GitData\.git\index" />
+    <None Include="Data\GitData\.git\info\exclude" />
+    <None Include="Data\GitData\.git\logs\HEAD" />
+    <None Include="Data\GitData\.git\logs\refs\heads\master" />
+    <None Include="Data\GitData\.git\logs\refs\remotes\origin\HEAD" />
+    <None Include="Data\GitData\.git\logs\refs\remotes\origin\master" />
+    <None Include="Data\GitData\.git\ms-persist.xml" />
+    <None Include="Data\GitData\.git\objects\00\dfb66519bac9b42cca1a99d83e25c45565a9ea" />
+    <None Include="Data\GitData\.git\objects\02\8109ea5f3770a6cc89961773eb0daec93e3294" />
+    <None Include="Data\GitData\.git\objects\04\8650f797094540152f8667d624066fad220541" />
+    <None Include="Data\GitData\.git\objects\04\b427a65ef16e6203fe25557fd0f7e864b3d241" />
+    <None Include="Data\GitData\.git\objects\0f\59646cbc57e69a5cd08fc8897cc90a5f90b769" />
+    <None Include="Data\GitData\.git\objects\10\a05988d21e7d0dcb58f515b94b1d2fdfd8faab" />
+    <None Include="Data\GitData\.git\objects\15\933fc1287df435e85be1e29cd2e9aa0f14411b" />
+    <None Include="Data\GitData\.git\objects\16\dd607f15c2b81f35b010a2e15e906bd2c6ebe1" />
+    <None Include="Data\GitData\.git\objects\19\223a187ebc51e2467089442bf7a1c78a635604" />
+    <None Include="Data\GitData\.git\objects\19\e61fc3b45c332524af2d2e72f09953286af676" />
+    <None Include="Data\GitData\.git\objects\1a\c099d62b3adbaea5e17feb57bbfd78e542452d" />
+    <None Include="Data\GitData\.git\objects\1c\964cdb615a3e8902d1de3d3ba7c6c93d16bb3d" />
+    <None Include="Data\GitData\.git\objects\20\e4989d07802410069aa76f60395a187f0f92a1" />
+    <None Include="Data\GitData\.git\objects\23\ea9549ead653beb26baf4acba93d3dc8407d0c" />
+    <None Include="Data\GitData\.git\objects\2f\84283cfd30fed7fb5e0a5761b1a79b62823ead" />
+    <None Include="Data\GitData\.git\objects\33\24e70e034e7cbe76aed2ffccbdebf1311dfd48" />
+    <None Include="Data\GitData\.git\objects\3a\2ad6010e2d12dbf4b16ce6b89c6567aa5f3728" />
+    <None Include="Data\GitData\.git\objects\3a\fdfee24c2f9a9ba2af34e2c481cadec5449e6a" />
+    <None Include="Data\GitData\.git\objects\3d\5c224dd8dc33ad49a251f5d2100c4b21faf499" />
+    <None Include="Data\GitData\.git\objects\41\97466ed7682542b4669e98fd962a3925ccaadf" />
+    <None Include="Data\GitData\.git\objects\42\a00fb5027d33e4082a509dec4df721e34d66ae" />
+    <None Include="Data\GitData\.git\objects\51\22824b8abfd088702c271af6e9f924c4461f3a" />
+    <None Include="Data\GitData\.git\objects\52\e6cf2c2386674dd0f72c2b69197fa1b11f65fc" />
+    <None Include="Data\GitData\.git\objects\5a\1d1357229d07fe379a40db0cd01c68351a416f" />
+    <None Include="Data\GitData\.git\objects\65\5d0ea605360d2edc67d4b51a96567ad302d931" />
+    <None Include="Data\GitData\.git\objects\65\7b39a9949b34d206fb04bb3ae4aa071e852cae" />
+    <None Include="Data\GitData\.git\objects\6b\060847f9ae9ff0436bafdde682cb58b6b97fa1" />
+    <None Include="Data\GitData\.git\objects\73\94a29f9b6475e4bbb67cdc1cf3e3ff506f698f" />
+    <None Include="Data\GitData\.git\objects\7a\6f843525c79147025df75897299cd26049d748" />
+    <None Include="Data\GitData\.git\objects\7b\35a0e419f84d4a2aea2ee177bf9504a63809d6" />
+    <None Include="Data\GitData\.git\objects\7c\7c88db22ccff98c6ce9838052b919bfdad275f" />
+    <None Include="Data\GitData\.git\objects\7c\f4400bd364ab1f25e3c2f452eb15f040b19fe4" />
+    <None Include="Data\GitData\.git\objects\7d\084b3fca2fac5bdf5e616b8672570e387a9c8c" />
+    <None Include="Data\GitData\.git\objects\8b\485a10eaad69f8f14658f496ed78c171c2566b" />
+    <None Include="Data\GitData\.git\objects\8f\5fc209578a589916933126f3f02f4eb0ee39ca" />
+    <None Include="Data\GitData\.git\objects\96\742c416053ef582cfc4ed769b8bd96ff9f0a8a" />
+    <None Include="Data\GitData\.git\objects\96\de939457d0ee7802cb09e462119c0929948e91" />
+    <None Include="Data\GitData\.git\objects\9a\5177fd991ec901da43cfb20172928c3d09b04f" />
+    <None Include="Data\GitData\.git\objects\9a\8f385cf5dbc0469f2ff7db885fa51bb79e49d8" />
+    <None Include="Data\GitData\.git\objects\9d\aae8e8a5d352ded664b756d51f93c40a8774c0" />
+    <None Include="Data\GitData\.git\objects\a0\c1975869f668e0ad5cc6204289ede1c3c71e06" />
+    <None Include="Data\GitData\.git\objects\a8\04f593010c06c609c01e2f10d52501e788c1ec" />
+    <None Include="Data\GitData\.git\objects\a8\19b8af76e47ccbc5ee58d406151aa404223134" />
+    <None Include="Data\GitData\.git\objects\ad\b6b6c4c5b04369dcd08f334b630eb8012653a8" />
+    <None Include="Data\GitData\.git\objects\ae\62ee18fa365881e42cbfc3b1ccaea4ed20879f" />
+    <None Include="Data\GitData\.git\objects\b4\ee70a5190eace99dc14ebe11e47500ab3b1c60" />
+    <None Include="Data\GitData\.git\objects\b6\ecbb791797d1bed9d22d685e8435bf6627692b" />
+    <None Include="Data\GitData\.git\objects\be\52a7510c7be549f60e4f4900eccfac582dae24" />
+    <None Include="Data\GitData\.git\objects\c0\82d971e96d5864e2fa26365c0b656cc6bf5621" />
+    <None Include="Data\GitData\.git\objects\ce\011b1dffa123efa1cd30dbb7a95e70461698b3" />
+    <None Include="Data\GitData\.git\objects\d0\d0982cbfd85e23df7e0d8890ffa669cb3ef0fc" />
+    <None Include="Data\GitData\.git\objects\da\91ff0a2d8e5a8a9536eb4069daa89d4d00e4e6" />
+    <None Include="Data\GitData\.git\objects\e1\107883e7a0a35f606f047ca45809e42e5abc41" />
+    <None Include="Data\GitData\.git\objects\eb\17bf5852762151407d71ce9b548f5022f31f55" />
+    <None Include="Data\GitData\.git\objects\f5\2c6fda6078a27544c3d679b2e00ca3e3daf4a3" />
+    <None Include="Data\GitData\.git\objects\f9\61be0281166cd6a88bbc268cb8e9dbcb20d86a" />
+    <None Include="Data\GitData\.git\objects\pack\pack-0b7793f2671d588335639ce8d51b77bdaa9fc69c.idx" />
+    <None Include="Data\GitData\.git\objects\pack\pack-0b7793f2671d588335639ce8d51b77bdaa9fc69c.pack" />
+    <None Include="Data\GitData\.git\packed-refs" />
+    <None Include="Data\GitData\.git\refs\heads\master">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Data\GitData\.git\refs\remotes\origin\HEAD" />
+    <None Include="Data\GitData\.git\refs\remotes\origin\master" />
   </ItemGroup>
 
 </Project>

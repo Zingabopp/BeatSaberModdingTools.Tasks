@@ -19,15 +19,34 @@ namespace BeatSaberModdingTools.Tasks
         [Required]
         public virtual string ProjectDir { get; set; }
         /// <summary>
-        /// First 8 characters of the current commit hash.
+        /// Optional: Number of characters to retrieve from the hash.
+        /// Default is 7.
+        /// </summary>
+        public virtual int HashLength { get; set; } = 7;
+        /// <summary>
+        /// Optional: If true, do not attempt to use 'git' executable.
+        /// </summary>
+        public virtual bool NoGit { get; set; }
+        /// <summary>
+        /// Optional: If true, do not attempt to check if files have been changed.
+        /// </summary>
+        public virtual bool SkipStatus { get; set; }
+        /// <summary>
+        /// Commit hash up to the number of characters set by <see cref="HashLength"/>.
         /// </summary>
         [Output]
-        public virtual string CommitShortHash { get; protected set; }
+        public virtual string CommitHash { get; protected set; }
         /// <summary>
         /// 'Modified' if the repository has uncommitted changes, 'Unmodified' if it doesn't. Will be left blank if unsupported (Only works if git bash is installed).
         /// </summary>
         [Output]
         public virtual string Modified { get; protected set; }
+
+        /// <summary>
+        /// Name of the current repository branch, if available.
+        /// </summary>
+        [Output]
+        public virtual string Branch { get; protected set; }
 
         /// <summary>
         /// <see cref="ITaskLogger"/> instance used.
@@ -37,6 +56,7 @@ namespace BeatSaberModdingTools.Tasks
         /// <summary>
         /// Attempts to retrieve the git commit hash using the 'git' program.
         /// </summary>
+        /// <param name="directory"></param>
         /// <param name="commitHash"></param>
         /// <returns></returns>
         public static bool TryGetGitCommit(string directory, out string commitHash)
@@ -52,8 +72,9 @@ namespace BeatSaberModdingTools.Tasks
                 process.StartInfo.WorkingDirectory = directory;
                 process.StartInfo.RedirectStandardOutput = true;
                 process.Start();
+                process.WaitForExit(1000);
                 string outText = process.StandardOutput.ReadToEnd();
-                if (outText.Length >= 7)
+                if (outText.Length > 0)
                 {
                     commitHash = outText;
                     return true;
@@ -70,9 +91,9 @@ namespace BeatSaberModdingTools.Tasks
         /// Attempts to check if the repository has uncommitted changes.
         /// </summary>
         /// <returns></returns>
-        public static GitStatus GetGitStatus(string directory)
+        public static GitInfo GetGitStatus(string directory)
         {
-            GitStatus status = new GitStatus();
+            GitInfo status = new GitInfo();
             try
             {
                 directory = Path.GetFullPath(directory);
@@ -83,7 +104,7 @@ namespace BeatSaberModdingTools.Tasks
                 process.StartInfo.WorkingDirectory = directory;
                 process.StartInfo.RedirectStandardOutput = true;
                 process.Start();
-                process.WaitForExit();
+                process.WaitForExit(1000);
                 string outText = process.StandardOutput.ReadToEnd();
                 Regex branchName = new Regex(@"^On branch (.*)$", RegexOptions.Multiline);
                 Match match = branchName.Match(outText);
@@ -107,32 +128,49 @@ namespace BeatSaberModdingTools.Tasks
         /// <summary>
         /// Attempts to retrieve the git commit hash by reading git files.
         /// </summary>
-        /// <param name="gitPaths"></param>
-        /// <param name="commitHash"></param>
+        /// <param name="gitPath"></param>
+        /// <param name="gitInfo"></param>
         /// <returns></returns>
-        public static bool TryGetCommitManual(string[] gitPaths, out string commitHash)
+        public static bool TryGetCommitManual(string gitPath, out GitInfo gitInfo)
         {
-            commitHash = null;
-            string gitPath = null;
+            gitInfo = new GitInfo();
+            bool success = false;
             string headContents;
-            for (int i = 0; i < gitPaths.Length; i++)
+            string headPath = Path.Combine(gitPath, "HEAD");
+            if (File.Exists(headPath))
             {
-                string headPath = Path.Combine(gitPath, "HEAD");
-                commitHash = null;
+                headContents = File.ReadAllText(headPath);
+                if (!string.IsNullOrEmpty(headContents) && headContents.StartsWith("ref:"))
+                    headPath = Path.Combine(gitPath, headContents.Replace("ref:", "").Trim());
+                gitInfo.Branch = headPath.Substring(headPath.LastIndexOf('/') + 1);
                 if (File.Exists(headPath))
                 {
                     headContents = File.ReadAllText(headPath);
-                    if (!string.IsNullOrEmpty(headContents) && headContents.StartsWith("ref:"))
-                        headPath = Path.Combine(gitPath, headContents.Replace("ref:", "").Trim());
-                    if (File.Exists(headPath))
+                    if (headContents.Length >= 0)
                     {
-                        headContents = File.ReadAllText(headPath);
-                        if (headContents.Length >= 0)
-                        {
-                            commitHash = headContents.Trim();
-                            return true;
-                        }
+                        gitInfo.CommitHash = headContents.Trim();
+                        success = true;
                     }
+                }
+            }
+            return success;
+        }
+
+        /// <summary>
+        /// Attempts to retrieve the git commit hash by reading git files.
+        /// </summary>
+        /// <param name="gitPaths"></param>
+        /// <param name="gitInfo"></param>
+        /// <returns></returns>
+        public static bool TryGetCommitManual(string[] gitPaths, out GitInfo gitInfo)
+        {
+            gitInfo = new GitInfo();
+            for (int i = 0; i < gitPaths.Length; i++)
+            {
+                if(TryGetCommitManual(gitPaths[i], out GitInfo retVal))
+                {
+                    gitInfo = retVal;
+                    return true;
                 }
             }
             return false;
@@ -148,13 +186,22 @@ namespace BeatSaberModdingTools.Tasks
                 Logger = new LogWrapper(Log);
             else
                 Logger = new MockTaskLogger();
-            CommitShortHash = "local";
+            CommitHash = "local";
             string errorCode = null;
             try
             {
-                if (TryGetGitCommit(ProjectDir, out string commitHash) && commitHash.Length > 7)
+                string commitHash = null;
+                if (!NoGit && TryGetGitCommit(ProjectDir, out commitHash) && commitHash.Length > 0)
                 {
-                    CommitShortHash = commitHash.Substring(0, 7);
+                    CommitHash = commitHash.Substring(0, Math.Min(commitHash.Length, HashLength));
+                    if (!SkipStatus)
+                    {
+                        GitInfo gitStatus = GetGitStatus(ProjectDir);
+                        if (!string.IsNullOrEmpty(gitStatus.Branch))
+                            Branch = gitStatus.Branch;
+                        if (!string.IsNullOrEmpty(gitStatus.Modified))
+                            Modified = gitStatus.Modified;
+                    }
                 }
                 else
                 {
@@ -164,9 +211,17 @@ namespace BeatSaberModdingTools.Tasks
                         Path.GetFullPath(Path.Combine(ProjectDir, "..", ".git"))
                     };
 
-                    if (TryGetCommitManual(gitPaths, out commitHash) && commitHash.Length > 7)
+                    if (TryGetCommitManual(gitPaths, out GitInfo gitInfo))
                     {
-                        CommitShortHash = commitHash.Substring(0, 7);
+                        commitHash = gitInfo.CommitHash;
+                        if (commitHash.Length > 0)
+                            CommitHash = commitHash
+                                .Substring(0, 
+                                  Math.Min(commitHash.Length, HashLength));
+                        if (!string.IsNullOrEmpty(gitInfo.Branch))
+                            Branch = gitInfo.Branch;
+                        if (!string.IsNullOrEmpty(gitInfo.Modified))
+                            Modified = gitInfo.Modified;
                     }
                 }
             }
@@ -187,7 +242,7 @@ namespace BeatSaberModdingTools.Tasks
                         MessageImportance.High, $"Error in {GetType().Name}: {ex.Message}");
                 }
             }
-            if (CommitShortHash == "local")
+            if (CommitHash == "local")
             {
                 if (BuildEngine != null)
                 {
@@ -206,10 +261,14 @@ namespace BeatSaberModdingTools.Tasks
     }
 
     /// <summary>
-    /// Container for data on status of a git repository.
+    /// Container for data of a git repository.
     /// </summary>
-    public struct GitStatus
+    public struct GitInfo
     {
+        /// <summary>
+        /// Current commit hash.
+        /// </summary>
+        public string CommitHash;
         /// <summary>
         /// Current branch of the repository.
         /// </summary>
