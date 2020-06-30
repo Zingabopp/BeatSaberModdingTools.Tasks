@@ -4,53 +4,53 @@
         <name>BeatSaberModdingTools.Tasks</name>
     </assembly>
     <members>
-        <member name="T:BeatSaberModdingTools.Tasks.GetCommitHash">
+        <member name="T:BeatSaberModdingTools.Tasks.GetCommitInfo">
             <summary>
             Gets the git commit short hash of the project.
             </summary>
         </member>
-        <member name="P:BeatSaberModdingTools.Tasks.GetCommitHash.ProjectDir">
+        <member name="P:BeatSaberModdingTools.Tasks.GetCommitInfo.ProjectDir">
             <summary>
             The directory of the project.
             </summary>
         </member>
-        <member name="P:BeatSaberModdingTools.Tasks.GetCommitHash.HashLength">
+        <member name="P:BeatSaberModdingTools.Tasks.GetCommitInfo.HashLength">
             <summary>
             Optional: Number of characters to retrieve from the hash.
             Default is 7.
             </summary>
         </member>
-        <member name="P:BeatSaberModdingTools.Tasks.GetCommitHash.NoGit">
+        <member name="P:BeatSaberModdingTools.Tasks.GetCommitInfo.NoGit">
             <summary>
             Optional: If true, do not attempt to use 'git' executable.
             </summary>
         </member>
-        <member name="P:BeatSaberModdingTools.Tasks.GetCommitHash.SkipStatus">
+        <member name="P:BeatSaberModdingTools.Tasks.GetCommitInfo.SkipStatus">
             <summary>
             Optional: If true, do not attempt to check if files have been changed.
             </summary>
         </member>
-        <member name="P:BeatSaberModdingTools.Tasks.GetCommitHash.CommitHash">
+        <member name="P:BeatSaberModdingTools.Tasks.GetCommitInfo.CommitHash">
             <summary>
-            Commit hash up to the number of characters set by <see cref="P:BeatSaberModdingTools.Tasks.GetCommitHash.HashLength"/>.
+            Commit hash up to the number of characters set by <see cref="P:BeatSaberModdingTools.Tasks.GetCommitInfo.HashLength"/>.
             </summary>
         </member>
-        <member name="P:BeatSaberModdingTools.Tasks.GetCommitHash.Modified">
+        <member name="P:BeatSaberModdingTools.Tasks.GetCommitInfo.Modified">
             <summary>
             'Modified' if the repository has uncommitted changes, 'Unmodified' if it doesn't. Will be left blank if unsupported (Only works if git bash is installed).
             </summary>
         </member>
-        <member name="P:BeatSaberModdingTools.Tasks.GetCommitHash.Branch">
+        <member name="P:BeatSaberModdingTools.Tasks.GetCommitInfo.Branch">
             <summary>
             Name of the current repository branch, if available.
             </summary>
         </member>
-        <member name="F:BeatSaberModdingTools.Tasks.GetCommitHash.Logger">
+        <member name="F:BeatSaberModdingTools.Tasks.GetCommitInfo.Logger">
             <summary>
             <see cref="T:BeatSaberModdingTools.Tasks.Utilties.ITaskLogger"/> instance used.
             </summary>
         </member>
-        <member name="M:BeatSaberModdingTools.Tasks.GetCommitHash.TryGetGitCommit(System.String,System.String@)">
+        <member name="M:BeatSaberModdingTools.Tasks.GetCommitInfo.TryGetGitCommit(System.String,System.String@)">
             <summary>
             Attempts to retrieve the git commit hash using the 'git' program.
             </summary>
@@ -58,13 +58,13 @@
             <param name="commitHash"></param>
             <returns></returns>
         </member>
-        <member name="M:BeatSaberModdingTools.Tasks.GetCommitHash.GetGitStatus(System.String)">
+        <member name="M:BeatSaberModdingTools.Tasks.GetCommitInfo.GetGitStatus(System.String)">
             <summary>
             Attempts to check if the repository has uncommitted changes.
             </summary>
             <returns></returns>
         </member>
-        <member name="M:BeatSaberModdingTools.Tasks.GetCommitHash.TryGetCommitManual(System.String,BeatSaberModdingTools.Tasks.GitInfo@)">
+        <member name="M:BeatSaberModdingTools.Tasks.GetCommitInfo.TryGetCommitManual(System.String,BeatSaberModdingTools.Tasks.GitInfo@)">
             <summary>
             Attempts to retrieve the git commit hash by reading git files.
             </summary>
@@ -72,7 +72,7 @@
             <param name="gitInfo"></param>
             <returns></returns>
         </member>
-        <member name="M:BeatSaberModdingTools.Tasks.GetCommitHash.TryGetCommitManual(System.String[],BeatSaberModdingTools.Tasks.GitInfo@)">
+        <member name="M:BeatSaberModdingTools.Tasks.GetCommitInfo.TryGetCommitManual(System.String[],BeatSaberModdingTools.Tasks.GitInfo@)">
             <summary>
             Attempts to retrieve the git commit hash by reading git files.
             </summary>
@@ -80,12 +80,12 @@
             <param name="gitInfo"></param>
             <returns></returns>
         </member>
-        <member name="F:BeatSaberModdingTools.Tasks.GetCommitHash.GitDirectory">
+        <member name="F:BeatSaberModdingTools.Tasks.GetCommitInfo.GitDirectory">
             <summary>
             Name of the directory with git files.
             </summary>
         </member>
-        <member name="M:BeatSaberModdingTools.Tasks.GetCommitHash.Execute">
+        <member name="M:BeatSaberModdingTools.Tasks.GetCommitInfo.Execute">
             <summary>
             Executes the task.
             </summary>
@@ -329,6 +329,13 @@
             <summary>
             <see cref="T:BeatSaberModdingTools.Tasks.Utilties.ITaskLogger"/> instance used.
             </summary>
+        </member>
+        <member name="M:BeatSaberModdingTools.Tasks.ReplaceInFile.ReplaceText(System.String)">
+            <summary>
+            Returns the replaced text for a given input.
+            </summary>
+            <param name="inputText"></param>
+            <returns></returns>
         </member>
         <member name="M:BeatSaberModdingTools.Tasks.ReplaceInFile.Execute">
             <summary>

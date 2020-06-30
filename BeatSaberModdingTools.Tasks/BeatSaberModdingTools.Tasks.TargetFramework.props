@@ -14,7 +14,7 @@
     <BSMTTaskAssembly>$(MSBuildThisFileDirectory)..\tasks\$(BSMTTaskFolder)\BeatSaberModdingTools.Tasks.dll</BSMTTaskAssembly>
   </PropertyGroup>
   <UsingTask TaskName="BeatSaberModdingTools.Tasks.GetManifestInfo" AssemblyFile="$(BSMTTaskAssembly)" />
-  <UsingTask TaskName="BeatSaberModdingTools.Tasks.GetCommitHash" AssemblyFile="$(BSMTTaskAssembly)" />
+  <UsingTask TaskName="BeatSaberModdingTools.Tasks.GetCommitInfo" AssemblyFile="$(BSMTTaskAssembly)" />
   <UsingTask TaskName="BeatSaberModdingTools.Tasks.ZipDir" AssemblyFile="$(BSMTTaskAssembly)" />
   <UsingTask TaskName="BeatSaberModdingTools.Tasks.IsProcessRunning" AssemblyFile="$(BSMTTaskAssembly)" />
   <UsingTask TaskName="BeatSaberModdingTools.Tasks.ReplaceInFile" AssemblyFile="$(BSMTTaskAssembly)" />
