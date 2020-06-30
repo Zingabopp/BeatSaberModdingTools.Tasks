@@ -281,7 +281,7 @@ namespace BSMTTasks_UnitTests
             }
             Assert.AreEqual(1, mockTaskLogger.LogEntries.Count);
             MockLogEntry logEntry = mockTaskLogger.LogEntries.First();
-            Assert.AreEqual($"Manifest file not found at {manifestPath}", logEntry.ToString());
+            Assert.AreEqual($"Error in GetManifestInfo: Manifest file not found at {manifestPath}", logEntry.ToString());
             Assert.AreEqual(expectedResult, taskResult);
             Assert.AreEqual(expectedAssemblyVersion, getManifestInfo.AssemblyVersion);
             Assert.AreEqual(expectedPluginVersion, getManifestInfo.PluginVersion);
@@ -487,12 +487,12 @@ namespace BSMTTasks_UnitTests
             }
             Assert.AreEqual(1, mockTaskLogger.LogEntries.Count);
             MockLogEntry logEntry = mockTaskLogger.LogEntries.First();
-            Assert.AreEqual("PluginVersion 1.2.0 does not match AssemblyVersion 1.1.0", logEntry.ToString());
+            Assert.AreEqual(@"PluginVersion 1.2.0 in Manifests\MismatchedVersions.json does not match AssemblyVersion 1.1.0 in AssemblyInfos\MismatchedVersions.cs", logEntry.ToString());
             Assert.AreEqual(LogEntryType.Message, logEntry.EntryType);
-            Assert.AreEqual(0, logEntry.LineNumber);
-            Assert.AreEqual(0, logEntry.EndLineNumber);
-            Assert.AreEqual(0, logEntry.ColumnNumber);
-            Assert.AreEqual(0, logEntry.EndColumnNumber);
+            Assert.AreEqual(8, logEntry.LineNumber);
+            Assert.AreEqual(8, logEntry.EndLineNumber);
+            Assert.AreEqual(1, logEntry.ColumnNumber);
+            Assert.AreEqual(1, logEntry.EndColumnNumber);
             Assert.AreEqual(expectedResult, taskResult);
             Assert.AreEqual(expectedAssemblyVersion, getManifestInfo.AssemblyVersion);
             Assert.AreEqual(expectedPluginVersion, getManifestInfo.PluginVersion);
@@ -591,21 +591,11 @@ namespace BSMTTasks_UnitTests
 
             Assert.AreEqual(1, mockTaskLogger.LogEntries.Count);
             MockLogEntry logEntry = mockTaskLogger.LogEntries[0];
-            Assert.AreEqual($"Could not find AssemblyInfo: {assemblyFilePath}", logEntry.ToString());
+            Assert.AreEqual($"Error in GetManifestInfo: Could not find AssemblyInfo: {assemblyFilePath}", logEntry.ToString());
             Assert.AreEqual(expectedResult, taskResult);
             Assert.AreEqual(expectedAssemblyVersion, getManifestInfo.AssemblyVersion);
             Assert.AreEqual(expectedPluginVersion, getManifestInfo.PluginVersion);
             Assert.AreEqual(expectedGameVersion, getManifestInfo.GameVersion);
         }
-    }
-
-    public class TestLogger : TaskLoggingHelper
-    {
-        public TestLogger(ITask taskInstance) : base(taskInstance)
-        {
-
-        }
-        public TestLogger(IBuildEngine buildEngine, string taskName) : base(buildEngine, taskName) { }
-
     }
 }

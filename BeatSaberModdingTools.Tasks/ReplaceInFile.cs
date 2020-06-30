@@ -1,4 +1,5 @@
-﻿using Microsoft.Build.Framework;
+﻿using BeatSaberModdingTools.Tasks.Utilties;
+using Microsoft.Build.Framework;
 using Microsoft.Build.Tasks;
 using System;
 using System.IO;
@@ -44,19 +45,29 @@ namespace BeatSaberModdingTools.Tasks
         /// </summary>
         public virtual bool EscapeBackslash { get; set; }
 
+
+        /// <summary>
+        /// <see cref="ITaskLogger"/> instance used.
+        /// </summary>
+        public ITaskLogger Logger;
+
         /// <summary>
         /// Executes the task.
         /// </summary>
         /// <returns>true if successful</returns>
         public override bool Execute()
         {
+            if (this.BuildEngine != null)
+                Logger = new LogWrapper(Log);
+            else
+                Logger = new MockTaskLogger();
             string errorCode = "";
             try
             {
                 if (string.IsNullOrEmpty(File))
                 {
-                    errorCode = MessageCodes.ReplaceInFile.MissingSource;
-                    throw new ArgumentNullException(nameof(File), $"{nameof(File)} is null or empty.");
+                    errorCode = MessageCodes.ReplaceInFile.EmptyFile;
+                    throw new ArgumentNullException(null, $"'{nameof(File)}' is null or empty.");
                 }
                 FileInfo sourceFile = new FileInfo(File);
                 if (!sourceFile.Exists)
@@ -67,14 +78,14 @@ namespace BeatSaberModdingTools.Tasks
                 if (string.IsNullOrEmpty(Pattern))
                 {
                     errorCode = MessageCodes.ReplaceInFile.EmptyPattern;
-                    throw new ArgumentNullException(nameof(Pattern), $"{nameof(Pattern)} cannot be null or empty.");
+                    throw new ArgumentNullException(null, $"{nameof(Pattern)} cannot be null or empty.");
                 }
                 if (Substitute == null)
                     Substitute = "";
                 string fileText = System.IO.File.ReadAllText(sourceFile.FullName);
                 if(EscapeBackslash)
                     Substitute = Substitute.Replace(@"\", @"\\");
-                Log.LogMessage(MessageImportance.High, $"Replacing '{Pattern}' with '{Substitute}' in {sourceFile.FullName}");
+                Logger.LogMessage(MessageImportance.High, $"Replacing '{Pattern}' with '{Substitute}' in {sourceFile.FullName}");
                 if (UseRegex)
                 {
                     RegexOptions options = RegexOptions.None;
@@ -97,11 +108,11 @@ namespace BeatSaberModdingTools.Tasks
                 {
                     int line = BuildEngine.LineNumberOfTaskNode;
                     int column = BuildEngine.ColumnNumberOfTaskNode;
-                    Log.LogError("Compile", errorCode, null, BuildEngine.ProjectFileOfTaskNode, line, column, line, column, $"Error in {GetType().Name}: {ex.Message}");
+                    Logger.LogError("Compile", errorCode, null, BuildEngine.ProjectFileOfTaskNode, line, column, line, column, $"Error in {GetType().Name}: {ex.Message}");
                 }
                 else
                 {
-                    Log.LogError($"Error in {GetType().Name}: {ex.Message}");
+                    Logger.LogError("Compile", errorCode, null, null, 0, 0, 0, 0, $"Error in {GetType().Name}: {ex.Message}");
                 }
                 return false;
             }

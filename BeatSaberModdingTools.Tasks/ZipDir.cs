@@ -1,4 +1,5 @@
-﻿using Microsoft.Build.Framework;
+﻿using BeatSaberModdingTools.Tasks.Utilties;
+using Microsoft.Build.Framework;
 using System;
 using System.IO;
 using System.IO.Compression;
@@ -28,11 +29,20 @@ namespace BeatSaberModdingTools.Tasks
         public virtual string ZipPath { get; set; }
 
         /// <summary>
+        /// <see cref="ITaskLogger"/> instance used.
+        /// </summary>
+        public ITaskLogger Logger;
+
+        /// <summary>
         /// Executes the task.
         /// </summary>
         /// <returns>true if successful</returns>
         public override bool Execute()
         {
+            if (this.BuildEngine != null)
+                Logger = new LogWrapper(Log);
+            else
+                Logger = new MockTaskLogger();
             string errorCode = null;
             try
             {
@@ -58,7 +68,7 @@ namespace BeatSaberModdingTools.Tasks
                     errorCode = MessageCodes.ZipDir.ZipMissingSource;
                     throw new DirectoryNotFoundException($"{nameof(SourceDirectory)} '{SourceDirectory}' not found.");
                 }
-                Log.LogMessage(MessageImportance.High, "Zipping Directory \"{0}\" to \"{1}\"", SourceDirectory, DestinationFile);
+                Logger.LogMessage(MessageImportance.High, "Zipping Directory \"{0}\" to \"{1}\"", SourceDirectory, DestinationFile);
                 ZipFile.CreateFromDirectory(SourceDirectory, DestinationFile);
                 ZipPath = zipFile.FullName;
                 return true;
@@ -71,11 +81,11 @@ namespace BeatSaberModdingTools.Tasks
                 {
                     int line = BuildEngine.LineNumberOfTaskNode;
                     int column = BuildEngine.ColumnNumberOfTaskNode;
-                    Log.LogError("Build", errorCode, null, BuildEngine.ProjectFileOfTaskNode, line, column, line, column, $"Error in {GetType().Name}: {ex.Message}");
+                    Logger.LogError("Build", errorCode, null, BuildEngine.ProjectFileOfTaskNode, line, column, line, column, $"Error in {GetType().Name}: {ex.Message}");
                 }
                 else
                 {
-                    Log.LogError($"Error in {GetType().Name}: {ex.Message}");
+                    Logger.LogError("Build", errorCode, null, null, 0, 0, 0, 0, $"Error in {GetType().Name}: {ex.Message}");
                 }
                 return false;
             }

@@ -1,4 +1,5 @@
-﻿using Microsoft.Build.Framework;
+﻿using BeatSaberModdingTools.Tasks.Utilties;
+using Microsoft.Build.Framework;
 using System;
 using System.ComponentModel;
 using System.Diagnostics;
@@ -23,11 +24,20 @@ namespace BeatSaberModdingTools.Tasks
         public virtual string CommitShortHash { get; protected set; }
 
         /// <summary>
+        /// <see cref="ITaskLogger"/> instance used.
+        /// </summary>
+        public ITaskLogger Logger;
+
+        /// <summary>
         /// Executes the task.
         /// </summary>
         /// <returns>true if successful</returns>
         public override bool Execute()
         {
+            if (this.BuildEngine != null)
+                Logger = new LogWrapper(Log);
+            else
+                Logger = new MockTaskLogger();
             CommitShortHash = "local";
             string errorCode = null;
             try
@@ -83,12 +93,13 @@ namespace BeatSaberModdingTools.Tasks
                 {
                     int line = BuildEngine.LineNumberOfTaskNode;
                     int column = BuildEngine.ColumnNumberOfTaskNode;
-                    Log.LogMessage("Build", errorCode, null, BuildEngine.ProjectFileOfTaskNode, line, column, line, column,
+                    Logger.LogMessage("Build", errorCode, null, BuildEngine.ProjectFileOfTaskNode, line, column, line, column,
                         MessageImportance.High, $"Error in {GetType().Name}: {ex.Message}");
                 }
                 else
                 {
-                    Log.LogMessage(MessageImportance.High, $"Error in {GetType().Name}: {ex.Message}");
+                    Logger.LogMessage("Build", errorCode, null, null, 0, 0, 0, 0,
+                        MessageImportance.High, $"Error in {GetType().Name}: {ex.Message}");
                 }
             }
             if (CommitShortHash == "local")
@@ -98,11 +109,12 @@ namespace BeatSaberModdingTools.Tasks
                     errorCode = MessageCodes.GetCommitHash.GitNoRepository;
                     int line = BuildEngine.LineNumberOfTaskNode;
                     int column = BuildEngine.ColumnNumberOfTaskNode;
-                    Log.LogMessage("Build", errorCode, null, BuildEngine.ProjectFileOfTaskNode, line, column, line, column,
-                        "Project does not appear to be in a git repository.");
+                    Logger.LogMessage("Build", errorCode, null, BuildEngine.ProjectFileOfTaskNode, line, column, line, column,
+                        MessageImportance.High, "Project does not appear to be in a git repository.");
                 }
                 else
-                    Log.LogMessage(MessageImportance.High, "Project does not appear to be in a git repository.");
+                    Logger.LogMessage("Build", errorCode, null, null, 0, 0, 0, 0,
+                        MessageImportance.High, "Project does not appear to be in a git repository.");
             }
             return true;
         }

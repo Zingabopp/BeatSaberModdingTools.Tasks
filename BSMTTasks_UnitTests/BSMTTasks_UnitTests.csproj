@@ -18,6 +18,16 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Remove="Data\ReplaceTest.txt" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="Data\ReplaceInFile\ReplaceTest.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+
+  <ItemGroup>
     <Content Include="AssemblyInfos\AssemblyFileVersionFirst.cs">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>

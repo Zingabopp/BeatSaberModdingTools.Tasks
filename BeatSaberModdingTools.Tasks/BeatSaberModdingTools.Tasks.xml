@@ -19,6 +19,11 @@
             First 8 characters of the current commit hash.
             </summary>
         </member>
+        <member name="F:BeatSaberModdingTools.Tasks.GetCommitHash.Logger">
+            <summary>
+            <see cref="T:BeatSaberModdingTools.Tasks.Utilties.ITaskLogger"/> instance used.
+            </summary>
+        </member>
         <member name="M:BeatSaberModdingTools.Tasks.GetCommitHash.Execute">
             <summary>
             Executes the task.
@@ -187,11 +192,151 @@
             True if the process is running, false otherwise.
             </summary>
         </member>
+        <member name="F:BeatSaberModdingTools.Tasks.IsProcessRunning.Logger">
+            <summary>
+            <see cref="T:BeatSaberModdingTools.Tasks.Utilties.ITaskLogger"/> instance used.
+            </summary>
+        </member>
         <member name="M:BeatSaberModdingTools.Tasks.IsProcessRunning.Execute">
             <summary>
             Executes the task.
             </summary>
             <returns>true if successful</returns>
+        </member>
+        <member name="T:BeatSaberModdingTools.Tasks.MessageCodes">
+            <summary>
+            Message codes.
+            </summary>
+        </member>
+        <member name="T:BeatSaberModdingTools.Tasks.MessageCodes.GetManifestInfo">
+            <summary>
+            Message codes for GetManifestInfo.
+            </summary>
+        </member>
+        <member name="F:BeatSaberModdingTools.Tasks.MessageCodes.GetManifestInfo.VersionMismatch">
+            <summary>
+            Manifest and assembly versions don't match.
+            </summary>
+        </member>
+        <member name="F:BeatSaberModdingTools.Tasks.MessageCodes.GetManifestInfo.ManifestFileNotFound">
+            <summary>
+            Manifest file doesn't exist.
+            </summary>
+        </member>
+        <member name="F:BeatSaberModdingTools.Tasks.MessageCodes.GetManifestInfo.AssemblyInfoNotFound">
+            <summary>
+            AssemblyInfo file not found and known assembly version not given.
+            </summary>
+        </member>
+        <member name="F:BeatSaberModdingTools.Tasks.MessageCodes.GetManifestInfo.AssemblyVersionMismatch">
+            <summary>
+            AssemblyVersion and AssemblyFileVersion don't match.
+            </summary>
+        </member>
+        <member name="F:BeatSaberModdingTools.Tasks.MessageCodes.GetManifestInfo.AssemblyVersionParseFail">
+            <summary>
+            AssemblyVersion couldn't be parsed from AssemblyInfo file.
+            </summary>
+        </member>
+        <member name="F:BeatSaberModdingTools.Tasks.MessageCodes.GetManifestInfo.PluginVersionNotFound">
+            <summary>
+            PluginVersion could not be determined from tthe manifest.
+            </summary>
+        </member>
+        <member name="F:BeatSaberModdingTools.Tasks.MessageCodes.GetManifestInfo.GameVersionNotFound">
+            <summary>
+            GameVersion could not be determined from the manifest.
+            </summary>
+        </member>
+        <member name="F:BeatSaberModdingTools.Tasks.MessageCodes.GetManifestInfo.AssemblyFileVersionParseFail">
+            <summary>
+            AssemblyFileVersion couldn't be determined from AssemblyInfo.
+            </summary>
+        </member>
+        <member name="F:BeatSaberModdingTools.Tasks.MessageCodes.GetManifestInfo.GeneralFailure">
+            <summary>
+            Other error.
+            </summary>
+        </member>
+        <member name="T:BeatSaberModdingTools.Tasks.MessageCodes.IsProcessRunning">
+            <summary>
+            Message codes for IsProcessRunning.
+            </summary>
+        </member>
+        <member name="F:BeatSaberModdingTools.Tasks.MessageCodes.IsProcessRunning.EmptyProcessName">
+            <summary>
+            <see cref="P:BeatSaberModdingTools.Tasks.IsProcessRunning.ProcessName"/> was given an empty or null value.
+            </summary>
+        </member>
+        <member name="F:BeatSaberModdingTools.Tasks.MessageCodes.IsProcessRunning.GeneralFailure">
+            <summary>
+            Other error.
+            </summary>
+        </member>
+        <member name="T:BeatSaberModdingTools.Tasks.MessageCodes.ZipDir">
+            <summary>
+            Message codes for ZipDir.
+            </summary>
+        </member>
+        <member name="F:BeatSaberModdingTools.Tasks.MessageCodes.ZipDir.ZipFailed">
+            <summary>
+            Other error.
+            </summary>
+        </member>
+        <member name="F:BeatSaberModdingTools.Tasks.MessageCodes.ZipDir.ZipEmptySource">
+            <summary>
+            <see cref="P:BeatSaberModdingTools.Tasks.ZipDir.SourceDirectory"/> was given an empty or null value.
+            </summary>
+        </member>
+        <member name="F:BeatSaberModdingTools.Tasks.MessageCodes.ZipDir.ZipEmptyDestination">
+            <summary>
+            <see cref="P:BeatSaberModdingTools.Tasks.ZipDir.DestinationFile"/> was given an empty or null value.
+            </summary>
+        </member>
+        <member name="F:BeatSaberModdingTools.Tasks.MessageCodes.ZipDir.ZipMissingSource">
+            <summary>
+            Path specified in <see cref="P:BeatSaberModdingTools.Tasks.ZipDir.SourceDirectory"/> does not exist.
+            </summary>
+        </member>
+        <member name="T:BeatSaberModdingTools.Tasks.MessageCodes.GetCommitHash">
+            <summary>
+            Message codes for GetCommitHash.
+            </summary>
+        </member>
+        <member name="F:BeatSaberModdingTools.Tasks.MessageCodes.GetCommitHash.GitFailed">
+            <summary>
+            Other error.
+            </summary>
+        </member>
+        <member name="F:BeatSaberModdingTools.Tasks.MessageCodes.GetCommitHash.GitNoRepository">
+            <summary>
+            Project is not in a git repository.
+            </summary>
+        </member>
+        <member name="T:BeatSaberModdingTools.Tasks.MessageCodes.ReplaceInFile">
+            <summary>
+            Message codes for ReplaceInFile.
+            </summary>
+        </member>
+        <member name="F:BeatSaberModdingTools.Tasks.MessageCodes.ReplaceInFile.EmptyFile">
+            <summary>
+            <see cref="P:BeatSaberModdingTools.Tasks.ReplaceInFile.File"/> is null or empty.
+            </summary>
+        </member>
+        <member name="F:BeatSaberModdingTools.Tasks.MessageCodes.ReplaceInFile.MissingSource">
+            <summary>
+            Path specified in <see cref="P:BeatSaberModdingTools.Tasks.ReplaceInFile.File"/> does not exist.
+            </summary>
+        </member>
+        <member name="F:BeatSaberModdingTools.Tasks.MessageCodes.ReplaceInFile.EmptyPattern">
+            <summary>
+            <see cref="P:BeatSaberModdingTools.Tasks.ReplaceInFile.Pattern"/> is null or empty.
+            </summary>
+        </member>
+        <member name="F:BeatSaberModdingTools.Tasks.MessageCodes.ReplaceInFile.ReplaceFailed">
+            <summary>
+            Other error.
+            </summary>
         </member>
         <member name="T:BeatSaberModdingTools.Tasks.ReplaceInFile">
             <summary>
@@ -231,6 +376,11 @@
         <member name="P:BeatSaberModdingTools.Tasks.ReplaceInFile.EscapeBackslash">
             <summary>
             Escapes the '\' character in Substitute with '\\'. Does not escape '\n'.
+            </summary>
+        </member>
+        <member name="F:BeatSaberModdingTools.Tasks.ReplaceInFile.Logger">
+            <summary>
+            <see cref="T:BeatSaberModdingTools.Tasks.Utilties.ITaskLogger"/> instance used.
             </summary>
         </member>
         <member name="M:BeatSaberModdingTools.Tasks.ReplaceInFile.Execute">
@@ -289,6 +439,22 @@
             <param name="message"></param>
             <param name="messageArgs"></param>
         </member>
+        <member name="M:BeatSaberModdingTools.Tasks.Utilties.ITaskLogger.LogMessage(System.String,System.String,System.String,System.String,System.Int32,System.Int32,System.Int32,System.Int32,Microsoft.Build.Framework.MessageImportance,System.String,System.Object[])">
+            <summary>
+            Logs a message.
+            </summary>
+            <param name="subcategory"></param>
+            <param name="code"></param>
+            <param name="helpKeyword"></param>
+            <param name="file"></param>
+            <param name="lineNumber"></param>
+            <param name="columnNumber"></param>
+            <param name="endLineNumber"></param>
+            <param name="endColumnNumber"></param>
+            <param name="messageImportance"></param>
+            <param name="message"></param>
+            <param name="messageArgs"></param>
+        </member>
         <member name="M:BeatSaberModdingTools.Tasks.Utilties.ITaskLogger.LogError(System.String,System.Object[])">
             <summary>
             Logs an error.
@@ -330,6 +496,9 @@
         <member name="M:BeatSaberModdingTools.Tasks.Utilties.LogWrapper.LogMessage(Microsoft.Build.Framework.MessageImportance,System.String,System.Object[])">
             <inheritdoc/>
         </member>
+        <member name="M:BeatSaberModdingTools.Tasks.Utilties.LogWrapper.LogMessage(System.String,System.String,System.String,System.String,System.Int32,System.Int32,System.Int32,System.Int32,Microsoft.Build.Framework.MessageImportance,System.String,System.Object[])">
+            <inheritdoc/>
+        </member>
         <member name="M:BeatSaberModdingTools.Tasks.Utilties.LogWrapper.LogWarning(System.String,System.String,System.String,System.String,System.Int32,System.Int32,System.Int32,System.Int32,System.String,System.Object[])">
             <inheritdoc/>
         </member>
@@ -356,6 +525,9 @@
             <inheritdoc/>
         </member>
         <member name="M:BeatSaberModdingTools.Tasks.Utilties.MockTaskLogger.LogMessage(Microsoft.Build.Framework.MessageImportance,System.String,System.Object[])">
+            <inheritdoc/>
+        </member>
+        <member name="M:BeatSaberModdingTools.Tasks.Utilties.MockTaskLogger.LogMessage(System.String,System.String,System.String,System.String,System.Int32,System.Int32,System.Int32,System.Int32,Microsoft.Build.Framework.MessageImportance,System.String,System.Object[])">
             <inheritdoc/>
         </member>
         <member name="M:BeatSaberModdingTools.Tasks.Utilties.MockTaskLogger.LogWarning(System.String,System.String,System.String,System.String,System.Int32,System.Int32,System.Int32,System.Int32,System.String,System.Object[])">
@@ -486,6 +658,11 @@
         <member name="P:BeatSaberModdingTools.Tasks.ZipDir.ZipPath">
             <summary>
             Full path to the created zip file.
+            </summary>
+        </member>
+        <member name="F:BeatSaberModdingTools.Tasks.ZipDir.Logger">
+            <summary>
+            <see cref="T:BeatSaberModdingTools.Tasks.Utilties.ITaskLogger"/> instance used.
             </summary>
         </member>
         <member name="M:BeatSaberModdingTools.Tasks.ZipDir.Execute">

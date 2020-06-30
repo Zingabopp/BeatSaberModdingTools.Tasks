@@ -191,7 +191,7 @@ namespace BeatSaberModdingTools.Tasks
                 }
                 else
                 {
-                    Logger.LogError($"Error in {GetType().Name}: {ex.Message}");
+                    Logger.LogError("Build", errorCode, null, null, 0, 0, 0, 0, $"Error in {GetType().Name}: {ex.Message}");
                 }
                 return false;
             }
