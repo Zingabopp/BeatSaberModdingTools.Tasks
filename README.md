@@ -20,18 +20,23 @@ Outputs:
 |AssemblyVersion|string|The mod or library's version as reported by the AssemblyInfo file or `KnownAssemblyVersion`.|
 |GameVersion|string|The Beat Saber game version defined in the manifest file.|
 
-## GetCommitHash
-Gets the first 8 characters of the current commit hash for projects using git source control.
+## GetCommitInfo
+Gets information about the git repository and current commit.
 
 Inputs:
 |Name|Type|Required?|Description|
 |---|---|---|---|
 |ProjectDir|string|Yes|The directory of the project.|
+|HashLength|int|No|The length of the `CommitHash` output. Default is 7.|
+|NoGit|bool|No|If true, reads git files manually instead of using the `git` executable. This is faster, but the `Modified` output will be unavailable.|
+|SkipStatus|bool|No|If true, does not attempt to check if files have been modified.|
 
 Outputs:
 |Name|Type|Description|
 |---|---|---|
-|CommitShortHash|string|The first 8 characters of the current commit hash. Outputs `local` if project isn't using git source control.|
+|CommitHash|string|The first 8 characters of the current commit hash. Outputs `local` if project isn't using git source control.|
+|Branch|string|The current branch of the repository.|
+|Modified|string|Will be `Modified` if there are uncommitted changes, `Unmodified` if there aren't. Empty if it can't be determined.|
 
 # ZipDir
 Creates a zip archive from the given directory.
@@ -41,6 +46,11 @@ Inputs:
 |---|---|---|---|
 |SourceDirectory|string|Yes|Directory to zip.|
 |DestinationFile|string|Yes|Path of the created zip.|
+
+Outputs:
+|Name|Type|Description|
+|---|---|---|
+|ZipPath|string|Full path to the created zip file. Empty if the file could not be created.|
 
 # IsProcessRunning
 Checks if the specified process is running.
@@ -54,6 +64,21 @@ Outputs:
 |Name|Type|Description|
 |---|---|---|
 |IsRunning|bool|True if the process is running, false otherwise.|
+
+# ReplaceInFile
+Replaces text in a file that matches a pattern with a substitute.
+
+Inputs:
+|Name|Type|Required?|Description|
+|---|---|---|---|
+|File|string|Yes|Path to target file.|
+|Pattern|string|Yes|Pattern to match for replacement (case sensitive).|
+|Substitute|string|Yes|String to replace matched patterns with.|
+|UseRegex|bool|No|If true, `Pattern` will be treated as a Regular Expression.|
+|RegexMultilineMode|bool|No|If true, changes '^' and '$ so they match the beginning and end of a line instead of the entire string.|
+|RegexSinglelineMode|bool|No|If true, changes the meaning of '.' so it matches every character except '\n' (newline).|
+|EscapeBackslash|bool|No|If true, escapes the `\` character in `Substitute` with `\\`.
+
 
 
 
