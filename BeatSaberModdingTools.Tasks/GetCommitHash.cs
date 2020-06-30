@@ -4,6 +4,7 @@ using System;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.IO;
+using System.Text.RegularExpressions;
 
 namespace BeatSaberModdingTools.Tasks
 {
@@ -22,11 +23,120 @@ namespace BeatSaberModdingTools.Tasks
         /// </summary>
         [Output]
         public virtual string CommitShortHash { get; protected set; }
+        /// <summary>
+        /// 'Modified' if the repository has uncommitted changes, 'Unmodified' if it doesn't. Will be left blank if unsupported (Only works if git bash is installed).
+        /// </summary>
+        [Output]
+        public virtual string Modified { get; protected set; }
 
         /// <summary>
         /// <see cref="ITaskLogger"/> instance used.
         /// </summary>
         public ITaskLogger Logger;
+
+        /// <summary>
+        /// Attempts to retrieve the git commit hash using the 'git' program.
+        /// </summary>
+        /// <param name="commitHash"></param>
+        /// <returns></returns>
+        public static bool TryGetGitCommit(string directory, out string commitHash)
+        {
+            commitHash = null;
+            try
+            {
+                directory = Path.GetFullPath(directory);
+                Process process = new Process();
+                string arg = "rev-parse HEAD";
+                process.StartInfo = new ProcessStartInfo("git", arg);
+                process.StartInfo.UseShellExecute = false;
+                process.StartInfo.WorkingDirectory = directory;
+                process.StartInfo.RedirectStandardOutput = true;
+                process.Start();
+                string outText = process.StandardOutput.ReadToEnd();
+                if (outText.Length >= 7)
+                {
+                    commitHash = outText;
+                    return true;
+                }
+            }
+            catch (Win32Exception)
+            {
+            }
+            return false;
+        }
+
+
+        /// <summary>
+        /// Attempts to check if the repository has uncommitted changes.
+        /// </summary>
+        /// <returns></returns>
+        public static GitStatus GetGitStatus(string directory)
+        {
+            GitStatus status = new GitStatus();
+            try
+            {
+                directory = Path.GetFullPath(directory);
+                Process process = new Process();
+                string arg = "status";
+                process.StartInfo = new ProcessStartInfo("git", arg);
+                process.StartInfo.UseShellExecute = false;
+                process.StartInfo.WorkingDirectory = directory;
+                process.StartInfo.RedirectStandardOutput = true;
+                process.Start();
+                process.WaitForExit();
+                string outText = process.StandardOutput.ReadToEnd();
+                Regex branchName = new Regex(@"^On branch (.*)$", RegexOptions.Multiline);
+                Match match = branchName.Match(outText);
+                if (match.Success && match.Groups.Count > 1)
+                {
+                    string branch = match.Groups[1].Value;
+                    status.Branch = branch;
+                }
+                string unmodified = "NOTHING TO COMMIT";
+                if (outText.ToUpper().Contains(unmodified))
+                    status.Modified = "Unmodified";
+                else
+                    status.Modified = "Modified";
+            }
+            catch (Win32Exception)
+            {
+            }
+            return status;
+        }
+
+        /// <summary>
+        /// Attempts to retrieve the git commit hash by reading git files.
+        /// </summary>
+        /// <param name="gitPaths"></param>
+        /// <param name="commitHash"></param>
+        /// <returns></returns>
+        public static bool TryGetCommitManual(string[] gitPaths, out string commitHash)
+        {
+            commitHash = null;
+            string gitPath = null;
+            string headContents;
+            for (int i = 0; i < gitPaths.Length; i++)
+            {
+                string headPath = Path.Combine(gitPath, "HEAD");
+                commitHash = null;
+                if (File.Exists(headPath))
+                {
+                    headContents = File.ReadAllText(headPath);
+                    if (!string.IsNullOrEmpty(headContents) && headContents.StartsWith("ref:"))
+                        headPath = Path.Combine(gitPath, headContents.Replace("ref:", "").Trim());
+                    if (File.Exists(headPath))
+                    {
+                        headContents = File.ReadAllText(headPath);
+                        if (headContents.Length >= 0)
+                        {
+                            commitHash = headContents.Trim();
+                            return true;
+                        }
+                    }
+                }
+            }
+            return false;
+        }
 
         /// <summary>
         /// Executes the task.
@@ -42,47 +152,22 @@ namespace BeatSaberModdingTools.Tasks
             string errorCode = null;
             try
             {
-                try
+                if (TryGetGitCommit(ProjectDir, out string commitHash) && commitHash.Length > 7)
                 {
-                    ProjectDir = Path.GetFullPath(ProjectDir);
-                    Process process = new Process();
-                    string arg = "rev-parse HEAD";
-                    process.StartInfo = new ProcessStartInfo("git", arg);
-                    process.StartInfo.UseShellExecute = false;
-                    process.StartInfo.WorkingDirectory = ProjectDir;
-                    process.StartInfo.RedirectStandardOutput = true;
-                    process.Start();
-                    string outText = process.StandardOutput.ReadToEnd();
-                    if (outText.Length >= 7)
-                    {
-                        CommitShortHash = outText.Substring(0, 7);
-                        return true;
-                    }
+                    CommitShortHash = commitHash.Substring(0, 7);
                 }
-                catch (Win32Exception)
-                {
-                }
-
-                string gitPath = Path.GetFullPath(Path.Combine(ProjectDir, ".git"));
-                string headPath = Path.Combine(gitPath, "HEAD");
-                string headContents = null;
-                if (File.Exists(headPath))
-                    headContents = File.ReadAllText(headPath);
                 else
                 {
-                    gitPath = Path.GetFullPath(Path.Combine(ProjectDir, "..", ".git"));
-                    headPath = Path.Combine(gitPath, "HEAD");
-                    if (File.Exists(headPath))
-                        headContents = File.ReadAllText(headPath);
-                }
-                headPath = null;
-                if (!string.IsNullOrEmpty(headContents) && headContents.StartsWith("ref:"))
-                    headPath = Path.Combine(gitPath, headContents.Replace("ref:", "").Trim());
-                if (File.Exists(headPath))
-                {
-                    headContents = File.ReadAllText(headPath);
-                    if (headContents.Length >= 7)
-                        CommitShortHash = headContents.Substring(0, 7);
+                    string[] gitPaths = new string[]{
+                        Path.GetFullPath(Path.Combine(ProjectDir, ".git")),
+
+                        Path.GetFullPath(Path.Combine(ProjectDir, "..", ".git"))
+                    };
+
+                    if (TryGetCommitManual(gitPaths, out commitHash) && commitHash.Length > 7)
+                    {
+                        CommitShortHash = commitHash.Substring(0, 7);
+                    }
                 }
             }
             catch (Exception ex)
@@ -118,5 +203,21 @@ namespace BeatSaberModdingTools.Tasks
             }
             return true;
         }
+    }
+
+    /// <summary>
+    /// Container for data on status of a git repository.
+    /// </summary>
+    public struct GitStatus
+    {
+        /// <summary>
+        /// Current branch of the repository.
+        /// </summary>
+        public string Branch;
+        /// <summary>
+        /// 'Modified' if the repository is modified, 'Unmodified' if it's not.
+        /// Null/Empty string if undetermined.
+        /// </summary>
+        public string Modified;
     }
 }

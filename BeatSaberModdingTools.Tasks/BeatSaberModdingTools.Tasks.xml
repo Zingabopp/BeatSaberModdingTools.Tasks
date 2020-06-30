@@ -19,16 +19,58 @@
             First 8 characters of the current commit hash.
             </summary>
         </member>
+        <member name="P:BeatSaberModdingTools.Tasks.GetCommitHash.Modified">
+            <summary>
+            'Modified' if the repository has uncommitted changes, 'Unmodified' if it doesn't. Will be left blank if unsupported (Only works if git bash is installed).
+            </summary>
+        </member>
         <member name="F:BeatSaberModdingTools.Tasks.GetCommitHash.Logger">
             <summary>
             <see cref="T:BeatSaberModdingTools.Tasks.Utilties.ITaskLogger"/> instance used.
             </summary>
+        </member>
+        <member name="M:BeatSaberModdingTools.Tasks.GetCommitHash.TryGetGitCommit(System.String,System.String@)">
+            <summary>
+            Attempts to retrieve the git commit hash using the 'git' program.
+            </summary>
+            <param name="commitHash"></param>
+            <returns></returns>
+        </member>
+        <member name="M:BeatSaberModdingTools.Tasks.GetCommitHash.GetGitStatus(System.String)">
+            <summary>
+            Attempts to check if the repository has uncommitted changes.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:BeatSaberModdingTools.Tasks.GetCommitHash.TryGetCommitManual(System.String[],System.String@)">
+            <summary>
+            Attempts to retrieve the git commit hash by reading git files.
+            </summary>
+            <param name="gitPaths"></param>
+            <param name="commitHash"></param>
+            <returns></returns>
         </member>
         <member name="M:BeatSaberModdingTools.Tasks.GetCommitHash.Execute">
             <summary>
             Executes the task.
             </summary>
             <returns>true if successful</returns>
+        </member>
+        <member name="T:BeatSaberModdingTools.Tasks.GitStatus">
+            <summary>
+            Container for data on status of a git repository.
+            </summary>
+        </member>
+        <member name="F:BeatSaberModdingTools.Tasks.GitStatus.Branch">
+            <summary>
+            Current branch of the repository.
+            </summary>
+        </member>
+        <member name="F:BeatSaberModdingTools.Tasks.GitStatus.Modified">
+            <summary>
+            'Modified' if the repository is modified, 'Unmodified' if it's not.
+            Null/Empty string if undetermined.
+            </summary>
         </member>
         <member name="T:BeatSaberModdingTools.Tasks.GetManifestInfo">
             <summary>
