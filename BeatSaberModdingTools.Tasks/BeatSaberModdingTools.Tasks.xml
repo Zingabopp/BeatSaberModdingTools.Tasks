@@ -80,6 +80,11 @@
             <param name="gitInfo"></param>
             <returns></returns>
         </member>
+        <member name="F:BeatSaberModdingTools.Tasks.GetCommitHash.GitDirectory">
+            <summary>
+            Name of the directory with git files.
+            </summary>
+        </member>
         <member name="M:BeatSaberModdingTools.Tasks.GetCommitHash.Execute">
             <summary>
             Executes the task.
@@ -280,141 +285,6 @@
             </summary>
             <returns>true if successful</returns>
         </member>
-        <member name="T:BeatSaberModdingTools.Tasks.MessageCodes">
-            <summary>
-            Message codes.
-            </summary>
-        </member>
-        <member name="T:BeatSaberModdingTools.Tasks.MessageCodes.GetManifestInfo">
-            <summary>
-            Message codes for GetManifestInfo.
-            </summary>
-        </member>
-        <member name="F:BeatSaberModdingTools.Tasks.MessageCodes.GetManifestInfo.VersionMismatch">
-            <summary>
-            Manifest and assembly versions don't match.
-            </summary>
-        </member>
-        <member name="F:BeatSaberModdingTools.Tasks.MessageCodes.GetManifestInfo.ManifestFileNotFound">
-            <summary>
-            Manifest file doesn't exist.
-            </summary>
-        </member>
-        <member name="F:BeatSaberModdingTools.Tasks.MessageCodes.GetManifestInfo.AssemblyInfoNotFound">
-            <summary>
-            AssemblyInfo file not found and known assembly version not given.
-            </summary>
-        </member>
-        <member name="F:BeatSaberModdingTools.Tasks.MessageCodes.GetManifestInfo.AssemblyVersionMismatch">
-            <summary>
-            AssemblyVersion and AssemblyFileVersion don't match.
-            </summary>
-        </member>
-        <member name="F:BeatSaberModdingTools.Tasks.MessageCodes.GetManifestInfo.AssemblyVersionParseFail">
-            <summary>
-            AssemblyVersion couldn't be parsed from AssemblyInfo file.
-            </summary>
-        </member>
-        <member name="F:BeatSaberModdingTools.Tasks.MessageCodes.GetManifestInfo.PluginVersionNotFound">
-            <summary>
-            PluginVersion could not be determined from tthe manifest.
-            </summary>
-        </member>
-        <member name="F:BeatSaberModdingTools.Tasks.MessageCodes.GetManifestInfo.GameVersionNotFound">
-            <summary>
-            GameVersion could not be determined from the manifest.
-            </summary>
-        </member>
-        <member name="F:BeatSaberModdingTools.Tasks.MessageCodes.GetManifestInfo.AssemblyFileVersionParseFail">
-            <summary>
-            AssemblyFileVersion couldn't be determined from AssemblyInfo.
-            </summary>
-        </member>
-        <member name="F:BeatSaberModdingTools.Tasks.MessageCodes.GetManifestInfo.GeneralFailure">
-            <summary>
-            Other error.
-            </summary>
-        </member>
-        <member name="T:BeatSaberModdingTools.Tasks.MessageCodes.IsProcessRunning">
-            <summary>
-            Message codes for IsProcessRunning.
-            </summary>
-        </member>
-        <member name="F:BeatSaberModdingTools.Tasks.MessageCodes.IsProcessRunning.EmptyProcessName">
-            <summary>
-            <see cref="P:BeatSaberModdingTools.Tasks.IsProcessRunning.ProcessName"/> was given an empty or null value.
-            </summary>
-        </member>
-        <member name="F:BeatSaberModdingTools.Tasks.MessageCodes.IsProcessRunning.GeneralFailure">
-            <summary>
-            Other error.
-            </summary>
-        </member>
-        <member name="T:BeatSaberModdingTools.Tasks.MessageCodes.ZipDir">
-            <summary>
-            Message codes for ZipDir.
-            </summary>
-        </member>
-        <member name="F:BeatSaberModdingTools.Tasks.MessageCodes.ZipDir.ZipFailed">
-            <summary>
-            Other error.
-            </summary>
-        </member>
-        <member name="F:BeatSaberModdingTools.Tasks.MessageCodes.ZipDir.ZipEmptySource">
-            <summary>
-            <see cref="P:BeatSaberModdingTools.Tasks.ZipDir.SourceDirectory"/> was given an empty or null value.
-            </summary>
-        </member>
-        <member name="F:BeatSaberModdingTools.Tasks.MessageCodes.ZipDir.ZipEmptyDestination">
-            <summary>
-            <see cref="P:BeatSaberModdingTools.Tasks.ZipDir.DestinationFile"/> was given an empty or null value.
-            </summary>
-        </member>
-        <member name="F:BeatSaberModdingTools.Tasks.MessageCodes.ZipDir.ZipMissingSource">
-            <summary>
-            Path specified in <see cref="P:BeatSaberModdingTools.Tasks.ZipDir.SourceDirectory"/> does not exist.
-            </summary>
-        </member>
-        <member name="T:BeatSaberModdingTools.Tasks.MessageCodes.GetCommitHash">
-            <summary>
-            Message codes for GetCommitHash.
-            </summary>
-        </member>
-        <member name="F:BeatSaberModdingTools.Tasks.MessageCodes.GetCommitHash.GitFailed">
-            <summary>
-            Other error.
-            </summary>
-        </member>
-        <member name="F:BeatSaberModdingTools.Tasks.MessageCodes.GetCommitHash.GitNoRepository">
-            <summary>
-            Project is not in a git repository.
-            </summary>
-        </member>
-        <member name="T:BeatSaberModdingTools.Tasks.MessageCodes.ReplaceInFile">
-            <summary>
-            Message codes for ReplaceInFile.
-            </summary>
-        </member>
-        <member name="F:BeatSaberModdingTools.Tasks.MessageCodes.ReplaceInFile.EmptyFile">
-            <summary>
-            <see cref="P:BeatSaberModdingTools.Tasks.ReplaceInFile.File"/> is null or empty.
-            </summary>
-        </member>
-        <member name="F:BeatSaberModdingTools.Tasks.MessageCodes.ReplaceInFile.MissingSource">
-            <summary>
-            Path specified in <see cref="P:BeatSaberModdingTools.Tasks.ReplaceInFile.File"/> does not exist.
-            </summary>
-        </member>
-        <member name="F:BeatSaberModdingTools.Tasks.MessageCodes.ReplaceInFile.EmptyPattern">
-            <summary>
-            <see cref="P:BeatSaberModdingTools.Tasks.ReplaceInFile.Pattern"/> is null or empty.
-            </summary>
-        </member>
-        <member name="F:BeatSaberModdingTools.Tasks.MessageCodes.ReplaceInFile.ReplaceFailed">
-            <summary>
-            Other error.
-            </summary>
-        </member>
         <member name="T:BeatSaberModdingTools.Tasks.ReplaceInFile">
             <summary>
             Replaces a string pattern with a value in a file.
@@ -581,6 +451,141 @@
         </member>
         <member name="M:BeatSaberModdingTools.Tasks.Utilties.LogWrapper.LogWarning(System.String,System.Object[])">
             <inheritdoc/>
+        </member>
+        <member name="T:BeatSaberModdingTools.Tasks.Utilties.MessageCodes">
+            <summary>
+            Message codes.
+            </summary>
+        </member>
+        <member name="T:BeatSaberModdingTools.Tasks.Utilties.MessageCodes.GetManifestInfo">
+            <summary>
+            Message codes for GetManifestInfo.
+            </summary>
+        </member>
+        <member name="F:BeatSaberModdingTools.Tasks.Utilties.MessageCodes.GetManifestInfo.VersionMismatch">
+            <summary>
+            Manifest and assembly versions don't match.
+            </summary>
+        </member>
+        <member name="F:BeatSaberModdingTools.Tasks.Utilties.MessageCodes.GetManifestInfo.ManifestFileNotFound">
+            <summary>
+            Manifest file doesn't exist.
+            </summary>
+        </member>
+        <member name="F:BeatSaberModdingTools.Tasks.Utilties.MessageCodes.GetManifestInfo.AssemblyInfoNotFound">
+            <summary>
+            AssemblyInfo file not found and known assembly version not given.
+            </summary>
+        </member>
+        <member name="F:BeatSaberModdingTools.Tasks.Utilties.MessageCodes.GetManifestInfo.AssemblyVersionMismatch">
+            <summary>
+            AssemblyVersion and AssemblyFileVersion don't match.
+            </summary>
+        </member>
+        <member name="F:BeatSaberModdingTools.Tasks.Utilties.MessageCodes.GetManifestInfo.AssemblyVersionParseFail">
+            <summary>
+            AssemblyVersion couldn't be parsed from AssemblyInfo file.
+            </summary>
+        </member>
+        <member name="F:BeatSaberModdingTools.Tasks.Utilties.MessageCodes.GetManifestInfo.PluginVersionNotFound">
+            <summary>
+            PluginVersion could not be determined from tthe manifest.
+            </summary>
+        </member>
+        <member name="F:BeatSaberModdingTools.Tasks.Utilties.MessageCodes.GetManifestInfo.GameVersionNotFound">
+            <summary>
+            GameVersion could not be determined from the manifest.
+            </summary>
+        </member>
+        <member name="F:BeatSaberModdingTools.Tasks.Utilties.MessageCodes.GetManifestInfo.AssemblyFileVersionParseFail">
+            <summary>
+            AssemblyFileVersion couldn't be determined from AssemblyInfo.
+            </summary>
+        </member>
+        <member name="F:BeatSaberModdingTools.Tasks.Utilties.MessageCodes.GetManifestInfo.GeneralFailure">
+            <summary>
+            Other error.
+            </summary>
+        </member>
+        <member name="T:BeatSaberModdingTools.Tasks.Utilties.MessageCodes.IsProcessRunning">
+            <summary>
+            Message codes for IsProcessRunning.
+            </summary>
+        </member>
+        <member name="F:BeatSaberModdingTools.Tasks.Utilties.MessageCodes.IsProcessRunning.EmptyProcessName">
+            <summary>
+            <see cref="P:BeatSaberModdingTools.Tasks.IsProcessRunning.ProcessName"/> was given an empty or null value.
+            </summary>
+        </member>
+        <member name="F:BeatSaberModdingTools.Tasks.Utilties.MessageCodes.IsProcessRunning.GeneralFailure">
+            <summary>
+            Other error.
+            </summary>
+        </member>
+        <member name="T:BeatSaberModdingTools.Tasks.Utilties.MessageCodes.ZipDir">
+            <summary>
+            Message codes for ZipDir.
+            </summary>
+        </member>
+        <member name="F:BeatSaberModdingTools.Tasks.Utilties.MessageCodes.ZipDir.ZipFailed">
+            <summary>
+            Other error.
+            </summary>
+        </member>
+        <member name="F:BeatSaberModdingTools.Tasks.Utilties.MessageCodes.ZipDir.ZipEmptySource">
+            <summary>
+            <see cref="P:BeatSaberModdingTools.Tasks.ZipDir.SourceDirectory"/> was given an empty or null value.
+            </summary>
+        </member>
+        <member name="F:BeatSaberModdingTools.Tasks.Utilties.MessageCodes.ZipDir.ZipEmptyDestination">
+            <summary>
+            <see cref="P:BeatSaberModdingTools.Tasks.ZipDir.DestinationFile"/> was given an empty or null value.
+            </summary>
+        </member>
+        <member name="F:BeatSaberModdingTools.Tasks.Utilties.MessageCodes.ZipDir.ZipMissingSource">
+            <summary>
+            Path specified in <see cref="P:BeatSaberModdingTools.Tasks.ZipDir.SourceDirectory"/> does not exist.
+            </summary>
+        </member>
+        <member name="T:BeatSaberModdingTools.Tasks.Utilties.MessageCodes.GetCommitHash">
+            <summary>
+            Message codes for GetCommitHash.
+            </summary>
+        </member>
+        <member name="F:BeatSaberModdingTools.Tasks.Utilties.MessageCodes.GetCommitHash.GitFailed">
+            <summary>
+            Other error.
+            </summary>
+        </member>
+        <member name="F:BeatSaberModdingTools.Tasks.Utilties.MessageCodes.GetCommitHash.GitNoRepository">
+            <summary>
+            Project is not in a git repository.
+            </summary>
+        </member>
+        <member name="T:BeatSaberModdingTools.Tasks.Utilties.MessageCodes.ReplaceInFile">
+            <summary>
+            Message codes for ReplaceInFile.
+            </summary>
+        </member>
+        <member name="F:BeatSaberModdingTools.Tasks.Utilties.MessageCodes.ReplaceInFile.EmptyFile">
+            <summary>
+            <see cref="P:BeatSaberModdingTools.Tasks.ReplaceInFile.File"/> is null or empty.
+            </summary>
+        </member>
+        <member name="F:BeatSaberModdingTools.Tasks.Utilties.MessageCodes.ReplaceInFile.MissingSource">
+            <summary>
+            Path specified in <see cref="P:BeatSaberModdingTools.Tasks.ReplaceInFile.File"/> does not exist.
+            </summary>
+        </member>
+        <member name="F:BeatSaberModdingTools.Tasks.Utilties.MessageCodes.ReplaceInFile.EmptyPattern">
+            <summary>
+            <see cref="P:BeatSaberModdingTools.Tasks.ReplaceInFile.Pattern"/> is null or empty.
+            </summary>
+        </member>
+        <member name="F:BeatSaberModdingTools.Tasks.Utilties.MessageCodes.ReplaceInFile.ReplaceFailed">
+            <summary>
+            Other error.
+            </summary>
         </member>
         <member name="T:BeatSaberModdingTools.Tasks.Utilties.MockTaskLogger">
             <summary>

@@ -33,12 +33,13 @@ namespace BSMTTasks_UnitTests
             string directory = Environment.CurrentDirectory;
             bool success = GetCommitHash.TryGetGitCommit(directory, out string commitHash);
             Assert.IsTrue(success);
+            Assert.IsTrue(commitHash.Length > 0);
         }
 #endif
         [TestMethod]
         public void TryGetCommitManual_Test()
         {
-            string directory = Path.Combine(DataFolder, "GitData", ".git");
+            string directory = Path.Combine(DataFolder, "GitData", "Test.git");
             string expectedBranch = "master";
             string expectedHash = "4197466ed7682542b4669e98fd962a3925ccaadf";
             Assert.IsTrue(GetCommitHash.TryGetCommitManual(directory, out GitInfo gitInfo));
@@ -53,7 +54,7 @@ namespace BSMTTasks_UnitTests
             string expectedBranch = "master";
             int hashLength = 7;
             string expectedHash = "4197466ed7682542b4669e98fd962a3925ccaadf".Substring(0, hashLength);
-            GetCommitHash task = new GetCommitHash()
+            GetCommitHash task = new MockGetCommitHash("Test.git")
             {
                 ProjectDir = directory,
                 NoGit = true,
@@ -73,9 +74,10 @@ namespace BSMTTasks_UnitTests
             string expectedBranch = "master";
             int hashLength = 7;
             string expectedHash = "4197466ed7682542b4669e98fd962a3925ccaadf".Substring(0, hashLength);
-            GetCommitHash task = new GetCommitHash()
+            GetCommitHash task = new MockGetCommitHash("Test.git")
             {
-                ProjectDir = directory
+                ProjectDir = directory,
+                NoGit = true
             };
             Assert.IsTrue(task.Execute());
             Console.WriteLine($"Branch: {task.Branch}");

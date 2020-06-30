@@ -177,6 +177,11 @@ namespace BeatSaberModdingTools.Tasks
         }
 
         /// <summary>
+        /// Name of the directory with git files.
+        /// </summary>
+        protected string GitDirectory = ".git";
+
+        /// <summary>
         /// Executes the task.
         /// </summary>
         /// <returns>true if successful</returns>
@@ -206,9 +211,8 @@ namespace BeatSaberModdingTools.Tasks
                 else
                 {
                     string[] gitPaths = new string[]{
-                        Path.GetFullPath(Path.Combine(ProjectDir, ".git")),
-
-                        Path.GetFullPath(Path.Combine(ProjectDir, "..", ".git"))
+                        Path.GetFullPath(Path.Combine(ProjectDir, GitDirectory)),
+                        Path.GetFullPath(Path.Combine(ProjectDir, "..", GitDirectory))
                     };
 
                     if (TryGetCommitManual(gitPaths, out GitInfo gitInfo))
