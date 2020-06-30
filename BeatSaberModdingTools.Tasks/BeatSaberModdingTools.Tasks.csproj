@@ -59,7 +59,7 @@
       <PackagePath></PackagePath>
     </None>
   </ItemGroup>
-  <ItemGroup Condition="'$(ContinuousIntegration)' == 'True'">
+  <ItemGroup Condition="'$(ContinuousIntegrationBuild)' == 'True'">
     <PackageReference Include="Microsoft.SourceLink.GitHub" Version="1.0.0" PrivateAssets="All" />
   </ItemGroup>
   <ItemGroup Condition=" '$(TargetFramework)' == 'netstandard2.0' ">
