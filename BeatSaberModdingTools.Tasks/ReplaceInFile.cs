@@ -108,11 +108,11 @@ namespace BeatSaberModdingTools.Tasks
                 {
                     int line = BuildEngine.LineNumberOfTaskNode;
                     int column = BuildEngine.ColumnNumberOfTaskNode;
-                    Logger.LogError("Compile", errorCode, null, BuildEngine.ProjectFileOfTaskNode, line, column, line, column, $"Error in {GetType().Name}: {ex.Message}");
+                    Logger.LogError(null, errorCode, null, BuildEngine.ProjectFileOfTaskNode, line, column, line, column, $"{GetType().Name} failed - {ex.Message}");
                 }
                 else
                 {
-                    Logger.LogError("Compile", errorCode, null, null, 0, 0, 0, 0, $"Error in {GetType().Name}: {ex.Message}");
+                    Logger.LogError(null, errorCode, null, null, 0, 0, 0, 0, $"Error in {GetType().Name}: {ex.Message}");
                 }
                 return false;
             }

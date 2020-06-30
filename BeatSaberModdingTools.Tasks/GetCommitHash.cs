@@ -93,12 +93,12 @@ namespace BeatSaberModdingTools.Tasks
                 {
                     int line = BuildEngine.LineNumberOfTaskNode;
                     int column = BuildEngine.ColumnNumberOfTaskNode;
-                    Logger.LogMessage("Build", errorCode, null, BuildEngine.ProjectFileOfTaskNode, line, column, line, column,
+                    Logger.LogMessage(null, errorCode, null, BuildEngine.ProjectFileOfTaskNode, line, column, line, column,
                         MessageImportance.High, $"Error in {GetType().Name}: {ex.Message}");
                 }
                 else
                 {
-                    Logger.LogMessage("Build", errorCode, null, null, 0, 0, 0, 0,
+                    Logger.LogMessage(null, errorCode, null, null, 0, 0, 0, 0,
                         MessageImportance.High, $"Error in {GetType().Name}: {ex.Message}");
                 }
             }
@@ -109,11 +109,11 @@ namespace BeatSaberModdingTools.Tasks
                     errorCode = MessageCodes.GetCommitHash.GitNoRepository;
                     int line = BuildEngine.LineNumberOfTaskNode;
                     int column = BuildEngine.ColumnNumberOfTaskNode;
-                    Logger.LogMessage("Build", errorCode, null, BuildEngine.ProjectFileOfTaskNode, line, column, line, column,
+                    Logger.LogMessage(null, errorCode, null, BuildEngine.ProjectFileOfTaskNode, line, column, line, column,
                         MessageImportance.High, "Project does not appear to be in a git repository.");
                 }
                 else
-                    Logger.LogMessage("Build", errorCode, null, null, 0, 0, 0, 0,
+                    Logger.LogMessage(null, errorCode, null, null, 0, 0, 0, 0,
                         MessageImportance.High, "Project does not appear to be in a git repository.");
             }
             return true;
