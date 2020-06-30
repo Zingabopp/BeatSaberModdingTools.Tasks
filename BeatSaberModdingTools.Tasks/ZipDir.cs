@@ -3,7 +3,6 @@ using Microsoft.Build.Framework;
 using System;
 using System.IO;
 using System.IO.Compression;
-using System.Threading;
 
 namespace BeatSaberModdingTools.Tasks
 {
@@ -48,7 +47,7 @@ namespace BeatSaberModdingTools.Tasks
             {
                 FileInfo zipFile = new FileInfo(DestinationFile);
                 DirectoryInfo zipDir = zipFile.Directory;
-                
+
                 zipDir.Create();
                 zipDir.Refresh();
                 if (zipFile.Exists)

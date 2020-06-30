@@ -1,13 +1,7 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using BeatSaberModdingTools.Tasks;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
-using System.Collections.Generic;
-using System.Text;
-using BeatSaberModdingTools.Tasks;
-using BeatSaberModdingTools.Tasks.Utilties;
-using System.Linq;
 using System.IO;
-using Microsoft.Build.Tasks;
-using System.Net.NetworkInformation;
 
 namespace BSMTTasks_UnitTests
 {

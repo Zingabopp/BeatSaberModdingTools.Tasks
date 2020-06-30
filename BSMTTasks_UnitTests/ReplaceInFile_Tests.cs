@@ -1,13 +1,9 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using System;
-using System.Collections.Generic;
-using System.Text;
-using BeatSaberModdingTools.Tasks;
+﻿using BeatSaberModdingTools.Tasks;
 using BeatSaberModdingTools.Tasks.Utilties;
-using System.Linq;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
+using System;
 using System.IO;
-using Microsoft.Build.Tasks;
-using System.Globalization;
+using System.Linq;
 
 namespace BSMTTasks_UnitTests
 {
@@ -42,7 +38,7 @@ namespace BSMTTasks_UnitTests
             };
             Assert.AreEqual(expectedReturn, task.Execute());
             MockTaskLogger logger = task.Logger as MockTaskLogger;
-            var logMessage = logger.LogEntries.First();
+            MockLogEntry logMessage = logger.LogEntries.First();
             Assert.AreEqual(expectedMessage, logMessage.Message);
             Assert.AreEqual(expectedMessageCode, logMessage.MessageCode);
         }
@@ -73,7 +69,7 @@ namespace BSMTTasks_UnitTests
             };
             Assert.AreEqual(expectedReturn, task.Execute());
             MockTaskLogger logger = task.Logger as MockTaskLogger;
-            var logMessage = logger.LogEntries.First();
+            MockLogEntry logMessage = logger.LogEntries.First();
             Assert.AreEqual(expectedMessage, logMessage.Message.Replace(Environment.CurrentDirectory + '/', ""));
             Assert.AreEqual(expectedMessageCode, logMessage.MessageCode);
         }
@@ -103,7 +99,7 @@ namespace BSMTTasks_UnitTests
             };
             Assert.AreEqual(expectedReturn, task.Execute());
             MockTaskLogger logger = task.Logger as MockTaskLogger;
-            var logMessage = logger.LogEntries.First();
+            MockLogEntry logMessage = logger.LogEntries.First();
             Assert.AreEqual(expectedMessage, logMessage.Message);
             Assert.AreEqual(expectedMessageCode, logMessage.MessageCode);
         }
@@ -140,7 +136,7 @@ namespace BSMTTasks_UnitTests
             };
             Assert.AreEqual(expectedReturn, task.Execute());
             MockTaskLogger logger = task.Logger as MockTaskLogger;
-            var logMessage = logger.LogEntries.First();
+            MockLogEntry logMessage = logger.LogEntries.First();
             Console.WriteLine(logMessage);
             Assert.IsTrue(logMessage.Message.StartsWith(expectedMessage));
             string replacedText = File.ReadAllText(file);

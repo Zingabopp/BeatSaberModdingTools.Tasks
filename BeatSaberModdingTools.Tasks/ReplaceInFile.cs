@@ -1,6 +1,5 @@
 ﻿using BeatSaberModdingTools.Tasks.Utilties;
 using Microsoft.Build.Framework;
-using Microsoft.Build.Tasks;
 using System;
 using System.IO;
 using System.Text.RegularExpressions;
@@ -103,7 +102,7 @@ namespace BeatSaberModdingTools.Tasks
                 if (Substitute == null)
                     Substitute = "";
                 string fileText = System.IO.File.ReadAllText(sourceFile.FullName);
-                if(EscapeBackslash)
+                if (EscapeBackslash)
                     Substitute = Substitute.Replace(@"\", @"\\");
                 Logger.LogMessage(MessageImportance.High, $"Replacing '{Pattern}' with '{Substitute}' in {sourceFile.FullName}");
                 fileText = ReplaceText(fileText);
