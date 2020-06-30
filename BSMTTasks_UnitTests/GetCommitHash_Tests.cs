@@ -39,7 +39,7 @@ namespace BSMTTasks_UnitTests
         [TestMethod]
         public void TryGetCommitManual_Test()
         {
-            string directory = Path.Combine(DataFolder, "GitData", "Test.git");
+            string directory = Path.Combine(DataFolder, "GitTests", "Test.git");
             string expectedBranch = "master";
             string expectedHash = "4197466ed7682542b4669e98fd962a3925ccaadf";
             Assert.IsTrue(GetCommitHash.TryGetCommitManual(directory, out GitInfo gitInfo));
@@ -50,7 +50,7 @@ namespace BSMTTasks_UnitTests
         [TestMethod]
         public void NoGit()
         {
-            string directory = Path.Combine(DataFolder, "GitData");
+            string directory = Path.Combine(DataFolder, "GitTests");
             string expectedBranch = "master";
             int hashLength = 7;
             string expectedHash = "4197466ed7682542b4669e98fd962a3925ccaadf".Substring(0, hashLength);
@@ -70,7 +70,7 @@ namespace BSMTTasks_UnitTests
         [TestMethod]
         public void DefaultHashLength()
         {
-            string directory = Path.Combine(DataFolder, "GitData");
+            string directory = Path.Combine(DataFolder, "GitTests");
             string expectedBranch = "master";
             int hashLength = 7;
             string expectedHash = "4197466ed7682542b4669e98fd962a3925ccaadf".Substring(0, hashLength);

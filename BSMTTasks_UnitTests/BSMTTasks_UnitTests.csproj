@@ -7,18 +7,18 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Remove="Data\GitData\Test.git\hooks\**" />
-    <Compile Remove="Data\GitData\Test.git\info\**" />
-    <Compile Remove="Data\GitData\Test.git\logs\**" />
-    <Compile Remove="Data\GitData\Test.git\objects\**" />
-    <EmbeddedResource Remove="Data\GitData\Test.git\hooks\**" />
-    <EmbeddedResource Remove="Data\GitData\Test.git\info\**" />
-    <EmbeddedResource Remove="Data\GitData\Test.git\logs\**" />
-    <EmbeddedResource Remove="Data\GitData\Test.git\objects\**" />
-    <None Remove="Data\GitData\Test.git\hooks\**" />
-    <None Remove="Data\GitData\Test.git\info\**" />
-    <None Remove="Data\GitData\Test.git\logs\**" />
-    <None Remove="Data\GitData\Test.git\objects\**" />
+    <Compile Remove="Data\GitData\TestGit\hooks\**" />
+    <Compile Remove="Data\GitData\TestGit\info\**" />
+    <Compile Remove="Data\GitData\TestGit\logs\**" />
+    <Compile Remove="Data\GitData\TestGit\objects\**" />
+    <EmbeddedResource Remove="Data\GitData\TestGit\hooks\**" />
+    <EmbeddedResource Remove="Data\GitData\TestGit\info\**" />
+    <EmbeddedResource Remove="Data\GitData\TestGit\logs\**" />
+    <EmbeddedResource Remove="Data\GitData\TestGit\objects\**" />
+    <None Remove="Data\GitData\TestGit\hooks\**" />
+    <None Remove="Data\GitData\TestGit\info\**" />
+    <None Remove="Data\GitData\TestGit\logs\**" />
+    <None Remove="Data\GitData\TestGit\objects\**" />
   </ItemGroup>
 
   <ItemGroup>
@@ -84,10 +84,16 @@
   </ItemGroup>
 
   <ItemGroup>
-    <None Update="Data\GitData\Test.git\HEAD">
+    <None Update="Data\GitData\TestGit\HEAD">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Update="Data\GitData\Test.git\refs\heads\master">
+    <None Update="Data\GitData\TestGit\refs\heads\master">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Data\GitTests\Test.git\HEAD">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Data\GitTests\Test.git\refs\heads\master">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Update="manifest.json">
@@ -105,10 +111,6 @@
     <None Update="Manifests\manifest.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Data\GitData\Test.git\refs\tags\" />
   </ItemGroup>
 
 </Project>

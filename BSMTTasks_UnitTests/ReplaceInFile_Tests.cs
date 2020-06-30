@@ -73,7 +73,7 @@ namespace BSMTTasks_UnitTests
             Assert.AreEqual(expectedReturn, task.Execute());
             MockTaskLogger logger = task.Logger as MockTaskLogger;
             var logMessage = logger.LogEntries.First();
-            Assert.AreEqual(expectedMessage, logMessage.Message);
+            Assert.AreEqual(expectedMessage, logMessage.Message.Replace(Environment.CurrentDirectory, ""));
             Assert.AreEqual(expectedMessageCode, logMessage.MessageCode);
         }
 
