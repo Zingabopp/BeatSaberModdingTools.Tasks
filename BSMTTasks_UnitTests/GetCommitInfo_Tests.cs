@@ -12,17 +12,17 @@ using System.Net.NetworkInformation;
 namespace BSMTTasks_UnitTests
 {
     [TestClass]
-    public class GetCommitHash_Tests
+    public class GetCommitInfo_Tests
     {
         public static readonly string DataFolder = Path.Combine("Data");
-        public static readonly string OutputFolder = Path.Combine("Output", "GetCommitHash");
+        public static readonly string OutputFolder = Path.Combine("Output", "GetCommitInfo");
 
 #if !NCRUNCH
         [TestMethod]
         public void GetGitStatus_Test()
         {
             string directory = Environment.CurrentDirectory;
-            GitInfo status = GetCommitHash.GetGitStatus(directory);
+            GitInfo status = GetCommitInfo.GetGitStatus(directory);
             Assert.IsFalse(string.IsNullOrEmpty(status.Branch));
             Assert.IsFalse(string.IsNullOrEmpty(status.Modified));
             Assert.IsTrue(status.Modified == "Unmodified" || status.Modified == "Modified");
@@ -31,7 +31,7 @@ namespace BSMTTasks_UnitTests
         public void TryGetCommitHash_Test()
         {
             string directory = Environment.CurrentDirectory;
-            bool success = GetCommitHash.TryGetGitCommit(directory, out string commitHash);
+            bool success = GetCommitInfo.TryGetGitCommit(directory, out string commitHash);
             Assert.IsTrue(success);
             Assert.IsTrue(commitHash.Length > 0);
         }
@@ -42,7 +42,7 @@ namespace BSMTTasks_UnitTests
             string directory = Path.Combine(DataFolder, "GitTests", "Test.git");
             string expectedBranch = "master";
             string expectedHash = "4197466ed7682542b4669e98fd962a3925ccaadf";
-            Assert.IsTrue(GetCommitHash.TryGetCommitManual(directory, out GitInfo gitInfo));
+            Assert.IsTrue(GetCommitInfo.TryGetCommitManual(directory, out GitInfo gitInfo));
             Assert.AreEqual(expectedBranch, gitInfo.Branch);
             Assert.AreEqual(expectedHash, gitInfo.CommitHash);
         }
@@ -54,7 +54,7 @@ namespace BSMTTasks_UnitTests
             string expectedBranch = "master";
             int hashLength = 7;
             string expectedHash = "4197466ed7682542b4669e98fd962a3925ccaadf".Substring(0, hashLength);
-            GetCommitHash task = new MockGetCommitHash("Test.git")
+            GetCommitInfo task = new MockGetCommitHash("Test.git")
             {
                 ProjectDir = directory,
                 NoGit = true,
@@ -74,7 +74,7 @@ namespace BSMTTasks_UnitTests
             string expectedBranch = "master";
             int hashLength = 7;
             string expectedHash = "4197466ed7682542b4669e98fd962a3925ccaadf".Substring(0, hashLength);
-            GetCommitHash task = new MockGetCommitHash("Test.git")
+            GetCommitInfo task = new MockGetCommitHash("Test.git")
             {
                 ProjectDir = directory,
                 NoGit = true

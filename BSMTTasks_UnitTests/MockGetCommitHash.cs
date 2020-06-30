@@ -5,7 +5,7 @@ using System.Text;
 
 namespace BSMTTasks_UnitTests
 {
-    public class MockGetCommitHash : GetCommitHash
+    public class MockGetCommitHash : GetCommitInfo
     {
         public MockGetCommitHash(string gitDirectory)
             :base()

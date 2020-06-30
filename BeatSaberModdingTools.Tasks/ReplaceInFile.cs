@@ -52,6 +52,26 @@ namespace BeatSaberModdingTools.Tasks
         public ITaskLogger Logger;
 
         /// <summary>
+        /// Returns the replaced text for a given input.
+        /// </summary>
+        /// <param name="inputText"></param>
+        /// <returns></returns>
+        public string ReplaceText(string inputText)
+        {
+            if (UseRegex)
+            {
+                RegexOptions options = RegexOptions.None;
+                if (RegexMultilineMode)
+                    options |= RegexOptions.Multiline;
+                if (RegexSinglelineMode)
+                    options |= RegexOptions.Singleline;
+                return Regex.Replace(inputText, Pattern, Substitute, options);
+            }
+            else
+                return inputText.Replace(Pattern, Substitute);
+        }
+
+        /// <summary>
         /// Executes the task.
         /// </summary>
         /// <returns>true if successful</returns>
@@ -86,17 +106,7 @@ namespace BeatSaberModdingTools.Tasks
                 if(EscapeBackslash)
                     Substitute = Substitute.Replace(@"\", @"\\");
                 Logger.LogMessage(MessageImportance.High, $"Replacing '{Pattern}' with '{Substitute}' in {sourceFile.FullName}");
-                if (UseRegex)
-                {
-                    RegexOptions options = RegexOptions.None;
-                    if (RegexMultilineMode)
-                        options |= RegexOptions.Multiline;
-                    if (RegexSinglelineMode)
-                        options |= RegexOptions.Singleline;
-                    fileText = Regex.Replace(fileText, Pattern, Substitute, options);
-                }
-                else
-                    fileText = fileText.Replace(Pattern, Substitute);
+                fileText = ReplaceText(fileText);
                 System.IO.File.WriteAllText(sourceFile.FullName, fileText);
                 return true;
             }

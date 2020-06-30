@@ -11,7 +11,7 @@ namespace BeatSaberModdingTools.Tasks
     /// <summary>
     /// Gets the git commit short hash of the project.
     /// </summary>
-    public class GetCommitHash : Microsoft.Build.Utilities.Task
+    public class GetCommitInfo : Microsoft.Build.Utilities.Task
     {
         /// <summary>
         /// The directory of the project.
