@@ -53,6 +53,13 @@
         <member name="P:BeatSaberModdingTools.Tasks.GetCommitInfo.OriginUrl">
             <summary>
             URL for the repository's origin.
+            Null/Empty if unavailable.
+            </summary>
+        </member>
+        <member name="P:BeatSaberModdingTools.Tasks.GetCommitInfo.GitUser">
+            <summary>
+            Username the repository belongs to.
+            Null/Empty if unavailable.
             </summary>
         </member>
         <member name="F:BeatSaberModdingTools.Tasks.GetCommitInfo.Logger">
@@ -110,6 +117,13 @@
             </summary>
             <returns>true if successful</returns>
         </member>
+        <member name="M:BeatSaberModdingTools.Tasks.GetCommitInfo.GetGitHubUser(System.String)">
+            <summary>
+            Parses the GitHub username from a URL.
+            </summary>
+            <param name="url"></param>
+            <returns></returns>
+        </member>
         <member name="T:BeatSaberModdingTools.Tasks.GitInfo">
             <summary>
             Container for data of a git repository.
@@ -134,6 +148,11 @@
         <member name="F:BeatSaberModdingTools.Tasks.GitInfo.OriginUrl">
             <summary>
             URL for the repository's origin.
+            </summary>
+        </member>
+        <member name="F:BeatSaberModdingTools.Tasks.GitInfo.GitUser">
+            <summary>
+            Username of the repository's owner.
             </summary>
         </member>
         <member name="T:BeatSaberModdingTools.Tasks.GetManifestInfo">

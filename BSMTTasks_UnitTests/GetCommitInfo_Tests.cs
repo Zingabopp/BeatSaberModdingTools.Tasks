@@ -20,10 +20,12 @@ namespace BSMTTasks_UnitTests
             {
                 ProjectDir = directory
             };
+            string expectedUser = "Zingabopp";
             GitInfo status = task.GetGitStatus(directory);
             Assert.IsFalse(string.IsNullOrEmpty(status.Branch));
             Assert.IsFalse(string.IsNullOrEmpty(status.Modified));
             Assert.IsTrue(status.Modified == "Unmodified" || status.Modified == "Modified");
+            Assert.AreEqual(expectedUser, status.GitUser);
         }
         [TestMethod]
         public void TryGetCommitHash_Test()
@@ -45,11 +47,59 @@ namespace BSMTTasks_UnitTests
             string expectedBranch = "master";
             string expectedHash = "4197466ed7682542b4669e98fd962a3925ccaadf";
             string expectedUrl = @"https://github.com/Zingabopp/BeatSaberModdingTools.Tasks";
+            string expectedUser = "Zingabopp";
             Assert.IsTrue(GetCommitInfo.TryGetCommitManual(directory, out GitInfo gitInfo));
             Assert.AreEqual(expectedBranch, gitInfo.Branch);
             Assert.AreEqual(expectedHash, gitInfo.CommitHash);
             Assert.AreEqual(expectedUrl, gitInfo.OriginUrl);
+            Assert.AreEqual(expectedUser, gitInfo.GitUser);
         }
+
+        [TestMethod]
+        public void GetGitHubUsername()
+        {
+            string url = @"https://github.com/Zingabopp/BeatSaberModdingTools.Tasks";
+            string expectedUser = "Zingabopp";
+            string actualUser = GetCommitInfo.GetGitHubUser(url);
+            Assert.AreEqual(expectedUser, actualUser);
+        }
+
+        [TestMethod]
+        public void GetGitHubUsername_NoHttp()
+        {
+            string url = @"github.com/Zingabopp/BeatSaberModdingTools.Tasks";
+            string expectedUser = "Zingabopp";
+            string actualUser = GetCommitInfo.GetGitHubUser(url);
+            Assert.AreEqual(expectedUser, actualUser);
+        }
+
+        [TestMethod]
+        public void GetGitHubUsername_NotGithub()
+        {
+            string url = @"https://gitlab.com/Zingabopp/BeatSaberModdingTools.Tasks";
+            string expectedUser = null;
+            string actualUser = GetCommitInfo.GetGitHubUser(url);
+            Assert.AreEqual(expectedUser, actualUser);
+        }
+
+        [TestMethod]
+        public void GetGitHubUsername_NotAUrl()
+        {
+            string url = @"asdfasdf";
+            string expectedUser = null;
+            string actualUser = GetCommitInfo.GetGitHubUser(url);
+            Assert.AreEqual(expectedUser, actualUser);
+        }
+
+        [TestMethod]
+        public void GetGitHubUsername_NoUser()
+        {
+            string url = @"https://github.com/";
+            string expectedUser = null;
+            string actualUser = GetCommitInfo.GetGitHubUser(url);
+            Assert.AreEqual(expectedUser, actualUser);
+        }
+
         #region Execute Tests
         [TestMethod]
         public void NoGit()

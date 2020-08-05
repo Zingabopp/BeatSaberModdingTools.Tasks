@@ -16,7 +16,7 @@ namespace BeatSaberModdingTools.Tasks
         /// <summary>
         /// Captures the URL for the remote origin from a git config file.
         /// </summary>
-        public static readonly Regex OriginSearch = 
+        public static readonly Regex OriginSearch =
             new Regex(@"s*\[\s*remote\s*""origin""\s*\]\s*url\s*=\s*(.*)\s*", RegexOptions.IgnoreCase);
 
         /// <summary>
@@ -54,9 +54,16 @@ namespace BeatSaberModdingTools.Tasks
         public virtual string Branch { get; protected set; }
         /// <summary>
         /// URL for the repository's origin.
+        /// Null/Empty if unavailable.
         /// </summary>
         [Output]
         public virtual string OriginUrl { get; protected set; }
+        /// <summary>
+        /// Username the repository belongs to.
+        /// Null/Empty if unavailable.
+        /// </summary>
+        [Output]
+        public virtual string GitUser { get; protected set; }
 
         /// <summary>
         /// <see cref="ITaskLogger"/> instance used.
@@ -96,10 +103,12 @@ namespace BeatSaberModdingTools.Tasks
             {
                 using (Process process = new Process())
                 {
-                    process.StartInfo = new ProcessStartInfo(command, arg);
-                    process.StartInfo.UseShellExecute = false;
-                    process.StartInfo.WorkingDirectory = workingDirectory;
-                    process.StartInfo.RedirectStandardOutput = true;
+                    process.StartInfo = new ProcessStartInfo(command, arg)
+                    {
+                        UseShellExecute = false,
+                        WorkingDirectory = workingDirectory,
+                        RedirectStandardOutput = true
+                    };
                     process.Start();
                     bool exited = process.WaitForExit(1000);
                     if (!exited || !process.HasExited)
@@ -141,6 +150,8 @@ namespace BeatSaberModdingTools.Tasks
             else
                 status.Modified = "Modified";
             status.OriginUrl = GetTextFromProcess("git", "config --local --get remote.origin.url", directory);
+            if (status.OriginUrl != null && status.OriginUrl.Length > 0)
+                status.GitUser = GetGitHubUser(status.OriginUrl);
             return status;
         }
 
@@ -181,6 +192,8 @@ namespace BeatSaberModdingTools.Tasks
                     if (match.Success && match.Groups.Count > 1)
                     {
                         gitInfo.OriginUrl = match.Groups[1].Value;
+                        if (gitInfo.OriginUrl != null && gitInfo.OriginUrl.Length > 0)
+                            gitInfo.GitUser = GetGitHubUser(gitInfo.OriginUrl);
                     }
                 }
             }
@@ -236,9 +249,11 @@ namespace BeatSaberModdingTools.Tasks
                         if (!string.IsNullOrEmpty(gitStatus.Branch))
                             Branch = gitStatus.Branch;
                         if (!string.IsNullOrEmpty(gitStatus.Modified))
-                            Modified = gitStatus.Modified; 
+                            Modified = gitStatus.Modified;
                         if (!string.IsNullOrEmpty(gitStatus.OriginUrl))
                             OriginUrl = gitStatus.OriginUrl;
+                        if (!string.IsNullOrEmpty(gitStatus.GitUser))
+                            GitUser = gitStatus.GitUser;
                     }
                 }
                 else
@@ -261,9 +276,12 @@ namespace BeatSaberModdingTools.Tasks
                             Modified = gitInfo.Modified;
                         if (!string.IsNullOrEmpty(gitInfo.OriginUrl))
                             OriginUrl = gitInfo.OriginUrl;
+                        if (!string.IsNullOrEmpty(gitInfo.GitUser))
+                            GitUser = gitInfo.GitUser;
                     }
                 }
             }
+#pragma warning disable CA1031 // Do not catch general exception types
             catch (Exception ex)
             {
                 if (string.IsNullOrEmpty(errorCode))
@@ -281,6 +299,7 @@ namespace BeatSaberModdingTools.Tasks
                         MessageImportance.High, $"Error in {GetType().Name}: {ex.Message}");
                 }
             }
+#pragma warning restore CA1031 // Do not catch general exception types
             if (CommitHash == "local")
             {
                 if (BuildEngine != null)
@@ -296,6 +315,29 @@ namespace BeatSaberModdingTools.Tasks
                         MessageImportance.High, "Project does not appear to be in a git repository.");
             }
             return true;
+        }
+
+        /// <summary>
+        /// Parses the GitHub username from a URL.
+        /// </summary>
+        /// <param name="url"></param>
+        /// <returns></returns>
+        public static string GetGitHubUser(string url)
+        {
+            string user = null;
+            string[] parts = url.Split(new char[] { '\\', '/' }, StringSplitOptions.RemoveEmptyEntries);
+            bool baseFound = false;
+            for (int i = 0; i < parts.Length; i++)
+            {
+                if (baseFound)
+                {
+                    user = parts[i];
+                    break;
+                }
+                if (parts[i].ToUpper().Contains("GITHUB.COM"))
+                    baseFound = true;
+            }
+            return user;
         }
     }
 
@@ -321,5 +363,9 @@ namespace BeatSaberModdingTools.Tasks
         /// URL for the repository's origin.
         /// </summary>
         public string OriginUrl;
+        /// <summary>
+        /// Username of the repository's owner.
+        /// </summary>
+        public string GitUser;
     }
 }
