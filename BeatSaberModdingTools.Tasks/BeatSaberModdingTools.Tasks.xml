@@ -9,6 +9,11 @@
             Gets the git commit short hash of the project.
             </summary>
         </member>
+        <member name="F:BeatSaberModdingTools.Tasks.GetCommitInfo.OriginSearch">
+            <summary>
+            Captures the URL for the remote origin from a git config file.
+            </summary>
+        </member>
         <member name="P:BeatSaberModdingTools.Tasks.GetCommitInfo.ProjectDir">
             <summary>
             The directory of the project.
@@ -45,6 +50,11 @@
             Name of the current repository branch, if available.
             </summary>
         </member>
+        <member name="P:BeatSaberModdingTools.Tasks.GetCommitInfo.OriginUrl">
+            <summary>
+            URL for the repository's origin.
+            </summary>
+        </member>
         <member name="F:BeatSaberModdingTools.Tasks.GetCommitInfo.Logger">
             <summary>
             <see cref="T:BeatSaberModdingTools.Tasks.Utilties.ITaskLogger"/> instance used.
@@ -56,6 +66,15 @@
             </summary>
             <param name="directory"></param>
             <param name="commitHash"></param>
+            <returns></returns>
+        </member>
+        <member name="M:BeatSaberModdingTools.Tasks.GetCommitInfo.GetTextFromProcess(System.String,System.String,System.String)">
+            <summary>
+            Runs the given process and returns the output.
+            </summary>
+            <param name="command"></param>
+            <param name="arg"></param>
+            <param name="workingDirectory"></param>
             <returns></returns>
         </member>
         <member name="M:BeatSaberModdingTools.Tasks.GetCommitInfo.GetGitStatus(System.String)">
@@ -110,6 +129,11 @@
             <summary>
             'Modified' if the repository is modified, 'Unmodified' if it's not.
             Null/Empty string if undetermined.
+            </summary>
+        </member>
+        <member name="F:BeatSaberModdingTools.Tasks.GitInfo.OriginUrl">
+            <summary>
+            URL for the repository's origin.
             </summary>
         </member>
         <member name="T:BeatSaberModdingTools.Tasks.GetManifestInfo">

@@ -90,6 +90,9 @@
     <None Update="Data\GitData\TestGit\refs\heads\master">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
+    <None Update="Data\GitTests\Test.git\config">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Update="Data\GitTests\Test.git\HEAD">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>

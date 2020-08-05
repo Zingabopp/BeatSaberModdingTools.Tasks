@@ -16,7 +16,11 @@ namespace BSMTTasks_UnitTests
         public void GetGitStatus_Test()
         {
             string directory = Environment.CurrentDirectory;
-            GitInfo status = GetCommitInfo.GetGitStatus(directory);
+            GetCommitInfo task = new MockGetCommitHash(directory)
+            {
+                ProjectDir = directory
+            };
+            GitInfo status = task.GetGitStatus(directory);
             Assert.IsFalse(string.IsNullOrEmpty(status.Branch));
             Assert.IsFalse(string.IsNullOrEmpty(status.Modified));
             Assert.IsTrue(status.Modified == "Unmodified" || status.Modified == "Modified");
@@ -25,7 +29,11 @@ namespace BSMTTasks_UnitTests
         public void TryGetCommitHash_Test()
         {
             string directory = Environment.CurrentDirectory;
-            bool success = GetCommitInfo.TryGetGitCommit(directory, out string commitHash);
+            GetCommitInfo task = new MockGetCommitHash(directory)
+            {
+                ProjectDir = directory
+            };
+            bool success = task.TryGetGitCommit(directory, out string commitHash);
             Assert.IsTrue(success);
             Assert.IsTrue(commitHash.Length > 0);
         }
@@ -36,9 +44,11 @@ namespace BSMTTasks_UnitTests
             string directory = Path.Combine(DataFolder, "GitTests", "Test.git");
             string expectedBranch = "master";
             string expectedHash = "4197466ed7682542b4669e98fd962a3925ccaadf";
+            string expectedUrl = @"https://github.com/Zingabopp/BeatSaberModdingTools.Tasks";
             Assert.IsTrue(GetCommitInfo.TryGetCommitManual(directory, out GitInfo gitInfo));
             Assert.AreEqual(expectedBranch, gitInfo.Branch);
             Assert.AreEqual(expectedHash, gitInfo.CommitHash);
+            Assert.AreEqual(expectedUrl, gitInfo.OriginUrl);
         }
         #region Execute Tests
         [TestMethod]
@@ -48,6 +58,7 @@ namespace BSMTTasks_UnitTests
             string expectedBranch = "master";
             int hashLength = 7;
             string expectedHash = "4197466ed7682542b4669e98fd962a3925ccaadf".Substring(0, hashLength);
+            string expectedUrl = @"https://github.com/Zingabopp/BeatSaberModdingTools.Tasks";
             GetCommitInfo task = new MockGetCommitHash("Test.git")
             {
                 ProjectDir = directory,
@@ -60,9 +71,10 @@ namespace BSMTTasks_UnitTests
             Console.WriteLine($"Hash: {task.CommitHash}");
             Assert.AreEqual(expectedHash, task.CommitHash);
             Assert.AreEqual(hashLength, task.CommitHash.Length);
+            Assert.AreEqual(expectedUrl, task.OriginUrl);
         }
         [TestMethod]
-        public void DefaultHashLength()
+        public void DefaultHashLength_Manual()
         {
             string directory = Path.Combine(DataFolder, "GitTests");
             string expectedBranch = "master";

@@ -14,6 +14,12 @@ namespace BeatSaberModdingTools.Tasks
     public class GetCommitInfo : Microsoft.Build.Utilities.Task
     {
         /// <summary>
+        /// Captures the URL for the remote origin from a git config file.
+        /// </summary>
+        public static readonly Regex OriginSearch = 
+            new Regex(@"s*\[\s*remote\s*""origin""\s*\]\s*url\s*=\s*(.*)\s*", RegexOptions.IgnoreCase);
+
+        /// <summary>
         /// The directory of the project.
         /// </summary>
         [Required]
@@ -41,12 +47,16 @@ namespace BeatSaberModdingTools.Tasks
         /// </summary>
         [Output]
         public virtual string Modified { get; protected set; }
-
         /// <summary>
         /// Name of the current repository branch, if available.
         /// </summary>
         [Output]
         public virtual string Branch { get; protected set; }
+        /// <summary>
+        /// URL for the repository's origin.
+        /// </summary>
+        [Output]
+        public virtual string OriginUrl { get; protected set; }
 
         /// <summary>
         /// <see cref="ITaskLogger"/> instance used.
@@ -59,69 +69,78 @@ namespace BeatSaberModdingTools.Tasks
         /// <param name="directory"></param>
         /// <param name="commitHash"></param>
         /// <returns></returns>
-        public static bool TryGetGitCommit(string directory, out string commitHash)
+        public bool TryGetGitCommit(string directory, out string commitHash)
         {
             commitHash = null;
-            try
+            directory = Path.GetFullPath(directory);
+            string outText = GetTextFromProcess("git", "rev-parse HEAD", directory);
+            if (outText.Length > 0)
             {
-                directory = Path.GetFullPath(directory);
-                Process process = new Process();
-                string arg = "rev-parse HEAD";
-                process.StartInfo = new ProcessStartInfo("git", arg);
-                process.StartInfo.UseShellExecute = false;
-                process.StartInfo.WorkingDirectory = directory;
-                process.StartInfo.RedirectStandardOutput = true;
-                process.Start();
-                process.WaitForExit(1000);
-                string outText = process.StandardOutput.ReadToEnd();
-                if (outText.Length > 0)
-                {
-                    commitHash = outText;
-                    return true;
-                }
-            }
-            catch (Win32Exception)
-            {
+                commitHash = outText;
+                return true;
             }
             return false;
         }
 
+        /// <summary>
+        /// Runs the given process and returns the output.
+        /// </summary>
+        /// <param name="command"></param>
+        /// <param name="arg"></param>
+        /// <param name="workingDirectory"></param>
+        /// <returns></returns>
+        public string GetTextFromProcess(string command, string arg, string workingDirectory)
+        {
+            string outText = null;
+            try
+            {
+                using (Process process = new Process())
+                {
+                    process.StartInfo = new ProcessStartInfo(command, arg);
+                    process.StartInfo.UseShellExecute = false;
+                    process.StartInfo.WorkingDirectory = workingDirectory;
+                    process.StartInfo.RedirectStandardOutput = true;
+                    process.Start();
+                    bool exited = process.WaitForExit(1000);
+                    if (!exited || !process.HasExited)
+                    {
+                        Logger.LogWarning($"Process '{command} {arg}' timed out, killing.");
+                        process.Kill();
+                    }
+                    outText = process.StandardOutput.ReadToEnd()?.Trim();
+                }
+            }
+#pragma warning disable CA1031 // Do not catch general exception types
+            catch (Exception ex)
+            {
+                Logger.LogWarning($"Error running process '{command} {arg}': {ex.Message}");
+            }
+#pragma warning restore CA1031 // Do not catch general exception types
+            return outText;
+        }
 
         /// <summary>
         /// Attempts to check if the repository has uncommitted changes.
         /// </summary>
         /// <returns></returns>
-        public static GitInfo GetGitStatus(string directory)
+        public GitInfo GetGitStatus(string directory)
         {
             GitInfo status = new GitInfo();
-            try
+            directory = Path.GetFullPath(directory);
+            string statusText = GetTextFromProcess("git", "status", directory);
+            Regex branchName = new Regex(@"^On branch (.*)$", RegexOptions.Multiline);
+            Match match = branchName.Match(statusText);
+            if (match.Success && match.Groups.Count > 1)
             {
-                directory = Path.GetFullPath(directory);
-                Process process = new Process();
-                string arg = "status";
-                process.StartInfo = new ProcessStartInfo("git", arg);
-                process.StartInfo.UseShellExecute = false;
-                process.StartInfo.WorkingDirectory = directory;
-                process.StartInfo.RedirectStandardOutput = true;
-                process.Start();
-                process.WaitForExit(1000);
-                string outText = process.StandardOutput.ReadToEnd();
-                Regex branchName = new Regex(@"^On branch (.*)$", RegexOptions.Multiline);
-                Match match = branchName.Match(outText);
-                if (match.Success && match.Groups.Count > 1)
-                {
-                    string branch = match.Groups[1].Value;
-                    status.Branch = branch;
-                }
-                string unmodified = "NOTHING TO COMMIT";
-                if (outText.ToUpper().Contains(unmodified))
-                    status.Modified = "Unmodified";
-                else
-                    status.Modified = "Modified";
+                string branch = match.Groups[1].Value;
+                status.Branch = branch;
             }
-            catch (Win32Exception)
-            {
-            }
+            string unmodified = "NOTHING TO COMMIT";
+            if (statusText.ToUpper().Contains(unmodified))
+                status.Modified = "Unmodified";
+            else
+                status.Modified = "Modified";
+            status.OriginUrl = GetTextFromProcess("git", "config --local --get remote.origin.url", directory);
             return status;
         }
 
@@ -135,11 +154,11 @@ namespace BeatSaberModdingTools.Tasks
         {
             gitInfo = new GitInfo();
             bool success = false;
-            string headContents;
             string headPath = Path.Combine(gitPath, "HEAD");
+            string configPath = Path.Combine(gitPath, "config");
             if (File.Exists(headPath))
             {
-                headContents = File.ReadAllText(headPath);
+                string headContents = File.ReadAllText(headPath);
                 if (!string.IsNullOrEmpty(headContents) && headContents.StartsWith("ref:"))
                     headPath = Path.Combine(gitPath, headContents.Replace("ref:", "").Trim());
                 gitInfo.Branch = headPath.Substring(headPath.LastIndexOf('/') + 1);
@@ -150,6 +169,18 @@ namespace BeatSaberModdingTools.Tasks
                     {
                         gitInfo.CommitHash = headContents.Trim();
                         success = true;
+                    }
+                }
+            }
+            if (File.Exists(configPath))
+            {
+                string configContents = File.ReadAllText(configPath);
+                if (!string.IsNullOrEmpty(configContents))
+                {
+                    Match match = OriginSearch.Match(configContents);
+                    if (match.Success && match.Groups.Count > 1)
+                    {
+                        gitInfo.OriginUrl = match.Groups[1].Value;
                     }
                 }
             }
@@ -167,7 +198,7 @@ namespace BeatSaberModdingTools.Tasks
             gitInfo = new GitInfo();
             for (int i = 0; i < gitPaths.Length; i++)
             {
-                if(TryGetCommitManual(gitPaths[i], out GitInfo retVal))
+                if (TryGetCommitManual(gitPaths[i], out GitInfo retVal))
                 {
                     gitInfo = retVal;
                     return true;
@@ -205,7 +236,9 @@ namespace BeatSaberModdingTools.Tasks
                         if (!string.IsNullOrEmpty(gitStatus.Branch))
                             Branch = gitStatus.Branch;
                         if (!string.IsNullOrEmpty(gitStatus.Modified))
-                            Modified = gitStatus.Modified;
+                            Modified = gitStatus.Modified; 
+                        if (!string.IsNullOrEmpty(gitStatus.OriginUrl))
+                            OriginUrl = gitStatus.OriginUrl;
                     }
                 }
                 else
@@ -220,12 +253,14 @@ namespace BeatSaberModdingTools.Tasks
                         commitHash = gitInfo.CommitHash;
                         if (commitHash.Length > 0)
                             CommitHash = commitHash
-                                .Substring(0, 
+                                .Substring(0,
                                   Math.Min(commitHash.Length, HashLength));
                         if (!string.IsNullOrEmpty(gitInfo.Branch))
                             Branch = gitInfo.Branch;
                         if (!string.IsNullOrEmpty(gitInfo.Modified))
                             Modified = gitInfo.Modified;
+                        if (!string.IsNullOrEmpty(gitInfo.OriginUrl))
+                            OriginUrl = gitInfo.OriginUrl;
                     }
                 }
             }
@@ -282,5 +317,9 @@ namespace BeatSaberModdingTools.Tasks
         /// Null/Empty string if undetermined.
         /// </summary>
         public string Modified;
+        /// <summary>
+        /// URL for the repository's origin.
+        /// </summary>
+        public string OriginUrl;
     }
 }
