@@ -11,35 +11,6 @@ namespace BSMTTasks_UnitTests
         public static readonly string DataFolder = Path.Combine("Data");
         public static readonly string OutputFolder = Path.Combine("Output", "GetCommitInfo");
 
-#if !NCRUNCH
-        [TestMethod]
-        public void GetGitStatus_Test()
-        {
-            string directory = Environment.CurrentDirectory;
-            GetCommitInfo task = new MockGetCommitHash(directory)
-            {
-                ProjectDir = directory
-            };
-            string expectedUser = "Zingabopp";
-            GitInfo status = task.GetGitStatus(directory);
-            Assert.IsFalse(string.IsNullOrEmpty(status.Branch));
-            Assert.IsFalse(string.IsNullOrEmpty(status.Modified));
-            Assert.IsTrue(status.Modified == "Unmodified" || status.Modified == "Modified");
-            Assert.AreEqual(expectedUser, status.GitUser);
-        }
-        [TestMethod]
-        public void TryGetCommitHash_Test()
-        {
-            string directory = Environment.CurrentDirectory;
-            GetCommitInfo task = new MockGetCommitHash(directory)
-            {
-                ProjectDir = directory
-            };
-            bool success = task.TryGetGitCommit(directory, out string commitHash);
-            Assert.IsTrue(success);
-            Assert.IsTrue(commitHash.Length > 0);
-        }
-#endif
         [TestMethod]
         public void TryGetCommitManual_Test()
         {
@@ -123,6 +94,7 @@ namespace BSMTTasks_UnitTests
             Assert.AreEqual(hashLength, task.CommitHash.Length);
             Assert.AreEqual(expectedUrl, task.OriginUrl);
         }
+
         [TestMethod]
         public void DefaultHashLength_Manual()
         {
@@ -142,6 +114,36 @@ namespace BSMTTasks_UnitTests
             Assert.AreEqual(expectedHash, task.CommitHash);
             Assert.AreEqual(hashLength, task.CommitHash.Length);
         }
+
+#if !NCRUNCH
+        [TestMethod]
+        public void GetGitStatus_Test()
+        {
+            string directory = Environment.CurrentDirectory;
+            GetCommitInfo task = new MockGetCommitHash(directory)
+            {
+                ProjectDir = directory
+            };
+            string expectedUser = "Zingabopp";
+            GitInfo status = task.GetGitStatus(directory);
+            Assert.IsFalse(string.IsNullOrEmpty(status.Branch));
+            Assert.IsFalse(string.IsNullOrEmpty(status.Modified));
+            Assert.IsTrue(status.Modified == "Unmodified" || status.Modified == "Modified");
+            Assert.AreEqual(expectedUser, status.GitUser);
+        }
+        [TestMethod]
+        public void TryGetCommitHash_Test()
+        {
+            string directory = Environment.CurrentDirectory;
+            GetCommitInfo task = new MockGetCommitHash(directory)
+            {
+                ProjectDir = directory
+            };
+            bool success = task.TryGetGitCommit(directory, out string commitHash);
+            Assert.IsTrue(success);
+            Assert.IsTrue(commitHash.Length > 0);
+        }
+#endif
         #endregion
     }
 }
