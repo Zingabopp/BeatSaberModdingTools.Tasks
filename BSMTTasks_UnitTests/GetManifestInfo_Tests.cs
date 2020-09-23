@@ -486,7 +486,7 @@ namespace BSMTTasks_UnitTests
             Assert.AreEqual(1, mockTaskLogger.LogEntries.Count);
             MockLogEntry logEntry = mockTaskLogger.LogEntries.First();
             Assert.AreEqual(@"PluginVersion 1.2.0 in Manifests\MismatchedVersions.json does not match AssemblyVersion 1.1.0 in AssemblyInfos\MismatchedVersions.cs", logEntry.ToString().Replace('/', '\\'));
-            Assert.AreEqual(LogEntryType.Message, logEntry.EntryType);
+            Assert.AreEqual(LogEntryType.Warning, logEntry.EntryType);
             Assert.AreEqual(8, logEntry.LineNumber);
             Assert.AreEqual(8, logEntry.EndLineNumber);
             Assert.AreEqual(1, logEntry.ColumnNumber);

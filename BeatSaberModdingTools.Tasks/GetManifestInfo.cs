@@ -166,8 +166,8 @@ namespace BeatSaberModdingTools.Tasks
                             manifestFile, AssemblyVersion, assemblyFileMsg);
                         return false;
                     }
-                    Logger.LogMessage(null, MessageCodes.GetManifestInfo.VersionMismatch, "",
-                            manifestFile, manifestVersionLineNum, 1, manifestVersionLineNum, 1, MessageImportance.High,
+                    Logger.LogWarning(null, MessageCodes.GetManifestInfo.VersionMismatch, "",
+                            manifestFile, manifestVersionLineNum, 1, manifestVersionLineNum, 1,
                             "PluginVersion {0} in {1} does not match AssemblyVersion {2}{3}", PluginVersion,
                             manifestFile, AssemblyVersion, assemblyFileMsg);
                 }
