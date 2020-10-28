@@ -33,7 +33,7 @@ namespace BeatSaberModdingTools.Tasks.Utilities
         /// <param name="position"></param>
         /// <param name="message"></param>
         /// <param name="messageArgs"></param>
-        void LogWarning(string subcategory, string warningCode, string helpKeyword, string file, Position position, string message, params object[] messageArgs);
+        void LogWarning(string subcategory, string warningCode, string helpKeyword, string file, FilePosition position, string message, params object[] messageArgs);
 
         /// <summary>
         /// Logs a warning.
@@ -65,7 +65,7 @@ namespace BeatSaberModdingTools.Tasks.Utilities
         /// <param name="position"></param>
         /// <param name="message"></param>
         /// <param name="messageArgs"></param>
-        void LogError(string subcategory, string errorCode, string helpKeyword, string file, Position position, string message, params object[] messageArgs);
+        void LogError(string subcategory, string errorCode, string helpKeyword, string file, FilePosition position, string message, params object[] messageArgs);
         /// <summary>
         /// Logs an error.
         /// </summary>
@@ -100,7 +100,7 @@ namespace BeatSaberModdingTools.Tasks.Utilities
         /// <param name="messageImportance"></param>
         /// <param name="message"></param>
         /// <param name="messageArgs"></param>
-        void LogMessage(string subcategory, string code, string helpKeyword, string file, Position position,
+        void LogMessage(string subcategory, string code, string helpKeyword, string file, FilePosition position,
             MessageImportance messageImportance, string message, params object[] messageArgs);
         /// <summary>
         /// Logs a message.
@@ -141,7 +141,7 @@ namespace BeatSaberModdingTools.Tasks.Utilities
         /// <param name="level"></param>
         /// <param name="message"></param>
         /// <param name="messageArgs"></param>
-        void Log(string subcategory, string code, string helpKeyword, string file, Position position, LogMessageLevel level, string message, params object[] messageArgs);
+        void Log(string subcategory, string code, string helpKeyword, string file, FilePosition position, LogMessageLevel level, string message, params object[] messageArgs);
         /// <summary>
         /// Logs a message.
         /// </summary>

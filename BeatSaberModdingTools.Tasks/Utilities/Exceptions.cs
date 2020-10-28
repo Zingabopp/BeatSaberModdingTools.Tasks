@@ -123,7 +123,7 @@ namespace BeatSaberModdingTools.Tasks.Utilities
         /// <param name="file"></param>
         /// <param name="position"></param>
         /// <param name="Log"></param>
-        public static void LogErrorFromException(this ParsingException ex, ITaskLogger Log, string file, Position position)
+        public static void LogErrorFromException(this ParsingException ex, ITaskLogger Log, string file, FilePosition position)
         {
             Log.LogError(null, ex.MessageCode, "", file, position, ex.Message, ex.MessageArgs);
         }

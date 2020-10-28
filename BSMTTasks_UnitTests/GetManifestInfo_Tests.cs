@@ -209,5 +209,18 @@ namespace BSMTTasks_UnitTests
             Assert.AreEqual(expectedPluginVersion, getManifestInfo.PluginVersion);
             Assert.AreEqual(expectedGameVersion, getManifestInfo.GameVersion);
         }
+
+        [TestMethod]
+        public void ObsoleteProperties()
+        {
+            GetManifestInfo getManifestInfo = new GetManifestInfo();
+            Assert.ThrowsException<NotSupportedException>(() => getManifestInfo.AssemblyVersion);
+            Assert.ThrowsException<NotSupportedException>(() => getManifestInfo.KnownAssemblyVersion);
+            Assert.ThrowsException<NotSupportedException>(() => getManifestInfo.KnownAssemblyVersion = "");
+            Assert.ThrowsException<NotSupportedException>(() => getManifestInfo.AssemblyInfoPath);
+            Assert.ThrowsException<NotSupportedException>(() => getManifestInfo.AssemblyInfoPath = "");
+            Assert.ThrowsException<NotSupportedException>(() => getManifestInfo.ErrorOnMismatch);
+            Assert.ThrowsException<NotSupportedException>(() => getManifestInfo.ErrorOnMismatch = true);
+        }
     }
 }

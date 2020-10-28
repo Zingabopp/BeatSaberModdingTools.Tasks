@@ -32,49 +32,61 @@ namespace BeatSaberModdingTools.Tasks
         /// </summary>
         [Output]
         public virtual string BasePluginVersion { get; protected set; }
-        /// <summary>
-        /// Version of the assembly.
-        /// </summary>
-        [Output]
-        public virtual string AssemblyVersion
-        {
-            get => throw new NotSupportedException($"AssemblyVersion is not supported by this version of {MessageCodes.Name}.");
-            set => throw new NotSupportedException($"AssemblyVersion is not supported by this version of {MessageCodes.Name}.");
-        }
 
-        /// <summary>
-        /// Optional: Skip trying to read the assembly version of the project and use this value instead. Useful if the project already has a property with the assembly version.
-        /// </summary>
-        public virtual string KnownAssemblyVersion
-        {
-            get => throw new NotSupportedException($"KnownAssemblyVersion is not supported by this version of {MessageCodes.Name}.");
-            set => throw new NotSupportedException($"KnownAssemblyVersion is not supported by this version of {MessageCodes.Name}.");
-        }
+
         /// <summary>
         /// Optional: Path to the manifest file. Default is 'manifest.json'.
         /// </summary>
         public virtual string ManifestPath { get; set; }
         /// <summary>
+        /// If enabled, this task will report a failure if it cannot parse the Plugin version or Game version.
+        /// </summary>
+        public virtual bool FailOnError { get; set; }
+        #region Removed
+        /// <summary>
+        /// Moved to <see cref="CompareVersions"/>.
+        /// Version of the assembly.
+        /// </summary>
+        [Output]
+        public virtual string AssemblyVersion
+        {
+            get => throw new NotSupportedException(GetUnsupported(nameof(AssemblyVersion)));
+            set => throw new NotSupportedException(GetUnsupported(nameof(AssemblyVersion)));
+        }
+        /// <summary>
+        /// Moved to <see cref="CompareVersions"/>. 
+        /// Optional: Skip trying to read the assembly version of the project and use this value instead. 
+        /// Useful if the project already has a property with the assembly version.
+        /// </summary>
+        public virtual string KnownAssemblyVersion
+        {
+            get => throw new NotSupportedException(GetUnsupported(nameof(KnownAssemblyVersion)));
+            set => throw new NotSupportedException(GetUnsupported(nameof(KnownAssemblyVersion)));
+        }
+        /// <summary>
+        /// Moved to <see cref="CompareVersions"/>. 
         /// Optional: Path to the file containing the assembly information. Default is 'Properties\AssemblyInfo.cs'.
         /// </summary>
         public virtual string AssemblyInfoPath
         {
-            get => throw new NotSupportedException($"AssemblyInfoPath is not supported by this version of {MessageCodes.Name}.");
-            set => throw new NotSupportedException($"AssemblyInfoPath is not supported by this version of {MessageCodes.Name}.");
+            get => throw new NotSupportedException(GetUnsupported(nameof(AssemblyInfoPath)));
+            set => throw new NotSupportedException(GetUnsupported(nameof(AssemblyInfoPath)));
         }
         /// <summary>
-        /// If enabled, this task will report a failure if it cannot parse the Plugin version or Game version.
-        /// </summary>
-        public virtual bool FailOnError { get; set; }
-        /// <summary>
+        /// Moved to <see cref="CompareVersions"/>. 
         /// If enabled, this task will report a failure if the assembly version and manifest version don't match or there was a problem getting the value for either of them.
         /// </summary>
         public virtual bool ErrorOnMismatch
         {
-            get => throw new NotSupportedException($"AssemblyInfoPath is not supported by this version of {MessageCodes.Name}.");
-            set => throw new NotSupportedException($"AssemblyInfoPath is not supported by this version of {MessageCodes.Name}.");
+            get => throw new NotSupportedException(GetUnsupported(nameof(ErrorOnMismatch)));
+            set => throw new NotSupportedException(GetUnsupported(nameof(ErrorOnMismatch)));
         }
 
+        private static string GetUnsupported(string memberName)
+        {
+            return $"{memberName} is not supported by this version of {MessageCodes.Name}, use {nameof(CompareVersions)}.";
+        }
+        #endregion
         /// <summary>
         /// Executes the task.
         /// </summary>
@@ -84,7 +96,7 @@ namespace BeatSaberModdingTools.Tasks
             GameVersion = ErrorString;
             PluginVersion = ErrorString;
             string errorCode = null;
-            Position versionPosition = default;
+            FilePosition versionPosition = default;
             string manifestFile = ManifestPath;
             if (this.BuildEngine != null)
                 Logger = new LogWrapper(Log);
@@ -120,7 +132,7 @@ namespace BeatSaberModdingTools.Tasks
                         {
                             manifest_versionLine = line;
                             manifestVersionLineNum = lineNum;
-                            versionPosition = new Position(lineNum);
+                            versionPosition = new FilePosition(lineNum);
                         }
                         lineNum++;
                     }
@@ -143,7 +155,7 @@ namespace BeatSaberModdingTools.Tasks
                 else
                 {
                     Logger.LogError(null, MessageCodes.GetManifestInfo.PluginVersionNotFound, "",
-                        manifestFile, default(Position), "PluginVersion not found in {0}", manifestFile);
+                        manifestFile, default(FilePosition), "PluginVersion not found in {0}", manifestFile);
                     PluginVersion = ErrorString;
                     if (FailOnError)
                         return false;

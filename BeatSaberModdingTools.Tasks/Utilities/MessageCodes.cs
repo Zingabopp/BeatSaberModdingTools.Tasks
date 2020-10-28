@@ -40,9 +40,9 @@
             public const string GeneralFailure = "BSMT09";
         }
         /// <summary>
-        /// Message codes for <see cref="VerifyManifest"/>.
+        /// Message codes for <see cref="CompareVersions"/>.
         /// </summary>
-        public static class VerifyManifest
+        public static class CompareVersions
         {
             /// <summary>
             /// Manifest and assembly versions don't match.
@@ -64,6 +64,10 @@
             /// AssemblyFileVersion couldn't be determined from AssemblyInfo.
             /// </summary>
             public const string AssemblyFileVersionParseFail = "BSMT08";
+            /// <summary>
+            /// Invalid versions given.
+            /// </summary>
+            public const string InvalidVersion = "BSMT24";
             /// <summary>
             /// Other error.
             /// </summary>
