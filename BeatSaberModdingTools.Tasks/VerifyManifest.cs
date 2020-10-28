@@ -29,7 +29,8 @@ namespace BeatSaberModdingTools.Tasks
         public virtual string PluginVersion { get; set; }
 
         /// <summary>
-        /// Optional: Skip trying to read the assembly version of the project and use this value instead. Useful if the project already has a property with the assembly version.
+        /// Optional: Skip trying to read the assembly version of the project and use this value instead.
+        /// Useful if the project already has a property with the assembly version.
         /// </summary>
         public virtual string KnownAssemblyVersion { get; set; }
 
@@ -50,8 +51,10 @@ namespace BeatSaberModdingTools.Tasks
         public override bool Execute()
         {
             string errorCode = null;
+            LogMessageLevel errorLevel = ErrorOnMismatch ? LogMessageLevel.Error : LogMessageLevel.Warning;
             AssemblyInfoData asmInfo = default;
             string assemblyInfoPath = null;
+            AssemblyVersion = MessageCodes.ErrorString;
             if (this.BuildEngine != null)
                 Logger = new LogWrapper(Log);
             else
@@ -59,11 +62,11 @@ namespace BeatSaberModdingTools.Tasks
             try
             {
                 string assemblyFileMsg = "";
-                if (!string.IsNullOrEmpty(KnownAssemblyVersion))
+                if (!string.IsNullOrWhiteSpace(KnownAssemblyVersion))
                     AssemblyVersion = KnownAssemblyVersion.Trim();
                 else
                 {
-                    if (string.IsNullOrEmpty(AssemblyInfoPath))
+                    if (string.IsNullOrWhiteSpace(AssemblyInfoPath))
                         assemblyInfoPath = Path.Combine("Properties", "AssemblyInfo.cs");
                     else
                         assemblyInfoPath = AssemblyInfoPath;
@@ -76,7 +79,7 @@ namespace BeatSaberModdingTools.Tasks
                     {
                         if (ErrorOnMismatch)
                         {
-                            errorCode = MessageCodes.GetManifestInfo.AssemblyInfoNotFound;
+                            errorCode = MessageCodes.VerifyManifest.AssemblyInfoNotFound;
                             throw;
                         }
                         else
@@ -91,27 +94,48 @@ namespace BeatSaberModdingTools.Tasks
                 }
                 if (PluginVersion != ErrorString && AssemblyVersion != PluginVersion)
                 {
+                    Logger.Log(null, MessageCodes.VerifyManifest.VersionMismatch, "",
+                        assemblyInfoPath, asmInfo.AssemblyVersionPosition, errorLevel,
+                        "PluginVersion {0} does not match AssemblyVersion {1}{2}", PluginVersion,
+                        AssemblyVersion, assemblyFileMsg);
                     if (ErrorOnMismatch)
-                    {
-                        Logger.LogError(null, MessageCodes.GetManifestInfo.VersionMismatch, "",
-                            assemblyInfoPath, asmInfo.AssemblyVersionPosition,
-                            "PluginVersion {0} in {1} does not match AssemblyVersion {2}{3}", PluginVersion,
-                            assemblyInfoPath, AssemblyVersion, assemblyFileMsg);
                         return false;
-                    }
-                    Logger.LogWarning(null, MessageCodes.GetManifestInfo.VersionMismatch, "",
-                            assemblyInfoPath, asmInfo.AssemblyVersionPosition,
-                            "PluginVersion {0} in {1} does not match AssemblyVersion {2}{3}", PluginVersion,
-                            assemblyInfoPath, AssemblyVersion, assemblyFileMsg);
                 }
 
                 return true;
             }
+            catch(ParsingException ex)
+            {
+                if (string.IsNullOrEmpty(errorCode))
+                    errorCode = MessageCodes.VerifyManifest.GeneralFailure;
+                if (BuildEngine != null)
+                {
+                    int line = BuildEngine.LineNumberOfTaskNode;
+                    int column = BuildEngine.ColumnNumberOfTaskNode;
+                    Logger.LogError(null, errorCode, null, BuildEngine.ProjectFileOfTaskNode, line, column, line, column, ex.Message);
+                }
+                else
+                {
+                    Logger.LogError(null, errorCode, null, null, ex.LineNumber, ex.ColumnNumber, ex.EndLineNumber, ex.EndColumnNumber, ex.Message);
+                }
+                return false;
+            }
             catch (Exception ex)
             {
-
+                if (string.IsNullOrEmpty(errorCode))
+                    errorCode = MessageCodes.VerifyManifest.GeneralFailure;
+                if (BuildEngine != null)
+                {
+                    int line = BuildEngine.LineNumberOfTaskNode;
+                    int column = BuildEngine.ColumnNumberOfTaskNode;
+                    Logger.LogError(null, errorCode, null, BuildEngine.ProjectFileOfTaskNode, line, column, line, column, $"Error in {GetType().Name}: {ex.Message}");
+                }
+                else
+                {
+                    Logger.LogError(null, errorCode, null, null, 0, 0, 0, 0, $"Error in {GetType().Name}: {ex.Message}");
+                }
+                return false;
             }
-            return false;
         }
 
         /// <summary>
@@ -128,10 +152,10 @@ namespace BeatSaberModdingTools.Tasks
             string assemblyFileVersionString = null;
             int asmVerLineNum = 0;
             int asmFileVerLineNum = 0;
-            int asmVerStartColumn = 0;
-            int asmVerEndColumn = 0;
-            int asmFileVerStartColumn = 0;
-            int asmFileVerEndColumn = 0;
+            int asmVerStartColumn;
+            int asmVerEndColumn;
+            int asmFileVerStartColumn;
+            int asmFileVerEndColumn;
             Position asmVerPosition = default;
             Position asmFileVerPosition = default;
             string line;
@@ -164,16 +188,16 @@ namespace BeatSaberModdingTools.Tasks
             {
                 asmVerStartColumn = assemblyVersionString.IndexOf('"') + 1;
                 asmVerEndColumn = assemblyVersionString.LastIndexOf('"');
-                asmFileVerPosition = new Position(asmVerLineNum, asmVerStartColumn, asmVerEndColumn);
+                asmVerPosition = new Position(asmVerLineNum, asmVerStartColumn + 1, asmVerEndColumn + 1);
                 if (asmVerStartColumn > 0 && asmVerEndColumn > 0)
                     assemblyVersion = assemblyVersionString.Substring(asmVerStartColumn, asmVerEndColumn - asmVerStartColumn);
             }
             else
             {
                 if (ErrorOnMismatch)
-                    throw new ParsingException(null, MessageCodes.GetManifestInfo.AssemblyFileVersionParseFail,
+                    throw new ParsingException(null, MessageCodes.VerifyManifest.AssemblyFileVersionParseFail,
                         "", assemblyFile, 0, 0, 0, 0, "Unable to parse the AssemblyVersion from {0}", assemblyFile);
-                Logger.LogWarning(null, MessageCodes.GetManifestInfo.AssemblyFileVersionParseFail,
+                Logger.LogWarning(null, MessageCodes.VerifyManifest.AssemblyFileVersionParseFail,
                     "", assemblyFile, 0, 0, 0, 0, "Unable to parse the AssemblyVersion from {0}", assemblyFile);
                 return AssemblyInfoData.AssemblyVersionError();
             }
@@ -190,10 +214,10 @@ namespace BeatSaberModdingTools.Tasks
                     {
                         string message = "AssemblyVersion {0} does not match AssemblyFileVersion {1} in {2}";
                         if (errorOnMismatch)
-                            throw new ParsingException(null, MessageCodes.GetManifestInfo.AssemblyVersionMismatch,
+                            throw new ParsingException(null, MessageCodes.VerifyManifest.AssemblyVersionMismatch,
                                 "", assemblyFile, asmFileVerLineNum, asmFileVerStartColumn + 1, asmFileVerLineNum,
                                 asmFileVerEndColumn + 1, message, assemblyVersion, assemblyFileVersion, assemblyFile);
-                        Logger.LogWarning(null, MessageCodes.GetManifestInfo.AssemblyVersionMismatch,
+                        Logger.LogWarning(null, MessageCodes.VerifyManifest.AssemblyVersionMismatch,
                             "", assemblyFile, asmFileVerLineNum, asmFileVerStartColumn + 1, asmFileVerLineNum,
                             asmFileVerEndColumn + 1, message, assemblyVersion, assemblyFileVersion, assemblyFile);
                     }
@@ -205,10 +229,10 @@ namespace BeatSaberModdingTools.Tasks
                     asmFileVerEndColumn = asmFileVerStartColumn;
                     string message = "Unable to parse the AssemblyFileVersion from {0}";
                     if (errorOnMismatch)
-                        throw new ParsingException(null, MessageCodes.GetManifestInfo.AssemblyFileVersionParseFail,
+                        throw new ParsingException(null, MessageCodes.VerifyManifest.AssemblyFileVersionParseFail,
                             "", assemblyFile, asmFileVerLineNum, asmFileVerStartColumn,
                             asmFileVerLineNum, asmFileVerEndColumn, message, assemblyFile);
-                    Logger.LogWarning(null, MessageCodes.GetManifestInfo.AssemblyFileVersionParseFail,
+                    Logger.LogWarning(null, MessageCodes.VerifyManifest.AssemblyFileVersionParseFail,
                         "", assemblyFile, asmFileVerLineNum, asmFileVerStartColumn, asmFileVerLineNum,
                         asmFileVerEndColumn, message, assemblyFile);
                 }

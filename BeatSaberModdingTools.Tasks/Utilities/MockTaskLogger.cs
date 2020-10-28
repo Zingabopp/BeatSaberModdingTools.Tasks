@@ -113,6 +113,27 @@ namespace BeatSaberModdingTools.Tasks.Utilities
                 Importance = MessageImportance.High
             });
         }
+
+
+        /// <inheritdoc/>
+        public override void Log(LogMessageLevel level, string message, params object[] messageArgs)
+        {
+            switch (level)
+            {
+                case LogMessageLevel.Message:
+                    LogMessage(MessageImportance.High, message, messageArgs);
+                    break;
+                case LogMessageLevel.Warning:
+                    LogWarning(message, messageArgs);
+                    break;
+                case LogMessageLevel.Error:
+                    LogError(message, messageArgs);
+                    break;
+                default:
+                    LogMessage(MessageImportance.High, message, messageArgs);
+                    break;
+            }
+        }
     }
 
     /// <summary>

@@ -70,7 +70,7 @@ namespace BeatSaberModdingTools.Tasks.Utilities
         public ParsingException(string subCategory, string messageCode, string helpKeyword,
             string file, int lineNumber, int columnNumber, int endLineNumber, int endColumnNumber,
             string message, params object[] messageArgs)
-            : base(message)
+            : base(string.Format(message, messageArgs))
         {
             SubCategory = subCategory;
             MessageCode = messageCode;
@@ -97,6 +97,23 @@ namespace BeatSaberModdingTools.Tasks.Utilities
         /// <inheritdoc/>
         public VersionMatchException(string message, Exception innerException) : base(message, innerException)
         {
+        }
+    }
+
+
+    /// <summary>
+    /// Extensions for <see cref="ParsingException"/>.
+    /// </summary>
+    public static class ParsingExceptionExtensions
+    {
+        /// <summary>
+        /// Logs an error from the <see cref="ParsingException"/> using the given <see cref="ITaskLogger"/>.
+        /// </summary>
+        /// <param name="ex"></param>
+        /// <param name="Log"></param>
+        public static void LogErrorFromException(this ParsingException ex, ITaskLogger Log)
+        {
+            Log.LogError(null, ex.MessageCode, "", ex.File, ex.LineNumber, ex.ColumnNumber, ex.EndLineNumber, ex.EndColumnNumber, ex.Message, ex.MessageArgs);
         }
     }
 }

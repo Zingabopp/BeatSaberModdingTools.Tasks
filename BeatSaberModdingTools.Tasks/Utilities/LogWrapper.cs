@@ -19,7 +19,7 @@ namespace BeatSaberModdingTools.Tasks.Utilities
         /// <param name="logger"></param>
         public LogWrapper(TaskLoggingHelper logger) => Logger = logger;
         /// <inheritdoc/>
-        public override void LogError(string subcategory, string errorCode, string helpKeyword, string file, 
+        public override void LogError(string subcategory, string errorCode, string helpKeyword, string file,
             int lineNumber, int columnNumber, int endLineNumber, int endColumnNumber, string message, params object[] messageArgs)
             => Logger.LogError(subcategory, errorCode, helpKeyword, file, lineNumber, columnNumber, endLineNumber, endColumnNumber, message, messageArgs);
 
@@ -47,5 +47,25 @@ namespace BeatSaberModdingTools.Tasks.Utilities
 
         /// <inheritdoc/>
         public override void LogWarning(string message, params object[] messageArgs) => Logger.LogWarning(message, messageArgs);
+
+        /// <inheritdoc/>
+        public override void Log(LogMessageLevel level, string message, params object[] messageArgs)
+        {
+            switch (level)
+            {
+                case LogMessageLevel.Message:
+                    LogMessage(MessageImportance.High, message, messageArgs);
+                    break;
+                case LogMessageLevel.Warning:
+                    LogWarning(message, messageArgs);
+                    break;
+                case LogMessageLevel.Error:
+                    LogError(message, messageArgs);
+                    break;
+                default:
+                    LogMessage(MessageImportance.High, message, messageArgs);
+                    break;
+            }
+        }
     }
 }

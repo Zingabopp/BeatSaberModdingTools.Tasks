@@ -24,6 +24,7 @@ namespace BeatSaberModdingTools.Tasks.Utilities
         /// Parses a version string into an integer array. Returns an empty array if there are non-integers in the version.
         /// </summary>
         /// <param name="version"></param>
+        /// <param name="minLength"></param>
         /// <returns></returns>
         public static int[] ParseVersionString(string version, int minLength = 0)
         {

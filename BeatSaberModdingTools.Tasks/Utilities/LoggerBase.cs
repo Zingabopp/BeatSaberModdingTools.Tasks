@@ -39,5 +39,34 @@ namespace BeatSaberModdingTools.Tasks.Utilities
             => LogWarning(subcategory, warningCode, helpKeyword, file, position.StartLine, position.StartColumn, position.EndLine, position.EndColumn, message,  messageArgs);
         /// <inheritdoc/>
         public abstract void LogWarning(string message, params object[] messageArgs);
+
+        /// <inheritdoc/>
+        public void Log(string subcategory, string code, string helpKeyword, string file, int lineNumber, int columnNumber, int endLineNumber, int endColumnNumber, LogMessageLevel level, string message, params object[] messageArgs)
+        {
+            switch (level)
+            {
+                case LogMessageLevel.Message:
+                    LogMessage(subcategory, code, helpKeyword, file, lineNumber, columnNumber, endLineNumber, endColumnNumber, MessageImportance.High, message, messageArgs);
+                    break;
+                case LogMessageLevel.Warning:
+                    LogWarning(subcategory, code, helpKeyword, file, lineNumber, columnNumber, endLineNumber, endColumnNumber, message, messageArgs);
+                    break;
+                case LogMessageLevel.Error:
+                    LogError(subcategory, code, helpKeyword, file, lineNumber, columnNumber, endLineNumber, endColumnNumber, message, messageArgs);
+                    break;
+                default:
+                    LogMessage(subcategory, code, helpKeyword, file, lineNumber, columnNumber, endLineNumber, endColumnNumber, MessageImportance.High, message, messageArgs);
+                    break;
+            }
+        }
+
+        /// <inheritdoc/>
+        public void Log(string subcategory, string code, string helpKeyword, string file, Position position, LogMessageLevel level, 
+            string message, params object[] messageArgs)
+            => Log(subcategory, code, helpKeyword, file, position.StartLine, position.StartColumn, position.EndLine, position.EndColumn, 
+                level, message, messageArgs);
+
+        /// <inheritdoc/>
+        public abstract void Log(LogMessageLevel level, string message, params object[] messageArgs);
     }
 }

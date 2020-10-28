@@ -36,12 +36,20 @@ namespace BeatSaberModdingTools.Tasks
         /// Version of the assembly.
         /// </summary>
         [Output]
-        public virtual string AssemblyVersion { get; protected set; }
+        public virtual string AssemblyVersion
+        {
+            get => throw new NotSupportedException($"AssemblyVersion is not supported by this version of {MessageCodes.Name}.");
+            set => throw new NotSupportedException($"AssemblyVersion is not supported by this version of {MessageCodes.Name}.");
+        }
 
         /// <summary>
         /// Optional: Skip trying to read the assembly version of the project and use this value instead. Useful if the project already has a property with the assembly version.
         /// </summary>
-        public virtual string KnownAssemblyVersion { get; set; }
+        public virtual string KnownAssemblyVersion
+        {
+            get => throw new NotSupportedException($"KnownAssemblyVersion is not supported by this version of {MessageCodes.Name}.");
+            set => throw new NotSupportedException($"KnownAssemblyVersion is not supported by this version of {MessageCodes.Name}.");
+        }
         /// <summary>
         /// Optional: Path to the manifest file. Default is 'manifest.json'.
         /// </summary>
@@ -49,11 +57,23 @@ namespace BeatSaberModdingTools.Tasks
         /// <summary>
         /// Optional: Path to the file containing the assembly information. Default is 'Properties\AssemblyInfo.cs'.
         /// </summary>
-        public virtual string AssemblyInfoPath { get; set; }
+        public virtual string AssemblyInfoPath
+        {
+            get => throw new NotSupportedException($"AssemblyInfoPath is not supported by this version of {MessageCodes.Name}.");
+            set => throw new NotSupportedException($"AssemblyInfoPath is not supported by this version of {MessageCodes.Name}.");
+        }
+        /// <summary>
+        /// If enabled, this task will report a failure if it cannot parse the Plugin version or Game version.
+        /// </summary>
+        public virtual bool FailOnError { get; set; }
         /// <summary>
         /// If enabled, this task will report a failure if the assembly version and manifest version don't match or there was a problem getting the value for either of them.
         /// </summary>
-        public virtual bool ErrorOnMismatch { get; set; }
+        public virtual bool ErrorOnMismatch
+        {
+            get => throw new NotSupportedException($"AssemblyInfoPath is not supported by this version of {MessageCodes.Name}.");
+            set => throw new NotSupportedException($"AssemblyInfoPath is not supported by this version of {MessageCodes.Name}.");
+        }
 
         /// <summary>
         /// Executes the task.
@@ -63,7 +83,6 @@ namespace BeatSaberModdingTools.Tasks
         {
             GameVersion = ErrorString;
             PluginVersion = ErrorString;
-            AssemblyVersion = ErrorString;
             string errorCode = null;
             if (this.BuildEngine != null)
                 Logger = new LogWrapper(Log);
@@ -82,7 +101,7 @@ namespace BeatSaberModdingTools.Tasks
                 {
                     errorCode = MessageCodes.GetManifestInfo.ManifestFileNotFound;
                     throw new FileNotFoundException($"Manifest file not found at {manifestFile}");
-                    
+
                 }
                 string line;
                 int manifestVersionLineNum = 1;
@@ -111,10 +130,10 @@ namespace BeatSaberModdingTools.Tasks
                 }
                 else
                 {
-                    Logger.LogError(null, MessageCodes.GetManifestInfo.PluginVersionNotFound, "", 
+                    Logger.LogError(null, MessageCodes.GetManifestInfo.PluginVersionNotFound, "",
                         manifestFile, 0, 0, 0, 0, "PluginVersion not found in {0}", manifestFile);
                     PluginVersion = ErrorString;
-                    if (ErrorOnMismatch)
+                    if (FailOnError)
                         return false;
                 }
 
@@ -124,57 +143,11 @@ namespace BeatSaberModdingTools.Tasks
                 }
                 else
                 {
-                    Logger.LogError(null, MessageCodes.GetManifestInfo.GameVersionNotFound, "", 
+                    Logger.LogError(null, MessageCodes.GetManifestInfo.GameVersionNotFound, "",
                         manifestFile, 0, 0, 0, 0, "GameVersion not found in {0}", manifestFile);
                     GameVersion = ErrorString;
-                    if (ErrorOnMismatch)
+                    if (FailOnError)
                         return false;
-                }
-                string assemblyFileMsg = "";
-                if (!string.IsNullOrEmpty(KnownAssemblyVersion))
-                    AssemblyVersion = KnownAssemblyVersion.Trim();
-                else
-                {
-                    string filepath;
-                    if (string.IsNullOrEmpty(AssemblyInfoPath))
-                        filepath = Path.Combine("Properties", "AssemblyInfo.cs");
-                    else
-                        filepath = AssemblyInfoPath;
-                    try
-                    {
-                        AssemblyVersion = GetAssemblyVersion(filepath, ErrorOnMismatch);
-                    }
-                    catch (FileNotFoundException ex)
-                    {
-                        if (ErrorOnMismatch)
-                        {
-                            errorCode = MessageCodes.GetManifestInfo.AssemblyInfoNotFound;
-                            throw;
-                        }
-                        else
-                            Logger.LogErrorFromException(ex);
-                    }
-                    assemblyFileMsg = " in " + filepath;
-                }
-                if (AssemblyVersion == null || AssemblyVersion == ErrorString || AssemblyVersion.Length == 0)
-                {
-                    Logger.LogError("AssemblyVersion could not be determined.");
-                    return false;
-                }
-                if (PluginVersion != ErrorString && AssemblyVersion != PluginVersion)
-                {
-                    if (ErrorOnMismatch)
-                    {
-                        Logger.LogError(null, MessageCodes.GetManifestInfo.VersionMismatch, "", 
-                            manifestFile, manifestVersionLineNum, 1, manifestVersionLineNum, 1, 
-                            "PluginVersion {0} in {1} does not match AssemblyVersion {2}{3}", PluginVersion, 
-                            manifestFile, AssemblyVersion, assemblyFileMsg);
-                        return false;
-                    }
-                    Logger.LogWarning(null, MessageCodes.GetManifestInfo.VersionMismatch, "",
-                            manifestFile, manifestVersionLineNum, 1, manifestVersionLineNum, 1,
-                            "PluginVersion {0} in {1} does not match AssemblyVersion {2}{3}", PluginVersion,
-                            manifestFile, AssemblyVersion, assemblyFileMsg);
                 }
 
                 return true;
@@ -200,118 +173,6 @@ namespace BeatSaberModdingTools.Tasks
                 }
                 return false;
             }
-        }
-
-        /// <summary>
-        /// Parses the assembly version from the given file.
-        /// </summary>
-        /// <param name="assemblyFile"></param>
-        /// <param name="errorOnMismatch"></param>
-        /// <returns></returns>
-        public string GetAssemblyVersion(string assemblyFile, bool errorOnMismatch)
-        {
-            string assemblyVersionStart = "[assembly: AssemblyVersion(\"";
-            string assemblyFileVersionStart = "[assembly: AssemblyFileVersion(\"";
-            string assemblyFileVersion;
-            string assemblyVersionString = null;
-            string assemblyFileVersionString = null;
-            int assemblyVersionLineNum = 0;
-            int assemblyFileVersionLineNum = 0;
-            int startColumn;
-            int endColumn;
-            string line;
-            int currentLine = 1;
-            string assemblyVersion = null;
-            if (!File.Exists(assemblyFile))
-            {
-                throw new FileNotFoundException("Could not find AssemblyInfo: " + assemblyFile);
-            }
-            using (StreamReader assemblyStream = new StreamReader(assemblyFile))
-            {
-                while ((line = assemblyStream.ReadLine()) != null)
-                {
-                    if (line.Trim().StartsWith(assemblyVersionStart))
-                    {
-                        assemblyVersionString = line;
-                        assemblyVersionLineNum = currentLine;
-                    }
-                    if (line.Trim().StartsWith(assemblyFileVersionStart))
-                    {
-                        assemblyFileVersionString = line;
-                        assemblyFileVersionLineNum = currentLine;
-                    }
-                    currentLine++;
-                }
-            }
-            if (!string.IsNullOrEmpty(assemblyVersionString))
-            {
-                startColumn = assemblyVersionString.IndexOf('"') + 1;
-                endColumn = assemblyVersionString.LastIndexOf('"');
-                if (startColumn > 0 && endColumn > 0)
-                    assemblyVersion = assemblyVersionString.Substring(startColumn, endColumn - startColumn);
-            }
-            else
-            {
-                if (ErrorOnMismatch)
-                    throw new ParsingException(null, MessageCodes.GetManifestInfo.AssemblyFileVersionParseFail, 
-                        "", assemblyFile, 0, 0, 0, 0, "Unable to parse the AssemblyVersion from {0}", assemblyFile);
-                Logger.LogWarning(null, MessageCodes.GetManifestInfo.AssemblyFileVersionParseFail,
-                    "", assemblyFile, 0, 0, 0, 0, "Unable to parse the AssemblyVersion from {0}", assemblyFile);
-                return ErrorString;
-            }
-
-            if (!string.IsNullOrEmpty(assemblyFileVersionString))
-            {
-                startColumn = assemblyFileVersionString.IndexOf('"') + 1;
-                endColumn = assemblyFileVersionString.LastIndexOf('"');
-                int lenth = endColumn - startColumn;
-                if (startColumn > 0 && endColumn > 0 && lenth > 0)
-                {
-                    assemblyFileVersion = assemblyFileVersionString.Substring(startColumn, endColumn - startColumn);
-                    if (assemblyVersion != assemblyFileVersion)
-                    {
-                        string message = "AssemblyVersion {0} does not match AssemblyFileVersion {1} in {2}";
-                        if (errorOnMismatch)
-                            throw new ParsingException(null, MessageCodes.GetManifestInfo.AssemblyVersionMismatch, 
-                                "", assemblyFile, assemblyFileVersionLineNum, startColumn + 1, assemblyFileVersionLineNum, 
-                                endColumn + 1, message, assemblyVersion, assemblyFileVersion, assemblyFile);
-                        Logger.LogWarning(null, MessageCodes.GetManifestInfo.AssemblyVersionMismatch, 
-                            "", assemblyFile, assemblyFileVersionLineNum, startColumn + 1, assemblyFileVersionLineNum, 
-                            endColumn + 1, message, assemblyVersion, assemblyFileVersion, assemblyFile);
-                    }
-
-                }
-                else
-                {
-                    startColumn = Math.Max(0, startColumn);
-                    endColumn = startColumn;
-                    string message = "Unable to parse the AssemblyFileVersion from {0}";
-                    if (errorOnMismatch)
-                        throw new ParsingException(null, MessageCodes.GetManifestInfo.AssemblyFileVersionParseFail, 
-                            "", assemblyFile, assemblyFileVersionLineNum, startColumn, 
-                            assemblyFileVersionLineNum, endColumn, message, assemblyFile);
-                    Logger.LogWarning(null, MessageCodes.GetManifestInfo.AssemblyFileVersionParseFail, 
-                        "", assemblyFile, assemblyFileVersionLineNum, startColumn, assemblyFileVersionLineNum, 
-                        endColumn, message, assemblyFile);
-                }
-            }
-            return assemblyVersion;
-        }
-    }
-
-    /// <summary>
-    /// Extensions for <see cref="ParsingException"/>.
-    /// </summary>
-    public static class ParsingExceptionExtensions
-    {
-        /// <summary>
-        /// Logs an error from the <see cref="ParsingException"/> using the given <see cref="ITaskLogger"/>.
-        /// </summary>
-        /// <param name="ex"></param>
-        /// <param name="Log"></param>
-        public static void LogErrorFromException(this ParsingException ex, ITaskLogger Log)
-        {
-            Log.LogError(null, ex.MessageCode, "", ex.File, ex.LineNumber, ex.ColumnNumber, ex.EndLineNumber, ex.EndColumnNumber, ex.Message, ex.MessageArgs);
         }
     }
 

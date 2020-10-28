@@ -10,18 +10,40 @@
         /// </summary>
         public const string ErrorString = "E.R.R";
         /// <summary>
+        /// Name of this package.
+        /// </summary>
+        public const string Name = "BeatSaberModdingTools.Tasks";
+        /// <summary>
         /// Message codes for GetManifestInfo.
         /// </summary>
         public static class GetManifestInfo 
         {
             /// <summary>
-            /// Manifest and assembly versions don't match.
-            /// </summary>
-            public const string VersionMismatch = "BSMT01";
-            /// <summary>
             /// Manifest file doesn't exist.
             /// </summary>
             public const string ManifestFileNotFound = "BSMT02";
+            /// <summary>
+            /// PluginVersion could not be determined from tthe manifest.
+            /// </summary>
+            public const string PluginVersionNotFound = "BSMT06";
+            /// <summary>
+            /// GameVersion could not be determined from the manifest.
+            /// </summary>
+            public const string GameVersionNotFound = "BSMT07";
+            /// <summary>
+            /// Other error.
+            /// </summary>
+            public const string GeneralFailure = "BSMT09";
+        }
+        /// <summary>
+        /// Message codes for <see cref="VerifyManifest"/>.
+        /// </summary>
+        public static class VerifyManifest
+        {
+            /// <summary>
+            /// Manifest and assembly versions don't match.
+            /// </summary>
+            public const string VersionMismatch = "BSMT01";
             /// <summary>
             /// AssemblyInfo file not found and known assembly version not given.
             /// </summary>
@@ -35,22 +57,15 @@
             /// </summary>
             public const string AssemblyVersionParseFail = "BSMT05";
             /// <summary>
-            /// PluginVersion could not be determined from tthe manifest.
-            /// </summary>
-            public const string PluginVersionNotFound = "BSMT06";
-            /// <summary>
-            /// GameVersion could not be determined from the manifest.
-            /// </summary>
-            public const string GameVersionNotFound = "BSMT07";
-            /// <summary>
             /// AssemblyFileVersion couldn't be determined from AssemblyInfo.
             /// </summary>
             public const string AssemblyFileVersionParseFail = "BSMT08";
             /// <summary>
             /// Other error.
             /// </summary>
-            public const string GeneralFailure = "BSMT09";
+            public const string GeneralFailure = "BSMT22";
         }
+
         /// <summary>
         /// Message codes for IsProcessRunning.
         /// </summary>
