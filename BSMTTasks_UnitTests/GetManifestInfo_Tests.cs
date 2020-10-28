@@ -16,7 +16,6 @@ namespace BSMTTasks_UnitTests
         {
             GetManifestInfo getManifestInfo = new GetManifestInfo();
             bool expectedResult = true;
-            string expectedAssemblyVersion = "1.1.0";
             string expectedPluginVersion = "1.1.0";
             string expectedGameVersion = "1.9.1";
 
@@ -28,7 +27,6 @@ namespace BSMTTasks_UnitTests
             }
             Assert.AreEqual(0, mockTaskLogger.LogEntries.Count);
             Assert.AreEqual(expectedResult, taskResult);
-            Assert.AreEqual(expectedAssemblyVersion, getManifestInfo.AssemblyVersion);
             Assert.AreEqual(expectedPluginVersion, getManifestInfo.PluginVersion);
             Assert.AreEqual(expectedGameVersion, getManifestInfo.GameVersion);
         }
@@ -38,222 +36,18 @@ namespace BSMTTasks_UnitTests
         public void Matching_KnownAssemblyVersion()
         {
             bool expectedResult = true;
-            string expectedAssemblyVersion = "1.1.0";
-            string expectedPluginVersion = "1.1.0";
-            string expectedGameVersion = "1.9.1";
-
-            GetManifestInfo getManifestInfo = new GetManifestInfo()
-            {
-                KnownAssemblyVersion = expectedAssemblyVersion
-            };
-            bool taskResult = getManifestInfo.Execute();
-            MockTaskLogger mockTaskLogger = getManifestInfo.Logger as MockTaskLogger;
-            foreach (MockLogEntry entry in mockTaskLogger.LogEntries)
-            {
-                Console.WriteLine(entry);
-            }
-            Assert.AreEqual(0, mockTaskLogger.LogEntries.Count);
-            Assert.AreEqual(expectedResult, taskResult);
-            Assert.AreEqual(expectedAssemblyVersion, getManifestInfo.AssemblyVersion);
-            Assert.AreEqual(expectedPluginVersion, getManifestInfo.PluginVersion);
-            Assert.AreEqual(expectedGameVersion, getManifestInfo.GameVersion);
-        }
-
-        [TestMethod]
-        public void AssemblyFileVersionFirst()
-        {
-            string assemblyFilePath = Path.Combine("AssemblyInfos", "AssemblyFileVersionFirst.cs");
-            bool expectedResult = true;
-            string expectedAssemblyVersion = "1.1.0";
-            string expectedPluginVersion = "1.1.0";
-            string expectedGameVersion = "1.9.1";
-
-            GetManifestInfo getManifestInfo = new GetManifestInfo()
-            {
-                AssemblyInfoPath = assemblyFilePath
-            };
-            bool taskResult = getManifestInfo.Execute();
-            MockTaskLogger mockTaskLogger = getManifestInfo.Logger as MockTaskLogger;
-            foreach (MockLogEntry entry in mockTaskLogger.LogEntries)
-            {
-                Console.WriteLine(entry);
-            }
-            Assert.AreEqual(0, mockTaskLogger.LogEntries.Count);
-            Assert.AreEqual(expectedResult, taskResult);
-            Assert.AreEqual(expectedAssemblyVersion, getManifestInfo.AssemblyVersion);
-            Assert.AreEqual(expectedPluginVersion, getManifestInfo.PluginVersion);
-            Assert.AreEqual(expectedGameVersion, getManifestInfo.GameVersion);
-        }
-
-        [TestMethod]
-        public void MissingAssemblyVersion()
-        {
-            string assemblyFilePath = Path.Combine("AssemblyInfos", "MissingAssemblyVersion.cs");
-            bool expectedResult = false;
-            string expectedAssemblyVersion = MessageCodes.ErrorString;
-            string expectedPluginVersion = "1.1.0";
-            string expectedGameVersion = "1.9.1";
-
-            GetManifestInfo getManifestInfo = new GetManifestInfo
-            {
-                AssemblyInfoPath = assemblyFilePath
-            };
-            bool taskResult = getManifestInfo.Execute();
-            MockTaskLogger mockTaskLogger = getManifestInfo.Logger as MockTaskLogger;
-            foreach (MockLogEntry entry in mockTaskLogger.LogEntries)
-            {
-                Console.WriteLine(entry);
-            }
-
-            Assert.AreEqual(2, mockTaskLogger.LogEntries.Count);
-            MockLogEntry logEntry = mockTaskLogger.LogEntries[0];
-            Assert.AreEqual($"Unable to parse the AssemblyVersion from {assemblyFilePath}", logEntry.ToString());
-            logEntry = mockTaskLogger.LogEntries[1];
-            Assert.AreEqual("AssemblyVersion could not be determined.", logEntry.ToString());
-            Assert.AreEqual(expectedResult, taskResult);
-            Assert.AreEqual(expectedAssemblyVersion, getManifestInfo.AssemblyVersion);
-            Assert.AreEqual(expectedPluginVersion, getManifestInfo.PluginVersion);
-            Assert.AreEqual(expectedGameVersion, getManifestInfo.GameVersion);
-        }
-
-        [TestMethod]
-        public void MissingAssemblyVersion_ErrorOnMismatch()
-        {
-            string assemblyFilePath = Path.Combine("AssemblyInfos", "MissingAssemblyVersion.cs");
-            bool expectedResult = false;
-            string expectedAssemblyVersion = MessageCodes.ErrorString;
-            string expectedPluginVersion = "1.1.0";
-            string expectedGameVersion = "1.9.1";
-
-            GetManifestInfo getManifestInfo = new GetManifestInfo
-            {
-                AssemblyInfoPath = assemblyFilePath,
-                ErrorOnMismatch = true
-            };
-            bool taskResult = getManifestInfo.Execute();
-            MockTaskLogger mockTaskLogger = getManifestInfo.Logger as MockTaskLogger;
-            foreach (MockLogEntry entry in mockTaskLogger.LogEntries)
-            {
-                Console.WriteLine(entry);
-            }
-
-            Assert.AreEqual(1, mockTaskLogger.LogEntries.Count);
-            MockLogEntry logEntry = mockTaskLogger.LogEntries.First();
-            Assert.AreEqual($"Unable to parse the AssemblyVersion from {assemblyFilePath}", logEntry.ToString());
-            Assert.AreEqual(expectedResult, taskResult);
-            Assert.AreEqual(expectedAssemblyVersion, getManifestInfo.AssemblyVersion);
-            Assert.AreEqual(expectedPluginVersion, getManifestInfo.PluginVersion);
-            Assert.AreEqual(expectedGameVersion, getManifestInfo.GameVersion);
-        }
-
-        [TestMethod]
-        public void NoAssemblyFileVersion()
-        {
-            string assemblyFilePath = Path.Combine("AssemblyInfos", "NoAssemblyFileVersion.cs");
-            bool expectedResult = true;
-            string expectedAssemblyVersion = "1.1.0";
             string expectedPluginVersion = "1.1.0";
             string expectedGameVersion = "1.9.1";
 
             GetManifestInfo getManifestInfo = new GetManifestInfo();
-            getManifestInfo.AssemblyInfoPath = assemblyFilePath;
             bool taskResult = getManifestInfo.Execute();
             MockTaskLogger mockTaskLogger = getManifestInfo.Logger as MockTaskLogger;
             foreach (MockLogEntry entry in mockTaskLogger.LogEntries)
             {
                 Console.WriteLine(entry);
             }
-
             Assert.AreEqual(0, mockTaskLogger.LogEntries.Count);
             Assert.AreEqual(expectedResult, taskResult);
-            Assert.AreEqual(expectedAssemblyVersion, getManifestInfo.AssemblyVersion);
-            Assert.AreEqual(expectedPluginVersion, getManifestInfo.PluginVersion);
-            Assert.AreEqual(expectedGameVersion, getManifestInfo.GameVersion);
-        }
-
-
-        [TestMethod]
-        public void NoAssemblyFileVersion_ErrorOnMismatch()
-        {
-            string assemblyFilePath = Path.Combine("AssemblyInfos", "NoAssemblyFileVersion.cs");
-            bool expectedResult = true;
-            string expectedAssemblyVersion = "1.1.0";
-            string expectedPluginVersion = "1.1.0";
-            string expectedGameVersion = "1.9.1";
-
-            GetManifestInfo getManifestInfo = new GetManifestInfo() { ErrorOnMismatch = true };
-            getManifestInfo.AssemblyInfoPath = assemblyFilePath;
-            bool taskResult = getManifestInfo.Execute();
-            MockTaskLogger mockTaskLogger = getManifestInfo.Logger as MockTaskLogger;
-            foreach (MockLogEntry entry in mockTaskLogger.LogEntries)
-            {
-                Console.WriteLine(entry);
-            }
-
-            Assert.AreEqual(0, mockTaskLogger.LogEntries.Count);
-            Assert.AreEqual(expectedResult, taskResult);
-            Assert.AreEqual(expectedAssemblyVersion, getManifestInfo.AssemblyVersion);
-            Assert.AreEqual(expectedPluginVersion, getManifestInfo.PluginVersion);
-            Assert.AreEqual(expectedGameVersion, getManifestInfo.GameVersion);
-        }
-
-        [TestMethod]
-        public void AssemblyFileMismatch()
-        {
-            string assemblyFilePath = Path.Combine("AssemblyInfos", "AssemblyFileMismatch.cs");
-            bool expectedResult = true;
-            string expectedAssemblyVersion = "1.1.0";
-            string expectedPluginVersion = "1.1.0";
-            string expectedGameVersion = "1.9.1";
-
-            GetManifestInfo getManifestInfo = new GetManifestInfo();
-            getManifestInfo.AssemblyInfoPath = assemblyFilePath;
-            bool taskResult = getManifestInfo.Execute();
-            MockTaskLogger mockTaskLogger = getManifestInfo.Logger as MockTaskLogger;
-            foreach (MockLogEntry entry in mockTaskLogger.LogEntries)
-            {
-                Console.WriteLine(entry);
-            }
-            Assert.AreEqual(1, mockTaskLogger.LogEntries.Count);
-            MockLogEntry logEntry = mockTaskLogger.LogEntries.First();
-            Assert.AreEqual($"AssemblyVersion 1.1.0 does not match AssemblyFileVersion 1.2.0 in {assemblyFilePath}", logEntry.ToString());
-            Assert.AreEqual(LogEntryType.Warning, logEntry.EntryType);
-            Assert.AreEqual(36, logEntry.LineNumber);
-            Assert.AreEqual(36, logEntry.EndLineNumber);
-            Assert.AreEqual(33, logEntry.ColumnNumber);
-            Assert.AreEqual(38, logEntry.EndColumnNumber);
-            Assert.AreEqual(expectedResult, taskResult);
-            Assert.AreEqual(expectedAssemblyVersion, getManifestInfo.AssemblyVersion);
-            Assert.AreEqual(expectedPluginVersion, getManifestInfo.PluginVersion);
-            Assert.AreEqual(expectedGameVersion, getManifestInfo.GameVersion);
-        }
-
-        [TestMethod]
-        public void AssemblyFileMismatch_ErrorOnMismatch()
-        {
-            string assemblyFilePath = Path.Combine("AssemblyInfos", "AssemblyFileMismatch.cs");
-            bool expectedResult = false;
-            string expectedAssemblyVersion = MessageCodes.ErrorString;
-            string expectedPluginVersion = "1.1.0";
-            string expectedGameVersion = "1.9.1";
-            GetManifestInfo getManifestInfo = new GetManifestInfo() { ErrorOnMismatch = true };
-            getManifestInfo.AssemblyInfoPath = assemblyFilePath;
-            bool taskResult = getManifestInfo.Execute();
-            MockTaskLogger mockTaskLogger = getManifestInfo.Logger as MockTaskLogger;
-            foreach (MockLogEntry entry in mockTaskLogger.LogEntries)
-            {
-                Console.WriteLine(entry);
-            }
-            Assert.AreEqual(1, mockTaskLogger.LogEntries.Count);
-            MockLogEntry logEntry = mockTaskLogger.LogEntries.First();
-            Assert.AreEqual($"AssemblyVersion 1.1.0 does not match AssemblyFileVersion 1.2.0 in {assemblyFilePath}", logEntry.ToString());
-            Assert.AreEqual(LogEntryType.Error, logEntry.EntryType);
-            Assert.AreEqual(36, logEntry.LineNumber);
-            Assert.AreEqual(36, logEntry.EndLineNumber);
-            Assert.AreEqual(33, logEntry.ColumnNumber);
-            Assert.AreEqual(38, logEntry.EndColumnNumber);
-            Assert.AreEqual(expectedResult, taskResult);
-            Assert.AreEqual(expectedAssemblyVersion, getManifestInfo.AssemblyVersion);
             Assert.AreEqual(expectedPluginVersion, getManifestInfo.PluginVersion);
             Assert.AreEqual(expectedGameVersion, getManifestInfo.GameVersion);
         }
@@ -263,7 +57,6 @@ namespace BSMTTasks_UnitTests
         {
             string manifestPath = Path.Combine("Manifests", "DoesNotExist.json");
             bool expectedResult = false;
-            string expectedAssemblyVersion = MessageCodes.ErrorString;
             string expectedPluginVersion = MessageCodes.ErrorString;
             string expectedGameVersion = MessageCodes.ErrorString;
             GetManifestInfo getManifestInfo = new GetManifestInfo()
@@ -281,7 +74,6 @@ namespace BSMTTasks_UnitTests
             MockLogEntry logEntry = mockTaskLogger.LogEntries.First();
             Assert.AreEqual($"Error in GetManifestInfo: Manifest file not found at {manifestPath}", logEntry.ToString());
             Assert.AreEqual(expectedResult, taskResult);
-            Assert.AreEqual(expectedAssemblyVersion, getManifestInfo.AssemblyVersion);
             Assert.AreEqual(expectedPluginVersion, getManifestInfo.PluginVersion);
             Assert.AreEqual(expectedGameVersion, getManifestInfo.GameVersion);
         }
@@ -291,7 +83,6 @@ namespace BSMTTasks_UnitTests
         {
             string manifestPath = Path.Combine("Manifests", "NoVersionLine.json");
             bool expectedResult = true;
-            string expectedAssemblyVersion = "1.1.0";
             string expectedPluginVersion = MessageCodes.ErrorString;
             string expectedGameVersion = "1.9.1";
             GetManifestInfo getManifestInfo = new GetManifestInfo()
@@ -307,7 +98,6 @@ namespace BSMTTasks_UnitTests
             }
             Assert.AreEqual(1, mockTaskLogger.LogEntries.Count);
             Assert.AreEqual(expectedResult, taskResult);
-            Assert.AreEqual(expectedAssemblyVersion, getManifestInfo.AssemblyVersion);
             Assert.AreEqual(expectedPluginVersion, getManifestInfo.PluginVersion);
             Assert.AreEqual(expectedGameVersion, getManifestInfo.GameVersion);
         }
@@ -317,13 +107,12 @@ namespace BSMTTasks_UnitTests
         {
             string manifestPath = Path.Combine("Manifests", "NoVersionLine.json");
             bool expectedResult = false;
-            string expectedAssemblyVersion = MessageCodes.ErrorString;
             string expectedPluginVersion = MessageCodes.ErrorString;
             string expectedGameVersion = MessageCodes.ErrorString;
             GetManifestInfo getManifestInfo = new GetManifestInfo()
             {
                 ManifestPath = manifestPath,
-                ErrorOnMismatch = true
+                FailOnError = true
             };
 
             bool taskResult = getManifestInfo.Execute();
@@ -334,7 +123,6 @@ namespace BSMTTasks_UnitTests
             }
             Assert.AreEqual(1, mockTaskLogger.LogEntries.Count);
             Assert.AreEqual(expectedResult, taskResult);
-            Assert.AreEqual(expectedAssemblyVersion, getManifestInfo.AssemblyVersion);
             Assert.AreEqual(expectedPluginVersion, getManifestInfo.PluginVersion);
             Assert.AreEqual(expectedGameVersion, getManifestInfo.GameVersion);
         }
@@ -345,7 +133,6 @@ namespace BSMTTasks_UnitTests
         {
             string manifestPath = Path.Combine("Manifests", "NoGameVersionLine.json");
             bool expectedResult = true;
-            string expectedAssemblyVersion = "1.1.0";
             string expectedPluginVersion = "1.1.0";
             string expectedGameVersion = MessageCodes.ErrorString;
             GetManifestInfo getManifestInfo = new GetManifestInfo()
@@ -361,7 +148,6 @@ namespace BSMTTasks_UnitTests
             }
             Assert.AreEqual(1, mockTaskLogger.LogEntries.Count);
             Assert.AreEqual(expectedResult, taskResult);
-            Assert.AreEqual(expectedAssemblyVersion, getManifestInfo.AssemblyVersion);
             Assert.AreEqual(expectedPluginVersion, getManifestInfo.PluginVersion);
             Assert.AreEqual(expectedGameVersion, getManifestInfo.GameVersion);
         }
@@ -371,13 +157,12 @@ namespace BSMTTasks_UnitTests
         {
             string manifestPath = Path.Combine("Manifests", "NoGameVersionLine.json");
             bool expectedResult = false;
-            string expectedAssemblyVersion = MessageCodes.ErrorString;
             string expectedPluginVersion = "1.1.0";
             string expectedGameVersion = MessageCodes.ErrorString;
             GetManifestInfo getManifestInfo = new GetManifestInfo()
             {
                 ManifestPath = manifestPath,
-                ErrorOnMismatch = true
+                FailOnError = true
             };
 
             bool taskResult = getManifestInfo.Execute();
@@ -390,57 +175,26 @@ namespace BSMTTasks_UnitTests
             MockLogEntry logEntry = mockTaskLogger.LogEntries.First();
             Assert.AreEqual($"GameVersion not found in {manifestPath}", logEntry.ToString());
             Assert.AreEqual(expectedResult, taskResult);
-            Assert.AreEqual(expectedAssemblyVersion, getManifestInfo.AssemblyVersion);
             Assert.AreEqual(expectedPluginVersion, getManifestInfo.PluginVersion);
             Assert.AreEqual(expectedGameVersion, getManifestInfo.GameVersion);
         }
 
 
         [TestMethod]
-        public void BadAssemblyFileVersion()
+        public void BadVersion()
         {
-            string assemblyFilePath = Path.Combine("AssemblyInfos", "BadAssemblyFileVersion.cs");
-            bool expectedResult = true;
-            string expectedAssemblyVersion = "1.1.0";
-            string expectedPluginVersion = "1.1.0";
-            string expectedGameVersion = "1.9.1";
 
-            GetManifestInfo getManifestInfo = new GetManifestInfo();
-            getManifestInfo.AssemblyInfoPath = assemblyFilePath;
-            bool taskResult = getManifestInfo.Execute();
-            MockTaskLogger mockTaskLogger = getManifestInfo.Logger as MockTaskLogger;
-            foreach (MockLogEntry entry in mockTaskLogger.LogEntries)
+            string manifestPath = Path.GetFullPath(Path.Combine("Manifests", "ParsingError.json"));
+            Assert.IsTrue(File.Exists(manifestPath), $"File not found: '{manifestPath}'");
+            Console.WriteLine(Path.GetFullPath(manifestPath));
+            GetManifestInfo getManifestInfo = new GetManifestInfo()
             {
-                Console.WriteLine(entry);
-            }
-            Assert.AreEqual(1, mockTaskLogger.LogEntries.Count);
-            MockLogEntry logEntry = mockTaskLogger.LogEntries.First();
-            Assert.AreEqual($"Unable to parse the AssemblyFileVersion from {assemblyFilePath}", logEntry.ToString());
-            Assert.AreEqual(LogEntryType.Warning, logEntry.EntryType);
-            Assert.AreEqual(36, logEntry.LineNumber);
-            Assert.AreEqual(36, logEntry.EndLineNumber);
-            Assert.AreEqual(32, logEntry.ColumnNumber);
-            Assert.AreEqual(32, logEntry.EndColumnNumber);
-            Assert.AreEqual(expectedResult, taskResult);
-            Assert.AreEqual(expectedAssemblyVersion, getManifestInfo.AssemblyVersion);
-            Assert.AreEqual(expectedPluginVersion, getManifestInfo.PluginVersion);
-            Assert.AreEqual(expectedGameVersion, getManifestInfo.GameVersion);
-        }
-
-        [TestMethod]
-        public void BadAssemblyFileVersion_ErrorOnMismatch()
-        {
-            string assemblyFilePath = Path.Combine("AssemblyInfos", "BadAssemblyFileVersion.cs");
+                ManifestPath = manifestPath
+            };
             bool expectedResult = false;
-            string expectedAssemblyVersion = MessageCodes.ErrorString;
-            string expectedPluginVersion = "1.1.0";
-            string expectedGameVersion = "1.9.1";
+            string expectedPluginVersion = "E.R.R";
+            string expectedGameVersion = "E.R.R";
 
-            GetManifestInfo getManifestInfo = new GetManifestInfo
-            {
-                AssemblyInfoPath = assemblyFilePath,
-                ErrorOnMismatch = true
-            };
             bool taskResult = getManifestInfo.Execute();
             MockTaskLogger mockTaskLogger = getManifestInfo.Logger as MockTaskLogger;
             foreach (MockLogEntry entry in mockTaskLogger.LogEntries)
@@ -449,149 +203,9 @@ namespace BSMTTasks_UnitTests
             }
             Assert.AreEqual(1, mockTaskLogger.LogEntries.Count);
             MockLogEntry logEntry = mockTaskLogger.LogEntries.First();
-            Assert.AreEqual($"Unable to parse the AssemblyFileVersion from {assemblyFilePath}", logEntry.ToString());
-            Assert.AreEqual(LogEntryType.Error, logEntry.EntryType);
-            Assert.AreEqual(36, logEntry.LineNumber);
-            Assert.AreEqual(36, logEntry.EndLineNumber);
-            Assert.AreEqual(32, logEntry.ColumnNumber);
-            Assert.AreEqual(32, logEntry.EndColumnNumber);
-            Assert.AreEqual(expectedResult, taskResult);
-            Assert.AreEqual(expectedAssemblyVersion, getManifestInfo.AssemblyVersion);
-            Assert.AreEqual(expectedPluginVersion, getManifestInfo.PluginVersion);
-            Assert.AreEqual(expectedGameVersion, getManifestInfo.GameVersion);
-        }
-
-
-        [TestMethod]
-        public void MismatchedVersions()
-        {
-            string assemblyFilePath = Path.Combine("AssemblyInfos", "MismatchedVersions.cs");
-            string manifestFilePath = Path.Combine("Manifests", "MismatchedVersions.json");
-            bool expectedResult = true;
-            string expectedAssemblyVersion = "1.1.0";
-            string expectedPluginVersion = "1.2.0";
-            string expectedGameVersion = "1.9.1";
-
-            GetManifestInfo getManifestInfo = new GetManifestInfo
-            {
-                AssemblyInfoPath = assemblyFilePath,
-                ManifestPath = manifestFilePath
-            };
-            bool taskResult = getManifestInfo.Execute();
-            MockTaskLogger mockTaskLogger = getManifestInfo.Logger as MockTaskLogger;
-            foreach (MockLogEntry entry in mockTaskLogger.LogEntries)
-            {
-                Console.WriteLine(entry);
-            }
-            Assert.AreEqual(1, mockTaskLogger.LogEntries.Count);
-            MockLogEntry logEntry = mockTaskLogger.LogEntries.First();
-            Assert.AreEqual(@"PluginVersion 1.2.0 in Manifests\MismatchedVersions.json does not match AssemblyVersion 1.1.0 in AssemblyInfos\MismatchedVersions.cs", logEntry.ToString().Replace('/', '\\'));
-            Assert.AreEqual(LogEntryType.Warning, logEntry.EntryType);
+            Assert.AreEqual($"Error reading version in manifest: Could not parse 'b' in '1.b.0' to an integer.", logEntry.ToString());
             Assert.AreEqual(8, logEntry.LineNumber);
-            Assert.AreEqual(8, logEntry.EndLineNumber);
-            Assert.AreEqual(1, logEntry.ColumnNumber);
-            Assert.AreEqual(1, logEntry.EndColumnNumber);
             Assert.AreEqual(expectedResult, taskResult);
-            Assert.AreEqual(expectedAssemblyVersion, getManifestInfo.AssemblyVersion);
-            Assert.AreEqual(expectedPluginVersion, getManifestInfo.PluginVersion);
-            Assert.AreEqual(expectedGameVersion, getManifestInfo.GameVersion);
-        }
-
-
-        [TestMethod]
-        public void MismatchedVersions_ErrorOnMismatch()
-        {
-            string assemblyFilePath = Path.Combine("AssemblyInfos", "MismatchedVersions.cs");
-            string manifestFilePath = Path.Combine("Manifests", "MismatchedVersions.json");
-            bool expectedResult = false;
-            string expectedAssemblyVersion = "1.1.0";
-            string expectedPluginVersion = "1.2.0";
-            string expectedGameVersion = "1.9.1";
-
-            GetManifestInfo getManifestInfo = new GetManifestInfo
-            {
-                AssemblyInfoPath = assemblyFilePath,
-                ManifestPath = manifestFilePath,
-                ErrorOnMismatch = true
-            };
-            bool taskResult = getManifestInfo.Execute();
-            MockTaskLogger mockTaskLogger = getManifestInfo.Logger as MockTaskLogger;
-            foreach (MockLogEntry entry in mockTaskLogger.LogEntries)
-            {
-                Console.WriteLine(entry);
-            }
-            Assert.AreEqual(1, mockTaskLogger.LogEntries.Count);
-            MockLogEntry logEntry = mockTaskLogger.LogEntries.First();
-            Assert.AreEqual($"PluginVersion 1.2.0 in {manifestFilePath} does not match AssemblyVersion 1.1.0 in {assemblyFilePath}", logEntry.ToString());
-            Assert.AreEqual(LogEntryType.Error, logEntry.EntryType);
-            Assert.AreEqual(8, logEntry.LineNumber);
-            Assert.AreEqual(8, logEntry.EndLineNumber);
-            Assert.AreEqual(1, logEntry.ColumnNumber);
-            Assert.AreEqual(1, logEntry.EndColumnNumber);
-            Assert.AreEqual(expectedResult, taskResult);
-            Assert.AreEqual(expectedAssemblyVersion, getManifestInfo.AssemblyVersion);
-            Assert.AreEqual(expectedPluginVersion, getManifestInfo.PluginVersion);
-            Assert.AreEqual(expectedGameVersion, getManifestInfo.GameVersion);
-        }
-
-
-        [TestMethod]
-        public void MissingAssemblyInfo()
-        {
-            string assemblyFilePath = Path.Combine("AssemblyInfos", "MissingAssemblyInfo.cs");
-            bool expectedResult = false;
-            string expectedAssemblyVersion = MessageCodes.ErrorString;
-            string expectedPluginVersion = "1.1.0";
-            string expectedGameVersion = "1.9.1";
-
-            GetManifestInfo getManifestInfo = new GetManifestInfo
-            {
-                AssemblyInfoPath = assemblyFilePath
-            };
-            bool taskResult = getManifestInfo.Execute();
-            MockTaskLogger mockTaskLogger = getManifestInfo.Logger as MockTaskLogger;
-            foreach (MockLogEntry entry in mockTaskLogger.LogEntries)
-            {
-                Console.WriteLine(entry);
-            }
-
-            Assert.AreEqual(2, mockTaskLogger.LogEntries.Count);
-            MockLogEntry logEntry = mockTaskLogger.LogEntries[0];
-            Assert.AreEqual($"Could not find AssemblyInfo: {assemblyFilePath}", logEntry.ToString());
-            logEntry = mockTaskLogger.LogEntries[1];
-            Assert.AreEqual("AssemblyVersion could not be determined.", logEntry.ToString());
-            Assert.AreEqual(expectedResult, taskResult);
-            Assert.AreEqual(expectedAssemblyVersion, getManifestInfo.AssemblyVersion);
-            Assert.AreEqual(expectedPluginVersion, getManifestInfo.PluginVersion);
-            Assert.AreEqual(expectedGameVersion, getManifestInfo.GameVersion);
-        }
-
-        [TestMethod]
-        public void MissingAssemblyInfo_ErrorOnMismatch()
-        {
-            string assemblyFilePath = Path.Combine("AssemblyInfos", "MissingAssemblyInfo.cs");
-            bool expectedResult = false;
-            string expectedAssemblyVersion = MessageCodes.ErrorString;
-            string expectedPluginVersion = "1.1.0";
-            string expectedGameVersion = "1.9.1";
-
-            GetManifestInfo getManifestInfo = new GetManifestInfo
-            {
-                AssemblyInfoPath = assemblyFilePath,
-                ErrorOnMismatch = true
-            };
-            bool taskResult = getManifestInfo.Execute();
-            MockTaskLogger mockTaskLogger = getManifestInfo.Logger as MockTaskLogger;
-            foreach (MockLogEntry entry in mockTaskLogger.LogEntries)
-            {
-                Console.WriteLine(entry);
-            }
-
-            Assert.AreEqual(1, mockTaskLogger.LogEntries.Count);
-            MockLogEntry logEntry = mockTaskLogger.LogEntries[0];
-            Assert.AreEqual($"Error in GetManifestInfo: Could not find AssemblyInfo: {assemblyFilePath}", logEntry.ToString());
-            Assert.AreEqual(expectedResult, taskResult);
-            Assert.AreEqual(expectedAssemblyVersion, getManifestInfo.AssemblyVersion);
             Assert.AreEqual(expectedPluginVersion, getManifestInfo.PluginVersion);
             Assert.AreEqual(expectedGameVersion, getManifestInfo.GameVersion);
         }

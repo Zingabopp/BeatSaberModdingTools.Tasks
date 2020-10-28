@@ -84,13 +84,14 @@ namespace BeatSaberModdingTools.Tasks
             GameVersion = ErrorString;
             PluginVersion = ErrorString;
             string errorCode = null;
+            Position versionPosition = default;
+            string manifestFile = ManifestPath;
             if (this.BuildEngine != null)
                 Logger = new LogWrapper(Log);
             else
                 Logger = new MockTaskLogger();
             try
             {
-                string manifestFile = ManifestPath;
                 if (string.IsNullOrEmpty(manifestFile))
                     manifestFile = "manifest.json";
                 string manifest_gameVerStart = "\"gameVersion\"";
@@ -119,19 +120,30 @@ namespace BeatSaberModdingTools.Tasks
                         {
                             manifest_versionLine = line;
                             manifestVersionLineNum = lineNum;
+                            versionPosition = new Position(lineNum);
                         }
                         lineNum++;
                     }
                 }
                 if (!string.IsNullOrEmpty(manifest_versionLine))
                 {
-                    PluginVersion = manifest_versionLine.Substring(manifest_versionStart.Length).Replace(":", "").Replace("\"", "").TrimEnd(',').Trim();
-                    BasePluginVersion = Util.StripVersionLabel(PluginVersion);
+                    try
+                    {
+                        string versionStr = manifest_versionLine.Substring(manifest_versionStart.Length).Replace(":", "").Replace("\"", "").TrimEnd(',').Trim();
+                        PluginVersion = string.Join(".", Util.ParseVersionString(versionStr));
+                        BasePluginVersion = Util.StripVersionLabel(PluginVersion);
+                    }
+                    catch (ParsingException ex)
+                    {
+                        Logger.LogError(null, MessageCodes.GetManifestInfo.VersionParseFail, "", manifestFile, versionPosition,
+                            $"Error reading version in manifest: {ex.Message}");
+                        return false;
+                    }
                 }
                 else
                 {
                     Logger.LogError(null, MessageCodes.GetManifestInfo.PluginVersionNotFound, "",
-                        manifestFile, 0, 0, 0, 0, "PluginVersion not found in {0}", manifestFile);
+                        manifestFile, default(Position), "PluginVersion not found in {0}", manifestFile);
                     PluginVersion = ErrorString;
                     if (FailOnError)
                         return false;
@@ -151,11 +163,6 @@ namespace BeatSaberModdingTools.Tasks
                 }
 
                 return true;
-            }
-            catch (ParsingException ex)
-            {
-                ex.LogErrorFromException(Logger);
-                return false;
             }
             catch (Exception ex)
             {

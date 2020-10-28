@@ -672,29 +672,9 @@
             Message codes for GetManifestInfo.
             </summary>
         </member>
-        <member name="F:BeatSaberModdingTools.Tasks.Utilities.MessageCodes.GetManifestInfo.VersionMismatch">
-            <summary>
-            Manifest and assembly versions don't match.
-            </summary>
-        </member>
         <member name="F:BeatSaberModdingTools.Tasks.Utilities.MessageCodes.GetManifestInfo.ManifestFileNotFound">
             <summary>
             Manifest file doesn't exist.
-            </summary>
-        </member>
-        <member name="F:BeatSaberModdingTools.Tasks.Utilities.MessageCodes.GetManifestInfo.AssemblyInfoNotFound">
-            <summary>
-            AssemblyInfo file not found and known assembly version not given.
-            </summary>
-        </member>
-        <member name="F:BeatSaberModdingTools.Tasks.Utilities.MessageCodes.GetManifestInfo.AssemblyVersionMismatch">
-            <summary>
-            AssemblyVersion and AssemblyFileVersion don't match.
-            </summary>
-        </member>
-        <member name="F:BeatSaberModdingTools.Tasks.Utilities.MessageCodes.GetManifestInfo.AssemblyVersionParseFail">
-            <summary>
-            AssemblyVersion couldn't be parsed from AssemblyInfo file.
             </summary>
         </member>
         <member name="F:BeatSaberModdingTools.Tasks.Utilities.MessageCodes.GetManifestInfo.PluginVersionNotFound">
@@ -707,12 +687,42 @@
             GameVersion could not be determined from the manifest.
             </summary>
         </member>
-        <member name="F:BeatSaberModdingTools.Tasks.Utilities.MessageCodes.GetManifestInfo.AssemblyFileVersionParseFail">
+        <member name="F:BeatSaberModdingTools.Tasks.Utilities.MessageCodes.GetManifestInfo.GeneralFailure">
+            <summary>
+            Other error.
+            </summary>
+        </member>
+        <member name="T:BeatSaberModdingTools.Tasks.Utilities.MessageCodes.VerifyManifest">
+            <summary>
+            Message codes for <see cref="T:BeatSaberModdingTools.Tasks.Utilities.MessageCodes.VerifyManifest"/>.
+            </summary>
+        </member>
+        <member name="F:BeatSaberModdingTools.Tasks.Utilities.MessageCodes.VerifyManifest.VersionMismatch">
+            <summary>
+            Manifest and assembly versions don't match.
+            </summary>
+        </member>
+        <member name="F:BeatSaberModdingTools.Tasks.Utilities.MessageCodes.VerifyManifest.AssemblyInfoNotFound">
+            <summary>
+            AssemblyInfo file not found and known assembly version not given.
+            </summary>
+        </member>
+        <member name="F:BeatSaberModdingTools.Tasks.Utilities.MessageCodes.VerifyManifest.AssemblyVersionMismatch">
+            <summary>
+            AssemblyVersion and AssemblyFileVersion don't match.
+            </summary>
+        </member>
+        <member name="F:BeatSaberModdingTools.Tasks.Utilities.MessageCodes.VerifyManifest.AssemblyVersionParseFail">
+            <summary>
+            AssemblyVersion couldn't be parsed from AssemblyInfo file.
+            </summary>
+        </member>
+        <member name="F:BeatSaberModdingTools.Tasks.Utilities.MessageCodes.VerifyManifest.AssemblyFileVersionParseFail">
             <summary>
             AssemblyFileVersion couldn't be determined from AssemblyInfo.
             </summary>
         </member>
-        <member name="F:BeatSaberModdingTools.Tasks.Utilities.MessageCodes.GetManifestInfo.GeneralFailure">
+        <member name="F:BeatSaberModdingTools.Tasks.Utilities.MessageCodes.VerifyManifest.GeneralFailure">
             <summary>
             Other error.
             </summary>

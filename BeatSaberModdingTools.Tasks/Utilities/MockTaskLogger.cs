@@ -221,7 +221,7 @@ namespace BeatSaberModdingTools.Tasks.Utilities
             if (EntryType == LogEntryType.Exception)
                 return Exception.Message;
             string message = Message;
-            for (int i = 0; i < MessageArgs.Length; i++)
+            for (int i = 0; i < (MessageArgs?.Length ?? 0); i++)
             {
                 message = message.Replace($"{{{i}}}", MessageArgs[i]?.ToString() ?? string.Empty);
             }

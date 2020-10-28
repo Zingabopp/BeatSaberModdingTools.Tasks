@@ -31,6 +31,10 @@
             /// </summary>
             public const string GameVersionNotFound = "BSMT07";
             /// <summary>
+            /// PluginVersion was found but could not be parsed.
+            /// </summary>
+            public const string VersionParseFail = "BSMT23";
+            /// <summary>
             /// Other error.
             /// </summary>
             public const string GeneralFailure = "BSMT09";

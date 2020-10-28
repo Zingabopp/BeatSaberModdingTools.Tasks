@@ -115,5 +115,17 @@ namespace BeatSaberModdingTools.Tasks.Utilities
         {
             Log.LogError(null, ex.MessageCode, "", ex.File, ex.LineNumber, ex.ColumnNumber, ex.EndLineNumber, ex.EndColumnNumber, ex.Message, ex.MessageArgs);
         }
+
+        /// <summary>
+        /// Logs an error from the <see cref="ParsingException"/> using the given <see cref="ITaskLogger"/>.
+        /// </summary>
+        /// <param name="ex"></param>
+        /// <param name="file"></param>
+        /// <param name="position"></param>
+        /// <param name="Log"></param>
+        public static void LogErrorFromException(this ParsingException ex, ITaskLogger Log, string file, Position position)
+        {
+            Log.LogError(null, ex.MessageCode, "", file, position, ex.Message, ex.MessageArgs);
+        }
     }
 }
