@@ -1,4 +1,4 @@
-﻿using BeatSaberModdingTools.Tasks.Utilties;
+﻿using BeatSaberModdingTools.Tasks.Utilities;
 using Microsoft.Build.Framework;
 using System;
 using System.ComponentModel;

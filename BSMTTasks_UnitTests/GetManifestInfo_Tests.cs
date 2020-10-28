@@ -1,5 +1,5 @@
 using BeatSaberModdingTools.Tasks;
-using BeatSaberModdingTools.Tasks.Utilties;
+using BeatSaberModdingTools.Tasks.Utilities;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using System.IO;
@@ -90,7 +90,7 @@ namespace BSMTTasks_UnitTests
         {
             string assemblyFilePath = Path.Combine("AssemblyInfos", "MissingAssemblyVersion.cs");
             bool expectedResult = false;
-            string expectedAssemblyVersion = GetManifestInfo.ErrorString;
+            string expectedAssemblyVersion = MessageCodes.ErrorString;
             string expectedPluginVersion = "1.1.0";
             string expectedGameVersion = "1.9.1";
 
@@ -121,7 +121,7 @@ namespace BSMTTasks_UnitTests
         {
             string assemblyFilePath = Path.Combine("AssemblyInfos", "MissingAssemblyVersion.cs");
             bool expectedResult = false;
-            string expectedAssemblyVersion = GetManifestInfo.ErrorString;
+            string expectedAssemblyVersion = MessageCodes.ErrorString;
             string expectedPluginVersion = "1.1.0";
             string expectedGameVersion = "1.9.1";
 
@@ -233,7 +233,7 @@ namespace BSMTTasks_UnitTests
         {
             string assemblyFilePath = Path.Combine("AssemblyInfos", "AssemblyFileMismatch.cs");
             bool expectedResult = false;
-            string expectedAssemblyVersion = GetManifestInfo.ErrorString;
+            string expectedAssemblyVersion = MessageCodes.ErrorString;
             string expectedPluginVersion = "1.1.0";
             string expectedGameVersion = "1.9.1";
             GetManifestInfo getManifestInfo = new GetManifestInfo() { ErrorOnMismatch = true };
@@ -263,9 +263,9 @@ namespace BSMTTasks_UnitTests
         {
             string manifestPath = Path.Combine("Manifests", "DoesNotExist.json");
             bool expectedResult = false;
-            string expectedAssemblyVersion = GetManifestInfo.ErrorString;
-            string expectedPluginVersion = GetManifestInfo.ErrorString;
-            string expectedGameVersion = GetManifestInfo.ErrorString;
+            string expectedAssemblyVersion = MessageCodes.ErrorString;
+            string expectedPluginVersion = MessageCodes.ErrorString;
+            string expectedGameVersion = MessageCodes.ErrorString;
             GetManifestInfo getManifestInfo = new GetManifestInfo()
             {
                 ManifestPath = manifestPath
@@ -292,7 +292,7 @@ namespace BSMTTasks_UnitTests
             string manifestPath = Path.Combine("Manifests", "NoVersionLine.json");
             bool expectedResult = true;
             string expectedAssemblyVersion = "1.1.0";
-            string expectedPluginVersion = GetManifestInfo.ErrorString;
+            string expectedPluginVersion = MessageCodes.ErrorString;
             string expectedGameVersion = "1.9.1";
             GetManifestInfo getManifestInfo = new GetManifestInfo()
             {
@@ -317,9 +317,9 @@ namespace BSMTTasks_UnitTests
         {
             string manifestPath = Path.Combine("Manifests", "NoVersionLine.json");
             bool expectedResult = false;
-            string expectedAssemblyVersion = GetManifestInfo.ErrorString;
-            string expectedPluginVersion = GetManifestInfo.ErrorString;
-            string expectedGameVersion = GetManifestInfo.ErrorString;
+            string expectedAssemblyVersion = MessageCodes.ErrorString;
+            string expectedPluginVersion = MessageCodes.ErrorString;
+            string expectedGameVersion = MessageCodes.ErrorString;
             GetManifestInfo getManifestInfo = new GetManifestInfo()
             {
                 ManifestPath = manifestPath,
@@ -347,7 +347,7 @@ namespace BSMTTasks_UnitTests
             bool expectedResult = true;
             string expectedAssemblyVersion = "1.1.0";
             string expectedPluginVersion = "1.1.0";
-            string expectedGameVersion = GetManifestInfo.ErrorString;
+            string expectedGameVersion = MessageCodes.ErrorString;
             GetManifestInfo getManifestInfo = new GetManifestInfo()
             {
                 ManifestPath = manifestPath
@@ -371,9 +371,9 @@ namespace BSMTTasks_UnitTests
         {
             string manifestPath = Path.Combine("Manifests", "NoGameVersionLine.json");
             bool expectedResult = false;
-            string expectedAssemblyVersion = GetManifestInfo.ErrorString;
+            string expectedAssemblyVersion = MessageCodes.ErrorString;
             string expectedPluginVersion = "1.1.0";
-            string expectedGameVersion = GetManifestInfo.ErrorString;
+            string expectedGameVersion = MessageCodes.ErrorString;
             GetManifestInfo getManifestInfo = new GetManifestInfo()
             {
                 ManifestPath = manifestPath,
@@ -432,7 +432,7 @@ namespace BSMTTasks_UnitTests
         {
             string assemblyFilePath = Path.Combine("AssemblyInfos", "BadAssemblyFileVersion.cs");
             bool expectedResult = false;
-            string expectedAssemblyVersion = GetManifestInfo.ErrorString;
+            string expectedAssemblyVersion = MessageCodes.ErrorString;
             string expectedPluginVersion = "1.1.0";
             string expectedGameVersion = "1.9.1";
 
@@ -540,7 +540,7 @@ namespace BSMTTasks_UnitTests
         {
             string assemblyFilePath = Path.Combine("AssemblyInfos", "MissingAssemblyInfo.cs");
             bool expectedResult = false;
-            string expectedAssemblyVersion = GetManifestInfo.ErrorString;
+            string expectedAssemblyVersion = MessageCodes.ErrorString;
             string expectedPluginVersion = "1.1.0";
             string expectedGameVersion = "1.9.1";
 
@@ -571,7 +571,7 @@ namespace BSMTTasks_UnitTests
         {
             string assemblyFilePath = Path.Combine("AssemblyInfos", "MissingAssemblyInfo.cs");
             bool expectedResult = false;
-            string expectedAssemblyVersion = GetManifestInfo.ErrorString;
+            string expectedAssemblyVersion = MessageCodes.ErrorString;
             string expectedPluginVersion = "1.1.0";
             string expectedGameVersion = "1.9.1";
 

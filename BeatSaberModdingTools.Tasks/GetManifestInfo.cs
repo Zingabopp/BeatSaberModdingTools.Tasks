@@ -1,7 +1,9 @@
-﻿using BeatSaberModdingTools.Tasks.Utilties;
+﻿using BeatSaberModdingTools.Tasks.Utilities;
+using static BeatSaberModdingTools.Tasks.Utilities.MessageCodes;
 using Microsoft.Build.Framework;
 using System;
 using System.IO;
+using System.Linq;
 
 namespace BeatSaberModdingTools.Tasks
 {
@@ -10,10 +12,6 @@ namespace BeatSaberModdingTools.Tasks
     /// </summary>
     public class GetManifestInfo : Microsoft.Build.Utilities.Task
     {
-        /// <summary>
-        /// Default output when a property can't be read.
-        /// </summary>
-        public const string ErrorString = "E.R.R";
         /// <summary>
         /// <see cref="ITaskLogger"/> instance used.
         /// </summary>
@@ -28,6 +26,12 @@ namespace BeatSaberModdingTools.Tasks
         /// </summary>
         [Output]
         public virtual string PluginVersion { get; protected set; }
+        /// <summary>
+        /// The mod or lib's version as reported by the manifest with prerelease labels stripped.
+        /// Use this for comparing to the AssemblyVersion metadata.
+        /// </summary>
+        [Output]
+        public virtual string BasePluginVersion { get; protected set; }
         /// <summary>
         /// Version of the assembly.
         /// </summary>
@@ -103,12 +107,13 @@ namespace BeatSaberModdingTools.Tasks
                 if (!string.IsNullOrEmpty(manifest_versionLine))
                 {
                     PluginVersion = manifest_versionLine.Substring(manifest_versionStart.Length).Replace(":", "").Replace("\"", "").TrimEnd(',').Trim();
+                    BasePluginVersion = Util.StripVersionLabel(PluginVersion);
                 }
                 else
                 {
                     Logger.LogError(null, MessageCodes.GetManifestInfo.PluginVersionNotFound, "", 
                         manifestFile, 0, 0, 0, 0, "PluginVersion not found in {0}", manifestFile);
-                    PluginVersion = "E.R.R";
+                    PluginVersion = ErrorString;
                     if (ErrorOnMismatch)
                         return false;
                 }
@@ -121,7 +126,7 @@ namespace BeatSaberModdingTools.Tasks
                 {
                     Logger.LogError(null, MessageCodes.GetManifestInfo.GameVersionNotFound, "", 
                         manifestFile, 0, 0, 0, 0, "GameVersion not found in {0}", manifestFile);
-                    GameVersion = "E.R.R";
+                    GameVersion = ErrorString;
                     if (ErrorOnMismatch)
                         return false;
                 }
@@ -151,12 +156,12 @@ namespace BeatSaberModdingTools.Tasks
                     }
                     assemblyFileMsg = " in " + filepath;
                 }
-                if (AssemblyVersion == null || AssemblyVersion == "E.R.R" || AssemblyVersion.Length == 0)
+                if (AssemblyVersion == null || AssemblyVersion == ErrorString || AssemblyVersion.Length == 0)
                 {
                     Logger.LogError("AssemblyVersion could not be determined.");
                     return false;
                 }
-                if (PluginVersion != "E.R.R" && AssemblyVersion != PluginVersion)
+                if (PluginVersion != ErrorString && AssemblyVersion != PluginVersion)
                 {
                     if (ErrorOnMismatch)
                     {
@@ -217,7 +222,6 @@ namespace BeatSaberModdingTools.Tasks
             string line;
             int currentLine = 1;
             string assemblyVersion = null;
-
             if (!File.Exists(assemblyFile))
             {
                 throw new FileNotFoundException("Could not find AssemblyInfo: " + assemblyFile);
@@ -311,84 +315,4 @@ namespace BeatSaberModdingTools.Tasks
         }
     }
 
-    /// <summary>
-    /// Exception thrown on parsing errors.
-    /// </summary>
-    public class ParsingException : Exception
-    {
-        /// <summary>
-        /// Log entry SubCategory.
-        /// </summary>
-        public readonly string SubCategory;
-        /// <summary>
-        /// Log entry MessageCode.
-        /// </summary>
-        public readonly string MessageCode;
-        /// <summary>
-        /// Log entry HelpKeyword.
-        /// </summary>
-        public readonly string HelpKeyword;
-        /// <summary>
-        /// Log entry File name.
-        /// </summary>
-        public readonly string File;
-        /// <summary>
-        /// Log entry line number.
-        /// </summary>
-        public readonly int LineNumber;
-        /// <summary>
-        /// Log entry column number.
-        /// </summary>
-        public readonly int ColumnNumber;
-        /// <summary>
-        /// Log entry end line number.
-        /// </summary>
-        public readonly int EndLineNumber;
-        /// <summary>
-        /// Log entry end column number.
-        /// </summary>
-        public readonly int EndColumnNumber;
-        /// <summary>
-        /// Log entry Message args.
-        /// </summary>
-        public readonly object[] MessageArgs;
-
-        /// <inheritdoc/>
-        public ParsingException(string message) : base(message)
-        {
-        }
-
-        /// <inheritdoc/>
-        public ParsingException(string message, Exception innerException) : base(message, innerException)
-        {
-        }
-        /// <summary>
-        /// Creates a <see cref="ParsingException"/> using the given message data.
-        /// </summary>
-        /// <param name="subCategory"></param>
-        /// <param name="messageCode"></param>
-        /// <param name="helpKeyword"></param>
-        /// <param name="file"></param>
-        /// <param name="lineNumber"></param>
-        /// <param name="columnNumber"></param>
-        /// <param name="endLineNumber"></param>
-        /// <param name="endColumnNumber"></param>
-        /// <param name="message"></param>
-        /// <param name="messageArgs"></param>
-        public ParsingException(string subCategory, string messageCode, string helpKeyword,
-            string file, int lineNumber, int columnNumber, int endLineNumber, int endColumnNumber,
-            string message, params object[] messageArgs)
-            : base(message)
-        {
-            SubCategory = subCategory;
-            MessageCode = messageCode;
-            HelpKeyword = helpKeyword;
-            File = file;
-            LineNumber = lineNumber;
-            ColumnNumber = columnNumber;
-            EndLineNumber = endLineNumber;
-            EndColumnNumber = endColumnNumber;
-            MessageArgs = messageArgs;
-        }
-    }
 }

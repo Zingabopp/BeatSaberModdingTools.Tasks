@@ -1,10 +1,14 @@
-﻿namespace BeatSaberModdingTools.Tasks.Utilties
+﻿namespace BeatSaberModdingTools.Tasks.Utilities
 {
     /// <summary>
     /// Message codes.
     /// </summary>
     public static class MessageCodes
     {
+        /// <summary>
+        /// Default output when a property can't be read.
+        /// </summary>
+        public const string ErrorString = "E.R.R";
         /// <summary>
         /// Message codes for GetManifestInfo.
         /// </summary>

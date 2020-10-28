@@ -2,12 +2,12 @@
 using System;
 using System.Collections.Generic;
 
-namespace BeatSaberModdingTools.Tasks.Utilties
+namespace BeatSaberModdingTools.Tasks.Utilities
 {
     /// <summary>
     /// A mock logger that implements <see cref="ITaskLogger"/> for unit testing.
     /// </summary>
-    public class MockTaskLogger : ITaskLogger
+    public class MockTaskLogger : LoggerBase
     {
         /// <summary>
         /// List of log entries created by this instance.
@@ -15,7 +15,7 @@ namespace BeatSaberModdingTools.Tasks.Utilties
         public List<MockLogEntry> LogEntries = new List<MockLogEntry>();
 
         /// <inheritdoc/>
-        public void LogError(string subcategory, string errorCode, string helpKeyword, string file, int lineNumber, int columnNumber, int endLineNumber, int endColumnNumber, string message, params object[] messageArgs)
+        public override void LogError(string subcategory, string errorCode, string helpKeyword, string file, int lineNumber, int columnNumber, int endLineNumber, int endColumnNumber, string message, params object[] messageArgs)
         {
             LogEntries.Add(new MockLogEntry(LogEntryType.Error)
             {
@@ -34,7 +34,7 @@ namespace BeatSaberModdingTools.Tasks.Utilties
         }
 
         /// <inheritdoc/>
-        public void LogError(string message, params object[] messageArgs)
+        public override void LogError(string message, params object[] messageArgs)
         {
             LogEntries.Add(new MockLogEntry(LogEntryType.Error)
             {
@@ -45,7 +45,7 @@ namespace BeatSaberModdingTools.Tasks.Utilties
         }
 
         /// <inheritdoc/>
-        public void LogErrorFromException(Exception exception)
+        public override void LogErrorFromException(Exception exception)
         {
             LogEntries.Add(new MockLogEntry(LogEntryType.Exception)
             {
@@ -55,7 +55,7 @@ namespace BeatSaberModdingTools.Tasks.Utilties
         }
 
         /// <inheritdoc/>
-        public void LogMessage(MessageImportance importance, string message, params object[] messageArgs)
+        public override void LogMessage(MessageImportance importance, string message, params object[] messageArgs)
         {
             LogEntries.Add(new MockLogEntry(LogEntryType.Message)
             {
@@ -66,7 +66,7 @@ namespace BeatSaberModdingTools.Tasks.Utilties
         }
 
         /// <inheritdoc/>
-        public void LogMessage(string subcategory, string code, string helpKeyword, string file, int lineNumber, int columnNumber, int endLineNumber, int endColumnNumber, MessageImportance messageImportance, string message, params object[] messageArgs)
+        public override void LogMessage(string subcategory, string code, string helpKeyword, string file, int lineNumber, int columnNumber, int endLineNumber, int endColumnNumber, MessageImportance messageImportance, string message, params object[] messageArgs)
         {
             LogEntries.Add(new MockLogEntry(LogEntryType.Message)
             {
@@ -85,7 +85,7 @@ namespace BeatSaberModdingTools.Tasks.Utilties
         }
 
         /// <inheritdoc/>
-        public void LogWarning(string subcategory, string warningCode, string helpKeyword, string file, int lineNumber, int columnNumber, int endLineNumber, int endColumnNumber, string message, params object[] messageArgs)
+        public override void LogWarning(string subcategory, string warningCode, string helpKeyword, string file, int lineNumber, int columnNumber, int endLineNumber, int endColumnNumber, string message, params object[] messageArgs)
         {
             LogEntries.Add(new MockLogEntry(LogEntryType.Warning)
             {
@@ -104,7 +104,7 @@ namespace BeatSaberModdingTools.Tasks.Utilties
         }
 
         /// <inheritdoc/>
-        public void LogWarning(string message, params object[] messageArgs)
+        public override void LogWarning(string message, params object[] messageArgs)
         {
             LogEntries.Add(new MockLogEntry(LogEntryType.Warning)
             {
