@@ -14,25 +14,15 @@
             <see cref="T:BeatSaberModdingTools.Tasks.Utilities.ITaskLogger"/> instance used.
             </summary>
         </member>
-        <member name="P:BeatSaberModdingTools.Tasks.CompareVersions.AssemblyVersion">
-            <summary>
-            Version of the assembly.
-            </summary>
-        </member>
         <member name="P:BeatSaberModdingTools.Tasks.CompareVersions.PluginVersion">
             <summary>
             The mod or lib's version as reported by the manifest.
             </summary>
         </member>
-        <member name="P:BeatSaberModdingTools.Tasks.CompareVersions.KnownAssemblyVersion">
+        <member name="P:BeatSaberModdingTools.Tasks.CompareVersions.AssemblyVersion">
             <summary>
             Optional: Skip trying to read the assembly version of the project and use this value instead.
             Useful if the project already has a property with the assembly version.
-            </summary>
-        </member>
-        <member name="P:BeatSaberModdingTools.Tasks.CompareVersions.AssemblyInfoPath">
-            <summary>
-            Optional: Path to the file containing the assembly information. Default is 'Properties\AssemblyInfo.cs'.
             </summary>
         </member>
         <member name="P:BeatSaberModdingTools.Tasks.CompareVersions.ErrorOnMismatch">
@@ -45,14 +35,6 @@
             Executes the task.
             </summary>
             <returns>true if successful</returns>
-        </member>
-        <member name="M:BeatSaberModdingTools.Tasks.CompareVersions.ParseAssembly(System.String,System.Boolean)">
-            <summary>
-            Parses the assembly version from the given file.
-            </summary>
-            <param name="assemblyFile"></param>
-            <param name="errorOnMismatch"></param>
-            <returns></returns>
         </member>
         <member name="T:BeatSaberModdingTools.Tasks.GetAssemblyInfo">
             <summary>
@@ -855,7 +837,7 @@
         </member>
         <member name="T:BeatSaberModdingTools.Tasks.Utilities.MessageCodes.GetManifestInfo">
             <summary>
-            Message codes for GetManifestInfo.
+            Message codes for <see cref="T:BeatSaberModdingTools.Tasks.GetManifestInfo"/>.
             </summary>
         </member>
         <member name="F:BeatSaberModdingTools.Tasks.Utilities.MessageCodes.GetManifestInfo.ManifestFileNotFound">
@@ -885,7 +867,7 @@
         </member>
         <member name="T:BeatSaberModdingTools.Tasks.Utilities.MessageCodes.CompareVersions">
             <summary>
-            Message codes for <see cref="T:BeatSaberModdingTools.Tasks.Utilities.MessageCodes.CompareVersions"/>.
+            Message codes for <see cref="T:BeatSaberModdingTools.Tasks.CompareVersions"/>.
             </summary>
         </member>
         <member name="F:BeatSaberModdingTools.Tasks.Utilities.MessageCodes.CompareVersions.VersionMismatch">
@@ -893,24 +875,9 @@
             Manifest and assembly versions don't match.
             </summary>
         </member>
-        <member name="F:BeatSaberModdingTools.Tasks.Utilities.MessageCodes.CompareVersions.AssemblyInfoNotFound">
+        <member name="F:BeatSaberModdingTools.Tasks.Utilities.MessageCodes.CompareVersions.InvalidVersion">
             <summary>
-            AssemblyInfo file not found and known assembly version not given.
-            </summary>
-        </member>
-        <member name="F:BeatSaberModdingTools.Tasks.Utilities.MessageCodes.CompareVersions.AssemblyVersionMismatch">
-            <summary>
-            AssemblyVersion and AssemblyFileVersion don't match.
-            </summary>
-        </member>
-        <member name="F:BeatSaberModdingTools.Tasks.Utilities.MessageCodes.CompareVersions.AssemblyVersionParseFail">
-            <summary>
-            AssemblyVersion couldn't be parsed from AssemblyInfo file.
-            </summary>
-        </member>
-        <member name="F:BeatSaberModdingTools.Tasks.Utilities.MessageCodes.CompareVersions.AssemblyFileVersionParseFail">
-            <summary>
-            AssemblyFileVersion couldn't be determined from AssemblyInfo.
+            Invalid versions given.
             </summary>
         </member>
         <member name="F:BeatSaberModdingTools.Tasks.Utilities.MessageCodes.CompareVersions.GeneralFailure">
@@ -918,9 +885,39 @@
             Other error.
             </summary>
         </member>
+        <member name="T:BeatSaberModdingTools.Tasks.Utilities.MessageCodes.GetAssemblyInfo">
+            <summary>
+            Message codes for <see cref="T:BeatSaberModdingTools.Tasks.GetAssemblyInfo"/>.
+            </summary>
+        </member>
+        <member name="F:BeatSaberModdingTools.Tasks.Utilities.MessageCodes.GetAssemblyInfo.AssemblyInfoNotFound">
+            <summary>
+            AssemblyInfo file not found and known assembly version not given.
+            </summary>
+        </member>
+        <member name="F:BeatSaberModdingTools.Tasks.Utilities.MessageCodes.GetAssemblyInfo.AssemblyVersionMismatch">
+            <summary>
+            AssemblyVersion and AssemblyFileVersion don't match.
+            </summary>
+        </member>
+        <member name="F:BeatSaberModdingTools.Tasks.Utilities.MessageCodes.GetAssemblyInfo.AssemblyVersionParseFail">
+            <summary>
+            AssemblyVersion couldn't be parsed from AssemblyInfo file.
+            </summary>
+        </member>
+        <member name="F:BeatSaberModdingTools.Tasks.Utilities.MessageCodes.GetAssemblyInfo.AssemblyFileVersionParseFail">
+            <summary>
+            AssemblyFileVersion couldn't be determined from AssemblyInfo.
+            </summary>
+        </member>
+        <member name="F:BeatSaberModdingTools.Tasks.Utilities.MessageCodes.GetAssemblyInfo.GeneralFailure">
+            <summary>
+            Other error.
+            </summary>
+        </member>
         <member name="T:BeatSaberModdingTools.Tasks.Utilities.MessageCodes.IsProcessRunning">
             <summary>
-            Message codes for IsProcessRunning.
+            Message codes for <see cref="T:BeatSaberModdingTools.Tasks.IsProcessRunning"/>.
             </summary>
         </member>
         <member name="F:BeatSaberModdingTools.Tasks.Utilities.MessageCodes.IsProcessRunning.EmptyProcessName">
@@ -935,7 +932,7 @@
         </member>
         <member name="T:BeatSaberModdingTools.Tasks.Utilities.MessageCodes.ZipDir">
             <summary>
-            Message codes for ZipDir.
+            Message codes for <see cref="T:BeatSaberModdingTools.Tasks.ZipDir"/>.
             </summary>
         </member>
         <member name="F:BeatSaberModdingTools.Tasks.Utilities.MessageCodes.ZipDir.ZipFailed">
@@ -958,24 +955,24 @@
             Path specified in <see cref="P:BeatSaberModdingTools.Tasks.ZipDir.SourceDirectory"/> does not exist.
             </summary>
         </member>
-        <member name="T:BeatSaberModdingTools.Tasks.Utilities.MessageCodes.GetCommitHash">
+        <member name="T:BeatSaberModdingTools.Tasks.Utilities.MessageCodes.GetCommitInfo">
             <summary>
-            Message codes for GetCommitHash.
+            Message codes for <see cref="T:BeatSaberModdingTools.Tasks.GetCommitInfo"/>.
             </summary>
         </member>
-        <member name="F:BeatSaberModdingTools.Tasks.Utilities.MessageCodes.GetCommitHash.GitFailed">
+        <member name="F:BeatSaberModdingTools.Tasks.Utilities.MessageCodes.GetCommitInfo.GitFailed">
             <summary>
             Other error.
             </summary>
         </member>
-        <member name="F:BeatSaberModdingTools.Tasks.Utilities.MessageCodes.GetCommitHash.GitNoRepository">
+        <member name="F:BeatSaberModdingTools.Tasks.Utilities.MessageCodes.GetCommitInfo.GitNoRepository">
             <summary>
             Project is not in a git repository.
             </summary>
         </member>
         <member name="T:BeatSaberModdingTools.Tasks.Utilities.MessageCodes.ReplaceInFile">
             <summary>
-            Message codes for ReplaceInFile.
+            Message codes for <see cref="T:BeatSaberModdingTools.Tasks.ReplaceInFile"/>.
             </summary>
         </member>
         <member name="F:BeatSaberModdingTools.Tasks.Utilities.MessageCodes.ReplaceInFile.EmptyFile">

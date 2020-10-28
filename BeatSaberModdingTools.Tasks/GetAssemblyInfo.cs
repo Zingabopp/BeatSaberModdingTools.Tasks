@@ -65,7 +65,7 @@ namespace BeatSaberModdingTools.Tasks
                 {
                     if (FailOnError)
                     {
-                        errorCode = MessageCodes.CompareVersions.AssemblyInfoNotFound;
+                        errorCode = MessageCodes.GetAssemblyInfo.AssemblyInfoNotFound;
                         throw;
                     }
                     else
@@ -83,7 +83,7 @@ namespace BeatSaberModdingTools.Tasks
             catch (ParsingException ex)
             {
                 if (string.IsNullOrEmpty(errorCode))
-                    errorCode = MessageCodes.CompareVersions.GeneralFailure;
+                    errorCode = MessageCodes.GetAssemblyInfo.GeneralFailure;
                 if (BuildEngine != null)
                 {
                     int line = BuildEngine.LineNumberOfTaskNode;
@@ -99,7 +99,7 @@ namespace BeatSaberModdingTools.Tasks
             catch (Exception ex)
             {
                 if (string.IsNullOrEmpty(errorCode))
-                    errorCode = MessageCodes.CompareVersions.GeneralFailure;
+                    errorCode = MessageCodes.GetAssemblyInfo.GeneralFailure;
                 if (BuildEngine != null)
                 {
                     int line = BuildEngine.LineNumberOfTaskNode;
@@ -171,9 +171,9 @@ namespace BeatSaberModdingTools.Tasks
             else
             {
                 if (FailOnError)
-                    throw new ParsingException(null, MessageCodes.CompareVersions.AssemblyFileVersionParseFail,
+                    throw new ParsingException(null, MessageCodes.GetAssemblyInfo.AssemblyFileVersionParseFail,
                         "", assemblyFile, 0, 0, 0, 0, "Unable to parse the AssemblyVersion from {0}", assemblyFile);
-                Logger.LogWarning(null, MessageCodes.CompareVersions.AssemblyFileVersionParseFail,
+                Logger.LogWarning(null, MessageCodes.GetAssemblyInfo.AssemblyFileVersionParseFail,
                     "", assemblyFile, 0, 0, 0, 0, "Unable to parse the AssemblyVersion from {0}", assemblyFile);
                 return AssemblyInfoData.AssemblyVersionError();
             }
@@ -190,10 +190,10 @@ namespace BeatSaberModdingTools.Tasks
                     {
                         string message = "AssemblyVersion {0} does not match AssemblyFileVersion {1} in {2}";
                         if (errorOnMismatch)
-                            throw new ParsingException(null, MessageCodes.CompareVersions.AssemblyVersionMismatch,
+                            throw new ParsingException(null, MessageCodes.GetAssemblyInfo.AssemblyVersionMismatch,
                                 "", assemblyFile, asmFileVerLineNum, asmFileVerStartColumn + 1, asmFileVerLineNum,
                                 asmFileVerEndColumn + 1, message, assemblyVersion, assemblyFileVersion, assemblyFile);
-                        Logger.LogWarning(null, MessageCodes.CompareVersions.AssemblyVersionMismatch,
+                        Logger.LogWarning(null, MessageCodes.GetAssemblyInfo.AssemblyVersionMismatch,
                             "", assemblyFile, asmFileVerLineNum, asmFileVerStartColumn + 1, asmFileVerLineNum,
                             asmFileVerEndColumn + 1, message, assemblyVersion, assemblyFileVersion, assemblyFile);
                     }
@@ -205,10 +205,10 @@ namespace BeatSaberModdingTools.Tasks
                     asmFileVerEndColumn = asmFileVerStartColumn;
                     string message = "Unable to parse the AssemblyFileVersion from {0}";
                     if (errorOnMismatch)
-                        throw new ParsingException(null, MessageCodes.CompareVersions.AssemblyFileVersionParseFail,
+                        throw new ParsingException(null, MessageCodes.GetAssemblyInfo.AssemblyFileVersionParseFail,
                             "", assemblyFile, asmFileVerLineNum, asmFileVerStartColumn,
                             asmFileVerLineNum, asmFileVerEndColumn, message, assemblyFile);
-                    Logger.LogWarning(null, MessageCodes.CompareVersions.AssemblyFileVersionParseFail,
+                    Logger.LogWarning(null, MessageCodes.GetAssemblyInfo.AssemblyFileVersionParseFail,
                         "", assemblyFile, asmFileVerLineNum, asmFileVerStartColumn, asmFileVerLineNum,
                         asmFileVerEndColumn, message, assemblyFile);
                 }

@@ -14,7 +14,7 @@
         /// </summary>
         public const string Name = "BeatSaberModdingTools.Tasks";
         /// <summary>
-        /// Message codes for GetManifestInfo.
+        /// Message codes for <see cref="Tasks.GetManifestInfo"/>.
         /// </summary>
         public static class GetManifestInfo 
         {
@@ -40,7 +40,7 @@
             public const string GeneralFailure = "BSMT09";
         }
         /// <summary>
-        /// Message codes for <see cref="CompareVersions"/>.
+        /// Message codes for <see cref="Tasks.CompareVersions"/>.
         /// </summary>
         public static class CompareVersions
         {
@@ -48,6 +48,21 @@
             /// Manifest and assembly versions don't match.
             /// </summary>
             public const string VersionMismatch = "BSMT01";
+            /// <summary>
+            /// Invalid versions given.
+            /// </summary>
+            public const string InvalidVersion = "BSMT24";
+            /// <summary>
+            /// Other error.
+            /// </summary>
+            public const string GeneralFailure = "BSMT22";
+        }
+
+        /// <summary>
+        /// Message codes for <see cref="Tasks.GetAssemblyInfo"/>.
+        /// </summary>
+        public static class GetAssemblyInfo
+        {
             /// <summary>
             /// AssemblyInfo file not found and known assembly version not given.
             /// </summary>
@@ -65,17 +80,14 @@
             /// </summary>
             public const string AssemblyFileVersionParseFail = "BSMT08";
             /// <summary>
-            /// Invalid versions given.
-            /// </summary>
-            public const string InvalidVersion = "BSMT24";
-            /// <summary>
             /// Other error.
             /// </summary>
-            public const string GeneralFailure = "BSMT22";
+            public const string GeneralFailure = "BSMT25";
+
         }
 
         /// <summary>
-        /// Message codes for IsProcessRunning.
+        /// Message codes for <see cref="Tasks.IsProcessRunning"/>.
         /// </summary>
         public static class IsProcessRunning
         {
@@ -89,7 +101,7 @@
             public const string GeneralFailure = "BSMT11";
         }
         /// <summary>
-        /// Message codes for ZipDir.
+        /// Message codes for <see cref="Tasks.ZipDir"/>.
         /// </summary>
         public static class ZipDir
         {
@@ -111,9 +123,9 @@
             public const string ZipMissingSource = "BSMT15";
         }
         /// <summary>
-        /// Message codes for GetCommitHash.
+        /// Message codes for <see cref="Tasks.GetCommitInfo"/>.
         /// </summary>
-        public static class GetCommitHash
+        public static class GetCommitInfo
         {
             /// <summary>
             /// Other error.
@@ -125,7 +137,7 @@
             public const string GitNoRepository = "BSMT17";
         }
         /// <summary>
-        /// Message codes for ReplaceInFile.
+        /// Message codes for <see cref="Tasks.ReplaceInFile"/>.
         /// </summary>
         public static class ReplaceInFile
         {
