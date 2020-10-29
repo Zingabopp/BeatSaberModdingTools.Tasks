@@ -42,6 +42,7 @@ namespace BeatSaberModdingTools.Tasks
         /// If enabled, this task will report a failure if it cannot parse the Plugin version or Game version.
         /// </summary>
         public virtual bool FailOnError { get; set; }
+
         #region Removed
         /// <summary>
         /// Moved to <see cref="CompareVersions"/>.

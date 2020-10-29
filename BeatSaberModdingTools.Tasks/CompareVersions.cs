@@ -20,12 +20,14 @@ namespace BeatSaberModdingTools.Tasks
         /// <summary>
         /// The mod or lib's version as reported by the manifest.
         /// </summary>
+        [Required]
         public virtual string PluginVersion { get; set; }
 
         /// <summary>
         /// Optional: Skip trying to read the assembly version of the project and use this value instead.
         /// Useful if the project already has a property with the assembly version.
         /// </summary>
+        [Required]
         public virtual string AssemblyVersion { get; set; }
 
         /// <summary>
