@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 
 namespace BeatSaberModdingTools.Tasks.Utilities
@@ -30,14 +29,14 @@ namespace BeatSaberModdingTools.Tasks.Utilities
         {
             string[] verAry = version.Split('.');
             List<int> e = new List<int>(verAry.Length);
-            for(int i = 0; i < verAry.Length; i++)
+            for (int i = 0; i < verAry.Length; i++)
             {
                 if (int.TryParse(verAry[i], out int result))
                     e.Add(result);
                 else
                     throw new ParsingException($"Could not parse '{verAry[i]}' in '{version}' to an integer.");
             }
-            while(e.Count < minLength)
+            while (e.Count < minLength)
             {
                 e.Add(0);
             }
@@ -66,7 +65,7 @@ namespace BeatSaberModdingTools.Tasks.Utilities
             {
                 if (asmAry.Take(3).SequenceEqual(manifestAry) && asmAry.Last() == 0)
                     matchFound = true;
-                else if(asmAry.Skip(1).SequenceEqual(manifestAry) && asmAry.First() == 0)
+                else if (asmAry.Skip(1).SequenceEqual(manifestAry) && asmAry.First() == 0)
                     matchFound = true;
             }
             else

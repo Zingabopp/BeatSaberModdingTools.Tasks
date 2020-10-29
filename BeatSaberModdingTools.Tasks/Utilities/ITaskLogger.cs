@@ -86,8 +86,8 @@ namespace BeatSaberModdingTools.Tasks.Utilities
         /// <param name="messageImportance"></param>
         /// <param name="message"></param>
         /// <param name="messageArgs"></param>
-        void LogMessage(string subcategory, string code, string helpKeyword, string file, 
-            int lineNumber, int columnNumber, int endLineNumber, int endColumnNumber, 
+        void LogMessage(string subcategory, string code, string helpKeyword, string file,
+            int lineNumber, int columnNumber, int endLineNumber, int endColumnNumber,
             MessageImportance messageImportance, string message, params object[] messageArgs);
         /// <summary>
         /// Logs a message.

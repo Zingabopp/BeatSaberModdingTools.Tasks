@@ -1,7 +1,5 @@
 ﻿using Microsoft.Build.Framework;
 using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace BeatSaberModdingTools.Tasks.Utilities
 {
@@ -11,7 +9,7 @@ namespace BeatSaberModdingTools.Tasks.Utilities
     public abstract class LoggerBase : ITaskLogger
     {
         /// <inheritdoc/>
-        public abstract void LogError(string subcategory, string errorCode, string helpKeyword, string file, 
+        public abstract void LogError(string subcategory, string errorCode, string helpKeyword, string file,
             int lineNumber, int columnNumber, int endLineNumber, int endColumnNumber, string message, params object[] messageArgs);
         /// <inheritdoc/>
         public void LogError(string subcategory, string errorCode, string helpKeyword, string file, FilePosition position, string message, params object[] messageArgs)
@@ -36,7 +34,7 @@ namespace BeatSaberModdingTools.Tasks.Utilities
         public abstract void LogWarning(string subcategory, string warningCode, string helpKeyword, string file, int lineNumber, int columnNumber, int endLineNumber, int endColumnNumber, string message, params object[] messageArgs);
         /// <inheritdoc/>
         public void LogWarning(string subcategory, string warningCode, string helpKeyword, string file, FilePosition position, string message, params object[] messageArgs)
-            => LogWarning(subcategory, warningCode, helpKeyword, file, position.StartLine, position.StartColumn, position.EndLine, position.EndColumn, message,  messageArgs);
+            => LogWarning(subcategory, warningCode, helpKeyword, file, position.StartLine, position.StartColumn, position.EndLine, position.EndColumn, message, messageArgs);
         /// <inheritdoc/>
         public abstract void LogWarning(string message, params object[] messageArgs);
 
@@ -61,9 +59,9 @@ namespace BeatSaberModdingTools.Tasks.Utilities
         }
 
         /// <inheritdoc/>
-        public void Log(string subcategory, string code, string helpKeyword, string file, FilePosition position, LogMessageLevel level, 
+        public void Log(string subcategory, string code, string helpKeyword, string file, FilePosition position, LogMessageLevel level,
             string message, params object[] messageArgs)
-            => Log(subcategory, code, helpKeyword, file, position.StartLine, position.StartColumn, position.EndLine, position.EndColumn, 
+            => Log(subcategory, code, helpKeyword, file, position.StartLine, position.StartColumn, position.EndLine, position.EndColumn,
                 level, message, messageArgs);
 
         /// <inheritdoc/>

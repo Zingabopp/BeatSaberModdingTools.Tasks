@@ -16,7 +16,7 @@
         /// <summary>
         /// Message codes for <see cref="Tasks.GetManifestInfo"/>.
         /// </summary>
-        public static class GetManifestInfo 
+        public static class GetManifestInfo
         {
             /// <summary>
             /// Manifest file doesn't exist.

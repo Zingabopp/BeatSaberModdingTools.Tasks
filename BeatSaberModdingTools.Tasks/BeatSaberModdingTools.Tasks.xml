@@ -6,7 +6,7 @@
     <members>
         <member name="T:BeatSaberModdingTools.Tasks.CompareVersions">
             <summary>
-            Verifies the plugin manifest and assembly metadata.
+            Compares an assembly and manifest version string, logs an error and optionally fails if they don't match.
             </summary>
         </member>
         <member name="F:BeatSaberModdingTools.Tasks.CompareVersions.Logger">
@@ -21,8 +21,7 @@
         </member>
         <member name="P:BeatSaberModdingTools.Tasks.CompareVersions.AssemblyVersion">
             <summary>
-            Optional: Skip trying to read the assembly version of the project and use this value instead.
-            Useful if the project already has a property with the assembly version.
+            The mod or library's version as reported by the assembly.
             </summary>
         </member>
         <member name="P:BeatSaberModdingTools.Tasks.CompareVersions.ErrorOnMismatch">
@@ -38,7 +37,7 @@
         </member>
         <member name="T:BeatSaberModdingTools.Tasks.GetAssemblyInfo">
             <summary>
-            Verifies the plugin manifest and assembly metadata.
+            Parses the AssemblyVersion from an AssemblyInfo.cs file.
             </summary>
         </member>
         <member name="F:BeatSaberModdingTools.Tasks.GetAssemblyInfo.Logger">
@@ -58,7 +57,7 @@
         </member>
         <member name="P:BeatSaberModdingTools.Tasks.GetAssemblyInfo.FailOnError">
             <summary>
-            If enabled, this task will report a failure if it cannot parse the Plugin version or Game version.
+            If enabled, this task will report a failure if it cannot parse the AssemblyVersion.
             </summary>
         </member>
         <member name="M:BeatSaberModdingTools.Tasks.GetAssemblyInfo.Execute">
@@ -269,7 +268,7 @@
         </member>
         <member name="T:BeatSaberModdingTools.Tasks.GetManifestInfo">
             <summary>
-            Reads a BSIPA manifest json file, compares the values to the project's assembly version, and outputs information from the manifest.
+            Reads a BSIPA manifest json file and outputs information from the manifest.
             </summary>
         </member>
         <member name="F:BeatSaberModdingTools.Tasks.GetManifestInfo.Logger">

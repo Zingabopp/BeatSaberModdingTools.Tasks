@@ -2,13 +2,12 @@
 using Microsoft.Build.Framework;
 using System;
 using System.IO;
-using System.Linq;
 using static BeatSaberModdingTools.Tasks.Utilities.MessageCodes;
 
 namespace BeatSaberModdingTools.Tasks
 {
     /// <summary>
-    /// Verifies the plugin manifest and assembly metadata.
+    /// Parses the AssemblyVersion from an AssemblyInfo.cs file.
     /// </summary>
     public class GetAssemblyInfo : Microsoft.Build.Utilities.Task
     {
@@ -29,7 +28,7 @@ namespace BeatSaberModdingTools.Tasks
         public virtual string AssemblyInfoPath { get; set; }
 
         /// <summary>
-        /// If enabled, this task will report a failure if it cannot parse the Plugin version or Game version.
+        /// If enabled, this task will report a failure if it cannot parse the AssemblyVersion.
         /// </summary>
         public virtual bool FailOnError { get; set; }
 

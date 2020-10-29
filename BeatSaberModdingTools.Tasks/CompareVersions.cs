@@ -1,14 +1,11 @@
 ﻿using BeatSaberModdingTools.Tasks.Utilities;
 using Microsoft.Build.Framework;
 using System;
-using System.IO;
-using System.Linq;
-using static BeatSaberModdingTools.Tasks.Utilities.MessageCodes;
 
 namespace BeatSaberModdingTools.Tasks
 {
     /// <summary>
-    /// Verifies the plugin manifest and assembly metadata.
+    /// Compares an assembly and manifest version string, logs an error and optionally fails if they don't match.
     /// </summary>
     public class CompareVersions : Microsoft.Build.Utilities.Task
     {
@@ -24,8 +21,7 @@ namespace BeatSaberModdingTools.Tasks
         public virtual string PluginVersion { get; set; }
 
         /// <summary>
-        /// Optional: Skip trying to read the assembly version of the project and use this value instead.
-        /// Useful if the project already has a property with the assembly version.
+        /// The mod or library's version as reported by the assembly.
         /// </summary>
         [Required]
         public virtual string AssemblyVersion { get; set; }
@@ -51,7 +47,7 @@ namespace BeatSaberModdingTools.Tasks
                 Logger = new MockTaskLogger();
             try
             {
-                if(!Util.MatchVersions(AssemblyVersion, PluginVersion))
+                if (!Util.MatchVersions(AssemblyVersion, PluginVersion))
                 {
                     Logger.Log(null, MessageCodes.CompareVersions.VersionMismatch, "",
                         assemblyInfoPath, asmInfo.AssemblyVersionPosition, errorLevel,
@@ -63,7 +59,7 @@ namespace BeatSaberModdingTools.Tasks
 
                 return true;
             }
-            catch(VersionMatchException ex)
+            catch (VersionMatchException ex)
             {
                 if (BuildEngine != null)
                 {
@@ -77,7 +73,7 @@ namespace BeatSaberModdingTools.Tasks
                 }
                 return false;
             }
-            catch(ParsingException ex)
+            catch (ParsingException ex)
             {
                 if (string.IsNullOrEmpty(errorCode))
                     errorCode = MessageCodes.CompareVersions.GeneralFailure;

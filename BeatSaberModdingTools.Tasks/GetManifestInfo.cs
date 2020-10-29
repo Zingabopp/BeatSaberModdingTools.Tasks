@@ -1,14 +1,13 @@
 ﻿using BeatSaberModdingTools.Tasks.Utilities;
-using static BeatSaberModdingTools.Tasks.Utilities.MessageCodes;
 using Microsoft.Build.Framework;
 using System;
 using System.IO;
-using System.Linq;
+using static BeatSaberModdingTools.Tasks.Utilities.MessageCodes;
 
 namespace BeatSaberModdingTools.Tasks
 {
     /// <summary>
-    /// Reads a BSIPA manifest json file, compares the values to the project's assembly version, and outputs information from the manifest.
+    /// Reads a BSIPA manifest json file and outputs information from the manifest.
     /// </summary>
     public class GetManifestInfo : Microsoft.Build.Utilities.Task
     {
@@ -32,7 +31,6 @@ namespace BeatSaberModdingTools.Tasks
         /// </summary>
         [Output]
         public virtual string BasePluginVersion { get; protected set; }
-
 
         /// <summary>
         /// Optional: Path to the manifest file. Default is 'manifest.json'.
