@@ -190,7 +190,7 @@ namespace BeatSaberModdingTools.Tasks
                     Match match = OriginSearch.Match(configContents);
                     if (match.Success && match.Groups.Count > 1)
                     {
-                        gitInfo.OriginUrl = match.Groups[1].Value;
+                        gitInfo.OriginUrl = match.Groups[1].Value?.Trim();
                         if (gitInfo.OriginUrl != null && gitInfo.OriginUrl.Length > 0)
                             gitInfo.GitUser = GetGitHubUser(gitInfo.OriginUrl);
                     }
@@ -245,13 +245,13 @@ namespace BeatSaberModdingTools.Tasks
                     if (!SkipStatus)
                     {
                         GitInfo gitStatus = GetGitStatus(ProjectDir);
-                        if (!string.IsNullOrEmpty(gitStatus.Branch))
+                        if (!string.IsNullOrWhiteSpace(gitStatus.Branch))
                             Branch = gitStatus.Branch;
-                        if (!string.IsNullOrEmpty(gitStatus.Modified))
+                        if (!string.IsNullOrWhiteSpace(gitStatus.Modified))
                             Modified = gitStatus.Modified;
-                        if (!string.IsNullOrEmpty(gitStatus.OriginUrl))
+                        if (!string.IsNullOrWhiteSpace(gitStatus.OriginUrl))
                             OriginUrl = gitStatus.OriginUrl;
-                        if (!string.IsNullOrEmpty(gitStatus.GitUser))
+                        if (!string.IsNullOrWhiteSpace(gitStatus.GitUser))
                             GitUser = gitStatus.GitUser;
                     }
                 }
@@ -269,13 +269,13 @@ namespace BeatSaberModdingTools.Tasks
                             CommitHash = commitHash
                                 .Substring(0,
                                   Math.Min(commitHash.Length, HashLength));
-                        if (!string.IsNullOrEmpty(gitInfo.Branch))
+                        if (!string.IsNullOrWhiteSpace(gitInfo.Branch))
                             Branch = gitInfo.Branch;
-                        if (!string.IsNullOrEmpty(gitInfo.Modified))
+                        if (!string.IsNullOrWhiteSpace(gitInfo.Modified))
                             Modified = gitInfo.Modified;
-                        if (!string.IsNullOrEmpty(gitInfo.OriginUrl))
+                        if (!string.IsNullOrWhiteSpace(gitInfo.OriginUrl))
                             OriginUrl = gitInfo.OriginUrl;
-                        if (!string.IsNullOrEmpty(gitInfo.GitUser))
+                        if (!string.IsNullOrWhiteSpace(gitInfo.GitUser))
                             GitUser = gitInfo.GitUser;
                     }
                 }
