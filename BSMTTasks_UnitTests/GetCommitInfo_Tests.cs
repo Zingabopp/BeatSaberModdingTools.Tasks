@@ -1,8 +1,10 @@
 ﻿using BeatSaberModdingTools.Tasks;
 using BeatSaberModdingTools.Tasks.Utilities;
+using BSMTTasks_UnitTests.Mocks;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using System.IO;
+using System.Linq;
 
 namespace BSMTTasks_UnitTests
 {
@@ -116,17 +118,105 @@ namespace BSMTTasks_UnitTests
             Assert.AreEqual(hashLength, task.CommitHash.Length);
         }
 
+        [TestMethod]
+        public void NormalStatus_Unmodified()
+        {
+            string directory = Path.Combine(DataFolder, "GitTests");
+            string statusStr = "On branch master\nYour branch is up to date with 'origin/master'.\n\nnothing to commit, working tree clean";
+            string originStr = @"https://github.com/Zingabopp/BeatSaberModdingTools";
+            string hash = "aadfa8f8af8a8f8af8a8fa";
+
+            string expectedOrigin = originStr;
+            string expectedHash = hash.Substring(0, 7);
+            string expectedModified = "Unmodified";
+
+            IGitRunner gitRunner = new MockGitRunner
+                (
+                (GitArgument.Status, statusStr),
+                (GitArgument.OriginUrl, originStr),
+                (GitArgument.CommitHash, hash))
+                ;
+            GetCommitInfo task = new MockGetCommitHash("Test.git")
+            {
+                GitRunner = gitRunner,
+                ProjectDir = directory
+            };
+            task.Execute();
+            Assert.AreEqual("master", task.Branch);
+            Assert.AreEqual(expectedHash, task.CommitHash);
+            Assert.AreEqual(expectedOrigin, task.OriginUrl);
+            Assert.AreEqual(expectedModified, task.Modified);
+        }
+
+        [TestMethod]
+        public void UntrackedFiles()
+        {
+            string directory = Path.Combine(DataFolder, "GitTests");
+            string statusStr = "On branch master\nYour branch is up to date with 'origin/master'.\n\nUntracked files:\n  (use \"git add <file>...\" to include in what will be committed)\n	        Refs / Beat Saber_Data / Managed / IPA.Injector.dll\n        Refs / Libs / Mono.Cecil.Mdb.dll\n        Refs / Libs / Mono.Cecil.Pdb.dll\n        Refs / Libs / Mono.Cecil.Rocks.dll\n        Refs / Libs / Mono.Cecil.dll\n        bsfiles.zip\n\nnothing added to commit but untracked files present(use \"git add\" to track)";
+
+            string originStr = @"https://github.com/Zingabopp/BeatSaberModdingTools";
+            string hash = "aadfa8f8af8a8f8af8a8fa";
+
+            string expectedOrigin = originStr;
+            string expectedHash = hash.Substring(0, 7);
+            string expectedModified = "Unmodified";
+
+            IGitRunner gitRunner = new MockGitRunner
+                (
+                (GitArgument.Status, statusStr),
+                (GitArgument.OriginUrl, originStr),
+                (GitArgument.CommitHash, hash))
+                ;
+            GetCommitInfo task = new MockGetCommitHash("Test.git")
+            {
+                GitRunner = gitRunner,
+                ProjectDir = directory
+            };
+            task.Execute();
+            Assert.AreEqual("master", task.Branch);
+            Assert.AreEqual(expectedHash, task.CommitHash);
+            Assert.AreEqual(expectedOrigin, task.OriginUrl);
+            Assert.AreEqual(expectedModified, task.Modified);
+        }
+
+        [TestMethod]
+        public void PullRequestStatus()
+        {
+            string directory = Path.Combine(DataFolder, "GitTests");
+            string statusStr = "HEAD detached at pull/11/merge\nnothing to commit, working tree clean";
+            string originStr = @"https://github.com/Zingabopp/BeatSaberModdingTools";
+            string hash = "aadfa8f8af8a8f8af8a8fa";
+
+            string expectedOrigin = originStr;
+            string expectedHash = hash.Substring(0, 7);
+            string expectedModified = "Unmodified";
+
+            IGitRunner gitRunner = new MockGitRunner
+                (
+                (GitArgument.Status, statusStr),
+                (GitArgument.OriginUrl, originStr),
+                (GitArgument.CommitHash, hash))
+                ;
+            GetCommitInfo task = new MockGetCommitHash("Test.git")
+            {
+                GitRunner = gitRunner,
+                ProjectDir = directory
+            };
+            task.Execute();
+            Assert.AreEqual("master", task.Branch);
+            Assert.AreEqual(expectedHash, task.CommitHash);
+            Assert.AreEqual(expectedOrigin, task.OriginUrl);
+            Assert.AreEqual(expectedModified, task.Modified);
+        }
+
 #if !NCRUNCH
         [TestMethod]
         public void GetGitStatus_Test()
         {
             string directory = Environment.CurrentDirectory;
-            GetCommitInfo task = new MockGetCommitHash(directory)
-            {
-                ProjectDir = directory
-            };
+            IGitRunner gitRunner = new GitCommandRunner(directory);
             string expectedUser = "Zingabopp";
-            GitInfo status = task.GetGitStatus(directory);
+            GitInfo status = GetCommitInfo.GetGitStatus(gitRunner);
             Assert.IsFalse(string.IsNullOrEmpty(status.Branch), $"Branch should not be null/empty.");
             Assert.IsFalse(string.IsNullOrEmpty(status.Modified));
             Assert.IsTrue(status.Modified == "Unmodified" || status.Modified == "Modified");
@@ -136,11 +226,8 @@ namespace BSMTTasks_UnitTests
         public void TryGetCommitHash_Test()
         {
             string directory = Environment.CurrentDirectory;
-            GetCommitInfo task = new MockGetCommitHash(directory)
-            {
-                ProjectDir = directory
-            };
-            bool success = task.TryGetGitCommit(directory, out string commitHash);
+            IGitRunner gitRunner = new GitCommandRunner(directory);
+            bool success = GetCommitInfo.TryGetGitCommit(gitRunner, out string commitHash);
             Assert.IsTrue(success);
             Assert.IsTrue(commitHash.Length > 0);
         }

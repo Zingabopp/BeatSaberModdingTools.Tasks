@@ -125,6 +125,26 @@
             Captures the URL for the remote origin from a git config file.
             </summary>
         </member>
+        <member name="F:BeatSaberModdingTools.Tasks.GetCommitInfo.StatusBranchSearch">
+            <summary>
+            Retrieves the branch name from the text returned by 'git status'.
+            </summary>
+        </member>
+        <member name="F:BeatSaberModdingTools.Tasks.GetCommitInfo.UnmodifiedText">
+            <summary>
+            Text in 'git status' that indicates there are no changes in the repository to commit.
+            </summary>
+        </member>
+        <member name="F:BeatSaberModdingTools.Tasks.GetCommitInfo.UntrackedOnlyText">
+            <summary>
+            Text in 'git status' that indicates there are no changes in the repository to commit, but there are untracked files.
+            </summary>
+        </member>
+        <member name="F:BeatSaberModdingTools.Tasks.GetCommitInfo.GitRunner">
+            <summary>
+            An object that retrieves text from the 'git' command.
+            </summary>
+        </member>
         <member name="P:BeatSaberModdingTools.Tasks.GetCommitInfo.ProjectDir">
             <summary>
             The directory of the project.
@@ -178,24 +198,15 @@
             <see cref="T:BeatSaberModdingTools.Tasks.Utilities.ITaskLogger"/> instance used.
             </summary>
         </member>
-        <member name="M:BeatSaberModdingTools.Tasks.GetCommitInfo.TryGetGitCommit(System.String,System.String@)">
+        <member name="M:BeatSaberModdingTools.Tasks.GetCommitInfo.TryGetGitCommit(BeatSaberModdingTools.Tasks.Utilities.IGitRunner,System.String@)">
             <summary>
             Attempts to retrieve the git commit hash using the 'git' program.
             </summary>
-            <param name="directory"></param>
+            <param name="gitRunner"></param>
             <param name="commitHash"></param>
             <returns></returns>
         </member>
-        <member name="M:BeatSaberModdingTools.Tasks.GetCommitInfo.GetTextFromProcess(System.String,System.String,System.String)">
-            <summary>
-            Runs the given process and returns the output.
-            </summary>
-            <param name="command"></param>
-            <param name="arg"></param>
-            <param name="workingDirectory"></param>
-            <returns></returns>
-        </member>
-        <member name="M:BeatSaberModdingTools.Tasks.GetCommitInfo.GetGitStatus(System.String)">
+        <member name="M:BeatSaberModdingTools.Tasks.GetCommitInfo.GetGitStatus(BeatSaberModdingTools.Tasks.Utilities.IGitRunner)">
             <summary>
             Attempts to check if the repository has uncommitted changes.
             </summary>
@@ -561,6 +572,84 @@
             <param name="endLine"></param>
             <param name="startColumn"></param>
             <param name="endColumn"></param>
+        </member>
+        <member name="T:BeatSaberModdingTools.Tasks.Utilities.GitCommandRunner">
+            <summary>
+            Runs and retrieves output from the 'git' command.
+            </summary>
+        </member>
+        <member name="F:BeatSaberModdingTools.Tasks.Utilities.GitCommandRunner.WorkingDirectory">
+            <summary>
+            Working directory to run the command in.
+            </summary>
+        </member>
+        <member name="F:BeatSaberModdingTools.Tasks.Utilities.GitCommandRunner.Logger">
+            <summary>
+            Logger for the command runner.
+            </summary>
+        </member>
+        <member name="M:BeatSaberModdingTools.Tasks.Utilities.GitCommandRunner.#ctor(System.String,BeatSaberModdingTools.Tasks.Utilities.ITaskLogger)">
+            <summary>
+            Creates a new <see cref="T:BeatSaberModdingTools.Tasks.Utilities.GitCommandRunner"/> with an optional <see cref="T:BeatSaberModdingTools.Tasks.Utilities.ITaskLogger"/>.
+            </summary>
+            <param name="workingDirectory"></param>
+            <param name="logger"></param>
+        </member>
+        <member name="M:BeatSaberModdingTools.Tasks.Utilities.GitCommandRunner.GetTextFromProcess(BeatSaberModdingTools.Tasks.Utilities.GitArgument)">
+            <summary>
+            
+            </summary>
+            <param name="command"></param>
+            <returns></returns>
+            <exception cref="T:BeatSaberModdingTools.Tasks.Utilities.GitRunnerException"></exception>
+        </member>
+        <member name="T:BeatSaberModdingTools.Tasks.Utilities.IGitRunner">
+            <summary>
+            Interface for an object that retrieves text from the 'git' command.
+            </summary>
+        </member>
+        <member name="M:BeatSaberModdingTools.Tasks.Utilities.IGitRunner.GetTextFromProcess(BeatSaberModdingTools.Tasks.Utilities.GitArgument)">
+            <summary>
+            Runs the given command and returns the output as a string.
+            </summary>
+            <param name="command"></param>
+            <returns></returns>
+        </member>
+        <member name="T:BeatSaberModdingTools.Tasks.Utilities.GitArgument">
+            <summary>
+            Type of git command.
+            </summary>
+        </member>
+        <member name="F:BeatSaberModdingTools.Tasks.Utilities.GitArgument.None">
+            <summary>
+            None
+            </summary>
+        </member>
+        <member name="F:BeatSaberModdingTools.Tasks.Utilities.GitArgument.Status">
+            <summary>
+            Runs the 'status' command.
+            </summary>
+        </member>
+        <member name="F:BeatSaberModdingTools.Tasks.Utilities.GitArgument.CommitHash">
+            <summary>
+            Runs the 'rev-parse HEAD' command.
+            </summary>
+        </member>
+        <member name="F:BeatSaberModdingTools.Tasks.Utilities.GitArgument.OriginUrl">
+            <summary>
+            Runs the 'config --local --get remote.origin.url' command.
+            </summary>
+        </member>
+        <member name="T:BeatSaberModdingTools.Tasks.Utilities.GitRunnerException">
+            <summary>
+            An exception that may be thrown by <see cref="T:BeatSaberModdingTools.Tasks.Utilities.IGitRunner"/>.
+            </summary>
+        </member>
+        <member name="M:BeatSaberModdingTools.Tasks.Utilities.GitRunnerException.#ctor(System.String)">
+            <inheritdoc/>
+        </member>
+        <member name="M:BeatSaberModdingTools.Tasks.Utilities.GitRunnerException.#ctor(System.String,System.Exception)">
+            <inheritdoc/>
         </member>
         <member name="T:BeatSaberModdingTools.Tasks.Utilities.ITaskLogger">
             <summary>
