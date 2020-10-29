@@ -1,9 +1,9 @@
 # BeatSaberModdingTools.Tasks
 A set of MSBuild tasks for Beat Saber mods. Created for the templates in [Beat Saber Modding Tools](https://github.com/Zingabopp/BeatSaberModdingTools).
 
-# Tasks
+# Tasks (As of v1.3.0)
 ## CompareVersions
-Compares an assembly and manifest version string, logs an error and optionally fails if they don't match.
+Compares an assembly and manifest version string. Logs an error and optionally fails if they don't match.
 
 Inputs:
 |Name|Type|Required?|Description|
@@ -24,7 +24,7 @@ Inputs:
 Outputs:
 |Name|Type|Description|
 |---|---|---|
-|AssemblyVersion|string|The mod or library's version as reported by the AssemblyInfo file.|
+|AssemblyVersion|string|The assembly's version as reported by the AssemblyInfo file.|
 
 ## GetCommitInfo
 Gets information about the git repository and current commit.
