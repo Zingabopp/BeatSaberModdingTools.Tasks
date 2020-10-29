@@ -23,7 +23,7 @@
             /// </summary>
             public const string ManifestFileNotFound = "BSMT02";
             /// <summary>
-            /// PluginVersion could not be determined from tthe manifest.
+            /// PluginVersion could not be determined from the manifest.
             /// </summary>
             public const string PluginVersionNotFound = "BSMT06";
             /// <summary>

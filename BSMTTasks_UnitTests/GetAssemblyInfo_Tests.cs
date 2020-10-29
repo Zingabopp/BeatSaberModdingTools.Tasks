@@ -9,14 +9,13 @@ namespace BSMTTasks_UnitTests
 {
 
     [TestClass]
-    public class VerifyManifest_Tests
+    public class GetAssemblyInfo_Tests
     {
         [TestMethod]
         public void Matching_DefaultPaths()
         {
             bool expectedResult = true;
             string expectedAssemblyVersion = "1.1.0";
-            string pluginVersion = "1.1.0";
 
             GetAssemblyInfo task = new GetAssemblyInfo();
 
@@ -38,7 +37,6 @@ namespace BSMTTasks_UnitTests
             string assemblyFilePath = Path.Combine("AssemblyInfos", "AssemblyFileVersionFirst.cs");
             bool expectedResult = true;
             string expectedAssemblyVersion = "1.1.0";
-            string expectedPluginVersion = "1.1.0";
 
             GetAssemblyInfo task = new GetAssemblyInfo()
             {
@@ -61,7 +59,6 @@ namespace BSMTTasks_UnitTests
             string assemblyFilePath = Path.Combine("AssemblyInfos", "MissingAssemblyVersion.cs");
             bool expectedResult = false;
             string expectedAssemblyVersion = MessageCodes.ErrorString;
-            string expectedPluginVersion = "1.1.0";
 
             GetAssemblyInfo task = new GetAssemblyInfo
             {
@@ -89,7 +86,6 @@ namespace BSMTTasks_UnitTests
             string assemblyFilePath = Path.Combine("AssemblyInfos", "MissingAssemblyVersion.cs");
             bool expectedResult = false;
             string expectedAssemblyVersion = MessageCodes.ErrorString;
-            string expectedPluginVersion = "1.1.0";
 
             GetAssemblyInfo task = new GetAssemblyInfo
             {
@@ -116,7 +112,6 @@ namespace BSMTTasks_UnitTests
             string assemblyFilePath = Path.Combine("AssemblyInfos", "NoAssemblyFileVersion.cs");
             bool expectedResult = true;
             string expectedAssemblyVersion = "1.1.0";
-            string expectedPluginVersion = "1.1.0";
 
             GetAssemblyInfo task = new GetAssemblyInfo();
             task.AssemblyInfoPath = assemblyFilePath;
@@ -139,7 +134,6 @@ namespace BSMTTasks_UnitTests
             string assemblyFilePath = Path.Combine("AssemblyInfos", "NoAssemblyFileVersion.cs");
             bool expectedResult = true;
             string expectedAssemblyVersion = "1.1.0";
-            string expectedPluginVersion = "1.1.0";
 
             GetAssemblyInfo task = new GetAssemblyInfo() 
             { 
@@ -165,7 +159,6 @@ namespace BSMTTasks_UnitTests
             string assemblyFilePath = Path.Combine("AssemblyInfos", "AssemblyFileMismatch.cs");
             bool expectedResult = true;
             string expectedAssemblyVersion = "1.1.0";
-            string expectedPluginVersion = "1.1.0";
 
             GetAssemblyInfo task = new GetAssemblyInfo();
             task.AssemblyInfoPath = assemblyFilePath;
@@ -194,7 +187,6 @@ namespace BSMTTasks_UnitTests
             string assemblyFilePath = Path.Combine("AssemblyInfos", "AssemblyFileMismatch.cs");
             bool expectedResult = false;
             string expectedAssemblyVersion = MessageCodes.ErrorString;
-            string expectedPluginVersion = "1.1.0";
             GetAssemblyInfo task = new GetAssemblyInfo()
             {
                 FailOnError = true 
@@ -224,7 +216,6 @@ namespace BSMTTasks_UnitTests
             string assemblyFilePath = Path.Combine("AssemblyInfos", "BadAssemblyFileVersion.cs");
             bool expectedResult = true;
             string expectedAssemblyVersion = "1.1.0";
-            string expectedPluginVersion = "1.1.0";
 
             GetAssemblyInfo task = new GetAssemblyInfo();
             task.AssemblyInfoPath = assemblyFilePath;
@@ -252,7 +243,6 @@ namespace BSMTTasks_UnitTests
             string assemblyFilePath = Path.Combine("AssemblyInfos", "BadAssemblyFileVersion.cs");
             bool expectedResult = false;
             string expectedAssemblyVersion = MessageCodes.ErrorString;
-            string expectedPluginVersion = "1.1.0";
 
             GetAssemblyInfo task = new GetAssemblyInfo
             {
@@ -277,15 +267,12 @@ namespace BSMTTasks_UnitTests
             Assert.AreEqual(expectedAssemblyVersion, task.AssemblyVersion);
         }
 
-
-
         [TestMethod]
         public void MissingAssemblyInfo()
         {
             string assemblyFilePath = Path.Combine("AssemblyInfos", "MissingAssemblyInfo.cs");
             bool expectedResult = false;
             string expectedAssemblyVersion = MessageCodes.ErrorString;
-            string expectedPluginVersion = "1.1.0";
 
             GetAssemblyInfo task = new GetAssemblyInfo
             {
@@ -314,7 +301,6 @@ namespace BSMTTasks_UnitTests
             string assemblyFilePath = Path.Combine("AssemblyInfos", "MissingAssemblyInfo.cs");
             bool expectedResult = false;
             string expectedAssemblyVersion = MessageCodes.ErrorString;
-            string expectedPluginVersion = "1.1.0";
 
             GetAssemblyInfo task = new GetAssemblyInfo
             {
