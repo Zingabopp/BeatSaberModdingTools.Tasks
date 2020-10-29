@@ -41,9 +41,11 @@
   <PropertyGroup>
     <DocumentationFile>BeatSaberModdingTools.Tasks.xml</DocumentationFile>
     <PackageTags>Beat Saber;BeatSaberModdingTools</PackageTags>
-    <PackageReleaseNotes>* Added outputs to GetCommitInfo task
-  * OriginUrl
-  * GitUser</PackageReleaseNotes>
+    <PackageReleaseNotes>Split up GetManifestInfo
+* GetManifestInfo only reads and outputs info from the manifest file
+* GetAssemblyInfo reads and outputs info from AssemblyInfo
+* CompareVersions compares the versions from the manifest and AssemblyInfo file.</PackageReleaseNotes>
+    <PackageIcon>bsmt.tasks_icon.png</PackageIcon>
   </PropertyGroup>
 
   <ItemGroup>
@@ -56,6 +58,10 @@
     <EmbeddedResource Remove="nupkgs\**" />
     <None Remove="nupkgs\**" />
     <None Include="..\LICENSE">
+      <Pack>True</Pack>
+      <PackagePath></PackagePath>
+    </None>
+    <None Include="bsmt.tasks_icon.png">
       <Pack>True</Pack>
       <PackagePath></PackagePath>
     </None>
