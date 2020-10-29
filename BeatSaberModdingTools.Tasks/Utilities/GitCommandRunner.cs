@@ -27,13 +27,7 @@ namespace BeatSaberModdingTools.Tasks.Utilities
             WorkingDirectory = workingDirectory;
             Logger = logger;
         }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="command"></param>
-        /// <returns></returns>
-        /// <exception cref="GitRunnerException"></exception>
+        /// <inheritdoc/>
         public string GetTextFromProcess(GitArgument command)
         {
             string outText = null;

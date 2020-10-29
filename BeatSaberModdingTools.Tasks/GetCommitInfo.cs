@@ -90,16 +90,24 @@ namespace BeatSaberModdingTools.Tasks
         /// Attempts to retrieve the git commit hash using the 'git' program.
         /// </summary>
         /// <param name="gitRunner"></param>
+        /// <param name="logger"></param>
         /// <param name="commitHash"></param>
         /// <returns></returns>
-        public static bool TryGetGitCommit(IGitRunner gitRunner, out string commitHash)
+        public static bool TryGetGitCommit(IGitRunner gitRunner, ITaskLogger logger, out string commitHash)
         {
             commitHash = null;
-            string outText = gitRunner.GetTextFromProcess(GitArgument.CommitHash);
-            if (outText.Length > 0)
+            try
             {
-                commitHash = outText;
-                return true;
+                string outText = gitRunner.GetTextFromProcess(GitArgument.CommitHash);
+                if (outText.Length > 0)
+                {
+                    commitHash = outText;
+                    return true;
+                }
+            }
+            catch (GitRunnerException ex)
+            {
+                logger?.LogWarning($"Error getting commit hash from 'git' command: {ex.Message}");
             }
             return false;
         }
@@ -107,25 +115,41 @@ namespace BeatSaberModdingTools.Tasks
         /// <summary>
         /// Attempts to check if the repository has uncommitted changes.
         /// </summary>
+        /// <param name="gitRunner"></param>
+        /// <param name="logger"></param>
         /// <returns></returns>
-        public static GitInfo GetGitStatus(IGitRunner gitRunner)
+        public static GitInfo GetGitStatus(IGitRunner gitRunner, ITaskLogger logger)
         {
             GitInfo status = new GitInfo();
-            string statusText = gitRunner.GetTextFromProcess(GitArgument.Status);
-            Match match = StatusBranchSearch.Match(statusText);
-            if (match.Success && match.Groups.Count > 1)
+            try
             {
-                string branch = match.Groups[1].Value;
-                status.Branch = branch;
+                string statusText = gitRunner.GetTextFromProcess(GitArgument.Status);
+                Match match = StatusBranchSearch.Match(statusText);
+                if (match.Success && match.Groups.Count > 1)
+                {
+                    string branch = match.Groups[1].Value;
+                    status.Branch = branch;
+                }
+                statusText = statusText.ToUpper();
+                if (statusText.Contains(UnmodifiedText) || statusText.Contains(UntrackedOnlyText))
+                    status.Modified = "Unmodified";
+                else
+                    status.Modified = "Modified";
             }
-            statusText = statusText.ToUpper();
-            if (statusText.Contains(UnmodifiedText) || statusText.Contains(UntrackedOnlyText))
-                status.Modified = "Unmodified";
-            else
-                status.Modified = "Modified";
-            status.OriginUrl = gitRunner.GetTextFromProcess(GitArgument.OriginUrl);
-            if (status.OriginUrl != null && status.OriginUrl.Length > 0)
-                status.GitUser = GetGitHubUser(status.OriginUrl);
+            catch (GitRunnerException ex)
+            {
+                logger?.LogWarning($"Error getting 'git status': {ex.Message}");
+            }
+            try
+            {
+                status.OriginUrl = gitRunner.GetTextFromProcess(GitArgument.OriginUrl);
+                if (status.OriginUrl != null && status.OriginUrl.Length > 0)
+                    status.GitUser = GetGitHubUser(status.OriginUrl);
+            }
+            catch (GitRunnerException ex)
+            {
+                logger?.LogWarning($"Error getting git origin URL: {ex.Message}");
+            }
             return status;
         }
 
@@ -220,12 +244,12 @@ namespace BeatSaberModdingTools.Tasks
             try
             {
                 string commitHash = null;
-                if (!NoGit && TryGetGitCommit(GitRunner, out commitHash) && commitHash.Length > 0)
+                if (!NoGit && TryGetGitCommit(GitRunner, Logger, out commitHash) && commitHash.Length > 0)
                 {
                     CommitHash = commitHash.Substring(0, Math.Min(commitHash.Length, HashLength));
                     if (!SkipStatus)
                     {
-                        GitInfo gitStatus = GetGitStatus(GitRunner);
+                        GitInfo gitStatus = GetGitStatus(GitRunner, Logger);
                         if (!string.IsNullOrWhiteSpace(gitStatus.Branch))
                             Branch = gitStatus.Branch;
                         if (!string.IsNullOrWhiteSpace(gitStatus.Modified))
@@ -237,7 +261,7 @@ namespace BeatSaberModdingTools.Tasks
                     }
                     if (string.IsNullOrWhiteSpace(Branch))
                     {
-                        if(TryGetCommitManual(gitPaths, out GitInfo manualInfo))
+                        if (TryGetCommitManual(gitPaths, out GitInfo manualInfo))
                         {
                             Branch = manualInfo.Branch;
                         }

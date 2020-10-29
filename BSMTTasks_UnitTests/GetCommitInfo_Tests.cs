@@ -216,7 +216,7 @@ namespace BSMTTasks_UnitTests
             string directory = Environment.CurrentDirectory;
             IGitRunner gitRunner = new GitCommandRunner(directory);
             string expectedUser = "Zingabopp";
-            GitInfo status = GetCommitInfo.GetGitStatus(gitRunner);
+            GitInfo status = GetCommitInfo.GetGitStatus(gitRunner, null);
             Assert.IsFalse(string.IsNullOrEmpty(status.Branch), $"Branch should not be null/empty.");
             Assert.IsFalse(string.IsNullOrEmpty(status.Modified));
             Assert.IsTrue(status.Modified == "Unmodified" || status.Modified == "Modified");
@@ -227,7 +227,7 @@ namespace BSMTTasks_UnitTests
         {
             string directory = Environment.CurrentDirectory;
             IGitRunner gitRunner = new GitCommandRunner(directory);
-            bool success = GetCommitInfo.TryGetGitCommit(gitRunner, out string commitHash);
+            bool success = GetCommitInfo.TryGetGitCommit(gitRunner, null, out string commitHash);
             Assert.IsTrue(success);
             Assert.IsTrue(commitHash.Length > 0);
         }

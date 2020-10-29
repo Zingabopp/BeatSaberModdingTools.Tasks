@@ -14,6 +14,7 @@ namespace BeatSaberModdingTools.Tasks.Utilities
         /// </summary>
         /// <param name="command"></param>
         /// <returns></returns>
+        /// <exception cref="GitRunnerException"></exception>
         string GetTextFromProcess(GitArgument command);
     }
 

@@ -198,18 +198,21 @@
             <see cref="T:BeatSaberModdingTools.Tasks.Utilities.ITaskLogger"/> instance used.
             </summary>
         </member>
-        <member name="M:BeatSaberModdingTools.Tasks.GetCommitInfo.TryGetGitCommit(BeatSaberModdingTools.Tasks.Utilities.IGitRunner,System.String@)">
+        <member name="M:BeatSaberModdingTools.Tasks.GetCommitInfo.TryGetGitCommit(BeatSaberModdingTools.Tasks.Utilities.IGitRunner,BeatSaberModdingTools.Tasks.Utilities.ITaskLogger,System.String@)">
             <summary>
             Attempts to retrieve the git commit hash using the 'git' program.
             </summary>
             <param name="gitRunner"></param>
+            <param name="logger"></param>
             <param name="commitHash"></param>
             <returns></returns>
         </member>
-        <member name="M:BeatSaberModdingTools.Tasks.GetCommitInfo.GetGitStatus(BeatSaberModdingTools.Tasks.Utilities.IGitRunner)">
+        <member name="M:BeatSaberModdingTools.Tasks.GetCommitInfo.GetGitStatus(BeatSaberModdingTools.Tasks.Utilities.IGitRunner,BeatSaberModdingTools.Tasks.Utilities.ITaskLogger)">
             <summary>
             Attempts to check if the repository has uncommitted changes.
             </summary>
+            <param name="gitRunner"></param>
+            <param name="logger"></param>
             <returns></returns>
         </member>
         <member name="M:BeatSaberModdingTools.Tasks.GetCommitInfo.TryGetCommitManual(System.String,BeatSaberModdingTools.Tasks.GitInfo@)">
@@ -596,12 +599,7 @@
             <param name="logger"></param>
         </member>
         <member name="M:BeatSaberModdingTools.Tasks.Utilities.GitCommandRunner.GetTextFromProcess(BeatSaberModdingTools.Tasks.Utilities.GitArgument)">
-            <summary>
-            
-            </summary>
-            <param name="command"></param>
-            <returns></returns>
-            <exception cref="T:BeatSaberModdingTools.Tasks.Utilities.GitRunnerException"></exception>
+            <inheritdoc/>
         </member>
         <member name="T:BeatSaberModdingTools.Tasks.Utilities.IGitRunner">
             <summary>
@@ -614,6 +612,7 @@
             </summary>
             <param name="command"></param>
             <returns></returns>
+            <exception cref="T:BeatSaberModdingTools.Tasks.Utilities.GitRunnerException"></exception>
         </member>
         <member name="T:BeatSaberModdingTools.Tasks.Utilities.GitArgument">
             <summary>
