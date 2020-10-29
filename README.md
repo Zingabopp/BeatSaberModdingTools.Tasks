@@ -1,7 +1,8 @@
 # BeatSaberModdingTools.Tasks
 A set of MSBuild tasks for Beat Saber mods. Created for the templates in [Beat Saber Modding Tools](https://github.com/Zingabopp/BeatSaberModdingTools).
 
-# Tasks (As of v1.3.0)
+# Tasks 
+**Current as of v1.3.0**
 ## CompareVersions
 Compares an assembly and manifest version string. Logs an error and optionally fails if they don't match.
 
