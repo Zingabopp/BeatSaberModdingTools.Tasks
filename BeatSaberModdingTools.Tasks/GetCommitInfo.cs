@@ -136,7 +136,6 @@ namespace BeatSaberModdingTools.Tasks
             GitInfo status = new GitInfo();
             directory = Path.GetFullPath(directory);
             string statusText = GetTextFromProcess("git", "status", directory);
-            Logger?.LogWarning($"git status: '{statusText}'");
             Regex branchName = new Regex(@"^On branch (.*)$", RegexOptions.Multiline);
             Match match = branchName.Match(statusText);
             if (match.Success && match.Groups.Count > 1)
