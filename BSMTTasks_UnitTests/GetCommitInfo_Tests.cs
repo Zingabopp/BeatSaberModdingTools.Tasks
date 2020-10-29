@@ -1,4 +1,5 @@
 ﻿using BeatSaberModdingTools.Tasks;
+using BeatSaberModdingTools.Tasks.Utilities;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using System.IO;
@@ -120,11 +121,17 @@ namespace BSMTTasks_UnitTests
         public void GetGitStatus_Test()
         {
             string directory = Environment.CurrentDirectory;
+            MockTaskLogger logger = new MockTaskLogger();
             GetCommitInfo task = new MockGetCommitHash(directory)
             {
-                ProjectDir = directory
+                ProjectDir = directory,
+                Logger = logger
             };
             string expectedUser = "Zingabopp";
+            foreach (var msg in logger.LogEntries)
+            {
+                Console.WriteLine(msg.ToString());
+            }
             GitInfo status = task.GetGitStatus(directory);
             Assert.IsFalse(string.IsNullOrEmpty(status.Branch), $"Branch should not be null/empty.");
             Assert.IsFalse(string.IsNullOrEmpty(status.Modified));
