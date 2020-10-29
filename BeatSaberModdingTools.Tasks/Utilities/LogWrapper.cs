@@ -2,12 +2,12 @@
 using Microsoft.Build.Utilities;
 using System;
 
-namespace BeatSaberModdingTools.Tasks.Utilties
+namespace BeatSaberModdingTools.Tasks.Utilities
 {
     /// <summary>
     /// Wrapper for <see cref="TaskLoggingHelper"/> that implements <see cref="ITaskLogger"/>.
     /// </summary>
-    public class LogWrapper : ITaskLogger
+    public class LogWrapper : LoggerBase
     {
         /// <summary>
         /// The <see cref="TaskLoggingHelper"/> instance.
@@ -19,20 +19,21 @@ namespace BeatSaberModdingTools.Tasks.Utilties
         /// <param name="logger"></param>
         public LogWrapper(TaskLoggingHelper logger) => Logger = logger;
         /// <inheritdoc/>
-        public void LogError(string subcategory, string errorCode, string helpKeyword, string file, int lineNumber, int columnNumber, int endLineNumber, int endColumnNumber, string message, params object[] messageArgs)
+        public override void LogError(string subcategory, string errorCode, string helpKeyword, string file,
+            int lineNumber, int columnNumber, int endLineNumber, int endColumnNumber, string message, params object[] messageArgs)
             => Logger.LogError(subcategory, errorCode, helpKeyword, file, lineNumber, columnNumber, endLineNumber, endColumnNumber, message, messageArgs);
 
         /// <inheritdoc/>
-        public void LogError(string message, params object[] messageArgs) => Logger.LogError(message, messageArgs);
+        public override void LogError(string message, params object[] messageArgs) => Logger.LogError(message, messageArgs);
 
         /// <inheritdoc/>
-        public void LogErrorFromException(Exception exception) => Logger.LogErrorFromException(exception);
+        public override void LogErrorFromException(Exception exception) => Logger.LogErrorFromException(exception);
 
         /// <inheritdoc/>
-        public void LogMessage(MessageImportance importance, string message, params object[] messageArgs) => Logger.LogMessage(importance, message, messageArgs);
+        public override void LogMessage(MessageImportance importance, string message, params object[] messageArgs) => Logger.LogMessage(importance, message, messageArgs);
 
         /// <inheritdoc/>
-        public void LogMessage(string subcategory, string code, string helpKeyword, string file,
+        public override void LogMessage(string subcategory, string code, string helpKeyword, string file,
             int lineNumber, int columnNumber, int endLineNumber, int endColumnNumber,
             MessageImportance messageImportance, string message, params object[] messageArgs)
         => Logger.LogMessage(subcategory, code, helpKeyword, file,
@@ -41,10 +42,30 @@ namespace BeatSaberModdingTools.Tasks.Utilties
 
 
         /// <inheritdoc/>
-        public void LogWarning(string subcategory, string warningCode, string helpKeyword, string file, int lineNumber, int columnNumber, int endLineNumber, int endColumnNumber, string message, params object[] messageArgs)
+        public override void LogWarning(string subcategory, string warningCode, string helpKeyword, string file, int lineNumber, int columnNumber, int endLineNumber, int endColumnNumber, string message, params object[] messageArgs)
             => Logger.LogWarning(subcategory, warningCode, helpKeyword, file, lineNumber, columnNumber, endLineNumber, endColumnNumber, message, messageArgs);
 
         /// <inheritdoc/>
-        public void LogWarning(string message, params object[] messageArgs) => Logger.LogWarning(message, messageArgs);
+        public override void LogWarning(string message, params object[] messageArgs) => Logger.LogWarning(message, messageArgs);
+
+        /// <inheritdoc/>
+        public override void Log(LogMessageLevel level, string message, params object[] messageArgs)
+        {
+            switch (level)
+            {
+                case LogMessageLevel.Message:
+                    LogMessage(MessageImportance.High, message, messageArgs);
+                    break;
+                case LogMessageLevel.Warning:
+                    LogWarning(message, messageArgs);
+                    break;
+                case LogMessageLevel.Error:
+                    LogError(message, messageArgs);
+                    break;
+                default:
+                    LogMessage(MessageImportance.High, message, messageArgs);
+                    break;
+            }
+        }
     }
 }

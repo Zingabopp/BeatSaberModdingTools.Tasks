@@ -1,7 +1,6 @@
-﻿using BeatSaberModdingTools.Tasks.Utilties;
+﻿using BeatSaberModdingTools.Tasks.Utilities;
 using Microsoft.Build.Framework;
 using System;
-using System.ComponentModel;
 using System.Diagnostics;
 using System.IO;
 using System.Text.RegularExpressions;
@@ -285,7 +284,7 @@ namespace BeatSaberModdingTools.Tasks
             catch (Exception ex)
             {
                 if (string.IsNullOrEmpty(errorCode))
-                    errorCode = MessageCodes.GetCommitHash.GitFailed;
+                    errorCode = MessageCodes.GetCommitInfo.GitFailed;
                 if (BuildEngine != null)
                 {
                     int line = BuildEngine.LineNumberOfTaskNode;
@@ -304,7 +303,7 @@ namespace BeatSaberModdingTools.Tasks
             {
                 if (BuildEngine != null)
                 {
-                    errorCode = MessageCodes.GetCommitHash.GitNoRepository;
+                    errorCode = MessageCodes.GetCommitInfo.GitNoRepository;
                     int line = BuildEngine.LineNumberOfTaskNode;
                     int column = BuildEngine.ColumnNumberOfTaskNode;
                     Logger.LogMessage(null, errorCode, null, BuildEngine.ProjectFileOfTaskNode, line, column, line, column,

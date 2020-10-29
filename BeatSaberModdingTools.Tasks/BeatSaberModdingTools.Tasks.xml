@@ -4,6 +4,117 @@
         <name>BeatSaberModdingTools.Tasks</name>
     </assembly>
     <members>
+        <member name="T:BeatSaberModdingTools.Tasks.CompareVersions">
+            <summary>
+            Compares an assembly and manifest version string, logs an error and optionally fails if they don't match.
+            </summary>
+        </member>
+        <member name="F:BeatSaberModdingTools.Tasks.CompareVersions.Logger">
+            <summary>
+            <see cref="T:BeatSaberModdingTools.Tasks.Utilities.ITaskLogger"/> instance used.
+            </summary>
+        </member>
+        <member name="P:BeatSaberModdingTools.Tasks.CompareVersions.PluginVersion">
+            <summary>
+            The mod or lib's version as reported by the manifest.
+            </summary>
+        </member>
+        <member name="P:BeatSaberModdingTools.Tasks.CompareVersions.AssemblyVersion">
+            <summary>
+            The mod or library's version as reported by the assembly.
+            </summary>
+        </member>
+        <member name="P:BeatSaberModdingTools.Tasks.CompareVersions.ErrorOnMismatch">
+            <summary>
+            If enabled, this task will report a failure if the assembly version and manifest version don't match or there was a problem getting the value for either of them.
+            </summary>
+        </member>
+        <member name="M:BeatSaberModdingTools.Tasks.CompareVersions.Execute">
+            <summary>
+            Executes the task.
+            </summary>
+            <returns>true if successful</returns>
+        </member>
+        <member name="T:BeatSaberModdingTools.Tasks.GetAssemblyInfo">
+            <summary>
+            Parses the AssemblyVersion from an AssemblyInfo.cs file.
+            </summary>
+        </member>
+        <member name="F:BeatSaberModdingTools.Tasks.GetAssemblyInfo.Logger">
+            <summary>
+            <see cref="T:BeatSaberModdingTools.Tasks.Utilities.ITaskLogger"/> instance used.
+            </summary>
+        </member>
+        <member name="P:BeatSaberModdingTools.Tasks.GetAssemblyInfo.AssemblyVersion">
+            <summary>
+            Version of the assembly.
+            </summary>
+        </member>
+        <member name="P:BeatSaberModdingTools.Tasks.GetAssemblyInfo.AssemblyInfoPath">
+            <summary>
+            Optional: Path to the file containing the assembly information. Default is 'Properties\AssemblyInfo.cs'.
+            </summary>
+        </member>
+        <member name="P:BeatSaberModdingTools.Tasks.GetAssemblyInfo.FailOnError">
+            <summary>
+            If enabled, this task will report a failure if it cannot parse the AssemblyVersion.
+            </summary>
+        </member>
+        <member name="M:BeatSaberModdingTools.Tasks.GetAssemblyInfo.Execute">
+            <summary>
+            Executes the task.
+            </summary>
+            <returns>true if successful</returns>
+        </member>
+        <member name="M:BeatSaberModdingTools.Tasks.GetAssemblyInfo.ParseAssembly(System.String,System.Boolean)">
+            <summary>
+            Parses the assembly version from the given file.
+            </summary>
+            <param name="assemblyFile"></param>
+            <param name="errorOnMismatch"></param>
+            <returns></returns>
+        </member>
+        <member name="T:BeatSaberModdingTools.Tasks.AssemblyInfoData">
+            <summary>
+            Contains data read from the AssemblyInfo file.
+            </summary>
+        </member>
+        <member name="M:BeatSaberModdingTools.Tasks.AssemblyInfoData.AssemblyVersionError(BeatSaberModdingTools.Tasks.Utilities.FilePosition)">
+            <summary>
+            Returns an <see cref="T:BeatSaberModdingTools.Tasks.AssemblyInfoData"/> where the AssemblyVersion could not be parsed.
+            </summary>
+            <param name="position"></param>
+            <returns></returns>
+        </member>
+        <member name="F:BeatSaberModdingTools.Tasks.AssemblyInfoData.AssemblyVersion">
+            <summary>
+            AssemblyVersion parsed from the file. The value will be <see cref="F:BeatSaberModdingTools.Tasks.Utilities.MessageCodes.ErrorString"/> if it could not be parsed.
+            </summary>
+        </member>
+        <member name="F:BeatSaberModdingTools.Tasks.AssemblyInfoData.AssemblyFileVersion">
+            <summary>
+            AssemblyFileVersion parsed from the file. The value will be <see cref="F:BeatSaberModdingTools.Tasks.Utilities.MessageCodes.ErrorString"/> if it could not be parsed.
+            </summary>
+        </member>
+        <member name="F:BeatSaberModdingTools.Tasks.AssemblyInfoData.AssemblyVersionPosition">
+            <summary>
+            Position of the AssemblyVersion string in the file.
+            </summary>
+        </member>
+        <member name="F:BeatSaberModdingTools.Tasks.AssemblyInfoData.AssemblyFileVersionPosition">
+            <summary>
+            Position of the AssemblyFileVersion string in the file.
+            </summary>
+        </member>
+        <member name="M:BeatSaberModdingTools.Tasks.AssemblyInfoData.#ctor(System.String,System.String,BeatSaberModdingTools.Tasks.Utilities.FilePosition,BeatSaberModdingTools.Tasks.Utilities.FilePosition)">
+            <summary>
+            Creates a new <see cref="T:BeatSaberModdingTools.Tasks.AssemblyInfoData"/>.
+            </summary>
+            <param name="assemblyVersion"></param>
+            <param name="assemblyFileVersion"></param>
+            <param name="assemblyVersionPosition"></param>
+            <param name="assemblyFileVersionPosition"></param>
+        </member>
         <member name="T:BeatSaberModdingTools.Tasks.GetCommitInfo">
             <summary>
             Gets the git commit short hash of the project.
@@ -64,7 +175,7 @@
         </member>
         <member name="F:BeatSaberModdingTools.Tasks.GetCommitInfo.Logger">
             <summary>
-            <see cref="T:BeatSaberModdingTools.Tasks.Utilties.ITaskLogger"/> instance used.
+            <see cref="T:BeatSaberModdingTools.Tasks.Utilities.ITaskLogger"/> instance used.
             </summary>
         </member>
         <member name="M:BeatSaberModdingTools.Tasks.GetCommitInfo.TryGetGitCommit(System.String,System.String@)">
@@ -157,17 +268,12 @@
         </member>
         <member name="T:BeatSaberModdingTools.Tasks.GetManifestInfo">
             <summary>
-            Reads a BSIPA manifest json file, compares the values to the project's assembly version, and outputs information from the manifest.
-            </summary>
-        </member>
-        <member name="F:BeatSaberModdingTools.Tasks.GetManifestInfo.ErrorString">
-            <summary>
-            Default output when a property can't be read.
+            Reads a BSIPA manifest json file and outputs information from the manifest.
             </summary>
         </member>
         <member name="F:BeatSaberModdingTools.Tasks.GetManifestInfo.Logger">
             <summary>
-            <see cref="T:BeatSaberModdingTools.Tasks.Utilties.ITaskLogger"/> instance used.
+            <see cref="T:BeatSaberModdingTools.Tasks.Utilities.ITaskLogger"/> instance used.
             </summary>
         </member>
         <member name="P:BeatSaberModdingTools.Tasks.GetManifestInfo.GameVersion">
@@ -180,14 +286,10 @@
             The mod or lib's version as reported by the manifest.
             </summary>
         </member>
-        <member name="P:BeatSaberModdingTools.Tasks.GetManifestInfo.AssemblyVersion">
+        <member name="P:BeatSaberModdingTools.Tasks.GetManifestInfo.BasePluginVersion">
             <summary>
-            Version of the assembly.
-            </summary>
-        </member>
-        <member name="P:BeatSaberModdingTools.Tasks.GetManifestInfo.KnownAssemblyVersion">
-            <summary>
-            Optional: Skip trying to read the assembly version of the project and use this value instead. Useful if the project already has a property with the assembly version.
+            The mod or lib's version as reported by the manifest with prerelease labels stripped.
+            Use this for comparing to the AssemblyVersion metadata.
             </summary>
         </member>
         <member name="P:BeatSaberModdingTools.Tasks.GetManifestInfo.ManifestPath">
@@ -195,13 +297,33 @@
             Optional: Path to the manifest file. Default is 'manifest.json'.
             </summary>
         </member>
+        <member name="P:BeatSaberModdingTools.Tasks.GetManifestInfo.FailOnError">
+            <summary>
+            If enabled, this task will report a failure if it cannot parse the Plugin version or Game version.
+            </summary>
+        </member>
+        <member name="P:BeatSaberModdingTools.Tasks.GetManifestInfo.AssemblyVersion">
+            <summary>
+            Moved to <see cref="T:BeatSaberModdingTools.Tasks.CompareVersions"/>.
+            Version of the assembly.
+            </summary>
+        </member>
+        <member name="P:BeatSaberModdingTools.Tasks.GetManifestInfo.KnownAssemblyVersion">
+            <summary>
+            Moved to <see cref="T:BeatSaberModdingTools.Tasks.CompareVersions"/>. 
+            Optional: Skip trying to read the assembly version of the project and use this value instead. 
+            Useful if the project already has a property with the assembly version.
+            </summary>
+        </member>
         <member name="P:BeatSaberModdingTools.Tasks.GetManifestInfo.AssemblyInfoPath">
             <summary>
+            Moved to <see cref="T:BeatSaberModdingTools.Tasks.CompareVersions"/>. 
             Optional: Path to the file containing the assembly information. Default is 'Properties\AssemblyInfo.cs'.
             </summary>
         </member>
         <member name="P:BeatSaberModdingTools.Tasks.GetManifestInfo.ErrorOnMismatch">
             <summary>
+            Moved to <see cref="T:BeatSaberModdingTools.Tasks.CompareVersions"/>. 
             If enabled, this task will report a failure if the assembly version and manifest version don't match or there was a problem getting the value for either of them.
             </summary>
         </member>
@@ -210,97 +332,6 @@
             Executes the task.
             </summary>
             <returns>true if successful</returns>
-        </member>
-        <member name="M:BeatSaberModdingTools.Tasks.GetManifestInfo.GetAssemblyVersion(System.String,System.Boolean)">
-            <summary>
-            Parses the assembly version from the given file.
-            </summary>
-            <param name="assemblyFile"></param>
-            <param name="errorOnMismatch"></param>
-            <returns></returns>
-        </member>
-        <member name="T:BeatSaberModdingTools.Tasks.ParsingExceptionExtensions">
-            <summary>
-            Extensions for <see cref="T:BeatSaberModdingTools.Tasks.ParsingException"/>.
-            </summary>
-        </member>
-        <member name="M:BeatSaberModdingTools.Tasks.ParsingExceptionExtensions.LogErrorFromException(BeatSaberModdingTools.Tasks.ParsingException,BeatSaberModdingTools.Tasks.Utilties.ITaskLogger)">
-            <summary>
-            Logs an error from the <see cref="T:BeatSaberModdingTools.Tasks.ParsingException"/> using the given <see cref="T:BeatSaberModdingTools.Tasks.Utilties.ITaskLogger"/>.
-            </summary>
-            <param name="ex"></param>
-            <param name="Log"></param>
-        </member>
-        <member name="T:BeatSaberModdingTools.Tasks.ParsingException">
-            <summary>
-            Exception thrown on parsing errors.
-            </summary>
-        </member>
-        <member name="F:BeatSaberModdingTools.Tasks.ParsingException.SubCategory">
-            <summary>
-            Log entry SubCategory.
-            </summary>
-        </member>
-        <member name="F:BeatSaberModdingTools.Tasks.ParsingException.MessageCode">
-            <summary>
-            Log entry MessageCode.
-            </summary>
-        </member>
-        <member name="F:BeatSaberModdingTools.Tasks.ParsingException.HelpKeyword">
-            <summary>
-            Log entry HelpKeyword.
-            </summary>
-        </member>
-        <member name="F:BeatSaberModdingTools.Tasks.ParsingException.File">
-            <summary>
-            Log entry File name.
-            </summary>
-        </member>
-        <member name="F:BeatSaberModdingTools.Tasks.ParsingException.LineNumber">
-            <summary>
-            Log entry line number.
-            </summary>
-        </member>
-        <member name="F:BeatSaberModdingTools.Tasks.ParsingException.ColumnNumber">
-            <summary>
-            Log entry column number.
-            </summary>
-        </member>
-        <member name="F:BeatSaberModdingTools.Tasks.ParsingException.EndLineNumber">
-            <summary>
-            Log entry end line number.
-            </summary>
-        </member>
-        <member name="F:BeatSaberModdingTools.Tasks.ParsingException.EndColumnNumber">
-            <summary>
-            Log entry end column number.
-            </summary>
-        </member>
-        <member name="F:BeatSaberModdingTools.Tasks.ParsingException.MessageArgs">
-            <summary>
-            Log entry Message args.
-            </summary>
-        </member>
-        <member name="M:BeatSaberModdingTools.Tasks.ParsingException.#ctor(System.String)">
-            <inheritdoc/>
-        </member>
-        <member name="M:BeatSaberModdingTools.Tasks.ParsingException.#ctor(System.String,System.Exception)">
-            <inheritdoc/>
-        </member>
-        <member name="M:BeatSaberModdingTools.Tasks.ParsingException.#ctor(System.String,System.String,System.String,System.String,System.Int32,System.Int32,System.Int32,System.Int32,System.String,System.Object[])">
-            <summary>
-            Creates a <see cref="T:BeatSaberModdingTools.Tasks.ParsingException"/> using the given message data.
-            </summary>
-            <param name="subCategory"></param>
-            <param name="messageCode"></param>
-            <param name="helpKeyword"></param>
-            <param name="file"></param>
-            <param name="lineNumber"></param>
-            <param name="columnNumber"></param>
-            <param name="endLineNumber"></param>
-            <param name="endColumnNumber"></param>
-            <param name="message"></param>
-            <param name="messageArgs"></param>
         </member>
         <member name="T:BeatSaberModdingTools.Tasks.IsProcessRunning">
             <summary>
@@ -319,7 +350,7 @@
         </member>
         <member name="F:BeatSaberModdingTools.Tasks.IsProcessRunning.Logger">
             <summary>
-            <see cref="T:BeatSaberModdingTools.Tasks.Utilties.ITaskLogger"/> instance used.
+            <see cref="T:BeatSaberModdingTools.Tasks.Utilities.ITaskLogger"/> instance used.
             </summary>
         </member>
         <member name="M:BeatSaberModdingTools.Tasks.IsProcessRunning.Execute">
@@ -370,7 +401,7 @@
         </member>
         <member name="F:BeatSaberModdingTools.Tasks.ReplaceInFile.Logger">
             <summary>
-            <see cref="T:BeatSaberModdingTools.Tasks.Utilties.ITaskLogger"/> instance used.
+            <see cref="T:BeatSaberModdingTools.Tasks.Utilities.ITaskLogger"/> instance used.
             </summary>
         </member>
         <member name="M:BeatSaberModdingTools.Tasks.ReplaceInFile.ReplaceText(System.String)">
@@ -386,20 +417,157 @@
             </summary>
             <returns>true if successful</returns>
         </member>
-        <member name="T:BeatSaberModdingTools.Tasks.Utilties.ITaskLogger">
+        <member name="T:BeatSaberModdingTools.Tasks.Utilities.ParsingException">
+            <summary>
+            Exception thrown on parsing errors.
+            </summary>
+        </member>
+        <member name="F:BeatSaberModdingTools.Tasks.Utilities.ParsingException.SubCategory">
+            <summary>
+            Log entry SubCategory.
+            </summary>
+        </member>
+        <member name="F:BeatSaberModdingTools.Tasks.Utilities.ParsingException.MessageCode">
+            <summary>
+            Log entry MessageCode.
+            </summary>
+        </member>
+        <member name="F:BeatSaberModdingTools.Tasks.Utilities.ParsingException.HelpKeyword">
+            <summary>
+            Log entry HelpKeyword.
+            </summary>
+        </member>
+        <member name="F:BeatSaberModdingTools.Tasks.Utilities.ParsingException.File">
+            <summary>
+            Log entry File name.
+            </summary>
+        </member>
+        <member name="F:BeatSaberModdingTools.Tasks.Utilities.ParsingException.LineNumber">
+            <summary>
+            Log entry line number.
+            </summary>
+        </member>
+        <member name="F:BeatSaberModdingTools.Tasks.Utilities.ParsingException.ColumnNumber">
+            <summary>
+            Log entry column number.
+            </summary>
+        </member>
+        <member name="F:BeatSaberModdingTools.Tasks.Utilities.ParsingException.EndLineNumber">
+            <summary>
+            Log entry end line number.
+            </summary>
+        </member>
+        <member name="F:BeatSaberModdingTools.Tasks.Utilities.ParsingException.EndColumnNumber">
+            <summary>
+            Log entry end column number.
+            </summary>
+        </member>
+        <member name="F:BeatSaberModdingTools.Tasks.Utilities.ParsingException.MessageArgs">
+            <summary>
+            Log entry Message args.
+            </summary>
+        </member>
+        <member name="M:BeatSaberModdingTools.Tasks.Utilities.ParsingException.#ctor(System.String)">
+            <inheritdoc/>
+        </member>
+        <member name="M:BeatSaberModdingTools.Tasks.Utilities.ParsingException.#ctor(System.String,System.Exception)">
+            <inheritdoc/>
+        </member>
+        <member name="M:BeatSaberModdingTools.Tasks.Utilities.ParsingException.#ctor(System.String,System.String,System.String,System.String,System.Int32,System.Int32,System.Int32,System.Int32,System.String,System.Object[])">
+            <summary>
+            Creates a <see cref="T:BeatSaberModdingTools.Tasks.Utilities.ParsingException"/> using the given message data.
+            </summary>
+            <param name="subCategory"></param>
+            <param name="messageCode"></param>
+            <param name="helpKeyword"></param>
+            <param name="file"></param>
+            <param name="lineNumber"></param>
+            <param name="columnNumber"></param>
+            <param name="endLineNumber"></param>
+            <param name="endColumnNumber"></param>
+            <param name="message"></param>
+            <param name="messageArgs"></param>
+        </member>
+        <member name="T:BeatSaberModdingTools.Tasks.Utilities.VersionMatchException">
+            <summary>
+            Exception thrown when matching versions.
+            </summary>
+        </member>
+        <member name="M:BeatSaberModdingTools.Tasks.Utilities.VersionMatchException.#ctor(System.String)">
+            <inheritdoc/>
+        </member>
+        <member name="M:BeatSaberModdingTools.Tasks.Utilities.VersionMatchException.#ctor(System.String,System.Exception)">
+            <inheritdoc/>
+        </member>
+        <member name="T:BeatSaberModdingTools.Tasks.Utilities.ParsingExceptionExtensions">
+            <summary>
+            Extensions for <see cref="T:BeatSaberModdingTools.Tasks.Utilities.ParsingException"/>.
+            </summary>
+        </member>
+        <member name="M:BeatSaberModdingTools.Tasks.Utilities.ParsingExceptionExtensions.LogErrorFromException(BeatSaberModdingTools.Tasks.Utilities.ParsingException,BeatSaberModdingTools.Tasks.Utilities.ITaskLogger)">
+            <summary>
+            Logs an error from the <see cref="T:BeatSaberModdingTools.Tasks.Utilities.ParsingException"/> using the given <see cref="T:BeatSaberModdingTools.Tasks.Utilities.ITaskLogger"/>.
+            </summary>
+            <param name="ex"></param>
+            <param name="Log"></param>
+        </member>
+        <member name="M:BeatSaberModdingTools.Tasks.Utilities.ParsingExceptionExtensions.LogErrorFromException(BeatSaberModdingTools.Tasks.Utilities.ParsingException,BeatSaberModdingTools.Tasks.Utilities.ITaskLogger,System.String,BeatSaberModdingTools.Tasks.Utilities.FilePosition)">
+            <summary>
+            Logs an error from the <see cref="T:BeatSaberModdingTools.Tasks.Utilities.ParsingException"/> using the given <see cref="T:BeatSaberModdingTools.Tasks.Utilities.ITaskLogger"/>.
+            </summary>
+            <param name="ex"></param>
+            <param name="file"></param>
+            <param name="position"></param>
+            <param name="Log"></param>
+        </member>
+        <member name="T:BeatSaberModdingTools.Tasks.Utilities.FilePosition">
+            <summary>
+            Defines a position in a file.
+            </summary>
+        </member>
+        <member name="F:BeatSaberModdingTools.Tasks.Utilities.FilePosition.StartLine">
+            <summary>
+            Line the <see cref="T:BeatSaberModdingTools.Tasks.Utilities.FilePosition"/> starts on.
+            </summary>
+        </member>
+        <member name="F:BeatSaberModdingTools.Tasks.Utilities.FilePosition.EndLine">
+            <summary>
+            Line the <see cref="T:BeatSaberModdingTools.Tasks.Utilities.FilePosition"/> ends on.
+            </summary>
+        </member>
+        <member name="F:BeatSaberModdingTools.Tasks.Utilities.FilePosition.StartColumn">
+            <summary>
+            Column the <see cref="T:BeatSaberModdingTools.Tasks.Utilities.FilePosition"/> starts on.
+            </summary>
+        </member>
+        <member name="F:BeatSaberModdingTools.Tasks.Utilities.FilePosition.EndColumn">
+            <summary>
+            Column the <see cref="T:BeatSaberModdingTools.Tasks.Utilities.FilePosition"/> ends on.
+            </summary>
+        </member>
+        <member name="M:BeatSaberModdingTools.Tasks.Utilities.FilePosition.#ctor(System.Int32,System.Int32,System.Int32)">
+            <summary>
+            Defines a new <see cref="T:BeatSaberModdingTools.Tasks.Utilities.FilePosition"/> that covers a single line.
+            </summary>
+            <param name="line"></param>
+            <param name="startColumn"></param>
+            <param name="endColumn"></param>
+        </member>
+        <member name="M:BeatSaberModdingTools.Tasks.Utilities.FilePosition.#ctor(System.Int32,System.Int32,System.Int32,System.Int32)">
+            <summary>
+            Defines a new <see cref="T:BeatSaberModdingTools.Tasks.Utilities.FilePosition"/> that may cover multiple lines.
+            </summary>
+            <param name="startLine"></param>
+            <param name="endLine"></param>
+            <param name="startColumn"></param>
+            <param name="endColumn"></param>
+        </member>
+        <member name="T:BeatSaberModdingTools.Tasks.Utilities.ITaskLogger">
             <summary>
             Logging interface for easier unit testing.
             </summary>
         </member>
-        <member name="M:BeatSaberModdingTools.Tasks.Utilties.ITaskLogger.LogMessage(Microsoft.Build.Framework.MessageImportance,System.String,System.Object[])">
-            <summary>
-            Logs a message.
-            </summary>
-            <param name="importance"></param>
-            <param name="message"></param>
-            <param name="messageArgs"></param>
-        </member>
-        <member name="M:BeatSaberModdingTools.Tasks.Utilties.ITaskLogger.LogWarning(System.String,System.String,System.String,System.String,System.Int32,System.Int32,System.Int32,System.Int32,System.String,System.Object[])">
+        <member name="M:BeatSaberModdingTools.Tasks.Utilities.ITaskLogger.LogWarning(System.String,System.String,System.String,System.String,System.Int32,System.Int32,System.Int32,System.Int32,System.String,System.Object[])">
             <summary>
             Logs a warning.
             </summary>
@@ -414,14 +582,26 @@
             <param name="message"></param>
             <param name="messageArgs"></param>
         </member>
-        <member name="M:BeatSaberModdingTools.Tasks.Utilties.ITaskLogger.LogWarning(System.String,System.Object[])">
+        <member name="M:BeatSaberModdingTools.Tasks.Utilities.ITaskLogger.LogWarning(System.String,System.String,System.String,System.String,BeatSaberModdingTools.Tasks.Utilities.FilePosition,System.String,System.Object[])">
+            <summary>
+            Logs a warning.
+            </summary>
+            <param name="subcategory"></param>
+            <param name="warningCode"></param>
+            <param name="helpKeyword"></param>
+            <param name="file"></param>
+            <param name="position"></param>
+            <param name="message"></param>
+            <param name="messageArgs"></param>
+        </member>
+        <member name="M:BeatSaberModdingTools.Tasks.Utilities.ITaskLogger.LogWarning(System.String,System.Object[])">
             <summary>
             Logs a warning.
             </summary>
             <param name="message"></param>
             <param name="messageArgs"></param>
         </member>
-        <member name="M:BeatSaberModdingTools.Tasks.Utilties.ITaskLogger.LogError(System.String,System.String,System.String,System.String,System.Int32,System.Int32,System.Int32,System.Int32,System.String,System.Object[])">
+        <member name="M:BeatSaberModdingTools.Tasks.Utilities.ITaskLogger.LogError(System.String,System.String,System.String,System.String,System.Int32,System.Int32,System.Int32,System.Int32,System.String,System.Object[])">
             <summary>
             Logs an error.
             </summary>
@@ -436,7 +616,26 @@
             <param name="message"></param>
             <param name="messageArgs"></param>
         </member>
-        <member name="M:BeatSaberModdingTools.Tasks.Utilties.ITaskLogger.LogMessage(System.String,System.String,System.String,System.String,System.Int32,System.Int32,System.Int32,System.Int32,Microsoft.Build.Framework.MessageImportance,System.String,System.Object[])">
+        <member name="M:BeatSaberModdingTools.Tasks.Utilities.ITaskLogger.LogError(System.String,System.String,System.String,System.String,BeatSaberModdingTools.Tasks.Utilities.FilePosition,System.String,System.Object[])">
+            <summary>
+            Logs an error.
+            </summary>
+            <param name="subcategory"></param>
+            <param name="errorCode"></param>
+            <param name="helpKeyword"></param>
+            <param name="file"></param>
+            <param name="position"></param>
+            <param name="message"></param>
+            <param name="messageArgs"></param>
+        </member>
+        <member name="M:BeatSaberModdingTools.Tasks.Utilities.ITaskLogger.LogError(System.String,System.Object[])">
+            <summary>
+            Logs an error.
+            </summary>
+            <param name="message"></param>
+            <param name="messageArgs"></param>
+        </member>
+        <member name="M:BeatSaberModdingTools.Tasks.Utilities.ITaskLogger.LogMessage(System.String,System.String,System.String,System.String,System.Int32,System.Int32,System.Int32,System.Int32,Microsoft.Build.Framework.MessageImportance,System.String,System.Object[])">
             <summary>
             Logs a message.
             </summary>
@@ -452,325 +651,516 @@
             <param name="message"></param>
             <param name="messageArgs"></param>
         </member>
-        <member name="M:BeatSaberModdingTools.Tasks.Utilties.ITaskLogger.LogError(System.String,System.Object[])">
+        <member name="M:BeatSaberModdingTools.Tasks.Utilities.ITaskLogger.LogMessage(System.String,System.String,System.String,System.String,BeatSaberModdingTools.Tasks.Utilities.FilePosition,Microsoft.Build.Framework.MessageImportance,System.String,System.Object[])">
             <summary>
-            Logs an error.
+            Logs a message.
             </summary>
+            <param name="subcategory"></param>
+            <param name="code"></param>
+            <param name="helpKeyword"></param>
+            <param name="file"></param>
+            <param name="position"></param>
+            <param name="messageImportance"></param>
             <param name="message"></param>
             <param name="messageArgs"></param>
         </member>
-        <member name="M:BeatSaberModdingTools.Tasks.Utilties.ITaskLogger.LogErrorFromException(System.Exception)">
+        <member name="M:BeatSaberModdingTools.Tasks.Utilities.ITaskLogger.LogMessage(Microsoft.Build.Framework.MessageImportance,System.String,System.Object[])">
+            <summary>
+            Logs a message.
+            </summary>
+            <param name="importance"></param>
+            <param name="message"></param>
+            <param name="messageArgs"></param>
+        </member>
+        <member name="M:BeatSaberModdingTools.Tasks.Utilities.ITaskLogger.LogErrorFromException(System.Exception)">
             <summary>
             Logs an error from an <see cref="T:System.Exception"/>.
             </summary>
             <param name="exception"></param>
         </member>
-        <member name="T:BeatSaberModdingTools.Tasks.Utilties.LogWrapper">
+        <member name="M:BeatSaberModdingTools.Tasks.Utilities.ITaskLogger.Log(System.String,System.String,System.String,System.String,System.Int32,System.Int32,System.Int32,System.Int32,BeatSaberModdingTools.Tasks.Utilities.LogMessageLevel,System.String,System.Object[])">
             <summary>
-            Wrapper for <see cref="T:Microsoft.Build.Utilities.TaskLoggingHelper"/> that implements <see cref="T:BeatSaberModdingTools.Tasks.Utilties.ITaskLogger"/>.
+            Logs a message.
+            </summary>
+            <param name="subcategory"></param>
+            <param name="code"></param>
+            <param name="helpKeyword"></param>
+            <param name="file"></param>
+            <param name="lineNumber"></param>
+            <param name="columnNumber"></param>
+            <param name="endLineNumber"></param>
+            <param name="endColumnNumber"></param>
+            <param name="level"></param>
+            <param name="message"></param>
+            <param name="messageArgs"></param>
+        </member>
+        <member name="M:BeatSaberModdingTools.Tasks.Utilities.ITaskLogger.Log(System.String,System.String,System.String,System.String,BeatSaberModdingTools.Tasks.Utilities.FilePosition,BeatSaberModdingTools.Tasks.Utilities.LogMessageLevel,System.String,System.Object[])">
+            <summary>
+            Logs a message.
+            </summary>
+            <param name="subcategory"></param>
+            <param name="code"></param>
+            <param name="helpKeyword"></param>
+            <param name="file"></param>
+            <param name="position"></param>
+            <param name="level"></param>
+            <param name="message"></param>
+            <param name="messageArgs"></param>
+        </member>
+        <member name="M:BeatSaberModdingTools.Tasks.Utilities.ITaskLogger.Log(BeatSaberModdingTools.Tasks.Utilities.LogMessageLevel,System.String,System.Object[])">
+            <summary>
+            Logs a message.
+            </summary>
+            <param name="level"></param>
+            <param name="message"></param>
+            <param name="messageArgs"></param>
+        </member>
+        <member name="T:BeatSaberModdingTools.Tasks.Utilities.LogMessageLevel">
+            <summary>
+            Level of the log message.
             </summary>
         </member>
-        <member name="F:BeatSaberModdingTools.Tasks.Utilties.LogWrapper.Logger">
+        <member name="F:BeatSaberModdingTools.Tasks.Utilities.LogMessageLevel.Message">
+            <summary>
+            Message.
+            </summary>
+        </member>
+        <member name="F:BeatSaberModdingTools.Tasks.Utilities.LogMessageLevel.Warning">
+            <summary>
+            Warning.
+            </summary>
+        </member>
+        <member name="F:BeatSaberModdingTools.Tasks.Utilities.LogMessageLevel.Error">
+            <summary>
+            Error.
+            </summary>
+        </member>
+        <member name="T:BeatSaberModdingTools.Tasks.Utilities.LoggerBase">
+            <summary>
+            Base class for an <see cref="T:BeatSaberModdingTools.Tasks.Utilities.ITaskLogger"/>
+            </summary>
+        </member>
+        <member name="M:BeatSaberModdingTools.Tasks.Utilities.LoggerBase.LogError(System.String,System.String,System.String,System.String,System.Int32,System.Int32,System.Int32,System.Int32,System.String,System.Object[])">
+            <inheritdoc/>
+        </member>
+        <member name="M:BeatSaberModdingTools.Tasks.Utilities.LoggerBase.LogError(System.String,System.String,System.String,System.String,BeatSaberModdingTools.Tasks.Utilities.FilePosition,System.String,System.Object[])">
+            <inheritdoc/>
+        </member>
+        <member name="M:BeatSaberModdingTools.Tasks.Utilities.LoggerBase.LogError(System.String,System.Object[])">
+            <inheritdoc/>
+        </member>
+        <member name="M:BeatSaberModdingTools.Tasks.Utilities.LoggerBase.LogErrorFromException(System.Exception)">
+            <inheritdoc/>
+        </member>
+        <member name="M:BeatSaberModdingTools.Tasks.Utilities.LoggerBase.LogMessage(Microsoft.Build.Framework.MessageImportance,System.String,System.Object[])">
+            <inheritdoc/>
+        </member>
+        <member name="M:BeatSaberModdingTools.Tasks.Utilities.LoggerBase.LogMessage(System.String,System.String,System.String,System.String,System.Int32,System.Int32,System.Int32,System.Int32,Microsoft.Build.Framework.MessageImportance,System.String,System.Object[])">
+            <inheritdoc/>
+        </member>
+        <member name="M:BeatSaberModdingTools.Tasks.Utilities.LoggerBase.LogMessage(System.String,System.String,System.String,System.String,BeatSaberModdingTools.Tasks.Utilities.FilePosition,Microsoft.Build.Framework.MessageImportance,System.String,System.Object[])">
+            <inheritdoc/>
+        </member>
+        <member name="M:BeatSaberModdingTools.Tasks.Utilities.LoggerBase.LogWarning(System.String,System.String,System.String,System.String,System.Int32,System.Int32,System.Int32,System.Int32,System.String,System.Object[])">
+            <inheritdoc/>
+        </member>
+        <member name="M:BeatSaberModdingTools.Tasks.Utilities.LoggerBase.LogWarning(System.String,System.String,System.String,System.String,BeatSaberModdingTools.Tasks.Utilities.FilePosition,System.String,System.Object[])">
+            <inheritdoc/>
+        </member>
+        <member name="M:BeatSaberModdingTools.Tasks.Utilities.LoggerBase.LogWarning(System.String,System.Object[])">
+            <inheritdoc/>
+        </member>
+        <member name="M:BeatSaberModdingTools.Tasks.Utilities.LoggerBase.Log(System.String,System.String,System.String,System.String,System.Int32,System.Int32,System.Int32,System.Int32,BeatSaberModdingTools.Tasks.Utilities.LogMessageLevel,System.String,System.Object[])">
+            <inheritdoc/>
+        </member>
+        <member name="M:BeatSaberModdingTools.Tasks.Utilities.LoggerBase.Log(System.String,System.String,System.String,System.String,BeatSaberModdingTools.Tasks.Utilities.FilePosition,BeatSaberModdingTools.Tasks.Utilities.LogMessageLevel,System.String,System.Object[])">
+            <inheritdoc/>
+        </member>
+        <member name="M:BeatSaberModdingTools.Tasks.Utilities.LoggerBase.Log(BeatSaberModdingTools.Tasks.Utilities.LogMessageLevel,System.String,System.Object[])">
+            <inheritdoc/>
+        </member>
+        <member name="T:BeatSaberModdingTools.Tasks.Utilities.LogWrapper">
+            <summary>
+            Wrapper for <see cref="T:Microsoft.Build.Utilities.TaskLoggingHelper"/> that implements <see cref="T:BeatSaberModdingTools.Tasks.Utilities.ITaskLogger"/>.
+            </summary>
+        </member>
+        <member name="F:BeatSaberModdingTools.Tasks.Utilities.LogWrapper.Logger">
             <summary>
             The <see cref="T:Microsoft.Build.Utilities.TaskLoggingHelper"/> instance.
             </summary>
         </member>
-        <member name="M:BeatSaberModdingTools.Tasks.Utilties.LogWrapper.#ctor(Microsoft.Build.Utilities.TaskLoggingHelper)">
+        <member name="M:BeatSaberModdingTools.Tasks.Utilities.LogWrapper.#ctor(Microsoft.Build.Utilities.TaskLoggingHelper)">
             <summary>
-            Creates a new <see cref="T:BeatSaberModdingTools.Tasks.Utilties.LogWrapper"/> using a <see cref="T:Microsoft.Build.Utilities.TaskLoggingHelper"/>.
+            Creates a new <see cref="T:BeatSaberModdingTools.Tasks.Utilities.LogWrapper"/> using a <see cref="T:Microsoft.Build.Utilities.TaskLoggingHelper"/>.
             </summary>
             <param name="logger"></param>
         </member>
-        <member name="M:BeatSaberModdingTools.Tasks.Utilties.LogWrapper.LogError(System.String,System.String,System.String,System.String,System.Int32,System.Int32,System.Int32,System.Int32,System.String,System.Object[])">
+        <member name="M:BeatSaberModdingTools.Tasks.Utilities.LogWrapper.LogError(System.String,System.String,System.String,System.String,System.Int32,System.Int32,System.Int32,System.Int32,System.String,System.Object[])">
             <inheritdoc/>
         </member>
-        <member name="M:BeatSaberModdingTools.Tasks.Utilties.LogWrapper.LogError(System.String,System.Object[])">
+        <member name="M:BeatSaberModdingTools.Tasks.Utilities.LogWrapper.LogError(System.String,System.Object[])">
             <inheritdoc/>
         </member>
-        <member name="M:BeatSaberModdingTools.Tasks.Utilties.LogWrapper.LogErrorFromException(System.Exception)">
+        <member name="M:BeatSaberModdingTools.Tasks.Utilities.LogWrapper.LogErrorFromException(System.Exception)">
             <inheritdoc/>
         </member>
-        <member name="M:BeatSaberModdingTools.Tasks.Utilties.LogWrapper.LogMessage(Microsoft.Build.Framework.MessageImportance,System.String,System.Object[])">
+        <member name="M:BeatSaberModdingTools.Tasks.Utilities.LogWrapper.LogMessage(Microsoft.Build.Framework.MessageImportance,System.String,System.Object[])">
             <inheritdoc/>
         </member>
-        <member name="M:BeatSaberModdingTools.Tasks.Utilties.LogWrapper.LogMessage(System.String,System.String,System.String,System.String,System.Int32,System.Int32,System.Int32,System.Int32,Microsoft.Build.Framework.MessageImportance,System.String,System.Object[])">
+        <member name="M:BeatSaberModdingTools.Tasks.Utilities.LogWrapper.LogMessage(System.String,System.String,System.String,System.String,System.Int32,System.Int32,System.Int32,System.Int32,Microsoft.Build.Framework.MessageImportance,System.String,System.Object[])">
             <inheritdoc/>
         </member>
-        <member name="M:BeatSaberModdingTools.Tasks.Utilties.LogWrapper.LogWarning(System.String,System.String,System.String,System.String,System.Int32,System.Int32,System.Int32,System.Int32,System.String,System.Object[])">
+        <member name="M:BeatSaberModdingTools.Tasks.Utilities.LogWrapper.LogWarning(System.String,System.String,System.String,System.String,System.Int32,System.Int32,System.Int32,System.Int32,System.String,System.Object[])">
             <inheritdoc/>
         </member>
-        <member name="M:BeatSaberModdingTools.Tasks.Utilties.LogWrapper.LogWarning(System.String,System.Object[])">
+        <member name="M:BeatSaberModdingTools.Tasks.Utilities.LogWrapper.LogWarning(System.String,System.Object[])">
             <inheritdoc/>
         </member>
-        <member name="T:BeatSaberModdingTools.Tasks.Utilties.MessageCodes">
+        <member name="M:BeatSaberModdingTools.Tasks.Utilities.LogWrapper.Log(BeatSaberModdingTools.Tasks.Utilities.LogMessageLevel,System.String,System.Object[])">
+            <inheritdoc/>
+        </member>
+        <member name="T:BeatSaberModdingTools.Tasks.Utilities.MessageCodes">
             <summary>
             Message codes.
             </summary>
         </member>
-        <member name="T:BeatSaberModdingTools.Tasks.Utilties.MessageCodes.GetManifestInfo">
+        <member name="F:BeatSaberModdingTools.Tasks.Utilities.MessageCodes.ErrorString">
             <summary>
-            Message codes for GetManifestInfo.
+            Default output when a property can't be read.
             </summary>
         </member>
-        <member name="F:BeatSaberModdingTools.Tasks.Utilties.MessageCodes.GetManifestInfo.VersionMismatch">
+        <member name="F:BeatSaberModdingTools.Tasks.Utilities.MessageCodes.Name">
             <summary>
-            Manifest and assembly versions don't match.
+            Name of this package.
             </summary>
         </member>
-        <member name="F:BeatSaberModdingTools.Tasks.Utilties.MessageCodes.GetManifestInfo.ManifestFileNotFound">
+        <member name="T:BeatSaberModdingTools.Tasks.Utilities.MessageCodes.GetManifestInfo">
+            <summary>
+            Message codes for <see cref="T:BeatSaberModdingTools.Tasks.GetManifestInfo"/>.
+            </summary>
+        </member>
+        <member name="F:BeatSaberModdingTools.Tasks.Utilities.MessageCodes.GetManifestInfo.ManifestFileNotFound">
             <summary>
             Manifest file doesn't exist.
             </summary>
         </member>
-        <member name="F:BeatSaberModdingTools.Tasks.Utilties.MessageCodes.GetManifestInfo.AssemblyInfoNotFound">
+        <member name="F:BeatSaberModdingTools.Tasks.Utilities.MessageCodes.GetManifestInfo.PluginVersionNotFound">
             <summary>
-            AssemblyInfo file not found and known assembly version not given.
+            PluginVersion could not be determined from the manifest.
             </summary>
         </member>
-        <member name="F:BeatSaberModdingTools.Tasks.Utilties.MessageCodes.GetManifestInfo.AssemblyVersionMismatch">
-            <summary>
-            AssemblyVersion and AssemblyFileVersion don't match.
-            </summary>
-        </member>
-        <member name="F:BeatSaberModdingTools.Tasks.Utilties.MessageCodes.GetManifestInfo.AssemblyVersionParseFail">
-            <summary>
-            AssemblyVersion couldn't be parsed from AssemblyInfo file.
-            </summary>
-        </member>
-        <member name="F:BeatSaberModdingTools.Tasks.Utilties.MessageCodes.GetManifestInfo.PluginVersionNotFound">
-            <summary>
-            PluginVersion could not be determined from tthe manifest.
-            </summary>
-        </member>
-        <member name="F:BeatSaberModdingTools.Tasks.Utilties.MessageCodes.GetManifestInfo.GameVersionNotFound">
+        <member name="F:BeatSaberModdingTools.Tasks.Utilities.MessageCodes.GetManifestInfo.GameVersionNotFound">
             <summary>
             GameVersion could not be determined from the manifest.
             </summary>
         </member>
-        <member name="F:BeatSaberModdingTools.Tasks.Utilties.MessageCodes.GetManifestInfo.AssemblyFileVersionParseFail">
+        <member name="F:BeatSaberModdingTools.Tasks.Utilities.MessageCodes.GetManifestInfo.VersionParseFail">
+            <summary>
+            PluginVersion was found but could not be parsed.
+            </summary>
+        </member>
+        <member name="F:BeatSaberModdingTools.Tasks.Utilities.MessageCodes.GetManifestInfo.GeneralFailure">
+            <summary>
+            Other error.
+            </summary>
+        </member>
+        <member name="T:BeatSaberModdingTools.Tasks.Utilities.MessageCodes.CompareVersions">
+            <summary>
+            Message codes for <see cref="T:BeatSaberModdingTools.Tasks.CompareVersions"/>.
+            </summary>
+        </member>
+        <member name="F:BeatSaberModdingTools.Tasks.Utilities.MessageCodes.CompareVersions.VersionMismatch">
+            <summary>
+            Manifest and assembly versions don't match.
+            </summary>
+        </member>
+        <member name="F:BeatSaberModdingTools.Tasks.Utilities.MessageCodes.CompareVersions.InvalidVersion">
+            <summary>
+            Invalid versions given.
+            </summary>
+        </member>
+        <member name="F:BeatSaberModdingTools.Tasks.Utilities.MessageCodes.CompareVersions.GeneralFailure">
+            <summary>
+            Other error.
+            </summary>
+        </member>
+        <member name="T:BeatSaberModdingTools.Tasks.Utilities.MessageCodes.GetAssemblyInfo">
+            <summary>
+            Message codes for <see cref="T:BeatSaberModdingTools.Tasks.GetAssemblyInfo"/>.
+            </summary>
+        </member>
+        <member name="F:BeatSaberModdingTools.Tasks.Utilities.MessageCodes.GetAssemblyInfo.AssemblyInfoNotFound">
+            <summary>
+            AssemblyInfo file not found and known assembly version not given.
+            </summary>
+        </member>
+        <member name="F:BeatSaberModdingTools.Tasks.Utilities.MessageCodes.GetAssemblyInfo.AssemblyVersionMismatch">
+            <summary>
+            AssemblyVersion and AssemblyFileVersion don't match.
+            </summary>
+        </member>
+        <member name="F:BeatSaberModdingTools.Tasks.Utilities.MessageCodes.GetAssemblyInfo.AssemblyVersionParseFail">
+            <summary>
+            AssemblyVersion couldn't be parsed from AssemblyInfo file.
+            </summary>
+        </member>
+        <member name="F:BeatSaberModdingTools.Tasks.Utilities.MessageCodes.GetAssemblyInfo.AssemblyFileVersionParseFail">
             <summary>
             AssemblyFileVersion couldn't be determined from AssemblyInfo.
             </summary>
         </member>
-        <member name="F:BeatSaberModdingTools.Tasks.Utilties.MessageCodes.GetManifestInfo.GeneralFailure">
+        <member name="F:BeatSaberModdingTools.Tasks.Utilities.MessageCodes.GetAssemblyInfo.GeneralFailure">
             <summary>
             Other error.
             </summary>
         </member>
-        <member name="T:BeatSaberModdingTools.Tasks.Utilties.MessageCodes.IsProcessRunning">
+        <member name="T:BeatSaberModdingTools.Tasks.Utilities.MessageCodes.IsProcessRunning">
             <summary>
-            Message codes for IsProcessRunning.
+            Message codes for <see cref="T:BeatSaberModdingTools.Tasks.IsProcessRunning"/>.
             </summary>
         </member>
-        <member name="F:BeatSaberModdingTools.Tasks.Utilties.MessageCodes.IsProcessRunning.EmptyProcessName">
+        <member name="F:BeatSaberModdingTools.Tasks.Utilities.MessageCodes.IsProcessRunning.EmptyProcessName">
             <summary>
             <see cref="P:BeatSaberModdingTools.Tasks.IsProcessRunning.ProcessName"/> was given an empty or null value.
             </summary>
         </member>
-        <member name="F:BeatSaberModdingTools.Tasks.Utilties.MessageCodes.IsProcessRunning.GeneralFailure">
+        <member name="F:BeatSaberModdingTools.Tasks.Utilities.MessageCodes.IsProcessRunning.GeneralFailure">
             <summary>
             Other error.
             </summary>
         </member>
-        <member name="T:BeatSaberModdingTools.Tasks.Utilties.MessageCodes.ZipDir">
+        <member name="T:BeatSaberModdingTools.Tasks.Utilities.MessageCodes.ZipDir">
             <summary>
-            Message codes for ZipDir.
+            Message codes for <see cref="T:BeatSaberModdingTools.Tasks.ZipDir"/>.
             </summary>
         </member>
-        <member name="F:BeatSaberModdingTools.Tasks.Utilties.MessageCodes.ZipDir.ZipFailed">
+        <member name="F:BeatSaberModdingTools.Tasks.Utilities.MessageCodes.ZipDir.ZipFailed">
             <summary>
             Other error.
             </summary>
         </member>
-        <member name="F:BeatSaberModdingTools.Tasks.Utilties.MessageCodes.ZipDir.ZipEmptySource">
+        <member name="F:BeatSaberModdingTools.Tasks.Utilities.MessageCodes.ZipDir.ZipEmptySource">
             <summary>
             <see cref="P:BeatSaberModdingTools.Tasks.ZipDir.SourceDirectory"/> was given an empty or null value.
             </summary>
         </member>
-        <member name="F:BeatSaberModdingTools.Tasks.Utilties.MessageCodes.ZipDir.ZipEmptyDestination">
+        <member name="F:BeatSaberModdingTools.Tasks.Utilities.MessageCodes.ZipDir.ZipEmptyDestination">
             <summary>
             <see cref="P:BeatSaberModdingTools.Tasks.ZipDir.DestinationFile"/> was given an empty or null value.
             </summary>
         </member>
-        <member name="F:BeatSaberModdingTools.Tasks.Utilties.MessageCodes.ZipDir.ZipMissingSource">
+        <member name="F:BeatSaberModdingTools.Tasks.Utilities.MessageCodes.ZipDir.ZipMissingSource">
             <summary>
             Path specified in <see cref="P:BeatSaberModdingTools.Tasks.ZipDir.SourceDirectory"/> does not exist.
             </summary>
         </member>
-        <member name="T:BeatSaberModdingTools.Tasks.Utilties.MessageCodes.GetCommitHash">
+        <member name="T:BeatSaberModdingTools.Tasks.Utilities.MessageCodes.GetCommitInfo">
             <summary>
-            Message codes for GetCommitHash.
+            Message codes for <see cref="T:BeatSaberModdingTools.Tasks.GetCommitInfo"/>.
             </summary>
         </member>
-        <member name="F:BeatSaberModdingTools.Tasks.Utilties.MessageCodes.GetCommitHash.GitFailed">
+        <member name="F:BeatSaberModdingTools.Tasks.Utilities.MessageCodes.GetCommitInfo.GitFailed">
             <summary>
             Other error.
             </summary>
         </member>
-        <member name="F:BeatSaberModdingTools.Tasks.Utilties.MessageCodes.GetCommitHash.GitNoRepository">
+        <member name="F:BeatSaberModdingTools.Tasks.Utilities.MessageCodes.GetCommitInfo.GitNoRepository">
             <summary>
             Project is not in a git repository.
             </summary>
         </member>
-        <member name="T:BeatSaberModdingTools.Tasks.Utilties.MessageCodes.ReplaceInFile">
+        <member name="T:BeatSaberModdingTools.Tasks.Utilities.MessageCodes.ReplaceInFile">
             <summary>
-            Message codes for ReplaceInFile.
+            Message codes for <see cref="T:BeatSaberModdingTools.Tasks.ReplaceInFile"/>.
             </summary>
         </member>
-        <member name="F:BeatSaberModdingTools.Tasks.Utilties.MessageCodes.ReplaceInFile.EmptyFile">
+        <member name="F:BeatSaberModdingTools.Tasks.Utilities.MessageCodes.ReplaceInFile.EmptyFile">
             <summary>
             <see cref="P:BeatSaberModdingTools.Tasks.ReplaceInFile.File"/> is null or empty.
             </summary>
         </member>
-        <member name="F:BeatSaberModdingTools.Tasks.Utilties.MessageCodes.ReplaceInFile.MissingSource">
+        <member name="F:BeatSaberModdingTools.Tasks.Utilities.MessageCodes.ReplaceInFile.MissingSource">
             <summary>
             Path specified in <see cref="P:BeatSaberModdingTools.Tasks.ReplaceInFile.File"/> does not exist.
             </summary>
         </member>
-        <member name="F:BeatSaberModdingTools.Tasks.Utilties.MessageCodes.ReplaceInFile.EmptyPattern">
+        <member name="F:BeatSaberModdingTools.Tasks.Utilities.MessageCodes.ReplaceInFile.EmptyPattern">
             <summary>
             <see cref="P:BeatSaberModdingTools.Tasks.ReplaceInFile.Pattern"/> is null or empty.
             </summary>
         </member>
-        <member name="F:BeatSaberModdingTools.Tasks.Utilties.MessageCodes.ReplaceInFile.ReplaceFailed">
+        <member name="F:BeatSaberModdingTools.Tasks.Utilities.MessageCodes.ReplaceInFile.ReplaceFailed">
             <summary>
             Other error.
             </summary>
         </member>
-        <member name="T:BeatSaberModdingTools.Tasks.Utilties.MockTaskLogger">
+        <member name="T:BeatSaberModdingTools.Tasks.Utilities.MockTaskLogger">
             <summary>
-            A mock logger that implements <see cref="T:BeatSaberModdingTools.Tasks.Utilties.ITaskLogger"/> for unit testing.
+            A mock logger that implements <see cref="T:BeatSaberModdingTools.Tasks.Utilities.ITaskLogger"/> for unit testing.
             </summary>
         </member>
-        <member name="F:BeatSaberModdingTools.Tasks.Utilties.MockTaskLogger.LogEntries">
+        <member name="F:BeatSaberModdingTools.Tasks.Utilities.MockTaskLogger.LogEntries">
             <summary>
             List of log entries created by this instance.
             </summary>
         </member>
-        <member name="M:BeatSaberModdingTools.Tasks.Utilties.MockTaskLogger.LogError(System.String,System.String,System.String,System.String,System.Int32,System.Int32,System.Int32,System.Int32,System.String,System.Object[])">
+        <member name="M:BeatSaberModdingTools.Tasks.Utilities.MockTaskLogger.LogError(System.String,System.String,System.String,System.String,System.Int32,System.Int32,System.Int32,System.Int32,System.String,System.Object[])">
             <inheritdoc/>
         </member>
-        <member name="M:BeatSaberModdingTools.Tasks.Utilties.MockTaskLogger.LogError(System.String,System.Object[])">
+        <member name="M:BeatSaberModdingTools.Tasks.Utilities.MockTaskLogger.LogError(System.String,System.Object[])">
             <inheritdoc/>
         </member>
-        <member name="M:BeatSaberModdingTools.Tasks.Utilties.MockTaskLogger.LogErrorFromException(System.Exception)">
+        <member name="M:BeatSaberModdingTools.Tasks.Utilities.MockTaskLogger.LogErrorFromException(System.Exception)">
             <inheritdoc/>
         </member>
-        <member name="M:BeatSaberModdingTools.Tasks.Utilties.MockTaskLogger.LogMessage(Microsoft.Build.Framework.MessageImportance,System.String,System.Object[])">
+        <member name="M:BeatSaberModdingTools.Tasks.Utilities.MockTaskLogger.LogMessage(Microsoft.Build.Framework.MessageImportance,System.String,System.Object[])">
             <inheritdoc/>
         </member>
-        <member name="M:BeatSaberModdingTools.Tasks.Utilties.MockTaskLogger.LogMessage(System.String,System.String,System.String,System.String,System.Int32,System.Int32,System.Int32,System.Int32,Microsoft.Build.Framework.MessageImportance,System.String,System.Object[])">
+        <member name="M:BeatSaberModdingTools.Tasks.Utilities.MockTaskLogger.LogMessage(System.String,System.String,System.String,System.String,System.Int32,System.Int32,System.Int32,System.Int32,Microsoft.Build.Framework.MessageImportance,System.String,System.Object[])">
             <inheritdoc/>
         </member>
-        <member name="M:BeatSaberModdingTools.Tasks.Utilties.MockTaskLogger.LogWarning(System.String,System.String,System.String,System.String,System.Int32,System.Int32,System.Int32,System.Int32,System.String,System.Object[])">
+        <member name="M:BeatSaberModdingTools.Tasks.Utilities.MockTaskLogger.LogWarning(System.String,System.String,System.String,System.String,System.Int32,System.Int32,System.Int32,System.Int32,System.String,System.Object[])">
             <inheritdoc/>
         </member>
-        <member name="M:BeatSaberModdingTools.Tasks.Utilties.MockTaskLogger.LogWarning(System.String,System.Object[])">
+        <member name="M:BeatSaberModdingTools.Tasks.Utilities.MockTaskLogger.LogWarning(System.String,System.Object[])">
             <inheritdoc/>
         </member>
-        <member name="T:BeatSaberModdingTools.Tasks.Utilties.MockLogEntry">
+        <member name="M:BeatSaberModdingTools.Tasks.Utilities.MockTaskLogger.Log(BeatSaberModdingTools.Tasks.Utilities.LogMessageLevel,System.String,System.Object[])">
+            <inheritdoc/>
+        </member>
+        <member name="T:BeatSaberModdingTools.Tasks.Utilities.MockLogEntry">
             <summary>
             Stores log entry data.
             </summary>
         </member>
-        <member name="F:BeatSaberModdingTools.Tasks.Utilties.MockLogEntry.SubCategory">
+        <member name="F:BeatSaberModdingTools.Tasks.Utilities.MockLogEntry.SubCategory">
             <summary>
             Log entry SubCategory.
             </summary>
         </member>
-        <member name="F:BeatSaberModdingTools.Tasks.Utilties.MockLogEntry.MessageCode">
+        <member name="F:BeatSaberModdingTools.Tasks.Utilities.MockLogEntry.MessageCode">
             <summary>
             Log entry MessageCode.
             </summary>
         </member>
-        <member name="F:BeatSaberModdingTools.Tasks.Utilties.MockLogEntry.HelpKeyword">
+        <member name="F:BeatSaberModdingTools.Tasks.Utilities.MockLogEntry.HelpKeyword">
             <summary>
             Log entry HelpKeyword.
             </summary>
         </member>
-        <member name="F:BeatSaberModdingTools.Tasks.Utilties.MockLogEntry.File">
+        <member name="F:BeatSaberModdingTools.Tasks.Utilities.MockLogEntry.File">
             <summary>
             Log entry File name.
             </summary>
         </member>
-        <member name="F:BeatSaberModdingTools.Tasks.Utilties.MockLogEntry.LineNumber">
+        <member name="F:BeatSaberModdingTools.Tasks.Utilities.MockLogEntry.LineNumber">
             <summary>
             Log entry line number.
             </summary>
         </member>
-        <member name="F:BeatSaberModdingTools.Tasks.Utilties.MockLogEntry.ColumnNumber">
+        <member name="F:BeatSaberModdingTools.Tasks.Utilities.MockLogEntry.ColumnNumber">
             <summary>
             Log entry column number.
             </summary>
         </member>
-        <member name="F:BeatSaberModdingTools.Tasks.Utilties.MockLogEntry.EndLineNumber">
+        <member name="F:BeatSaberModdingTools.Tasks.Utilities.MockLogEntry.EndLineNumber">
             <summary>
             Log entry end line number.
             </summary>
         </member>
-        <member name="F:BeatSaberModdingTools.Tasks.Utilties.MockLogEntry.EndColumnNumber">
+        <member name="F:BeatSaberModdingTools.Tasks.Utilities.MockLogEntry.EndColumnNumber">
             <summary>
             Log entry end column number.
             </summary>
         </member>
-        <member name="F:BeatSaberModdingTools.Tasks.Utilties.MockLogEntry.Message">
+        <member name="F:BeatSaberModdingTools.Tasks.Utilities.MockLogEntry.Message">
             <summary>
             Log entry Message.
             </summary>
         </member>
-        <member name="F:BeatSaberModdingTools.Tasks.Utilties.MockLogEntry.MessageArgs">
+        <member name="F:BeatSaberModdingTools.Tasks.Utilities.MockLogEntry.MessageArgs">
             <summary>
             Log entry Message args.
             </summary>
         </member>
-        <member name="F:BeatSaberModdingTools.Tasks.Utilties.MockLogEntry.Exception">
+        <member name="F:BeatSaberModdingTools.Tasks.Utilities.MockLogEntry.Exception">
             <summary>
             Log entry Exception.
             </summary>
         </member>
-        <member name="F:BeatSaberModdingTools.Tasks.Utilties.MockLogEntry.Importance">
+        <member name="F:BeatSaberModdingTools.Tasks.Utilities.MockLogEntry.Importance">
             <summary>
             Log entry Importance.
             </summary>
         </member>
-        <member name="F:BeatSaberModdingTools.Tasks.Utilties.MockLogEntry.EntryType">
+        <member name="F:BeatSaberModdingTools.Tasks.Utilities.MockLogEntry.EntryType">
             <summary>
             Log entry type.
             </summary>
         </member>
-        <member name="M:BeatSaberModdingTools.Tasks.Utilties.MockLogEntry.#ctor(BeatSaberModdingTools.Tasks.Utilties.LogEntryType)">
+        <member name="M:BeatSaberModdingTools.Tasks.Utilities.MockLogEntry.#ctor(BeatSaberModdingTools.Tasks.Utilities.LogEntryType)">
             <summary>
-            Creates a new <see cref="T:BeatSaberModdingTools.Tasks.Utilties.MockLogEntry"/> of the given type.
+            Creates a new <see cref="T:BeatSaberModdingTools.Tasks.Utilities.MockLogEntry"/> of the given type.
             </summary>
             <param name="entryType"></param>
         </member>
-        <member name="M:BeatSaberModdingTools.Tasks.Utilties.MockLogEntry.ToString">
+        <member name="M:BeatSaberModdingTools.Tasks.Utilities.MockLogEntry.ToString">
             <inheritdoc/>
         </member>
-        <member name="T:BeatSaberModdingTools.Tasks.Utilties.LogEntryType">
+        <member name="T:BeatSaberModdingTools.Tasks.Utilities.LogEntryType">
             <summary>
             Log entry type.
             </summary>
         </member>
-        <member name="F:BeatSaberModdingTools.Tasks.Utilties.LogEntryType.Message">
+        <member name="F:BeatSaberModdingTools.Tasks.Utilities.LogEntryType.Message">
             <summary>
             Message
             </summary>
         </member>
-        <member name="F:BeatSaberModdingTools.Tasks.Utilties.LogEntryType.Warning">
+        <member name="F:BeatSaberModdingTools.Tasks.Utilities.LogEntryType.Warning">
             <summary>
             Warning
             </summary>
         </member>
-        <member name="F:BeatSaberModdingTools.Tasks.Utilties.LogEntryType.Error">
+        <member name="F:BeatSaberModdingTools.Tasks.Utilities.LogEntryType.Error">
             <summary>
             Error
             </summary>
         </member>
-        <member name="F:BeatSaberModdingTools.Tasks.Utilties.LogEntryType.Exception">
+        <member name="F:BeatSaberModdingTools.Tasks.Utilities.LogEntryType.Exception">
             <summary>
             Exception
             </summary>
+        </member>
+        <member name="T:BeatSaberModdingTools.Tasks.Utilities.Util">
+            <summary>
+            Utility functions shared by various tasks.
+            </summary>
+        </member>
+        <member name="M:BeatSaberModdingTools.Tasks.Utilities.Util.StripVersionLabel(System.String)">
+            <summary>
+            Strips any prerelease version label from a SemVer string.
+            </summary>
+            <param name="version"></param>
+            <returns></returns>
+        </member>
+        <member name="M:BeatSaberModdingTools.Tasks.Utilities.Util.ParseVersionString(System.String,System.Int32)">
+            <summary>
+            Parses a version string into an integer array. Returns an empty array if there are non-integers in the version.
+            </summary>
+            <param name="version"></param>
+            <param name="minLength"></param>
+            <returns></returns>
+        </member>
+        <member name="M:BeatSaberModdingTools.Tasks.Utilities.Util.MatchVersions(System.String,System.String)">
+            <summary>
+            
+            </summary>
+            <param name="assemblyVersion"></param>
+            <param name="manifestVersion"></param>
+            <returns></returns>
+            <exception cref="T:BeatSaberModdingTools.Tasks.Utilities.ParsingException"></exception>
+            <exception cref="T:BeatSaberModdingTools.Tasks.Utilities.VersionMatchException"></exception>
         </member>
         <member name="T:BeatSaberModdingTools.Tasks.ZipDir">
             <summary>
@@ -794,7 +1184,7 @@
         </member>
         <member name="F:BeatSaberModdingTools.Tasks.ZipDir.Logger">
             <summary>
-            <see cref="T:BeatSaberModdingTools.Tasks.Utilties.ITaskLogger"/> instance used.
+            <see cref="T:BeatSaberModdingTools.Tasks.Utilities.ITaskLogger"/> instance used.
             </summary>
         </member>
         <member name="M:BeatSaberModdingTools.Tasks.ZipDir.Execute">

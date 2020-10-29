@@ -1,5 +1,5 @@
 ﻿using BeatSaberModdingTools.Tasks;
-using BeatSaberModdingTools.Tasks.Utilties;
+using BeatSaberModdingTools.Tasks.Utilities;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using System.IO;

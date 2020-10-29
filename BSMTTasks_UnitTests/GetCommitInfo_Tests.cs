@@ -126,7 +126,7 @@ namespace BSMTTasks_UnitTests
             };
             string expectedUser = "Zingabopp";
             GitInfo status = task.GetGitStatus(directory);
-            Assert.IsFalse(string.IsNullOrEmpty(status.Branch));
+            Assert.IsFalse(string.IsNullOrEmpty(status.Branch), $"Branch should not be null/empty.");
             Assert.IsFalse(string.IsNullOrEmpty(status.Modified));
             Assert.IsTrue(status.Modified == "Unmodified" || status.Modified == "Modified");
             Assert.AreEqual(expectedUser, status.GitUser);
