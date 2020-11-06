@@ -30,6 +30,27 @@ namespace BSMTTasks_UnitTests
             Assert.AreEqual(expectedAssemblyVersion, task.AssemblyVersion);
         }
 
+        [TestMethod]
+        public void AssemblyVersion_Spaced()
+        {
+            string assemblyFilePath = Path.Combine("AssemblyInfos", "AssemblyVersionWithSpaces.cs");
+            bool expectedResult = true;
+            string expectedAssemblyVersion = "1.1.0";
+
+            GetAssemblyInfo task = new GetAssemblyInfo()
+            {
+                AssemblyInfoPath = assemblyFilePath
+            };
+            bool taskResult = task.Execute();
+            MockTaskLogger mockTaskLogger = task.Logger as MockTaskLogger;
+            foreach (MockLogEntry entry in mockTaskLogger.LogEntries)
+            {
+                Console.WriteLine(entry);
+            }
+            Assert.AreEqual(0, mockTaskLogger.LogEntries.Count);
+            Assert.AreEqual(expectedResult, taskResult);
+            Assert.AreEqual(expectedAssemblyVersion, task.AssemblyVersion);
+        }
 
         [TestMethod]
         public void AssemblyFileVersionFirst()
