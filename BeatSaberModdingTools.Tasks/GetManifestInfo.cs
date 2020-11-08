@@ -140,8 +140,7 @@ namespace BeatSaberModdingTools.Tasks
                 {
                     try
                     {
-                        string versionStr = manifest_versionLine.Substring(manifest_versionStart.Length).Replace(":", "").Replace("\"", "").TrimEnd(',').Trim();
-                        PluginVersion = string.Join(".", Util.ParseVersionString(versionStr));
+                        PluginVersion = manifest_versionLine.Substring(manifest_versionStart.Length).Replace(":", "").Replace("\"", "").TrimEnd(',').Trim();
                         BasePluginVersion = Util.StripVersionLabel(PluginVersion);
                     }
                     catch (ParsingException ex)
