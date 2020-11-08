@@ -94,6 +94,7 @@ namespace BeatSaberModdingTools.Tasks
         {
             GameVersion = ErrorString;
             PluginVersion = ErrorString;
+            BasePluginVersion = ErrorString;
             string errorCode = null;
             FilePosition versionPosition = default;
             string manifestFile = ManifestPath;
@@ -154,7 +155,6 @@ namespace BeatSaberModdingTools.Tasks
                 {
                     Logger.LogError(null, MessageCodes.GetManifestInfo.PluginVersionNotFound, "",
                         manifestFile, default(FilePosition), "PluginVersion not found in {0}", manifestFile);
-                    PluginVersion = ErrorString;
                     if (FailOnError)
                         return false;
                 }
@@ -167,7 +167,6 @@ namespace BeatSaberModdingTools.Tasks
                 {
                     Logger.LogError(null, MessageCodes.GetManifestInfo.GameVersionNotFound, "",
                         manifestFile, 0, 0, 0, 0, "GameVersion not found in {0}", manifestFile);
-                    GameVersion = ErrorString;
                     if (FailOnError)
                         return false;
                 }
