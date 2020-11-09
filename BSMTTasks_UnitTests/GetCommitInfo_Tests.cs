@@ -219,10 +219,11 @@ namespace BSMTTasks_UnitTests
             MockTaskLogger logger = new MockTaskLogger();
             GetCommitInfo.ExtendedLogging = true;
             GitInfo status = GetCommitInfo.GetGitStatus(gitRunner, logger);
-            Assert.IsFalse(string.IsNullOrEmpty(status.Branch), $"Branch should not be null/empty.\n{string.Join('\n', logger.LogEntries.Select(e => e.ToString()))}");
-            Assert.IsFalse(string.IsNullOrEmpty(status.Modified));
-            Assert.IsTrue(status.Modified == "Unmodified" || status.Modified == "Modified");
-            Assert.IsFalse(string.IsNullOrWhiteSpace(status.GitUser));
+            string logEntries = string.Join('\n', logger.LogEntries.Select(e => e.ToString()));
+            Assert.IsFalse(string.IsNullOrEmpty(status.Branch), $"Branch should not be null/empty.\n{logEntries}");
+            Assert.IsFalse(string.IsNullOrEmpty(status.Modified), $"'Modified' should not be null/empty.\n{logEntries}");
+            Assert.IsTrue(status.Modified == "Unmodified" || status.Modified == "Modified", $"'Modified' has an unrecognized value.\n{logEntries}");
+            Assert.IsFalse(string.IsNullOrWhiteSpace(status.GitUser), $"GitUser should not be null/empty.\n{logEntries}");
             //Assert.AreEqual(expectedUser, status.GitUser);
         }
         [TestMethod]
