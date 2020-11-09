@@ -53,6 +53,32 @@ namespace BSMTTasks_UnitTests
         }
 
         [TestMethod]
+        public void Matching_ExtendedSemVer()
+        {
+            string manifestPath = Path.Combine("Manifests", "ExtendedSemVerVersion.json");
+            bool expectedResult = true;
+            string expectedPluginVersion = "1.2.3-rc4";
+            string expectedBasePluginVersion = "1.2.3";
+            string expectedGameVersion = "1.9.1";
+
+            GetManifestInfo getManifestInfo = new GetManifestInfo()
+            {
+                ManifestPath = manifestPath
+            };
+            bool taskResult = getManifestInfo.Execute();
+            MockTaskLogger mockTaskLogger = getManifestInfo.Logger as MockTaskLogger;
+            foreach (MockLogEntry entry in mockTaskLogger.LogEntries)
+            {
+                Console.WriteLine(entry);
+            }
+            Assert.AreEqual(0, mockTaskLogger.LogEntries.Count);
+            Assert.AreEqual(expectedResult, taskResult);
+            Assert.AreEqual(expectedPluginVersion, getManifestInfo.PluginVersion);
+            Assert.AreEqual(expectedBasePluginVersion, getManifestInfo.BasePluginVersion);
+            Assert.AreEqual(expectedGameVersion, getManifestInfo.GameVersion);
+        }
+
+        [TestMethod]
         public void ManifestNotFound()
         {
             string manifestPath = Path.Combine("Manifests", "DoesNotExist.json");
@@ -192,7 +218,8 @@ namespace BSMTTasks_UnitTests
                 ManifestPath = manifestPath
             };
             bool expectedResult = false;
-            string expectedPluginVersion = "E.R.R";
+            string expectedPluginVersion = "1.b.0";
+            string expectedBasePluginVersion = "E.R.R";
             string expectedGameVersion = "E.R.R";
 
             bool taskResult = getManifestInfo.Execute();
@@ -203,10 +230,11 @@ namespace BSMTTasks_UnitTests
             }
             Assert.AreEqual(1, mockTaskLogger.LogEntries.Count);
             MockLogEntry logEntry = mockTaskLogger.LogEntries.First();
-            Assert.AreEqual($"Error reading version in manifest: Could not parse 'b' in '1.b.0' to an integer.", logEntry.ToString());
+            Assert.AreEqual("Error reading version in manifest: 1.b.0 is not a valid SemVer version string.", logEntry.ToString());
             Assert.AreEqual(8, logEntry.LineNumber);
             Assert.AreEqual(expectedResult, taskResult);
             Assert.AreEqual(expectedPluginVersion, getManifestInfo.PluginVersion);
+            Assert.AreEqual(expectedBasePluginVersion, getManifestInfo.BasePluginVersion);
             Assert.AreEqual(expectedGameVersion, getManifestInfo.GameVersion);
         }
 
