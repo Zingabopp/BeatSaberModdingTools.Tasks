@@ -3,7 +3,7 @@
   <PropertyGroup>
     <id>BeatSaberModdingTools.Tasks</id>
     <Title>BeatSaberModdingTools.Tasks</Title>
-    <Version>1.3.1</Version>
+    <Version>1.3.2</Version>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <developmentDependency>true</developmentDependency>
     <NoWarn>NU5100</NoWarn>
@@ -41,10 +41,8 @@
   <PropertyGroup>
     <DocumentationFile>BeatSaberModdingTools.Tasks.xml</DocumentationFile>
     <PackageTags>Beat Saber;BeatSaberModdingTools</PackageTags>
-    <PackageReleaseNotes>Split up GetManifestInfo
-* GetManifestInfo only reads and outputs info from the manifest file
-* GetAssemblyInfo reads and outputs info from AssemblyInfo
-* CompareVersions compares the versions from the manifest and AssemblyInfo file.</PackageReleaseNotes>
+    <PackageReleaseNotes>* Bug Fixes
+* Added `IsPullRequest` output property to GetCommitInfo</PackageReleaseNotes>
     <PackageIcon>bsmt.tasks_icon.png</PackageIcon>
   </PropertyGroup>
 
