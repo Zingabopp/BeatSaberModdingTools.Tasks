@@ -183,7 +183,7 @@ namespace BSMTTasks_UnitTests
         public void PullRequestStatus()
         {
             string directory = Path.Combine(DataFolder, "GitTests");
-            string statusStr = "HEAD detached at pull/11/merge\nnothing to commit, working tree clean";
+            string statusStr = "HEAD detached at pull/6/merge\nnothing to commit, working tree clean";
             string originStr = @"https://github.com/Zingabopp/BeatSaberModdingTools";
             string hash = "aadfa8f8af8a8f8af8a8fa";
 
@@ -203,10 +203,11 @@ namespace BSMTTasks_UnitTests
                 ProjectDir = directory
             };
             task.Execute();
-            Assert.AreEqual("master", task.Branch);
+            Assert.AreEqual("pull/6/merge", task.Branch);
             Assert.AreEqual(expectedHash, task.CommitHash);
             Assert.AreEqual(expectedOrigin, task.OriginUrl);
             Assert.AreEqual(expectedModified, task.Modified);
+            Assert.AreEqual(true, task.IsPullRequest);
         }
 
 #if !NCRUNCH
@@ -216,11 +217,14 @@ namespace BSMTTasks_UnitTests
             string directory = Environment.CurrentDirectory;
             IGitRunner gitRunner = new GitCommandRunner(directory);
             string expectedUser = "Zingabopp";
-            GitInfo status = GetCommitInfo.GetGitStatus(gitRunner, null);
-            Assert.IsFalse(string.IsNullOrEmpty(status.Branch), $"Branch should not be null/empty.");
-            Assert.IsFalse(string.IsNullOrEmpty(status.Modified));
-            Assert.IsTrue(status.Modified == "Unmodified" || status.Modified == "Modified");
-            Assert.AreEqual(expectedUser, status.GitUser);
+            MockTaskLogger logger = new MockTaskLogger();
+            GitInfo status = GetCommitInfo.GetGitStatus(gitRunner, logger);
+            string logEntries = string.Join('\n', logger.LogEntries.Select(e => e.ToString()));
+            Assert.IsFalse(string.IsNullOrEmpty(status.Branch), $"Branch should not be null/empty.\n{logEntries}");
+            Assert.IsFalse(string.IsNullOrEmpty(status.Modified), $"'Modified' should not be null/empty.\n{logEntries}");
+            Assert.IsTrue(status.Modified == "Unmodified" || status.Modified == "Modified", $"'Modified' has an unrecognized value.\n{logEntries}");
+            Assert.IsFalse(string.IsNullOrWhiteSpace(status.GitUser), $"GitUser should not be null/empty.\n{logEntries}");
+            //Assert.AreEqual(expectedUser, status.GitUser);
         }
         [TestMethod]
         public void TryGetCommitHash_Test()

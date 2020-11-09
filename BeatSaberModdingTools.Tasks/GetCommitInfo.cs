@@ -22,6 +22,10 @@ namespace BeatSaberModdingTools.Tasks
         /// </summary>
         public static readonly Regex StatusBranchSearch = new Regex(@"^On branch (.*)$", RegexOptions.Multiline);
         /// <summary>
+        /// Retrieves the detatched branch name from the text returned by 'git status'.
+        /// </summary>
+        public static readonly Regex DetatchedBranchSearch = new Regex(@"^HEAD detached at (.*)$", RegexOptions.Multiline);
+        /// <summary>
         /// Text in 'git status' that indicates there are no changes in the repository to commit.
         /// </summary>
         private const string UnmodifiedText = "NOTHING TO COMMIT";
@@ -68,6 +72,11 @@ namespace BeatSaberModdingTools.Tasks
         /// </summary>
         [Output]
         public virtual string Branch { get; protected set; }
+        /// <summary>
+        /// True if the branch appears to be a pull request.
+        /// </summary>
+        [Output]
+        public virtual bool IsPullRequest { get; protected set; }
         /// <summary>
         /// URL for the repository's origin.
         /// Null/Empty if unavailable.
@@ -130,6 +139,19 @@ namespace BeatSaberModdingTools.Tasks
                     string branch = match.Groups[1].Value;
                     status.Branch = branch;
                 }
+                else
+                {
+                    Match detatchedMatch = DetatchedBranchSearch.Match(statusText);
+                    if(detatchedMatch.Success && detatchedMatch.Groups.Count > 1)
+                    {
+                        string branch = detatchedMatch.Groups[1].Value;
+                        status.Branch = branch;
+                        if (branch.StartsWith("pull/"))
+                            status.IsPullRequest = true;
+                    }
+                }
+                if (string.IsNullOrWhiteSpace(status.Branch))
+                    logger.LogMessage(MessageImportance.High, $"Unable to retrieve branch name from status text: \n{statusText}");
                 statusText = statusText.ToUpper();
                 if (statusText.Contains(UnmodifiedText) || statusText.Contains(UntrackedOnlyText))
                     status.Modified = "Unmodified";
@@ -258,14 +280,15 @@ namespace BeatSaberModdingTools.Tasks
                             OriginUrl = gitStatus.OriginUrl;
                         if (!string.IsNullOrWhiteSpace(gitStatus.GitUser))
                             GitUser = gitStatus.GitUser;
+                        IsPullRequest = gitStatus.IsPullRequest;
                     }
-                    if (string.IsNullOrWhiteSpace(Branch))
-                    {
-                        if (TryGetCommitManual(gitPaths, out GitInfo manualInfo))
-                        {
-                            Branch = manualInfo.Branch;
-                        }
-                    }
+                    //if (string.IsNullOrWhiteSpace(Branch))
+                    //{
+                    //    if (TryGetCommitManual(gitPaths, out GitInfo manualInfo))
+                    //    {
+                    //        Branch = manualInfo.Branch;
+                    //    }
+                    //}
                 }
                 else
                 {
@@ -360,6 +383,10 @@ namespace BeatSaberModdingTools.Tasks
         /// Current branch of the repository.
         /// </summary>
         public string Branch;
+        /// <summary>
+        /// True if this branch appears to be a pull request.
+        /// </summary>
+        public bool IsPullRequest;
         /// <summary>
         /// 'Modified' if the repository is modified, 'Unmodified' if it's not.
         /// Null/Empty string if undetermined.
