@@ -43,6 +43,7 @@ Outputs:
 |---|---|---|
 |CommitHash|string|The first 8 characters of the current commit hash. Outputs `local` if project isn't using git source control.|
 |Branch|string|The current branch of the repository.|
+|IsPullRequest|bool|True if the current branch appears to be a pull request.|
 |Modified|string|Will be `Modified` if there are uncommitted changes, `Unmodified` if there aren't. Empty if it can't be determined.|
 |OriginUrl|string|The URL of the git repository. Empty if it can't be determined.|
 |GitUser|string|The GitHub username the repository belongs to (Extracted from OriginUrl).  Empty if it can't be determined.|
