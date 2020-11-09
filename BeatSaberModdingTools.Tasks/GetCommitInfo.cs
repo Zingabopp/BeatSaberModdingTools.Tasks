@@ -53,6 +53,7 @@ namespace BeatSaberModdingTools.Tasks
         /// Optional: If true, do not attempt to check if files have been changed.
         /// </summary>
         public virtual bool SkipStatus { get; set; }
+        public static bool ExtendedLogging { get; set; }
         /// <summary>
         /// Commit hash up to the number of characters set by <see cref="HashLength"/>.
         /// </summary>
@@ -124,6 +125,8 @@ namespace BeatSaberModdingTools.Tasks
             try
             {
                 string statusText = gitRunner.GetTextFromProcess(GitArgument.Status);
+                if (ExtendedLogging)
+                    logger.LogMessage(MessageImportance.High, $"{statusText}");
                 Match match = StatusBranchSearch.Match(statusText);
                 if (match.Success && match.Groups.Count > 1)
                 {
