@@ -2,7 +2,7 @@
 A set of MSBuild tasks for Beat Saber mods. Created for the templates in [Beat Saber Modding Tools](https://github.com/Zingabopp/BeatSaberModdingTools).
 
 # Tasks 
-**Current as of v1.3.0**
+**Current as of v1.3.2**
 ## CompareVersions
 Compares an assembly and manifest version string. Logs an error and optionally fails if they don't match.
 
@@ -20,7 +20,7 @@ Inputs:
 |Name|Type|Required?|Description|
 |---|---|---|---|
 |AssemblyInfoPath|string|No|Set to use an assembly info path other than `Properties\AssemblyInfo.cs`.|
-|FailOnError|bool|No|If true, the task will report failure if the versions defined in the assembly and manifest don't match or can't be determined.|
+|FailOnError|bool|No|If true, the task will report failure if it cannot find or parse the AssemblyInfo file.|
 
 Outputs:
 |Name|Type|Description|
@@ -54,10 +54,8 @@ Parses the mod or library's manifest and outputs the game and plugin versions.
 Inputs:
 |Name|Type|Required?|Description|
 |---|---|---|---|
-|ErrorOnMismatch|bool|No|If true, the task will report failure if the versions defined in the assembly and manifest don't match or can't be determined.|
 |ManifestPath|string|No|Set to use a manifest file other than `manifest.json` in the project root.|
-|AssemblyInfoPath|string|No|Set to use an assembly info path other than `Properties\AssemblyInfo.cs`.|
-|KnownAssemblyVersion|string|No|A string to use for the assembly version, use this if your assembly version is already defined in a project property.|
+|FailOnError|bool|No|If true, the task will report failure if it cannot find or parse the manifest file.|
 
 Outputs:
 |Name|Type|Description|
