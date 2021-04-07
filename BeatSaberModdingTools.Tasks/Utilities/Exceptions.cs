@@ -128,4 +128,39 @@ namespace BeatSaberModdingTools.Tasks.Utilities
             Log.LogError(null, ex.MessageCode, "", file, position, ex.Message, ex.MessageArgs);
         }
     }
+
+    /// <summary>
+    /// Thrown when BsipaManifest validation fails.
+    /// </summary>
+    public class ManifestValidationException : ArgumentNullException
+    {
+        /// <summary>
+        /// Creates a new <see cref="ManifestValidationException"/>.
+        /// </summary>
+        public ManifestValidationException(string paramName) 
+            : base(paramName, $"{paramName} is required for the manifest.")
+        {
+        }
+        /// <summary>
+        /// Creates a new <see cref="ManifestValidationException"/>.
+        /// </summary>
+        public ManifestValidationException(string paramName, string message)
+            : base(paramName, message)
+        {
+        }
+    }
+
+    /// <summary>
+    /// Thrown when BsipaManifest validation fails due to BSIPA not being listed as a dependency.
+    /// </summary>
+    public class BsipaDependsOnException : ManifestValidationException
+    {
+        /// <summary>
+        /// Creates a new <see cref="BsipaDependsOnException"/>.
+        /// </summary>
+        public BsipaDependsOnException() 
+            : base("BSIPA", "BSIPA must be listed in DependsOn. If BSIPA is not required, set the RequiresBsipa Task parameter to false." )
+        {
+        }
+    }
 }

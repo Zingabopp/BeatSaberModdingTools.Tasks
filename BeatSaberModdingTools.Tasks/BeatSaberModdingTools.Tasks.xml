@@ -35,6 +35,82 @@
             </summary>
             <returns>true if successful</returns>
         </member>
+        <member name="T:BeatSaberModdingTools.Tasks.GenerateManifest">
+            <summary>
+            Generates a BSIPA manifest file.
+            </summary>
+        </member>
+        <member name="F:BeatSaberModdingTools.Tasks.GenerateManifest.Logger">
+            <summary>
+            <see cref="T:BeatSaberModdingTools.Tasks.Utilities.ITaskLogger"/> instance used.
+            </summary>
+        </member>
+        <member name="P:BeatSaberModdingTools.Tasks.GenerateManifest.Id">
+            <summary>
+            The mod's ID.
+            </summary>
+        </member>
+        <member name="P:BeatSaberModdingTools.Tasks.GenerateManifest.Name">
+            <summary>
+            The mod's name.
+            </summary>
+        </member>
+        <member name="P:BeatSaberModdingTools.Tasks.GenerateManifest.Author">
+            <summary>
+            The mod's author.
+            </summary>
+        </member>
+        <member name="P:BeatSaberModdingTools.Tasks.GenerateManifest.Version">
+            <summary>
+            The mod's version.
+            </summary>
+        </member>
+        <member name="P:BeatSaberModdingTools.Tasks.GenerateManifest.GameVersion">
+            <summary>
+            The Beat Saber game version the mod was built for.
+            </summary>
+        </member>
+        <member name="P:BeatSaberModdingTools.Tasks.GenerateManifest.Description">
+            <summary>
+            The mod's description.
+            </summary>
+        </member>
+        <member name="P:BeatSaberModdingTools.Tasks.GenerateManifest.Icon">
+            <summary>
+            Path to the mod's icon.
+            </summary>
+        </member>
+        <member name="P:BeatSaberModdingTools.Tasks.GenerateManifest.DependsOn">
+            <summary>
+            String array of mods to include in DependsOn
+            </summary>
+        </member>
+        <member name="P:BeatSaberModdingTools.Tasks.GenerateManifest.ConflictsWith">
+            <summary>
+            String array of mods to include in ConflictsWith
+            </summary>
+        </member>
+        <member name="P:BeatSaberModdingTools.Tasks.GenerateManifest.BaseManifestPath">
+            <summary>
+            Path to an existing manifest file.
+            </summary>
+        </member>
+        <member name="P:BeatSaberModdingTools.Tasks.GenerateManifest.TargetPath">
+            <summary>
+            Target path to write the manifest file (including file name).
+            </summary>
+        </member>
+        <member name="P:BeatSaberModdingTools.Tasks.GenerateManifest.RequiresBsipa">
+            <summary>
+            If true, manifest validation will fail if BSIPA isn't listed as a DependsOn.
+            </summary>
+        </member>
+        <member name="M:BeatSaberModdingTools.Tasks.GenerateManifest.Execute">
+            <summary>
+            Executes the task.
+            </summary>
+            <returns></returns>
+        </member>
         <member name="T:BeatSaberModdingTools.Tasks.GetAssemblyInfo">
             <summary>
             Parses the AssemblyVersion from an AssemblyInfo.cs file.
@@ -130,6 +206,11 @@
             Retrieves the branch name from the text returned by 'git status'.
             </summary>
         </member>
+        <member name="F:BeatSaberModdingTools.Tasks.GetCommitInfo.DetatchedBranchSearch">
+            <summary>
+            Retrieves the detatched branch name from the text returned by 'git status'.
+            </summary>
+        </member>
         <member name="F:BeatSaberModdingTools.Tasks.GetCommitInfo.UnmodifiedText">
             <summary>
             Text in 'git status' that indicates there are no changes in the repository to commit.
@@ -179,6 +260,11 @@
         <member name="P:BeatSaberModdingTools.Tasks.GetCommitInfo.Branch">
             <summary>
             Name of the current repository branch, if available.
+            </summary>
+        </member>
+        <member name="P:BeatSaberModdingTools.Tasks.GetCommitInfo.IsPullRequest">
+            <summary>
+            True if the branch appears to be a pull request.
             </summary>
         </member>
         <member name="P:BeatSaberModdingTools.Tasks.GetCommitInfo.OriginUrl">
@@ -262,6 +348,11 @@
         <member name="F:BeatSaberModdingTools.Tasks.GitInfo.Branch">
             <summary>
             Current branch of the repository.
+            </summary>
+        </member>
+        <member name="F:BeatSaberModdingTools.Tasks.GitInfo.IsPullRequest">
+            <summary>
+            True if this branch appears to be a pull request.
             </summary>
         </member>
         <member name="F:BeatSaberModdingTools.Tasks.GitInfo.Modified">
@@ -372,6 +463,200 @@
             Executes the task.
             </summary>
             <returns>true if successful</returns>
+        </member>
+        <member name="T:BeatSaberModdingTools.Tasks.Models.BsipaManifest">
+            <summary>
+            Models a BSIPA manifest file.
+            </summary>
+        </member>
+        <member name="P:BeatSaberModdingTools.Tasks.Models.BsipaManifest.Schema">
+            <summary>
+            JSON schema.
+            </summary>
+        </member>
+        <member name="M:BeatSaberModdingTools.Tasks.Models.BsipaManifest.Validate(System.Boolean)">
+            <summary>
+            Throws an exception if the <see cref="T:BeatSaberModdingTools.Tasks.Models.BsipaManifest"/> is not valid.
+            </summary>
+            <param name="requiresBsipa"></param>
+            <exception cref="T:BeatSaberModdingTools.Tasks.Utilities.ManifestValidationException"/>
+            <exception cref="T:BeatSaberModdingTools.Tasks.Utilities.BsipaDependsOnException"/>
+        </member>
+        <member name="M:BeatSaberModdingTools.Tasks.Models.BsipaManifest.GetDescription">
+            <summary>
+            Gets the <see cref="P:BeatSaberModdingTools.Tasks.Models.BsipaManifest.Description"/> string.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:BeatSaberModdingTools.Tasks.Models.BsipaManifest.SetDependsOn(System.String[])">
+            <summary>
+            Sets the values in the DependsOn Dictionary.
+            </summary>
+            <param name="dependsOnString"></param>
+        </member>
+        <member name="M:BeatSaberModdingTools.Tasks.Models.BsipaManifest.SetConflictsWith(System.String[])">
+            <summary>
+            Sets the values in the ConflictsWith Dictionary.
+            </summary>
+            <param name="dependsOnString"></param>
+        </member>
+        <member name="F:BeatSaberModdingTools.Tasks.Models.BsipaManifest.ExtensionData">
+            <summary>
+            Additional data not deserialized into the object.
+            </summary>
+        </member>
+        <member name="P:BeatSaberModdingTools.Tasks.Models.BsipaManifest.Id">
+            <summary>
+            modsaber id
+            </summary>
+        </member>
+        <member name="P:BeatSaberModdingTools.Tasks.Models.BsipaManifest.Name">
+            <summary>
+            plugin name
+            </summary>
+        </member>
+        <member name="P:BeatSaberModdingTools.Tasks.Models.BsipaManifest.Author">
+            <summary>
+            plugin author
+            </summary>
+        </member>
+        <member name="P:BeatSaberModdingTools.Tasks.Models.BsipaManifest.Version">
+            <summary>
+            plugin version
+            </summary>
+        </member>
+        <member name="P:BeatSaberModdingTools.Tasks.Models.BsipaManifest.Description">
+            <summary>
+            plugin description
+            </summary>
+        </member>
+        <member name="P:BeatSaberModdingTools.Tasks.Models.BsipaManifest.GameVersion">
+            <summary>
+            compatable game version
+            </summary>
+        </member>
+        <member name="P:BeatSaberModdingTools.Tasks.Models.BsipaManifest.Icon">
+            <summary>
+            the icon to represent the plugin, as a PNG
+            </summary>
+        </member>
+        <member name="P:BeatSaberModdingTools.Tasks.Models.BsipaManifest.Features">
+            <summary>
+            features to enable for plugin
+            </summary>
+        </member>
+        <member name="P:BeatSaberModdingTools.Tasks.Models.BsipaManifest.Files">
+            <summary>
+            A list of files that are associated with this mod. If this is a bare manifest, must
+            include *all* files distributed with the mod. Otherwise, it may exclude the assembly it
+            is embedded in.
+            </summary>
+        </member>
+        <member name="P:BeatSaberModdingTools.Tasks.Models.BsipaManifest.DependsOn">
+            <summary>
+            dependencies
+            </summary>
+        </member>
+        <member name="P:BeatSaberModdingTools.Tasks.Models.BsipaManifest.ConflictsWith">
+            <summary>
+            incompatabilities
+            </summary>
+        </member>
+        <member name="P:BeatSaberModdingTools.Tasks.Models.BsipaManifest.Links">
+            <summary>
+            various links associated with the mod
+            </summary>
+        </member>
+        <member name="P:BeatSaberModdingTools.Tasks.Models.BsipaManifest.LoadBefore">
+            <summary>
+            plugins to load after this one
+            </summary>
+        </member>
+        <member name="P:BeatSaberModdingTools.Tasks.Models.BsipaManifest.LoadAfter">
+            <summary>
+            plugins to load before this one
+            </summary>
+        </member>
+        <member name="P:BeatSaberModdingTools.Tasks.Models.BsipaManifest.Misc">
+            <summary>
+            miscellaneous properties
+            </summary>
+        </member>
+        <member name="M:BeatSaberModdingTools.Tasks.Models.BsipaManifest.FromJson(System.String)">
+            <summary>
+            Create a <see cref="T:BeatSaberModdingTools.Tasks.Models.BsipaManifest"/> from a JSON string.
+            </summary>
+            <param name="json"></param>
+            <returns></returns>
+        </member>
+        <member name="T:BeatSaberModdingTools.Tasks.Models.Links">
+            <summary>
+            various links associated with the mod
+            </summary>
+        </member>
+        <member name="P:BeatSaberModdingTools.Tasks.Models.Links.Donate">
+            <summary>
+            a link to a donations page
+            </summary>
+        </member>
+        <member name="P:BeatSaberModdingTools.Tasks.Models.Links.ProjectHome">
+            <summary>
+            a link to the project home page. if not specified, same as project-source
+            </summary>
+        </member>
+        <member name="P:BeatSaberModdingTools.Tasks.Models.Links.ProjectSource">
+            <summary>
+            a link to the project source. if not specified, same as project-home.
+            </summary>
+        </member>
+        <member name="T:BeatSaberModdingTools.Tasks.Models.Misc">
+            <summary>
+            miscellaneous properties
+            </summary>
+        </member>
+        <member name="P:BeatSaberModdingTools.Tasks.Models.Misc.PluginHint">
+            <summary>
+            a hint for the loader for where to find the plugin type
+            </summary>
+        </member>
+        <member name="T:BeatSaberModdingTools.Tasks.Models.Description">
+            <summary>
+            plugin description
+            </summary>
+        </member>
+        <member name="F:BeatSaberModdingTools.Tasks.Models.Description.String">
+            <summary>
+            Description string
+            </summary>
+        </member>
+        <member name="F:BeatSaberModdingTools.Tasks.Models.Description.StringArray">
+            <summary>
+            Description string array...
+            </summary>
+        </member>
+        <member name="M:BeatSaberModdingTools.Tasks.Models.Description.op_Implicit(System.String)~BeatSaberModdingTools.Tasks.Models.Description">
+            <summary>
+            Create a <see cref="T:BeatSaberModdingTools.Tasks.Models.Description"/> from a string.
+            </summary>
+            <param name="String"></param>
+        </member>
+        <member name="M:BeatSaberModdingTools.Tasks.Models.Description.op_Implicit(System.String[])~BeatSaberModdingTools.Tasks.Models.Description">
+            <summary>
+            Create a <see cref="T:BeatSaberModdingTools.Tasks.Models.Description"/> from a string array.
+            </summary>
+            <param name="StringArray"></param>
+        </member>
+        <member name="T:BeatSaberModdingTools.Tasks.Models.Serialize">
+            <summary>
+            Extension class for serializing.
+            </summary>
+        </member>
+        <member name="M:BeatSaberModdingTools.Tasks.Models.Serialize.ToJson(BeatSaberModdingTools.Tasks.Models.BsipaManifest)">
+            <summary>
+            Convert a <see cref="T:BeatSaberModdingTools.Tasks.Models.BsipaManifest"/> to a JSON string.
+            </summary>
+            <param name="self"></param>
+            <returns></returns>
         </member>
         <member name="T:BeatSaberModdingTools.Tasks.ReplaceInFile">
             <summary>
@@ -533,6 +818,31 @@
             <param name="file"></param>
             <param name="position"></param>
             <param name="Log"></param>
+        </member>
+        <member name="T:BeatSaberModdingTools.Tasks.Utilities.ManifestValidationException">
+            <summary>
+            Thrown when BsipaManifest validation fails.
+            </summary>
+        </member>
+        <member name="M:BeatSaberModdingTools.Tasks.Utilities.ManifestValidationException.#ctor(System.String)">
+            <summary>
+            Creates a new <see cref="T:BeatSaberModdingTools.Tasks.Utilities.ManifestValidationException"/>.
+            </summary>
+        </member>
+        <member name="M:BeatSaberModdingTools.Tasks.Utilities.ManifestValidationException.#ctor(System.String,System.String)">
+            <summary>
+            Creates a new <see cref="T:BeatSaberModdingTools.Tasks.Utilities.ManifestValidationException"/>.
+            </summary>
+        </member>
+        <member name="T:BeatSaberModdingTools.Tasks.Utilities.BsipaDependsOnException">
+            <summary>
+            Thrown when BsipaManifest validation fails due to BSIPA not being listed as a dependency.
+            </summary>
+        </member>
+        <member name="M:BeatSaberModdingTools.Tasks.Utilities.BsipaDependsOnException.#ctor">
+            <summary>
+            Creates a new <see cref="T:BeatSaberModdingTools.Tasks.Utilities.BsipaDependsOnException"/>.
+            </summary>
         </member>
         <member name="T:BeatSaberModdingTools.Tasks.Utilities.FilePosition">
             <summary>

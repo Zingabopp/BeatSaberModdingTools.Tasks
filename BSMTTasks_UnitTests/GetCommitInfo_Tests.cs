@@ -216,7 +216,7 @@ namespace BSMTTasks_UnitTests
         {
             string directory = Environment.CurrentDirectory;
             IGitRunner gitRunner = new GitCommandRunner(directory);
-            string expectedUser = "Zingabopp";
+            //string expectedUser = "Zingabopp";
             MockTaskLogger logger = new MockTaskLogger();
             GitInfo status = GetCommitInfo.GetGitStatus(gitRunner, logger);
             string logEntries = string.Join('\n', logger.LogEntries.Select(e => e.ToString()));
