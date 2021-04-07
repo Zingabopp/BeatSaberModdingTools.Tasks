@@ -90,6 +90,11 @@
             String array of mods to include in ConflictsWith
             </summary>
         </member>
+        <member name="P:BeatSaberModdingTools.Tasks.GenerateManifest.Files">
+            <summary>
+            List of files required for the mod to run.
+            </summary>
+        </member>
         <member name="P:BeatSaberModdingTools.Tasks.GenerateManifest.BaseManifestPath">
             <summary>
             Path to an existing manifest file.
@@ -469,11 +474,6 @@
             Models a BSIPA manifest file.
             </summary>
         </member>
-        <member name="P:BeatSaberModdingTools.Tasks.Models.BsipaManifest.Schema">
-            <summary>
-            JSON schema.
-            </summary>
-        </member>
         <member name="M:BeatSaberModdingTools.Tasks.Models.BsipaManifest.Validate(System.Boolean)">
             <summary>
             Throws an exception if the <see cref="T:BeatSaberModdingTools.Tasks.Models.BsipaManifest"/> is not valid.
@@ -488,21 +488,9 @@
             </summary>
             <returns></returns>
         </member>
-        <member name="M:BeatSaberModdingTools.Tasks.Models.BsipaManifest.SetDependsOn(System.String[])">
+        <member name="P:BeatSaberModdingTools.Tasks.Models.BsipaManifest.Schema">
             <summary>
-            Sets the values in the DependsOn Dictionary.
-            </summary>
-            <param name="dependsOnString"></param>
-        </member>
-        <member name="M:BeatSaberModdingTools.Tasks.Models.BsipaManifest.SetConflictsWith(System.String[])">
-            <summary>
-            Sets the values in the ConflictsWith Dictionary.
-            </summary>
-            <param name="dependsOnString"></param>
-        </member>
-        <member name="F:BeatSaberModdingTools.Tasks.Models.BsipaManifest.ExtensionData">
-            <summary>
-            Additional data not deserialized into the object.
+            JSON schema.
             </summary>
         </member>
         <member name="P:BeatSaberModdingTools.Tasks.Models.BsipaManifest.Id">
@@ -540,11 +528,6 @@
             the icon to represent the plugin, as a PNG
             </summary>
         </member>
-        <member name="P:BeatSaberModdingTools.Tasks.Models.BsipaManifest.Features">
-            <summary>
-            features to enable for plugin
-            </summary>
-        </member>
         <member name="P:BeatSaberModdingTools.Tasks.Models.BsipaManifest.Files">
             <summary>
             A list of files that are associated with this mod. If this is a bare manifest, must
@@ -562,11 +545,6 @@
             incompatabilities
             </summary>
         </member>
-        <member name="P:BeatSaberModdingTools.Tasks.Models.BsipaManifest.Links">
-            <summary>
-            various links associated with the mod
-            </summary>
-        </member>
         <member name="P:BeatSaberModdingTools.Tasks.Models.BsipaManifest.LoadBefore">
             <summary>
             plugins to load after this one
@@ -576,87 +554,6 @@
             <summary>
             plugins to load before this one
             </summary>
-        </member>
-        <member name="P:BeatSaberModdingTools.Tasks.Models.BsipaManifest.Misc">
-            <summary>
-            miscellaneous properties
-            </summary>
-        </member>
-        <member name="M:BeatSaberModdingTools.Tasks.Models.BsipaManifest.FromJson(System.String)">
-            <summary>
-            Create a <see cref="T:BeatSaberModdingTools.Tasks.Models.BsipaManifest"/> from a JSON string.
-            </summary>
-            <param name="json"></param>
-            <returns></returns>
-        </member>
-        <member name="T:BeatSaberModdingTools.Tasks.Models.Links">
-            <summary>
-            various links associated with the mod
-            </summary>
-        </member>
-        <member name="P:BeatSaberModdingTools.Tasks.Models.Links.Donate">
-            <summary>
-            a link to a donations page
-            </summary>
-        </member>
-        <member name="P:BeatSaberModdingTools.Tasks.Models.Links.ProjectHome">
-            <summary>
-            a link to the project home page. if not specified, same as project-source
-            </summary>
-        </member>
-        <member name="P:BeatSaberModdingTools.Tasks.Models.Links.ProjectSource">
-            <summary>
-            a link to the project source. if not specified, same as project-home.
-            </summary>
-        </member>
-        <member name="T:BeatSaberModdingTools.Tasks.Models.Misc">
-            <summary>
-            miscellaneous properties
-            </summary>
-        </member>
-        <member name="P:BeatSaberModdingTools.Tasks.Models.Misc.PluginHint">
-            <summary>
-            a hint for the loader for where to find the plugin type
-            </summary>
-        </member>
-        <member name="T:BeatSaberModdingTools.Tasks.Models.Description">
-            <summary>
-            plugin description
-            </summary>
-        </member>
-        <member name="F:BeatSaberModdingTools.Tasks.Models.Description.String">
-            <summary>
-            Description string
-            </summary>
-        </member>
-        <member name="F:BeatSaberModdingTools.Tasks.Models.Description.StringArray">
-            <summary>
-            Description string array...
-            </summary>
-        </member>
-        <member name="M:BeatSaberModdingTools.Tasks.Models.Description.op_Implicit(System.String)~BeatSaberModdingTools.Tasks.Models.Description">
-            <summary>
-            Create a <see cref="T:BeatSaberModdingTools.Tasks.Models.Description"/> from a string.
-            </summary>
-            <param name="String"></param>
-        </member>
-        <member name="M:BeatSaberModdingTools.Tasks.Models.Description.op_Implicit(System.String[])~BeatSaberModdingTools.Tasks.Models.Description">
-            <summary>
-            Create a <see cref="T:BeatSaberModdingTools.Tasks.Models.Description"/> from a string array.
-            </summary>
-            <param name="StringArray"></param>
-        </member>
-        <member name="T:BeatSaberModdingTools.Tasks.Models.Serialize">
-            <summary>
-            Extension class for serializing.
-            </summary>
-        </member>
-        <member name="M:BeatSaberModdingTools.Tasks.Models.Serialize.ToJson(BeatSaberModdingTools.Tasks.Models.BsipaManifest)">
-            <summary>
-            Convert a <see cref="T:BeatSaberModdingTools.Tasks.Models.BsipaManifest"/> to a JSON string.
-            </summary>
-            <param name="self"></param>
-            <returns></returns>
         </member>
         <member name="T:BeatSaberModdingTools.Tasks.ReplaceInFile">
             <summary>
@@ -1529,6 +1426,22 @@
             <summary>
             Exception
             </summary>
+        </member>
+        <member name="M:BeatSaberModdingTools.Tasks.Utilities.ParseUtil.ParseDictString(System.String[],System.String)">
+            <summary>
+            
+            </summary>
+            <param name="dictStrings"></param>
+            <param name="propName"></param>
+            <returns></returns>
+        </member>
+        <member name="M:BeatSaberModdingTools.Tasks.Utilities.ParseUtil.ParseDictString(System.String[],System.Collections.Generic.Dictionary{System.String,System.String},System.String)">
+            <summary>
+            Sets the values in the DependsOn Dictionary.
+            </summary>
+            <param name="dictStrings"></param>
+            <param name="existing"></param>
+            <param name="propName"></param>
         </member>
         <member name="T:BeatSaberModdingTools.Tasks.Utilities.Util">
             <summary>

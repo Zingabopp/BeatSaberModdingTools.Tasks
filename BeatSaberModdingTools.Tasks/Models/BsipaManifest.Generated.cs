@@ -1,9 +1,9 @@
-﻿using System;
+﻿/*
+using System;
 using System.Collections.Generic;
 
 using System.Globalization;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Converters;
+using SimpleJSON;
 
 namespace BeatSaberModdingTools.Tasks.Models
 {
@@ -193,7 +193,6 @@ namespace BeatSaberModdingTools.Tasks.Models
         public static string ToJson(this BsipaManifest self)
             => JsonConvert.SerializeObject(self, Converter.Settings);
     }
-
     internal static class Converter
     {
         public static readonly JsonSerializerSettings Settings = new JsonSerializerSettings
@@ -247,4 +246,6 @@ namespace BeatSaberModdingTools.Tasks.Models
 
         public static readonly DescriptionConverter Singleton = new DescriptionConverter();
     }
+   
 }
+*/

@@ -57,10 +57,13 @@ namespace BeatSaberModdingTools.Tasks
         /// String array of mods to include in ConflictsWith
         /// </summary>
         public string[] ConflictsWith { get; set; }
+        /// <summary>
+        /// List of files required for the mod to run.
+        /// </summary>
+        public string[] Files { get; set; }
 
         /*
         public string Features { get; set; }
-        public string Files { get; set; }
         public string Links { get; set; }
         public string[] LoadBefore { get; set; }
         public string[] LoadAfter { get; set; }
@@ -195,9 +198,11 @@ namespace BeatSaberModdingTools.Tasks
 
         private void SetOptionalProperties(BsipaManifest manifest)
         {
-            manifest.SetDependsOn(DependsOn);
-            manifest.SetConflictsWith(ConflictsWith);
-            manifest.Icon = Icon;
+            manifest.DependsOn = ParseUtil.ParseDictString(DependsOn, manifest.DependsOn, "DependsOn");
+            manifest.ConflictsWith = ParseUtil.ParseDictString(ConflictsWith, manifest.ConflictsWith, "ConflictsWith");
+            if (!string.IsNullOrWhiteSpace(Icon))
+                manifest.Icon = Icon;
+            manifest.Files = ParseUtil.ParseStringArray(Files);
         }
 
     }
