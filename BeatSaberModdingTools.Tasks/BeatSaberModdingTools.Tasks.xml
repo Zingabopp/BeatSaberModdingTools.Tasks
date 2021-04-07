@@ -95,6 +95,16 @@
             List of files required for the mod to run.
             </summary>
         </member>
+        <member name="P:BeatSaberModdingTools.Tasks.GenerateManifest.LoadBefore">
+            <summary>
+            List of mods this mod needs to load before.
+            </summary>
+        </member>
+        <member name="P:BeatSaberModdingTools.Tasks.GenerateManifest.LoadAfter">
+            <summary>
+            List of mods that need to load before this one.
+            </summary>
+        </member>
         <member name="P:BeatSaberModdingTools.Tasks.GenerateManifest.BaseManifestPath">
             <summary>
             Path to an existing manifest file.
@@ -524,6 +534,21 @@
             </summary>
         </member>
         <member name="P:BeatSaberModdingTools.Tasks.Models.BsipaManifest.Icon">
+            <summary>
+            the icon to represent the plugin, as a PNG
+            </summary>
+        </member>
+        <member name="P:BeatSaberModdingTools.Tasks.Models.BsipaManifest.ProjectHome">
+            <summary>
+            the icon to represent the plugin, as a PNG
+            </summary>
+        </member>
+        <member name="P:BeatSaberModdingTools.Tasks.Models.BsipaManifest.ProjectSource">
+            <summary>
+            the icon to represent the plugin, as a PNG
+            </summary>
+        </member>
+        <member name="P:BeatSaberModdingTools.Tasks.Models.BsipaManifest.Donate">
             <summary>
             the icon to represent the plugin, as a PNG
             </summary>

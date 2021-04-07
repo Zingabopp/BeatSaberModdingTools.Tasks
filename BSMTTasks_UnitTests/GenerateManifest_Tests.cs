@@ -73,13 +73,21 @@ namespace BSMTTasks_UnitTests
                 Version = "1.0.0",
                 GameVersion = "1.14.0",
                 Description = "Description of a test plugin.",
+                DependsOn = new string[] { "TestDepend1|^2.0.1;TestDepend2|^1.0.0" },
+                ConflictsWith = new string[] { "TestConflict1|^2.0.1", "TestConflict2|^1.0.0" },
                 Files = new string[] { "Libs/TestLib1.dll", "Libs/TestLib2.dll" },
+                Donate = "http://donate.com",
+                ProjectHome = "http://project.home",
+                ProjectSource = "http://project.source",
                 RequiresBsipa = false,
                 TargetPath = targetPath
             };
             Assert.IsTrue(task.Execute());
             BsipaManifest manifest = BsipaManifest.FromJson(File.ReadAllText(targetPath));
             TestManifest(task, manifest);
+            Assert.AreEqual(task.Donate, manifest.Donate);
+            Assert.AreEqual(task.ProjectHome, manifest.ProjectHome);
+            Assert.AreEqual(task.ProjectSource, manifest.ProjectSource);
         }
 
         [TestMethod]
@@ -140,7 +148,6 @@ namespace BSMTTasks_UnitTests
             CompareDictionary(ParseUtil.ParseDictString(task.DependsOn, "DependsOn"), manifest.DependsOn, baseDepends);
             CompareDictionary(ParseUtil.ParseDictString(task.ConflictsWith, "ConflictsWith"), manifest.ConflictsWith, baseConflicts);
             CompareStringArrays(ParseUtil.ParseStringArray(task.Files), manifest.Files, 0);
-            
         }
 
         public void CompareDictionary(Dictionary<string, string> expected, Dictionary<string, string> actual, int baseEntries)

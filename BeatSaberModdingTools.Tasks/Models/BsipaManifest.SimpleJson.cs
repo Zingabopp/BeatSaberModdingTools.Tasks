@@ -32,9 +32,11 @@ namespace BeatSaberModdingTools.Tasks.Models
             Schema = @"https://raw.githubusercontent.com/bsmg/BSIPA-MetadataFileSchema/master/Schema.json";
         }
 
-        private string GetStringValue(string key)
+        private string GetStringValue(string key, JSONNode startNode = null)
         {
-            string val = json[key]?.Value;
+            if (startNode == null)
+                startNode = json;
+            string val = startNode[key]?.Value;
             if (string.IsNullOrEmpty(val))
                 return null;
             return val;
@@ -117,7 +119,59 @@ namespace BeatSaberModdingTools.Tasks.Models
         public string Icon
         {
             get => GetStringValue("icon");
-            set => json["icon"] = value;
+            set
+            {
+                if (!string.IsNullOrWhiteSpace(value)) 
+                    json["icon"] = value;
+                else
+                    json.Remove("icon");
+            }
+        }
+
+        /// <summary>
+        /// the icon to represent the plugin, as a PNG
+        /// </summary>
+        [JsonProperty("project-home", NullValueHandling = NullValueHandling.Ignore)]
+        public string ProjectHome
+        {
+            get => GetStringValue("project-home", json["links"]);
+            set
+            {
+                if (!string.IsNullOrWhiteSpace(value)) 
+                    json["links"]["project-home"] = value;
+                else
+                    json["links"].Remove("project-home");
+            }
+        }
+        /// <summary>
+        /// the icon to represent the plugin, as a PNG
+        /// </summary>
+        [JsonProperty("project-source", NullValueHandling = NullValueHandling.Ignore)]
+        public string ProjectSource
+        {
+            get => GetStringValue("project-source", json["links"]);
+            set
+            {
+                if (!string.IsNullOrWhiteSpace(value)) 
+                    json["links"]["project-source"] = value;
+                else
+                    json["links"].Remove("project-source");
+            }
+        }
+        /// <summary>
+        /// the icon to represent the plugin, as a PNG
+        /// </summary>
+        [JsonProperty("donate", NullValueHandling = NullValueHandling.Ignore)]
+        public string Donate
+        {
+            get => GetStringValue("donate", json["links"]);
+            set
+            {
+                if (!string.IsNullOrWhiteSpace(value))
+                    json["links"]["donate"] = value;
+                else
+                    json["links"].Remove("donate");
+            }
         }
 
         /*

@@ -61,12 +61,22 @@ namespace BeatSaberModdingTools.Tasks
         /// List of files required for the mod to run.
         /// </summary>
         public string[] Files { get; set; }
+        /// <summary>
+        /// List of mods this mod needs to load before.
+        /// </summary>
+        public string[] LoadBefore { get; set; }
+        /// <summary>
+        /// List of mods that need to load before this one.
+        /// </summary>
+        public string[] LoadAfter { get; set; }
+
+        public string ProjectSource { get; set; }
+        public string ProjectHome { get; set; }
+        public string Donate { get; set; }
 
         /*
         public string Features { get; set; }
         public string Links { get; set; }
-        public string[] LoadBefore { get; set; }
-        public string[] LoadAfter { get; set; }
         public string Misc { get; set; }
         */
         /// <summary>
@@ -198,11 +208,14 @@ namespace BeatSaberModdingTools.Tasks
 
         private void SetOptionalProperties(BsipaManifest manifest)
         {
+            manifest.Files = ParseUtil.ParseStringArray(Files);
             manifest.DependsOn = ParseUtil.ParseDictString(DependsOn, manifest.DependsOn, "DependsOn");
             manifest.ConflictsWith = ParseUtil.ParseDictString(ConflictsWith, manifest.ConflictsWith, "ConflictsWith");
             if (!string.IsNullOrWhiteSpace(Icon))
                 manifest.Icon = Icon;
-            manifest.Files = ParseUtil.ParseStringArray(Files);
+            manifest.ProjectHome = ProjectHome;
+            manifest.ProjectSource = ProjectSource;
+            manifest.Donate = Donate;
         }
 
     }
