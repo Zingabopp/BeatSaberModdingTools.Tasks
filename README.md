@@ -103,3 +103,101 @@ Outputs:
 |Name|Type|Description|
 |---|---|---|
 |ZipPath|string|Full path to the created zip file. Empty if the file could not be created.|
+# GenerateManifest
+(added in 1.4.1)
+Generates a BSIPA manifest file.
+
+Inputs:
+|Name|Type|Required?|Description|
+|---|---|---|---|
+|Id|string|Yes*|ID for the mod. Use this as the `Mod Name` on BeatMods (because BeatMods).|
+|Name|string|Yes*|A friendly name for the mod, usually the same or similar to the mod ID.|
+|Author|string|Yes*|The mod author.|
+|Version|string|Yes*|Mod version, should be in (SemVer)[https://semver.org/] spec.|
+|GameVersion|string|Yes*|Beat Saber version the mod was built for.|
+|Description|string|Yes*|Description of what the mod does.|
+|Icon|string|No|Resource path to the icon.|
+|DependsOn|Mod Identifier|Yes**|Mods that need to be loaded for this mod to function.|
+|ConflictsWith|Mod Identifier|No|Mods cannot be loaded for this mod to function.|
+|Files|string[]|No|External files required by the mod or library (usually only used for libraries).|
+|LoadBefore|string[]|No|List of mod IDs for mods that this mod should load before.|
+|LoadAfter|string[]|No|List of mod IDs that need to be loaded before this mod (this is implicit for mods in the `DependsOn` list.|
+|ProjectSource|string|No|Link to the mod's source repository.|
+|ProjectHome|string|No|Link to the mod's project web site.|
+|Donate|string|No|Donation link for the mod.|
+|Features|JSON Object String|No|A JSON object string to utilize BSIPA's `Features` architecture.|
+|BaseManifestPath|string|No|Path to a manifest file you want to use as a base. GenerateManifest will merge into this manifest.|
+|TargetPath|string|No|Output path (including filename) for the generated manifest.|
+|RequiresBsipa|string|No|If true (default), GenerateManifest will error if you don't have BSIPA listed in `DependsOn`.|
+*Properties are not required by the task if you are using a base manifest file (specified in `BaseManifestPath`) that already has those properties.
+**If a mod references BSIPA and uses its `Plugin` architecture, you *must* have a `DependsOn` for BSIPA.
+## Special Types
+### Mod Identifier
+* Mod identifiers need to have an `Include` attribute (Mod ID from their manifest) and `Version` attribute (SemVer)
+* They are defined in one or more `<ItemGroup>`s. 
+* Pass them to GenerateManifest using `TaskParameter="@(CollectionName)"`
+Example:
+```xml
+<Project>
+    <ItemGroup>
+        <Dependency Include="BSIPA" Version="^4.4.0"/>
+        <Dependency Include="SongCore" Version="^1.8.0"/>
+    </ItemGroup>
+    <Target Name="RunGenerateManifest" BeforeTargets="Build">
+        <GenerateManifest 
+            <!-- Other Parameters -->
+            DependsOn="@(Dependency)"
+            <!-- Other Parameters -->
+        />
+    </Target>
+</Project>
+```
+### String Arrays
+* String arrays are similar to `Mod Identifiers` except you only need the `Include` attribute.
+* If you only need one item, you can pass a single string defined in a `PropertyGroup` as well.
+Example:
+```xml
+<Project>
+    <ItemGroup>
+        <RequiredFile Include="Libs/RequiredLibFile.dll"/>
+        <RequiredFile Include="Libs/OtherRequiredLibFile.dll"/>
+    </ItemGroup>
+    <Target Name="RunGenerateManifest" BeforeTargets="Build">
+        <GenerateManifest 
+            <!-- Other Parameters -->
+            Files="@(RequiredFile)"
+            <!-- Other Parameters -->
+        />
+    </Target>
+</Project>
+```
+### JSON Object String
+* A JSON string that defines an object.
+* The string can be put into a `PropertyGroup` property. It seems you don't have to worry about escaping any characters.
+Example:
+```xml
+<Project>
+    <PropertyGroup>
+        <GameVersion>1.14.0</GameVersion>
+        <Description>Description...</Description>
+        <Feature>
+            {
+                "CountersPlus.CustomCounter": {
+                    "Name": "Nightscout Counter",
+                    "Description": "Reads blood sugar from a nightscout site.",
+                    "CounterLocation": "NightscoutCounter.Counters.NightscoutCounterCountersPlus",
+                    "ConfigDefaults": {
+                    "Enabled": true,
+                    "Position": "AboveMultiplier",
+                    "Distance": 0
+                },
+                "BSML": {
+                    "Resource": "NightscoutCounter.UI.Views.NightscoutSettings.bsml",
+                    "Host": "NightscoutCounter.UI.NightscoutSettingsHandler",
+                    "Icon": "NightscoutCounter.UI.Images.nightscout-counter.png"
+                }
+            }
+        </Feature>
+    </PropertyGroup>
+</Project>
+```

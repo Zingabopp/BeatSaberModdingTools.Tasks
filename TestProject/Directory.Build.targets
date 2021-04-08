@@ -16,6 +16,7 @@
                       ProjectHome="http://project.home"
                       Donate="http://donate.tome"
                       Features="$(Feature)"
+                      BaseManifestPath=""
                       TargetPath="$(ProjectDir)/big-manifest.json"
                       RequiresBsipa="True"/>
   </Target>
