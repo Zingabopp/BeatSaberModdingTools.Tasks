@@ -83,6 +83,9 @@ namespace BeatSaberModdingTools.Tasks
         /// Link to the author's donation page.
         /// </summary>
         public string Donate { get; set; }
+        /// <summary>
+        /// A JSON object string to utilize BSIPA's Features architecture.
+        /// </summary>
         public string Features { get; set; }
         /// <summary>
         /// Path to an existing manifest file.

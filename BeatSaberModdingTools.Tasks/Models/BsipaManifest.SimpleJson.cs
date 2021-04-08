@@ -344,7 +344,9 @@ namespace BeatSaberModdingTools.Tasks.Models
                     json["loadAfter"] = ary;
             }
         }
-
+        /// <summary>
+        /// A JSON object to utilize BSIPA's Features architecture.
+        /// </summary>
         [JsonProperty("features", NullValueHandling = NullValueHandling.Ignore)]
         public JSONObject Features
         {
