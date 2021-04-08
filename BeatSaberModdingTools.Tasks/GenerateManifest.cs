@@ -226,7 +226,6 @@ namespace BeatSaberModdingTools.Tasks
             manifest.ProjectHome = ProjectHome;
             manifest.ProjectSource = ProjectSource;
             manifest.Donate = Donate;
-            Logger.LogMessage(MessageImportance.High, $"Features: '{Features}'");
             if (!string.IsNullOrWhiteSpace(Features))
                 manifest.Features = SimpleJSON.JSON.Parse(Features) as SimpleJSON.JSONObject;
         }
