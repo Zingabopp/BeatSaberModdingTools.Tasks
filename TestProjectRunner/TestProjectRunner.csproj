@@ -1,0 +1,12 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net5.0</TargetFramework>
+    <PrebuildProject>../TestProject/TestProject.csproj</PrebuildProject>
+  </PropertyGroup>
+  <Target Name="BuildTestProject" BeforeTargets="BeforeBuild">
+    <Message Text="Building BSMT.Tasks" Importance="high" />
+    <Exec Command="dotnet build &quot;$(PrebuildProject)&quot;" />
+  </Target>
+
+</Project>

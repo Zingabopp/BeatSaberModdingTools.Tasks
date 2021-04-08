@@ -1,4 +1,5 @@
 ﻿using BeatSaberModdingTools.Tasks.Utilities;
+using BeatSaberModdingTools.Tasks.Utilities.Mock;
 using Microsoft.Build.Framework;
 using System;
 

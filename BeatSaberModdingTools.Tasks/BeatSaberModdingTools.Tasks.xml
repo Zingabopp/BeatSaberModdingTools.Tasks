@@ -105,6 +105,21 @@
             List of mods that need to load before this one.
             </summary>
         </member>
+        <member name="P:BeatSaberModdingTools.Tasks.GenerateManifest.ProjectSource">
+            <summary>
+            Link to the mod's source repository.
+            </summary>
+        </member>
+        <member name="P:BeatSaberModdingTools.Tasks.GenerateManifest.ProjectHome">
+            <summary>
+            Link to the project's home page.
+            </summary>
+        </member>
+        <member name="P:BeatSaberModdingTools.Tasks.GenerateManifest.Donate">
+            <summary>
+            Link to the author's donation page.
+            </summary>
+        </member>
         <member name="P:BeatSaberModdingTools.Tasks.GenerateManifest.BaseManifestPath">
             <summary>
             Path to an existing manifest file.
@@ -1314,140 +1329,140 @@
             Other error.
             </summary>
         </member>
-        <member name="T:BeatSaberModdingTools.Tasks.Utilities.MockTaskLogger">
+        <member name="T:BeatSaberModdingTools.Tasks.Utilities.Mock.MockTaskLogger">
             <summary>
             A mock logger that implements <see cref="T:BeatSaberModdingTools.Tasks.Utilities.ITaskLogger"/> for unit testing.
             </summary>
         </member>
-        <member name="F:BeatSaberModdingTools.Tasks.Utilities.MockTaskLogger.LogEntries">
+        <member name="F:BeatSaberModdingTools.Tasks.Utilities.Mock.MockTaskLogger.LogEntries">
             <summary>
             List of log entries created by this instance.
             </summary>
         </member>
-        <member name="M:BeatSaberModdingTools.Tasks.Utilities.MockTaskLogger.LogError(System.String,System.String,System.String,System.String,System.Int32,System.Int32,System.Int32,System.Int32,System.String,System.Object[])">
+        <member name="M:BeatSaberModdingTools.Tasks.Utilities.Mock.MockTaskLogger.LogError(System.String,System.String,System.String,System.String,System.Int32,System.Int32,System.Int32,System.Int32,System.String,System.Object[])">
             <inheritdoc/>
         </member>
-        <member name="M:BeatSaberModdingTools.Tasks.Utilities.MockTaskLogger.LogError(System.String,System.Object[])">
+        <member name="M:BeatSaberModdingTools.Tasks.Utilities.Mock.MockTaskLogger.LogError(System.String,System.Object[])">
             <inheritdoc/>
         </member>
-        <member name="M:BeatSaberModdingTools.Tasks.Utilities.MockTaskLogger.LogErrorFromException(System.Exception)">
+        <member name="M:BeatSaberModdingTools.Tasks.Utilities.Mock.MockTaskLogger.LogErrorFromException(System.Exception)">
             <inheritdoc/>
         </member>
-        <member name="M:BeatSaberModdingTools.Tasks.Utilities.MockTaskLogger.LogMessage(Microsoft.Build.Framework.MessageImportance,System.String,System.Object[])">
+        <member name="M:BeatSaberModdingTools.Tasks.Utilities.Mock.MockTaskLogger.LogMessage(Microsoft.Build.Framework.MessageImportance,System.String,System.Object[])">
             <inheritdoc/>
         </member>
-        <member name="M:BeatSaberModdingTools.Tasks.Utilities.MockTaskLogger.LogMessage(System.String,System.String,System.String,System.String,System.Int32,System.Int32,System.Int32,System.Int32,Microsoft.Build.Framework.MessageImportance,System.String,System.Object[])">
+        <member name="M:BeatSaberModdingTools.Tasks.Utilities.Mock.MockTaskLogger.LogMessage(System.String,System.String,System.String,System.String,System.Int32,System.Int32,System.Int32,System.Int32,Microsoft.Build.Framework.MessageImportance,System.String,System.Object[])">
             <inheritdoc/>
         </member>
-        <member name="M:BeatSaberModdingTools.Tasks.Utilities.MockTaskLogger.LogWarning(System.String,System.String,System.String,System.String,System.Int32,System.Int32,System.Int32,System.Int32,System.String,System.Object[])">
+        <member name="M:BeatSaberModdingTools.Tasks.Utilities.Mock.MockTaskLogger.LogWarning(System.String,System.String,System.String,System.String,System.Int32,System.Int32,System.Int32,System.Int32,System.String,System.Object[])">
             <inheritdoc/>
         </member>
-        <member name="M:BeatSaberModdingTools.Tasks.Utilities.MockTaskLogger.LogWarning(System.String,System.Object[])">
+        <member name="M:BeatSaberModdingTools.Tasks.Utilities.Mock.MockTaskLogger.LogWarning(System.String,System.Object[])">
             <inheritdoc/>
         </member>
-        <member name="M:BeatSaberModdingTools.Tasks.Utilities.MockTaskLogger.Log(BeatSaberModdingTools.Tasks.Utilities.LogMessageLevel,System.String,System.Object[])">
+        <member name="M:BeatSaberModdingTools.Tasks.Utilities.Mock.MockTaskLogger.Log(BeatSaberModdingTools.Tasks.Utilities.LogMessageLevel,System.String,System.Object[])">
             <inheritdoc/>
         </member>
-        <member name="T:BeatSaberModdingTools.Tasks.Utilities.MockLogEntry">
+        <member name="T:BeatSaberModdingTools.Tasks.Utilities.Mock.MockLogEntry">
             <summary>
             Stores log entry data.
             </summary>
         </member>
-        <member name="F:BeatSaberModdingTools.Tasks.Utilities.MockLogEntry.SubCategory">
+        <member name="F:BeatSaberModdingTools.Tasks.Utilities.Mock.MockLogEntry.SubCategory">
             <summary>
             Log entry SubCategory.
             </summary>
         </member>
-        <member name="F:BeatSaberModdingTools.Tasks.Utilities.MockLogEntry.MessageCode">
+        <member name="F:BeatSaberModdingTools.Tasks.Utilities.Mock.MockLogEntry.MessageCode">
             <summary>
             Log entry MessageCode.
             </summary>
         </member>
-        <member name="F:BeatSaberModdingTools.Tasks.Utilities.MockLogEntry.HelpKeyword">
+        <member name="F:BeatSaberModdingTools.Tasks.Utilities.Mock.MockLogEntry.HelpKeyword">
             <summary>
             Log entry HelpKeyword.
             </summary>
         </member>
-        <member name="F:BeatSaberModdingTools.Tasks.Utilities.MockLogEntry.File">
+        <member name="F:BeatSaberModdingTools.Tasks.Utilities.Mock.MockLogEntry.File">
             <summary>
             Log entry File name.
             </summary>
         </member>
-        <member name="F:BeatSaberModdingTools.Tasks.Utilities.MockLogEntry.LineNumber">
+        <member name="F:BeatSaberModdingTools.Tasks.Utilities.Mock.MockLogEntry.LineNumber">
             <summary>
             Log entry line number.
             </summary>
         </member>
-        <member name="F:BeatSaberModdingTools.Tasks.Utilities.MockLogEntry.ColumnNumber">
+        <member name="F:BeatSaberModdingTools.Tasks.Utilities.Mock.MockLogEntry.ColumnNumber">
             <summary>
             Log entry column number.
             </summary>
         </member>
-        <member name="F:BeatSaberModdingTools.Tasks.Utilities.MockLogEntry.EndLineNumber">
+        <member name="F:BeatSaberModdingTools.Tasks.Utilities.Mock.MockLogEntry.EndLineNumber">
             <summary>
             Log entry end line number.
             </summary>
         </member>
-        <member name="F:BeatSaberModdingTools.Tasks.Utilities.MockLogEntry.EndColumnNumber">
+        <member name="F:BeatSaberModdingTools.Tasks.Utilities.Mock.MockLogEntry.EndColumnNumber">
             <summary>
             Log entry end column number.
             </summary>
         </member>
-        <member name="F:BeatSaberModdingTools.Tasks.Utilities.MockLogEntry.Message">
+        <member name="F:BeatSaberModdingTools.Tasks.Utilities.Mock.MockLogEntry.Message">
             <summary>
             Log entry Message.
             </summary>
         </member>
-        <member name="F:BeatSaberModdingTools.Tasks.Utilities.MockLogEntry.MessageArgs">
+        <member name="F:BeatSaberModdingTools.Tasks.Utilities.Mock.MockLogEntry.MessageArgs">
             <summary>
             Log entry Message args.
             </summary>
         </member>
-        <member name="F:BeatSaberModdingTools.Tasks.Utilities.MockLogEntry.Exception">
+        <member name="F:BeatSaberModdingTools.Tasks.Utilities.Mock.MockLogEntry.Exception">
             <summary>
             Log entry Exception.
             </summary>
         </member>
-        <member name="F:BeatSaberModdingTools.Tasks.Utilities.MockLogEntry.Importance">
+        <member name="F:BeatSaberModdingTools.Tasks.Utilities.Mock.MockLogEntry.Importance">
             <summary>
             Log entry Importance.
             </summary>
         </member>
-        <member name="F:BeatSaberModdingTools.Tasks.Utilities.MockLogEntry.EntryType">
+        <member name="F:BeatSaberModdingTools.Tasks.Utilities.Mock.MockLogEntry.EntryType">
             <summary>
             Log entry type.
             </summary>
         </member>
-        <member name="M:BeatSaberModdingTools.Tasks.Utilities.MockLogEntry.#ctor(BeatSaberModdingTools.Tasks.Utilities.LogEntryType)">
+        <member name="M:BeatSaberModdingTools.Tasks.Utilities.Mock.MockLogEntry.#ctor(BeatSaberModdingTools.Tasks.Utilities.Mock.LogEntryType)">
             <summary>
-            Creates a new <see cref="T:BeatSaberModdingTools.Tasks.Utilities.MockLogEntry"/> of the given type.
+            Creates a new <see cref="T:BeatSaberModdingTools.Tasks.Utilities.Mock.MockLogEntry"/> of the given type.
             </summary>
             <param name="entryType"></param>
         </member>
-        <member name="M:BeatSaberModdingTools.Tasks.Utilities.MockLogEntry.ToString">
+        <member name="M:BeatSaberModdingTools.Tasks.Utilities.Mock.MockLogEntry.ToString">
             <inheritdoc/>
         </member>
-        <member name="T:BeatSaberModdingTools.Tasks.Utilities.LogEntryType">
+        <member name="T:BeatSaberModdingTools.Tasks.Utilities.Mock.LogEntryType">
             <summary>
             Log entry type.
             </summary>
         </member>
-        <member name="F:BeatSaberModdingTools.Tasks.Utilities.LogEntryType.Message">
+        <member name="F:BeatSaberModdingTools.Tasks.Utilities.Mock.LogEntryType.Message">
             <summary>
             Message
             </summary>
         </member>
-        <member name="F:BeatSaberModdingTools.Tasks.Utilities.LogEntryType.Warning">
+        <member name="F:BeatSaberModdingTools.Tasks.Utilities.Mock.LogEntryType.Warning">
             <summary>
             Warning
             </summary>
         </member>
-        <member name="F:BeatSaberModdingTools.Tasks.Utilities.LogEntryType.Error">
+        <member name="F:BeatSaberModdingTools.Tasks.Utilities.Mock.LogEntryType.Error">
             <summary>
             Error
             </summary>
         </member>
-        <member name="F:BeatSaberModdingTools.Tasks.Utilities.LogEntryType.Exception">
+        <member name="F:BeatSaberModdingTools.Tasks.Utilities.Mock.LogEntryType.Exception">
             <summary>
             Exception
             </summary>

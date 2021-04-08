@@ -1,0 +1,29 @@
+﻿<Project>
+  <UsingTask TaskName="GenerateManifest" AssemblyFile="../BeatSaberModdingTools.Tasks/bin/$(Configuration)/netstandard2.0/BeatSaberModdingTools.Tasks.dll" />
+  <PropertyGroup>
+    <GameVersion>1.14.0</GameVersion>
+    <Description>Description...</Description>
+  </PropertyGroup>
+  <ItemGroup>
+    <Dependency Include="BSIPA" Version="^4.4.0"/>
+    <Dependency Include="BS_Utils" Version="^1.8.0"/>
+  </ItemGroup>
+  <ItemGroup>
+    <Conflict Include="BeatSaberPlus" Version="*" />
+    <Conflict Include="TheLetterQ" Version="*" />
+  </ItemGroup>
+  <ItemGroup>
+    <RequiredFile Include="Libs/RequiredFile1.dll" />
+    <RequiredFile Include="Libs/RequiredFile2.dll" />
+    <RequiredFile Include="Libs/RequiredFile3.dll" />
+  </ItemGroup>
+  <ItemGroup>
+    <LoadBefore Include="LoadBefore01" />
+    <LoadBefore Include="LoadBefore02" />
+  </ItemGroup>
+  <ItemGroup>
+    <LoadAfter Include="LoadAfter01" />
+    <LoadAfter Include="LoadAfter02" />
+  </ItemGroup>
+</Project>
+

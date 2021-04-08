@@ -13,6 +13,11 @@ namespace BeatSaberModdingTools.Tasks.Models
     /// </summary>
     public partial class BsipaManifest
     {
+        /// <summary>
+        /// Create a <see cref="BsipaManifest"/> from a JSON string.
+        /// </summary>
+        /// <param name="json"></param>
+        /// <returns></returns>
         public static BsipaManifest FromJson(string json)
         {
             if (JSON.Parse(json) is JSONObject obj)
@@ -21,11 +26,19 @@ namespace BeatSaberModdingTools.Tasks.Models
         }
         private readonly JSONObject json;
 
+        /// <summary>
+        /// Convert the <see cref="BsipaManifest"/> to a JSON string.
+        /// </summary>
+        /// <returns></returns>
         public string ToJson()
         {
             return json.ToString(3);
         }
 
+        /// <summary>
+        /// Create a new BsipaManifest with an optional base <see cref="JSONObject"/>.
+        /// </summary>
+        /// <param name="j"></param>
         public BsipaManifest(JSONObject j = null)
         {
             json = j ?? new JSONObject();

@@ -4,6 +4,7 @@ using System.IO;
 using System.Text;
 using BeatSaberModdingTools.Tasks.Models;
 using BeatSaberModdingTools.Tasks.Utilities;
+using BeatSaberModdingTools.Tasks.Utilities.Mock;
 using Microsoft.Build.Framework;
 
 namespace BeatSaberModdingTools.Tasks
@@ -45,6 +46,7 @@ namespace BeatSaberModdingTools.Tasks
         /// </summary>
         public string Description { get; set; }
         #endregion
+
         /// <summary>
         /// Path to the mod's icon.
         /// </summary>
@@ -52,11 +54,11 @@ namespace BeatSaberModdingTools.Tasks
         /// <summary>
         /// String array of mods to include in DependsOn
         /// </summary>
-        public string[] DependsOn { get; set; }
+        public ITaskItem[] DependsOn { get; set; }
         /// <summary>
         /// String array of mods to include in ConflictsWith
         /// </summary>
-        public string[] ConflictsWith { get; set; }
+        public ITaskItem[] ConflictsWith { get; set; }
         /// <summary>
         /// List of files required for the mod to run.
         /// </summary>
@@ -70,8 +72,17 @@ namespace BeatSaberModdingTools.Tasks
         /// </summary>
         public string[] LoadAfter { get; set; }
 
+        /// <summary>
+        /// Link to the mod's source repository.
+        /// </summary>
         public string ProjectSource { get; set; }
+        /// <summary>
+        /// Link to the project's home page.
+        /// </summary>
         public string ProjectHome { get; set; }
+        /// <summary>
+        /// Link to the author's donation page.
+        /// </summary>
         public string Donate { get; set; }
 
         /*
@@ -209,14 +220,18 @@ namespace BeatSaberModdingTools.Tasks
         private void SetOptionalProperties(BsipaManifest manifest)
         {
             manifest.Files = ParseUtil.ParseStringArray(Files);
-            manifest.DependsOn = ParseUtil.ParseDictString(DependsOn, manifest.DependsOn, "DependsOn");
-            manifest.ConflictsWith = ParseUtil.ParseDictString(ConflictsWith, manifest.ConflictsWith, "ConflictsWith");
+            manifest.DependsOn = ParseUtil.ParseTaskItems(DependsOn, manifest.DependsOn, "DependsOn");
+            manifest.ConflictsWith = ParseUtil.ParseTaskItems(ConflictsWith, manifest.ConflictsWith, "ConflictsWith");
+            manifest.LoadBefore = ParseUtil.ParseStringArray(LoadBefore);
+            manifest.LoadAfter = ParseUtil.ParseStringArray(LoadAfter);
             if (!string.IsNullOrWhiteSpace(Icon))
                 manifest.Icon = Icon;
             manifest.ProjectHome = ProjectHome;
             manifest.ProjectSource = ProjectSource;
             manifest.Donate = Donate;
         }
+
+
 
     }
 }

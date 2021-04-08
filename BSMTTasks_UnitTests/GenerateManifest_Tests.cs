@@ -6,6 +6,7 @@ using System.Text;
 using BeatSaberModdingTools.Tasks;
 using BeatSaberModdingTools.Tasks.Models;
 using BeatSaberModdingTools.Tasks.Utilities;
+using BeatSaberModdingTools.Tasks.Utilities.Mock;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace BSMTTasks_UnitTests
@@ -29,7 +30,8 @@ namespace BSMTTasks_UnitTests
                 Version = "1.0.0",
                 GameVersion = "1.14.0",
                 Description = "Description of a test plugin.",
-                DependsOn = new string[] { "BSIPA|^4.3.0", "TestDepend1|^2.0.1", "TestDepend2|^1.0.0" },
+                DependsOn = 
+                    MockTaskItem.FromDictString("DependsOn", "BSIPA|^4.3.0", "TestDepend1|^2.0.1", "TestDepend2|^1.0.0" ),
                 RequiresBsipa = true,
                 TargetPath = targetPath
             };
@@ -73,8 +75,10 @@ namespace BSMTTasks_UnitTests
                 Version = "1.0.0",
                 GameVersion = "1.14.0",
                 Description = "Description of a test plugin.",
-                DependsOn = new string[] { "TestDepend1|^2.0.1;TestDepend2|^1.0.0" },
-                ConflictsWith = new string[] { "TestConflict1|^2.0.1", "TestConflict2|^1.0.0" },
+                DependsOn =
+                    MockTaskItem.FromDictString("DependsOn", "BSIPA|^4.3.0", "TestDepend1|^2.0.1", "TestDepend2|^1.0.0"),
+                ConflictsWith =
+                    MockTaskItem.FromDictString("ConflictsWith", "TestConflict1|^2.0.1", "TestConflict2|^1.0.0"),
                 Files = new string[] { "Libs/TestLib1.dll", "Libs/TestLib2.dll" },
                 Donate = "http://donate.com",
                 ProjectHome = "http://project.home",
@@ -95,7 +99,7 @@ namespace BSMTTasks_UnitTests
         {
             Directory.CreateDirectory(OutputPath);
             string basePath = Path.Combine(Data, "manifest.json");
-            int baseDepends = 3;
+            int baseDepends = 2;
             int baseConflicts = 0;
             string targetPath = Path.Combine(OutputPath, nameof(Valid_WithBaseManifest_DependsOnSingle) + ".json");
             var task = new GenerateManifest()
@@ -106,8 +110,10 @@ namespace BSMTTasks_UnitTests
                 Version = "1.0.0",
                 GameVersion = "1.14.0",
                 Description = "Description of a test plugin.",
-                DependsOn = new string[] { "TestDepend1|^2.0.1;TestDepend2|^1.0.0" },
-                ConflictsWith = new string[] { "TestConflict1|^2.0.1", "TestConflict2|^1.0.0" },
+                DependsOn =
+                    MockTaskItem.FromDictString("DependsOn", "BSIPA|^4.3.0", "TestDepend1|^2.0.1", "TestDepend2|^1.0.0"),
+                ConflictsWith =
+                    MockTaskItem.FromDictString("ConflictsWith", "TestConflict1|^2.0.1", "TestConflict2|^1.0.0"),
                 RequiresBsipa = true,
                 BaseManifestPath = basePath,
                 TargetPath = targetPath
@@ -145,8 +151,8 @@ namespace BSMTTasks_UnitTests
             Assert.AreEqual(task.GameVersion , manifest.GameVersion);
             Assert.AreEqual(task.Description , manifest.Description);
             Assert.AreEqual(task.Icon , manifest.Icon);
-            CompareDictionary(ParseUtil.ParseDictString(task.DependsOn, "DependsOn"), manifest.DependsOn, baseDepends);
-            CompareDictionary(ParseUtil.ParseDictString(task.ConflictsWith, "ConflictsWith"), manifest.ConflictsWith, baseConflicts);
+            CompareDictionary(ParseUtil.ParseTaskItems(task.DependsOn, null, "DependsOn"), manifest.DependsOn, baseDepends);
+            CompareDictionary(ParseUtil.ParseTaskItems(task.ConflictsWith, null, "ConflictsWith"), manifest.ConflictsWith, baseConflicts);
             CompareStringArrays(ParseUtil.ParseStringArray(task.Files), manifest.Files, 0);
         }
 

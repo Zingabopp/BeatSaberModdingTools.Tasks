@@ -2,7 +2,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace BeatSaberModdingTools.Tasks.Utilities
+namespace BeatSaberModdingTools.Tasks.Utilities.Mock
 {
     /// <summary>
     /// A mock logger that implements <see cref="ITaskLogger"/> for unit testing.
