@@ -105,7 +105,7 @@ Outputs:
 |ZipPath|string|Full path to the created zip file. Empty if the file could not be created.|
 <h2> GenerateManifest </h2> 
 <small>Added in 1.4.1</small><br>
-Generates a BSIPA manifest file.
+Generates a BSIPA manifest file.<br>
 
 Inputs:
 |Name|Type|Required?|Description|
@@ -181,7 +181,7 @@ Example:
     <PropertyGroup>
         <GameVersion>1.14.0</GameVersion>
         <Description>Description...</Description>
-        <Feature>
+        <Features>
             {
                 "CountersPlus.CustomCounter": {
                     "Name": "Nightscout Counter",
@@ -198,7 +198,14 @@ Example:
                     "Icon": "NightscoutCounter.UI.Images.nightscout-counter.png"
                 }
             }
-        </Feature>
+        </Features>
     </PropertyGroup>
+    <Target Name="RunGenerateManifest" BeforeTargets="Build">
+        <GenerateManifest 
+            <!-- Other Parameters -->
+            Features="$(Features)"
+            <!-- Other Parameters -->
+        />
+    </Target>
 </Project>
 ```
