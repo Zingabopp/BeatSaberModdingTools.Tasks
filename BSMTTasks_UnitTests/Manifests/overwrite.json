@@ -1,0 +1,38 @@
+{
+   "$schema" : "https://raw.githubusercontent.com/bsmg/BSIPA-MetadataFileSchema/master/Schema.json",
+   "id" : "Overwrite-",
+   "name" : "Overwrite-",
+   "author" : "Overwrite-",
+   "version" : "Overwrite-",
+   "gameVersion" : "Overwrite-",
+   "description" : "Overwrite-...",
+   "files" : [
+      "Libs/Original-3.dll"
+   ],
+   "dependsOn" : {
+      "BSIPA" : "Overwrite-",
+      "BS_Utils" : "Original^1.8.0"
+   },
+   "conflictsWith" : {
+      "BeatSaberPlus" : "Overwrite-Version",
+      "TheLetterQ" : "Original"
+   },
+   "loadBefore" : [
+      "OriginalLoadBefore03"
+   ],
+   "loadAfter" : [
+      "OriginalLoadAfter03"
+   ],
+   "icon" : "IconFile.png",
+   "links" : {
+      "project-home" : "Overwrite-",
+      "project-source" : "Overwrite-",
+      "donate" : "Overwrite-"
+   },
+   "features" : {
+      "Original.IPA.DefineFeature" : {
+         "type" : "Original.CountersPlus.Custom.CustomCounterFeature",
+         "name" : "Original.CountersPlus.CustomCounter"
+      }
+   }
+}

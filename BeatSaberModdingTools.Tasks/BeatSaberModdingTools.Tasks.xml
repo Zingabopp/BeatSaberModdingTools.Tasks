@@ -513,6 +513,25 @@
             </summary>
             <returns></returns>
         </member>
+        <member name="M:BeatSaberModdingTools.Tasks.Models.BsipaManifest.FromJson(System.String)">
+            <summary>
+            Create a <see cref="T:BeatSaberModdingTools.Tasks.Models.BsipaManifest"/> from a JSON string.
+            </summary>
+            <param name="json"></param>
+            <returns></returns>
+        </member>
+        <member name="M:BeatSaberModdingTools.Tasks.Models.BsipaManifest.ToJson">
+            <summary>
+            Convert the <see cref="T:BeatSaberModdingTools.Tasks.Models.BsipaManifest"/> to a JSON string.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:BeatSaberModdingTools.Tasks.Models.BsipaManifest.#ctor(SimpleJSON.JSONObject)">
+            <summary>
+            Create a new BsipaManifest with an optional base <see cref="T:SimpleJSON.JSONObject"/>.
+            </summary>
+            <param name="j"></param>
+        </member>
         <member name="P:BeatSaberModdingTools.Tasks.Models.BsipaManifest.Schema">
             <summary>
             JSON schema.
@@ -1329,6 +1348,59 @@
             Other error.
             </summary>
         </member>
+        <member name="T:BeatSaberModdingTools.Tasks.Utilities.Mock.MockTaskItem">
+            <summary>
+            A mock <see cref="T:Microsoft.Build.Framework.ITaskItem"/> for testing.
+            </summary>
+        </member>
+        <member name="M:BeatSaberModdingTools.Tasks.Utilities.Mock.MockTaskItem.FromDictString(System.String,System.String[])">
+            <summary>
+            Create a new array of <see cref="T:BeatSaberModdingTools.Tasks.Utilities.Mock.MockTaskItem"/> from an array of dictionary strings.
+            </summary>
+            <param name="propName"></param>
+            <param name="args"></param>
+            <returns></returns>
+        </member>
+        <member name="P:BeatSaberModdingTools.Tasks.Utilities.Mock.MockTaskItem.ItemSpec">
+            <inheritdoc/>
+        </member>
+        <member name="M:BeatSaberModdingTools.Tasks.Utilities.Mock.MockTaskItem.#ctor(System.Collections.Generic.Dictionary{System.String,System.String})">
+            <summary>
+            Create a new <see cref="T:BeatSaberModdingTools.Tasks.Utilities.Mock.MockTaskItem"/> from a dictionary of metadata and their values.
+            </summary>
+            <param name="data"></param>
+        </member>
+        <member name="M:BeatSaberModdingTools.Tasks.Utilities.Mock.MockTaskItem.#ctor(System.String,System.String)">
+            <summary>
+            Create a new <see cref="T:BeatSaberModdingTools.Tasks.Utilities.Mock.MockTaskItem"/> with the metadata Include and Version.
+            </summary>
+            <param name="include"></param>
+            <param name="version"></param>
+        </member>
+        <member name="M:BeatSaberModdingTools.Tasks.Utilities.Mock.MockTaskItem.ToString">
+            <inheritdoc/>
+        </member>
+        <member name="P:BeatSaberModdingTools.Tasks.Utilities.Mock.MockTaskItem.MetadataNames">
+            <inheritdoc/>
+        </member>
+        <member name="P:BeatSaberModdingTools.Tasks.Utilities.Mock.MockTaskItem.MetadataCount">
+            <inheritdoc/>
+        </member>
+        <member name="M:BeatSaberModdingTools.Tasks.Utilities.Mock.MockTaskItem.CloneCustomMetadata">
+            <inheritdoc/>
+        </member>
+        <member name="M:BeatSaberModdingTools.Tasks.Utilities.Mock.MockTaskItem.CopyMetadataTo(Microsoft.Build.Framework.ITaskItem)">
+            <inheritdoc/>
+        </member>
+        <member name="M:BeatSaberModdingTools.Tasks.Utilities.Mock.MockTaskItem.GetMetadata(System.String)">
+            <inheritdoc/>
+        </member>
+        <member name="M:BeatSaberModdingTools.Tasks.Utilities.Mock.MockTaskItem.RemoveMetadata(System.String)">
+            <inheritdoc/>
+        </member>
+        <member name="M:BeatSaberModdingTools.Tasks.Utilities.Mock.MockTaskItem.SetMetadata(System.String,System.String)">
+            <inheritdoc/>
+        </member>
         <member name="T:BeatSaberModdingTools.Tasks.Utilities.Mock.MockTaskLogger">
             <summary>
             A mock logger that implements <see cref="T:BeatSaberModdingTools.Tasks.Utilities.ITaskLogger"/> for unit testing.
@@ -1467,6 +1539,53 @@
             Exception
             </summary>
         </member>
+        <member name="T:BeatSaberModdingTools.Tasks.Utilities.ParseUtil">
+            <summary>
+            Utilities for parsing things.
+            </summary>
+        </member>
+        <member name="M:BeatSaberModdingTools.Tasks.Utilities.ParseUtil.GetStringArray(SimpleJSON.JSONArray)">
+            <summary>
+            Gets a string array from a <see cref="T:SimpleJSON.JSONArray"/>.
+            </summary>
+            <param name="node"></param>
+            <returns></returns>
+        </member>
+        <member name="M:BeatSaberModdingTools.Tasks.Utilities.ParseUtil.SetStringArray(SimpleJSON.JSONArray,System.Collections.Generic.IEnumerable{System.String})">
+            <summary>
+            Adds the values of <paramref name="ary"/> into <paramref name="node"/>.
+            </summary>
+            <param name="node"></param>
+            <param name="ary"></param>
+        </member>
+        <member name="M:BeatSaberModdingTools.Tasks.Utilities.ParseUtil.GetDictionary(SimpleJSON.JSONNode)">
+            <summary>
+            Gets a dictionary of properties and values from the given <see cref="T:SimpleJSON.JSONNode"/>.
+            </summary>
+            <param name="node"></param>
+            <returns></returns>
+        </member>
+        <member name="M:BeatSaberModdingTools.Tasks.Utilities.ParseUtil.CreateObjFromDict(System.Collections.Generic.Dictionary{System.String,System.String})">
+            <summary>
+            Creates a new <see cref="T:SimpleJSON.JSONObject"/> from a dictionary.
+            </summary>
+            <param name="dict"></param>
+            <returns></returns>
+        </member>
+        <member name="M:BeatSaberModdingTools.Tasks.Utilities.ParseUtil.ParseStringArray(System.String)">
+            <summary>
+            Parses a ';' delimited string into an array. Returns null if the length is 0.
+            </summary>
+            <param name="aryStr"></param>
+            <returns></returns>
+        </member>
+        <member name="M:BeatSaberModdingTools.Tasks.Utilities.ParseUtil.ParseStringArray(System.String[])">
+            <summary>
+            Parses an array of ';' delimited strings into an array. Returns null if the length is 0.
+            </summary>
+            <param name="aryStrs"></param>
+            <returns></returns>
+        </member>
         <member name="M:BeatSaberModdingTools.Tasks.Utilities.ParseUtil.ParseDictString(System.String[],System.String)">
             <summary>
             
@@ -1477,11 +1596,28 @@
         </member>
         <member name="M:BeatSaberModdingTools.Tasks.Utilities.ParseUtil.ParseDictString(System.String[],System.Collections.Generic.Dictionary{System.String,System.String},System.String)">
             <summary>
-            Sets the values in the DependsOn Dictionary.
+            Parses a string into a dictionary. Entries are delimited by ';', then KEY|VALUE.
             </summary>
             <param name="dictStrings"></param>
             <param name="existing"></param>
             <param name="propName"></param>
+        </member>
+        <member name="M:BeatSaberModdingTools.Tasks.Utilities.ParseUtil.TryParseModId(Microsoft.Build.Framework.ITaskItem,System.Collections.Generic.KeyValuePair{System.String,System.String}@)">
+            <summary>
+            Parses an <see cref="T:Microsoft.Build.Framework.ITaskItem"/> into (Include, Version).
+            </summary>
+            <param name="item"></param>
+            <param name="data"></param>
+            <returns></returns>
+        </member>
+        <member name="M:BeatSaberModdingTools.Tasks.Utilities.ParseUtil.ParseModIds(System.Collections.Generic.IEnumerable{Microsoft.Build.Framework.ITaskItem},System.Collections.Generic.Dictionary{System.String,System.String},System.String)">
+            <summary>
+            Parses a collection of <see cref="T:Microsoft.Build.Framework.ITaskItem"/> into a dictionary of (Include, Version).
+            </summary>
+            <param name="items"></param>
+            <param name="existing"></param>
+            <param name="propName"></param>
+            <returns></returns>
         </member>
         <member name="T:BeatSaberModdingTools.Tasks.Utilities.Util">
             <summary>

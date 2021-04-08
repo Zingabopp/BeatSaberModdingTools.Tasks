@@ -153,7 +153,7 @@ namespace BeatSaberModdingTools.Tasks.Utilities
         /// <param name="item"></param>
         /// <param name="data"></param>
         /// <returns></returns>
-        public static bool TryParseTaskItem(ITaskItem item, out KeyValuePair<string, string> data)
+        public static bool TryParseModId(ITaskItem item, out KeyValuePair<string, string> data)
         {
             data = default;
             string name = item.ToString();
@@ -170,7 +170,7 @@ namespace BeatSaberModdingTools.Tasks.Utilities
         /// <param name="existing"></param>
         /// <param name="propName"></param>
         /// <returns></returns>
-        public static Dictionary<string, string> ParseTaskItems(
+        public static Dictionary<string, string> ParseModIds(
             IEnumerable<ITaskItem> items, Dictionary<string, string> existing, string propName = null)
         {
             if (items == null || items.Count() == 0)
@@ -180,7 +180,7 @@ namespace BeatSaberModdingTools.Tasks.Utilities
             {
                 if (item == null)
                     continue;
-                if (TryParseTaskItem(item, out KeyValuePair<string, string> data))
+                if (TryParseModId(item, out KeyValuePair<string, string> data))
                     dict[data.Key] = data.Value;
                 else
                     throw new ManifestValidationException(propName, $"{propName} entry '{item}' is not valid (example: '<PropertyName Include=ModID Version=^1.2.3' />)");

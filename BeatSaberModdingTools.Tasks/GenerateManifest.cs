@@ -71,7 +71,6 @@ namespace BeatSaberModdingTools.Tasks
         /// List of mods that need to load before this one.
         /// </summary>
         public string[] LoadAfter { get; set; }
-
         /// <summary>
         /// Link to the mod's source repository.
         /// </summary>
@@ -84,12 +83,7 @@ namespace BeatSaberModdingTools.Tasks
         /// Link to the author's donation page.
         /// </summary>
         public string Donate { get; set; }
-
-        /*
         public string Features { get; set; }
-        public string Links { get; set; }
-        public string Misc { get; set; }
-        */
         /// <summary>
         /// Path to an existing manifest file.
         /// </summary>
@@ -220,8 +214,8 @@ namespace BeatSaberModdingTools.Tasks
         private void SetOptionalProperties(BsipaManifest manifest)
         {
             manifest.Files = ParseUtil.ParseStringArray(Files);
-            manifest.DependsOn = ParseUtil.ParseTaskItems(DependsOn, manifest.DependsOn, "DependsOn");
-            manifest.ConflictsWith = ParseUtil.ParseTaskItems(ConflictsWith, manifest.ConflictsWith, "ConflictsWith");
+            manifest.DependsOn = ParseUtil.ParseModIds(DependsOn, manifest.DependsOn, "DependsOn");
+            manifest.ConflictsWith = ParseUtil.ParseModIds(ConflictsWith, manifest.ConflictsWith, "ConflictsWith");
             manifest.LoadBefore = ParseUtil.ParseStringArray(LoadBefore);
             manifest.LoadAfter = ParseUtil.ParseStringArray(LoadAfter);
             if (!string.IsNullOrWhiteSpace(Icon))
@@ -229,6 +223,9 @@ namespace BeatSaberModdingTools.Tasks
             manifest.ProjectHome = ProjectHome;
             manifest.ProjectSource = ProjectSource;
             manifest.Donate = Donate;
+            Logger.LogMessage(MessageImportance.High, $"Features: '{Features}'");
+            if (!string.IsNullOrWhiteSpace(Features))
+                manifest.Features = SimpleJSON.JSON.Parse(Features) as SimpleJSON.JSONObject;
         }
 
 

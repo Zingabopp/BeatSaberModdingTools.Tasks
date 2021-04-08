@@ -62,7 +62,11 @@ namespace BeatSaberModdingTools.Tasks.Models
         public string Schema
         {
             get => GetStringValue("$schema");
-            set => json["$schema"] = value;
+            set
+            {
+                if (!string.IsNullOrWhiteSpace(value))
+                    json["$schema"] = value;
+            }
         }
 
         /// <summary>
@@ -72,7 +76,10 @@ namespace BeatSaberModdingTools.Tasks.Models
         public string Id
         {
             get => GetStringValue("id");
-            set => json["id"] = value;
+            set
+            {
+                if (!string.IsNullOrWhiteSpace(value)) json["id"] = value;
+            }
         }
 
         /// <summary>
@@ -82,7 +89,10 @@ namespace BeatSaberModdingTools.Tasks.Models
         public string Name
         {
             get => GetStringValue("name");
-            set => json["name"] = value;
+            set
+            {
+                if (!string.IsNullOrWhiteSpace(value)) json["name"] = value;
+            }
         }
 
         /// <summary>
@@ -92,7 +102,10 @@ namespace BeatSaberModdingTools.Tasks.Models
         public string Author
         {
             get => GetStringValue("author");
-            set => json["author"] = value;
+            set
+            {
+                if (!string.IsNullOrWhiteSpace(value)) json["author"] = value;
+            }
         }
 
         /// <summary>
@@ -102,7 +115,10 @@ namespace BeatSaberModdingTools.Tasks.Models
         public string Version
         {
             get => GetStringValue("version");
-            set => json["version"] = value;
+            set
+            {
+                if (!string.IsNullOrWhiteSpace(value)) json["version"] = value;
+            }
         }
 
         /// <summary>
@@ -112,7 +128,11 @@ namespace BeatSaberModdingTools.Tasks.Models
         public string Description
         {
             get => GetStringValue("description");
-            set => json["description"] = value;
+            set
+            {
+                if (!string.IsNullOrWhiteSpace(value))
+                    json["description"] = value;
+            }
         }
 
         /// <summary>
@@ -122,7 +142,11 @@ namespace BeatSaberModdingTools.Tasks.Models
         public string GameVersion
         {
             get => GetStringValue("gameVersion");
-            set => json["gameVersion"] = value;
+            set
+            {
+                if (!string.IsNullOrWhiteSpace(value))
+                    json["gameVersion"] = value;
+            }
         }
 
         /// <summary>
@@ -134,11 +158,10 @@ namespace BeatSaberModdingTools.Tasks.Models
             get => GetStringValue("icon");
             set
             {
-                if (!string.IsNullOrWhiteSpace(value)) 
+                if (!string.IsNullOrWhiteSpace(value))
                     json["icon"] = value;
-                else
-                    json.Remove("icon");
             }
+
         }
 
         /// <summary>
@@ -150,10 +173,8 @@ namespace BeatSaberModdingTools.Tasks.Models
             get => GetStringValue("project-home", json["links"]);
             set
             {
-                if (!string.IsNullOrWhiteSpace(value)) 
+                if (!string.IsNullOrWhiteSpace(value))
                     json["links"]["project-home"] = value;
-                else
-                    json["links"].Remove("project-home");
             }
         }
         /// <summary>
@@ -165,10 +186,8 @@ namespace BeatSaberModdingTools.Tasks.Models
             get => GetStringValue("project-source", json["links"]);
             set
             {
-                if (!string.IsNullOrWhiteSpace(value)) 
+                if (!string.IsNullOrWhiteSpace(value))
                     json["links"]["project-source"] = value;
-                else
-                    json["links"].Remove("project-source");
             }
         }
         /// <summary>
@@ -182,8 +201,6 @@ namespace BeatSaberModdingTools.Tasks.Models
             {
                 if (!string.IsNullOrWhiteSpace(value))
                     json["links"]["donate"] = value;
-                else
-                    json["links"].Remove("donate");
             }
         }
 
@@ -212,14 +229,20 @@ namespace BeatSaberModdingTools.Tasks.Models
             }
             set
             {
-                if (value != null)
+                if (value == null || value.Length == 0)
+                    return;
+                JSONArray ary = new JSONArray();
+                SetStringArray(ary, value);
+                var node = json["files"];
+                if (node is JSONArray existing)
                 {
-                    JSONArray ary = new JSONArray();
-                    SetStringArray(ary, value);
-                    json["files"] = ary;
+                    foreach (var item in ary)
+                    {
+                        existing.Add(item);
+                    }
                 }
                 else
-                    json.Remove("files");
+                    json["files"] = ary;
             }
         }
 
@@ -238,8 +261,6 @@ namespace BeatSaberModdingTools.Tasks.Models
             {
                 if (value != null && value.Count > 0)
                     json["dependsOn"] = CreateObjFromDict(value);
-                else
-                    json.Remove("dependsOn");
             }
         }
 
@@ -258,8 +279,6 @@ namespace BeatSaberModdingTools.Tasks.Models
             {
                 if (value != null && value.Count > 0)
                     json["conflictsWith"] = CreateObjFromDict(value);
-                else
-                    json.Remove("conflictsWith");
             }
         }
         /// <summary>
@@ -277,9 +296,20 @@ namespace BeatSaberModdingTools.Tasks.Models
             }
             set
             {
+                if (value == null || value.Length == 0)
+                    return;
                 JSONArray ary = new JSONArray();
                 SetStringArray(ary, value);
-                json["loadBefore"] = ary;
+                var node = json["loadBefore"];
+                if (node is JSONArray existing)
+                {
+                    foreach (var item in ary)
+                    {
+                        existing.Add(item);
+                    }
+                }
+                else
+                    json["loadBefore"] = ary;
             }
         }
 
@@ -298,9 +328,49 @@ namespace BeatSaberModdingTools.Tasks.Models
             }
             set
             {
+                if (value == null || value.Length == 0)
+                    return;
                 JSONArray ary = new JSONArray();
                 SetStringArray(ary, value);
-                json["loadAfter"] = ary;
+                var node = json["loadAfter"];
+                if(node is JSONArray existing)
+                {
+                    foreach (var item in ary)
+                    {
+                        existing.Add(item);
+                    }
+                }
+                else
+                    json["loadAfter"] = ary;
+            }
+        }
+
+        [JsonProperty("features", NullValueHandling = NullValueHandling.Ignore)]
+        public JSONObject Features
+        {
+            get
+            {
+                var val = json["features"];
+
+                if (val != null && val is JSONObject obj && obj.Count > 0)
+                    return obj;
+                return null;
+            }
+            set
+            {
+                if (value != null && value is JSONObject obj && obj.Count > 0)
+                {
+                    var existing = json["features"];
+                    if (existing != null && existing.Count > 0 && existing is JSONObject eObj)
+                    {
+                        foreach (var key in obj.Keys)
+                        {
+                            eObj[key] = obj[key];
+                        }
+                    }
+                    else
+                        json["features"] = value;
+                }
             }
         }
     }

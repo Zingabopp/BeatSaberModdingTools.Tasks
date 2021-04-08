@@ -124,6 +124,55 @@ namespace BSMTTasks_UnitTests
         }
 
         [TestMethod]
+        public void AllBase_NoOverwrite()
+        {
+            Directory.CreateDirectory(OutputPath);
+            string basePath = Path.Combine(Data, "Original-all.json");
+            string targetPath = Path.Combine(OutputPath, nameof(AllBase_NoOverwrite) + ".json");
+            Console.WriteLine($"Writing output to '{Path.GetFullPath(targetPath)}'");
+            var task = new GenerateManifest()
+            {
+                BaseManifestPath = basePath,
+                TargetPath = targetPath
+            };
+            Assert.IsTrue(task.Execute());
+        }
+        [TestMethod]
+        public void MergeAllTest()
+        {
+            Directory.CreateDirectory(OutputPath);
+            string basePath = Path.Combine(Data, "overwrite.json");
+            string targetPath = Path.Combine(OutputPath, nameof(MergeAllTest) + ".json");
+            Console.WriteLine($"Writing output to '{Path.GetFullPath(targetPath)}'");
+            var task = new GenerateManifest()
+            {
+                Id = "New-ID",
+                Name = "New-Name",
+                Author = "New-Author",
+                Version = "1.0.0-New",
+                GameVersion = "1.14.0-New",
+                Description = "New-Description",
+                Files = new string[] { "Libs/New-File1.dll", "Libs/New-File2.dll" },
+                DependsOn =
+                    MockTaskItem.FromDictString("DependsOn", "BSIPA|^NewVersion", "New-Depend|^2.0.1", "TestDepend2|^1.0.0"),
+                ConflictsWith =
+                    MockTaskItem.FromDictString("ConflictsWith", "BeatSaberPlus|^NewVersion", "New-Conflict|^1.0.0"),
+
+                LoadBefore = new string[] { "Libs/New-LoadBefore1.dll", "Libs/New-LoadBefore2.dll" },
+                LoadAfter = new string[] { "Libs/New-LoadAfter1.dll", "Libs/New-LoadAfter2.dll" },
+                Icon = "New-Icon.png",
+                Donate = "http://New-donate.com",
+                ProjectHome = "http://New-project.home",
+                ProjectSource = "http://New-project.source",
+                Features = "{ \"New-Feature\" : { \"name\" : \"New-feature-name\" } }",
+                RequiresBsipa = true,
+                BaseManifestPath = basePath,
+                TargetPath = targetPath
+            };
+            Assert.IsTrue(task.Execute());
+        }
+
+        [TestMethod]
         public void SimpleJSONTest()
         {
             Directory.CreateDirectory(OutputPath);
@@ -151,8 +200,8 @@ namespace BSMTTasks_UnitTests
             Assert.AreEqual(task.GameVersion , manifest.GameVersion);
             Assert.AreEqual(task.Description , manifest.Description);
             Assert.AreEqual(task.Icon , manifest.Icon);
-            CompareDictionary(ParseUtil.ParseTaskItems(task.DependsOn, null, "DependsOn"), manifest.DependsOn, baseDepends);
-            CompareDictionary(ParseUtil.ParseTaskItems(task.ConflictsWith, null, "ConflictsWith"), manifest.ConflictsWith, baseConflicts);
+            CompareDictionary(ParseUtil.ParseModIds(task.DependsOn, null, "DependsOn"), manifest.DependsOn, baseDepends);
+            CompareDictionary(ParseUtil.ParseModIds(task.ConflictsWith, null, "ConflictsWith"), manifest.ConflictsWith, baseConflicts);
             CompareStringArrays(ParseUtil.ParseStringArray(task.Files), manifest.Files, 0);
         }
 

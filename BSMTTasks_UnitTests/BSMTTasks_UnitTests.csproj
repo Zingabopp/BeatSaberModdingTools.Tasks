@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>netcoreapp3.1</TargetFramework>
@@ -34,10 +34,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <None Remove="Data\ReplaceTest.txt" />
-  </ItemGroup>
-
-  <ItemGroup>
     <Content Include="AssemblyInfos\AssemblyVersionWithSpaces.cs">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
@@ -65,7 +61,7 @@
     <Content Include="AssemblyInfos\MissingAssemblyVersion.cs">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="Manifests\ParsingError.json">
+    <Content Include="Manifests\NoVersionLine.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Properties\AssemblyInfo.cs">
@@ -116,10 +112,16 @@
     <None Update="Manifests\NoGameVersionLine.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Update="Manifests\NoVersionLine.json">
+    <None Update="Manifests\manifest.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Update="Manifests\manifest.json">
+    <None Update="Manifests\Original-all.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Manifests\overwrite.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Manifests\ParsingError.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Include="Manifests\ExtendedSemVerVersion.json">

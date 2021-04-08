@@ -3,6 +3,24 @@
   <PropertyGroup>
     <GameVersion>1.14.0</GameVersion>
     <Description>Description...</Description>
+    <Feature>
+      {
+        "CountersPlus.CustomCounter": {
+          "Name": "Nightscout Counter",
+          "Description": "Reads blood sugar from a nightscout site.",
+          "CounterLocation": "NightscoutCounter.Counters.NightscoutCounterCountersPlus",
+          "ConfigDefaults": {
+          "Enabled": true,
+          "Position": "AboveMultiplier",
+          "Distance": 0
+        },
+        "BSML": {
+          "Resource": "NightscoutCounter.UI.Views.NightscoutSettings.bsml",
+          "Host": "NightscoutCounter.UI.NightscoutSettingsHandler",
+          "Icon": "NightscoutCounter.UI.Images.nightscout-counter.png"
+        }
+      }
+    </Feature>
   </PropertyGroup>
   <ItemGroup>
     <Dependency Include="BSIPA" Version="^4.4.0"/>
@@ -24,6 +42,16 @@
   <ItemGroup>
     <LoadAfter Include="LoadAfter01" />
     <LoadAfter Include="LoadAfter02" />
+  </ItemGroup>
+  <ItemGroup>
+    <Feature Include="IPA.DefineFeature"
+             JSON="
+             'IPA.DefineFeature' :
+             {
+                'type': 'CountersPlus.Custom.CustomCounterFeature',
+                'name': 'CountersPlus.CustomCounter'
+             }
+             "/>
   </ItemGroup>
 </Project>
 
