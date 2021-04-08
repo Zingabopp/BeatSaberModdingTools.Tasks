@@ -64,7 +64,7 @@ Outputs:
 |PluginVersion|string|The mod or library's version as reported by the manifest file.|
 |BasePluginVersion|string|The PluginVersion without any prerelease labels (i.e. "1.0.0-beta" -> "1.0.0").|
 
-# IsProcessRunning
+## IsProcessRunning
 Checks if the specified process is running.
 
 Inputs:
@@ -77,7 +77,7 @@ Outputs:
 |---|---|---|
 |IsRunning|bool|True if the process is running, false otherwise.|
 
-# ReplaceInFile
+## ReplaceInFile
 Replaces text in a file that matches a pattern with a substitute.
 
 Inputs:
@@ -90,7 +90,7 @@ Inputs:
 |RegexMultilineMode|bool|No|If true, changes '^' and '$ so they match the beginning and end of a line instead of the entire string.|
 |RegexSinglelineMode|bool|No|If true, changes the meaning of '.' so it matches every character except '\n' (newline).|
 |EscapeBackslash|bool|No|If true, escapes the `\` character in `Substitute` with `\\`.
-# ZipDir
+## ZipDir
 Creates a zip archive from the given directory.
 
 Inputs:
@@ -103,8 +103,8 @@ Outputs:
 |Name|Type|Description|
 |---|---|---|
 |ZipPath|string|Full path to the created zip file. Empty if the file could not be created.|
-# GenerateManifest
-(added in 1.4.1)
+<h2> GenerateManifest </h2> 
+<small>Added in 1.4.1</small><br>
 Generates a BSIPA manifest file.
 
 Inputs:
@@ -113,23 +113,24 @@ Inputs:
 |Id|string|Yes*|ID for the mod. Use this as the `Mod Name` on BeatMods (because BeatMods).|
 |Name|string|Yes*|A friendly name for the mod, usually the same or similar to the mod ID.|
 |Author|string|Yes*|The mod author.|
-|Version|string|Yes*|Mod version, should be in (SemVer)[https://semver.org/] spec.|
+|Version|string|Yes*|Mod version, should be in [SemVer](https://semver.org/) spec.|
 |GameVersion|string|Yes*|Beat Saber version the mod was built for.|
 |Description|string|Yes*|Description of what the mod does.|
 |Icon|string|No|Resource path to the icon.|
-|DependsOn|Mod Identifier|Yes**|Mods that need to be loaded for this mod to function.|
-|ConflictsWith|Mod Identifier|No|Mods cannot be loaded for this mod to function.|
-|Files|string[]|No|External files required by the mod or library (usually only used for libraries).|
-|LoadBefore|string[]|No|List of mod IDs for mods that this mod should load before.|
-|LoadAfter|string[]|No|List of mod IDs that need to be loaded before this mod (this is implicit for mods in the `DependsOn` list.|
+|DependsOn|[Mod Identifier](#mod-identifier)|Yes**|Mods that need to be loaded for this mod to function.|
+|ConflictsWith|[Mod Identifier](#mod-identifier)|No|Mods cannot be loaded for this mod to function.|
+|Files|[string[]](#string-arrays)|No|External files required by the mod or library (usually only used for libraries).|
+|LoadBefore|[string[]](#string-arrays)]|No|List of mod IDs for mods that this mod should load before.|
+|LoadAfter|[string[]](#string-arrays)|No|List of mod IDs that need to be loaded before this mod (this is implicit for mods in the `DependsOn` list.|
 |ProjectSource|string|No|Link to the mod's source repository.|
 |ProjectHome|string|No|Link to the mod's project web site.|
 |Donate|string|No|Donation link for the mod.|
-|Features|JSON Object String|No|A JSON object string to utilize BSIPA's `Features` architecture.|
+|Features|[JSON Object String](#json-object-string)|No|A JSON object string to utilize BSIPA's `Features` architecture.|
 |BaseManifestPath|string|No|Path to a manifest file you want to use as a base. GenerateManifest will merge into this manifest.|
 |TargetPath|string|No|Output path (including filename) for the generated manifest.|
-|RequiresBsipa|string|No|If true (default), GenerateManifest will error if you don't have BSIPA listed in `DependsOn`.|
-*Properties are not required by the task if you are using a base manifest file (specified in `BaseManifestPath`) that already has those properties.
+|RequiresBsipa|bool|No|If true (default), GenerateManifest will error if you don't have BSIPA listed in `DependsOn`.|
+
+*Properties are not required by the task if you are using a base manifest file (specified in `BaseManifestPath`) that already has those properties.<br>
 **If a mod references BSIPA and uses its `Plugin` architecture, you *must* have a `DependsOn` for BSIPA.
 ## Special Types
 ### Mod Identifier
