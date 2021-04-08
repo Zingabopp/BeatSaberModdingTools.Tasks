@@ -1,12 +1,16 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
-
   <PropertyGroup>
     <id>BeatSaberModdingTools.Tasks</id>
     <Title>BeatSaberModdingTools.Tasks</Title>
     <Version>1.4.1</Version>
-    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-    <developmentDependency>true</developmentDependency>
-    <NoWarn>NU5100</NoWarn>
+    <Authors>Zingabopp</Authors>
+    <Company>Zingabopp</Company>
+    <Description>A set of MSBuild Tasks created for Beat Saber Modding Tools.</Description>
+    <Copyright>Copyright © Zingabopp 2020</Copyright>
+    <PackageLicenseFile>LICENSE</PackageLicenseFile>
+    <RepositoryType>git</RepositoryType>
+    <PackageProjectUrl>https://github.com/Zingabopp/BeatSaberModdingTools.Tasks</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/Zingabopp/BeatSaberModdingTools.Tasks.git</RepositoryUrl>
   </PropertyGroup>
   <PropertyGroup Condition="'$(GITHUB_ACTIONS)' == 'true'">
     <ContinuousIntegrationBuild>true</ContinuousIntegrationBuild>
@@ -20,14 +24,6 @@
     <IsTestProject>false</IsTestProject>
     <BuildOutputTargetFolder>tasks</BuildOutputTargetFolder>
     <Platforms>AnyCPU</Platforms>
-    <PackageLicenseFile>LICENSE</PackageLicenseFile>
-    <PackageProjectUrl>https://github.com/Zingabopp/BeatSaberModdingTools.Tasks</PackageProjectUrl>
-    <RepositoryUrl>https://github.com/Zingabopp/BeatSaberModdingTools.Tasks.git</RepositoryUrl>
-    <Authors>Zingabopp</Authors>
-    <Company>Zingabopp</Company>
-    <Description>A set of MSBuild Tasks created for Beat Saber Modding Tools.</Description>
-    <Copyright>Copyright © Zingabopp 2020</Copyright>
-    <RepositoryType>git</RepositoryType>
     <!-- Optional: Publish the repository URL in the built .nupkg (in the NuSpec <Repository> element) -->
     <PublishRepositoryUrl>true</PublishRepositoryUrl>
 
@@ -37,12 +33,13 @@
     <!-- Optional: Build symbol package (.snupkg) to distribute the PDB containing Source Link -->
     <IncludeSymbols>true</IncludeSymbols>
     <SymbolPackageFormat>snupkg</SymbolPackageFormat>
+    <developmentDependency>true</developmentDependency>
+    <NoWarn>NU5100</NoWarn>
   </PropertyGroup>
   <PropertyGroup>
     <DocumentationFile>BeatSaberModdingTools.Tasks.xml</DocumentationFile>
     <PackageTags>Beat Saber;BeatSaberModdingTools</PackageTags>
-    <PackageReleaseNotes>* Bug Fixes
-* Added `IsPullRequest` output property to GetCommitInfo</PackageReleaseNotes>
+    <PackageReleaseNotes>* Added `GenerateManifest` task</PackageReleaseNotes>
     <PackageIcon>bsmt.tasks_icon.png</PackageIcon>
   </PropertyGroup>
 
