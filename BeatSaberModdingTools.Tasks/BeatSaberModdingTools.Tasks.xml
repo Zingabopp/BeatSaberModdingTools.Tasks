@@ -120,6 +120,11 @@
             Link to the author's donation page.
             </summary>
         </member>
+        <member name="P:BeatSaberModdingTools.Tasks.GenerateManifest.Features">
+            <summary>
+            A JSON object string to utilize BSIPA's Features architecture.
+            </summary>
+        </member>
         <member name="P:BeatSaberModdingTools.Tasks.GenerateManifest.BaseManifestPath">
             <summary>
             Path to an existing manifest file.
@@ -612,6 +617,11 @@
         <member name="P:BeatSaberModdingTools.Tasks.Models.BsipaManifest.LoadAfter">
             <summary>
             plugins to load before this one
+            </summary>
+        </member>
+        <member name="P:BeatSaberModdingTools.Tasks.Models.BsipaManifest.Features">
+            <summary>
+            A JSON object to utilize BSIPA's Features architecture.
             </summary>
         </member>
         <member name="T:BeatSaberModdingTools.Tasks.ReplaceInFile">
