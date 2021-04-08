@@ -103,7 +103,7 @@ Outputs:
 |Name|Type|Description|
 |---|---|---|
 |ZipPath|string|Full path to the created zip file. Empty if the file could not be created.|
-<h2> GenerateManifest </h2> 
+## GenerateManifest
 <small>Added in 1.4.1</small><br>
 Generates a BSIPA manifest file.<br>
 
