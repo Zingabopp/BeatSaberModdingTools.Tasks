@@ -45,9 +45,9 @@ namespace BeatSaberModdingTools.Tasks
             string assemblyInfoPath = null;
             AssemblyVersion = MessageCodes.ErrorString;
             if (this.BuildEngine != null)
-                Logger = new LogWrapper(Log);
+                Logger = new LogWrapper(Log, GetType().Name);
             else
-                Logger = new MockTaskLogger();
+                Logger = new MockTaskLogger(GetType().Name);
             try
             {
                 string assemblyFileMsg = "";
@@ -69,7 +69,7 @@ namespace BeatSaberModdingTools.Tasks
                         throw;
                     }
                     else
-                        Logger.LogErrorFromException(ex);
+                        Logger.LogError(ex.Message);
                 }
                 assemblyFileMsg = " in " + assemblyInfoPath;
                 if (AssemblyVersion == null || AssemblyVersion == ErrorString || AssemblyVersion.Length == 0)
@@ -104,11 +104,11 @@ namespace BeatSaberModdingTools.Tasks
                 {
                     int line = BuildEngine.LineNumberOfTaskNode;
                     int column = BuildEngine.ColumnNumberOfTaskNode;
-                    Logger.LogError(null, errorCode, null, BuildEngine.ProjectFileOfTaskNode, line, column, line, column, $"Error in {GetType().Name}: {ex.Message}");
+                    Logger.LogError(null, errorCode, null, BuildEngine.ProjectFileOfTaskNode, line, column, line, column, ex.Message);
                 }
                 else
                 {
-                    Logger.LogError(null, errorCode, null, null, 0, 0, 0, 0, $"Error in {GetType().Name}: {ex.Message}");
+                    Logger.LogError(null, errorCode, null, null, 0, 0, 0, 0, $"{ex.Message}");
                 }
                 return false;
             }

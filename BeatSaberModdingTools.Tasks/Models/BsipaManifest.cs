@@ -23,20 +23,30 @@ namespace BeatSaberModdingTools.Tasks.Models
             {
                 json.Remove(prop);
             }
+            List<string> invalidProperties = new List<string>();
             if (string.IsNullOrWhiteSpace(Id))
-                throw new ManifestValidationException(nameof(Id));
+                invalidProperties.Add(nameof(Id));
             if (string.IsNullOrWhiteSpace(Name))
-                throw new ManifestValidationException(nameof(Name));
+                invalidProperties.Add(nameof(Name));
             if (string.IsNullOrWhiteSpace(Author))
-                throw new ManifestValidationException(nameof(Author));
+                invalidProperties.Add(nameof(Author));
             if (string.IsNullOrWhiteSpace(Version))
-                throw new ManifestValidationException(nameof(Version));
+                invalidProperties.Add(nameof(Version));
             if (string.IsNullOrWhiteSpace(GameVersion))
-                throw new ManifestValidationException(nameof(GameVersion));
+                invalidProperties.Add(nameof(GameVersion));
             if (string.IsNullOrWhiteSpace(GetDescription()))
-                throw new ManifestValidationException(nameof(Description));
+                invalidProperties.Add(nameof(Description));
             if (requiresBsipa && !(DependsOn?.TryGetValue("BSIPA", out _) ?? false))
                 throw new BsipaDependsOnException();
+            if (invalidProperties.Count > 0)
+            {
+                string message;
+                if (invalidProperties.Count == 1)
+                    message = $"The property '{invalidProperties.First()}' cannot be empty.";
+                else
+                    message = $"The properties '{string.Join(", ", invalidProperties)}' cannot be empty.";
+                throw new ManifestValidationException(message, invalidProperties);
+            }
         }
 
         /// <summary>

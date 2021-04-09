@@ -135,7 +135,7 @@ namespace BeatSaberModdingTools.Tasks.Utilities
                         {
                             string[] parts = dep.Split(VersionSeparators, StringSplitOptions.RemoveEmptyEntries);
                             if (parts.Length != 2 || string.IsNullOrWhiteSpace(parts[0]) || string.IsNullOrWhiteSpace(parts[1]))
-                                throw new ManifestValidationException(propName, $"{propName} entry '{dep}' is not valid (should be 'ModID{VersionSeparators[0]}Version')");
+                                throw new ManifestValidationException($"{propName} entry '{dep}' is not valid (should be 'ModID{VersionSeparators[0]}Version')");
                             dict[parts[0].Trim()] = parts[1].Trim();
                         }
                     }
@@ -183,7 +183,7 @@ namespace BeatSaberModdingTools.Tasks.Utilities
                 if (TryParseModId(item, out KeyValuePair<string, string> data))
                     dict[data.Key] = data.Value;
                 else
-                    throw new ManifestValidationException(propName, $"{propName} entry '{item}' is not valid (example: '<PropertyName Include=ModID Version=^1.2.3' />)");
+                    throw new ManifestValidationException($"{propName} entry '{item}' is not valid (example: '<PropertyName Include=\"ModID\" Version=\"^1.2.3\" />)");
             }
             return dict;
         }

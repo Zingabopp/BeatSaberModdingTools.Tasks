@@ -78,9 +78,9 @@ namespace BeatSaberModdingTools.Tasks
         public override bool Execute()
         {
             if (this.BuildEngine != null)
-                Logger = new LogWrapper(Log);
+                Logger = new LogWrapper(Log, GetType().Name);
             else
-                Logger = new MockTaskLogger();
+                Logger = new MockTaskLogger(GetType().Name);
             string errorCode = "";
             try
             {
@@ -118,11 +118,11 @@ namespace BeatSaberModdingTools.Tasks
                 {
                     int line = BuildEngine.LineNumberOfTaskNode;
                     int column = BuildEngine.ColumnNumberOfTaskNode;
-                    Logger.LogError(null, errorCode, null, BuildEngine.ProjectFileOfTaskNode, line, column, line, column, $"{GetType().Name} failed - {ex.Message}");
+                    Logger.LogError(null, errorCode, null, BuildEngine.ProjectFileOfTaskNode, line, column, line, column, ex.Message);
                 }
                 else
                 {
-                    Logger.LogError(null, errorCode, null, null, 0, 0, 0, 0, $"Error in {GetType().Name}: {ex.Message}");
+                    Logger.LogError(null, errorCode, null, null, 0, 0, 0, 0, ex.Message);
                 }
                 return false;
             }

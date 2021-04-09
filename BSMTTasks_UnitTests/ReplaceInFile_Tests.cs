@@ -17,9 +17,6 @@ namespace BSMTTasks_UnitTests
         [TestMethod]
         public void EmptyFile()
         {
-            bool expectedReturn = false;
-            string expectedMessage = @"Error in ReplaceInFile: 'File' is null or empty.";
-            string expectedMessageCode = MessageCodes.ReplaceInFile.EmptyFile;
             string file = "";
             string pattern = null;
             string substitute = null;
@@ -37,6 +34,10 @@ namespace BSMTTasks_UnitTests
                 RegexSinglelineMode = regexSingleline,
                 EscapeBackslash = escapeBackslash
             };
+            bool expectedReturn = false;
+            string expectedMessage = $"{task.GetType().Name}: 'File' is null or empty.";
+            string expectedMessageCode = MessageCodes.ReplaceInFile.EmptyFile;
+
             Assert.AreEqual(expectedReturn, task.Execute());
             MockTaskLogger logger = task.Logger as MockTaskLogger;
             MockLogEntry logMessage = logger.LogEntries.First();
@@ -47,10 +48,6 @@ namespace BSMTTasks_UnitTests
         [TestMethod]
         public void FileDoesntExist()
         {
-            bool expectedReturn = false;
-            string expectedMessage = @"Error in ReplaceInFile: File 'C:\DoesntExist.cs' does not exist.";
-
-            string expectedMessageCode = MessageCodes.ReplaceInFile.MissingSource;
             string file = "C:\\DoesntExist.cs";
             string pattern = null;
             string substitute = null;
@@ -68,6 +65,11 @@ namespace BSMTTasks_UnitTests
                 RegexSinglelineMode = regexSingleline,
                 EscapeBackslash = escapeBackslash
             };
+            bool expectedReturn = false;
+            string expectedMessage = @$"{task.GetType().Name}: File 'C:\DoesntExist.cs' does not exist.";
+
+            string expectedMessageCode = MessageCodes.ReplaceInFile.MissingSource;
+
             Assert.AreEqual(expectedReturn, task.Execute());
             MockTaskLogger logger = task.Logger as MockTaskLogger;
             MockLogEntry logMessage = logger.LogEntries.First();
@@ -78,9 +80,6 @@ namespace BSMTTasks_UnitTests
         [TestMethod]
         public void PatternEmpty()
         {
-            bool expectedReturn = false;
-            string expectedMessage = @"Error in ReplaceInFile: Pattern cannot be null or empty.";
-            string expectedMessageCode = MessageCodes.ReplaceInFile.EmptyPattern;
             string file = Path.Combine(DataFolder, "ReplaceTest.txt");
             string pattern = null;
             string substitute = null;
@@ -98,6 +97,10 @@ namespace BSMTTasks_UnitTests
                 RegexSinglelineMode = regexSingleline,
                 EscapeBackslash = escapeBackslash
             };
+            bool expectedReturn = false;
+            string expectedMessage = @$"{task.GetType().Name}: Pattern cannot be null or empty.";
+            string expectedMessageCode = MessageCodes.ReplaceInFile.EmptyPattern;
+
             Assert.AreEqual(expectedReturn, task.Execute());
             MockTaskLogger logger = task.Logger as MockTaskLogger;
             MockLogEntry logMessage = logger.LogEntries.First();
@@ -115,9 +118,6 @@ namespace BSMTTasks_UnitTests
             Directory.CreateDirectory(outDir);
             File.Copy(sourceFile, Path.Combine(outDir, fileName), true);
 
-            bool expectedReturn = true;
-            string expectedMessage = @"Replacing '$test$' with '' in ";
-            string expectedReplacedString = "Left  Right";
             string file = Path.Combine(outDir, fileName);
             string pattern = "$test$";
             string substitute = null;
@@ -135,6 +135,10 @@ namespace BSMTTasks_UnitTests
                 RegexSinglelineMode = regexSingleline,
                 EscapeBackslash = escapeBackslash
             };
+            bool expectedReturn = true;
+            string expectedMessage = @$"{task.GetType().Name}: Replacing '$test$' with '' in ";
+            string expectedReplacedString = "Left  Right";
+
             Assert.AreEqual(expectedReturn, task.Execute());
             MockTaskLogger logger = task.Logger as MockTaskLogger;
             MockLogEntry logMessage = logger.LogEntries.First();

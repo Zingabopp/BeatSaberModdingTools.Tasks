@@ -191,6 +191,36 @@ namespace BSMTTasks_UnitTests
             File.WriteAllText(targetPath, manifest.ToJson());
         }
 
+
+        [TestMethod]
+        public void InvalidProperties_ThrowsException()
+        {
+            Directory.CreateDirectory(OutputPath);
+            string targetPath = Path.Combine(OutputPath, nameof(InvalidProperties_ThrowsException) + ".json");
+            MockTaskLogger logger = new MockTaskLogger(nameof(GenerateManifest));
+            var task = new GenerateManifest()
+            {
+                RequiresBsipa = false,
+                TargetPath = targetPath,
+                Logger = logger
+            };
+            Assert.IsFalse(task.Execute());
+            var logEntry = logger.LogEntries.First();
+            Console.Write(logEntry.Message);
+            var exception = logEntry.Exception as ManifestValidationException;
+            Assert.IsNotNull(exception);
+            var props = exception.InvalidProperties;
+            Assert.IsTrue(props.Any(p => p == nameof(GenerateManifest.Id)));
+            Assert.IsTrue(props.Any(p => p == nameof(GenerateManifest.Name)));
+            Assert.IsTrue(props.Any(p => p == nameof(GenerateManifest.Author)));
+            Assert.IsTrue(props.Any(p => p == nameof(GenerateManifest.Version)));
+            Assert.IsTrue(props.Any(p => p == nameof(GenerateManifest.GameVersion)));
+            Assert.IsTrue(props.Any(p => p == nameof(GenerateManifest.Description)));
+        }
+
+
+
+
         public void TestManifest(GenerateManifest task, BsipaManifest manifest, int baseDepends = 0, int baseConflicts = 0)
         {
             Assert.AreEqual(task.Id, manifest.Id);

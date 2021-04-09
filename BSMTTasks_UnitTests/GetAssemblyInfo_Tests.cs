@@ -95,9 +95,9 @@ namespace BSMTTasks_UnitTests
 
             Assert.AreEqual(2, mockTaskLogger.LogEntries.Count);
             MockLogEntry logEntry = mockTaskLogger.LogEntries[0];
-            Assert.AreEqual($"Unable to parse the AssemblyVersion from {assemblyFilePath}", logEntry.ToString());
+            Assert.AreEqual($"{task.GetType().Name}: Unable to parse the AssemblyVersion from {assemblyFilePath}", logEntry.ToString());
             logEntry = mockTaskLogger.LogEntries[1];
-            Assert.AreEqual("AssemblyVersion could not be determined.", logEntry.ToString());
+            Assert.AreEqual($"{task.GetType().Name}: AssemblyVersion could not be determined.", logEntry.ToString());
             Assert.AreEqual(expectedResult, taskResult);
             Assert.AreEqual(expectedAssemblyVersion, task.AssemblyVersion);
         }
@@ -123,7 +123,7 @@ namespace BSMTTasks_UnitTests
 
             Assert.AreEqual(1, mockTaskLogger.LogEntries.Count);
             MockLogEntry logEntry = mockTaskLogger.LogEntries.First();
-            Assert.AreEqual($"Unable to parse the AssemblyVersion from {assemblyFilePath}", logEntry.ToString());
+            Assert.AreEqual($"{task.GetType().Name}: Unable to parse the AssemblyVersion from {assemblyFilePath}", logEntry.ToString());
             Assert.AreEqual(expectedResult, taskResult);
             Assert.AreEqual(expectedAssemblyVersion, task.AssemblyVersion);
         }
@@ -192,7 +192,7 @@ namespace BSMTTasks_UnitTests
             }
             Assert.AreEqual(1, mockTaskLogger.LogEntries.Count);
             MockLogEntry logEntry = mockTaskLogger.LogEntries.First();
-            Assert.AreEqual($"AssemblyVersion 1.1.0 does not match AssemblyFileVersion 1.2.0 in {assemblyFilePath}", logEntry.ToString());
+            Assert.AreEqual($"{task.GetType().Name}: AssemblyVersion 1.1.0 does not match AssemblyFileVersion 1.2.0 in {assemblyFilePath}", logEntry.ToString());
             Assert.AreEqual(LogEntryType.Warning, logEntry.EntryType);
             Assert.AreEqual(36, logEntry.LineNumber);
             Assert.AreEqual(36, logEntry.EndLineNumber);
@@ -222,7 +222,7 @@ namespace BSMTTasks_UnitTests
             }
             Assert.AreEqual(1, mockTaskLogger.LogEntries.Count);
             MockLogEntry logEntry = mockTaskLogger.LogEntries.First();
-            Assert.AreEqual($"AssemblyVersion 1.1.0 does not match AssemblyFileVersion 1.2.0 in {assemblyFilePath}", logEntry.ToString());
+            Assert.AreEqual($"{task.GetType().Name}: AssemblyVersion 1.1.0 does not match AssemblyFileVersion 1.2.0 in {assemblyFilePath}", logEntry.ToString());
             Assert.AreEqual(LogEntryType.Error, logEntry.EntryType);
             Assert.AreEqual(36, logEntry.LineNumber);
             Assert.AreEqual(36, logEntry.EndLineNumber);
@@ -249,7 +249,7 @@ namespace BSMTTasks_UnitTests
             }
             Assert.AreEqual(1, mockTaskLogger.LogEntries.Count);
             MockLogEntry logEntry = mockTaskLogger.LogEntries.First();
-            Assert.AreEqual($"Unable to parse the AssemblyFileVersion from {assemblyFilePath}", logEntry.ToString());
+            Assert.AreEqual($"{task.GetType().Name}: Unable to parse the AssemblyFileVersion from {assemblyFilePath}", logEntry.ToString());
             Assert.AreEqual(LogEntryType.Warning, logEntry.EntryType);
             Assert.AreEqual(36, logEntry.LineNumber);
             Assert.AreEqual(36, logEntry.EndLineNumber);
@@ -279,7 +279,7 @@ namespace BSMTTasks_UnitTests
             }
             Assert.AreEqual(1, mockTaskLogger.LogEntries.Count);
             MockLogEntry logEntry = mockTaskLogger.LogEntries.First();
-            Assert.AreEqual($"Unable to parse the AssemblyFileVersion from {assemblyFilePath}", logEntry.ToString());
+            Assert.AreEqual($"{task.GetType().Name}: Unable to parse the AssemblyFileVersion from {assemblyFilePath}", logEntry.ToString());
             Assert.AreEqual(LogEntryType.Error, logEntry.EntryType);
             Assert.AreEqual(36, logEntry.LineNumber);
             Assert.AreEqual(36, logEntry.EndLineNumber);
@@ -309,9 +309,9 @@ namespace BSMTTasks_UnitTests
 
             Assert.AreEqual(2, mockTaskLogger.LogEntries.Count);
             MockLogEntry logEntry = mockTaskLogger.LogEntries[0];
-            Assert.AreEqual($"Could not find AssemblyInfo: {assemblyFilePath}", logEntry.ToString());
+            Assert.AreEqual($"{task.GetType().Name}: Could not find AssemblyInfo: {assemblyFilePath}", logEntry.ToString());
             logEntry = mockTaskLogger.LogEntries[1];
-            Assert.AreEqual("AssemblyVersion could not be determined.", logEntry.ToString());
+            Assert.AreEqual($"{task.GetType().Name}: AssemblyVersion could not be determined.", logEntry.ToString());
             Assert.AreEqual(expectedResult, taskResult);
             Assert.AreEqual(expectedAssemblyVersion, task.AssemblyVersion);
             
@@ -338,7 +338,7 @@ namespace BSMTTasks_UnitTests
 
             Assert.AreEqual(1, mockTaskLogger.LogEntries.Count);
             MockLogEntry logEntry = mockTaskLogger.LogEntries[0];
-            Assert.AreEqual($"Error in GetAssemblyInfo: Could not find AssemblyInfo: {assemblyFilePath}", logEntry.ToString());
+            Assert.AreEqual($"{task.GetType().Name}: Could not find AssemblyInfo: {assemblyFilePath}", logEntry.ToString());
             Assert.AreEqual(expectedResult, taskResult);
             Assert.AreEqual(expectedAssemblyVersion, task.AssemblyVersion);
             

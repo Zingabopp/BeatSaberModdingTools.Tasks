@@ -15,21 +15,21 @@ namespace BSMTTasks_UnitTests
         [TestMethod]
         public void Matching_DefaultPaths()
         {
-            GetManifestInfo getManifestInfo = new GetManifestInfo();
+            GetManifestInfo task = new GetManifestInfo();
             bool expectedResult = true;
             string expectedPluginVersion = "1.1.0";
             string expectedGameVersion = "1.9.1";
 
-            bool taskResult = getManifestInfo.Execute();
-            MockTaskLogger mockTaskLogger = getManifestInfo.Logger as MockTaskLogger;
+            bool taskResult = task.Execute();
+            MockTaskLogger mockTaskLogger = task.Logger as MockTaskLogger;
             foreach (MockLogEntry entry in mockTaskLogger.LogEntries)
             {
                 Console.WriteLine(entry);
             }
             Assert.AreEqual(0, mockTaskLogger.LogEntries.Count);
             Assert.AreEqual(expectedResult, taskResult);
-            Assert.AreEqual(expectedPluginVersion, getManifestInfo.PluginVersion);
-            Assert.AreEqual(expectedGameVersion, getManifestInfo.GameVersion);
+            Assert.AreEqual(expectedPluginVersion, task.PluginVersion);
+            Assert.AreEqual(expectedGameVersion, task.GameVersion);
         }
 
 
@@ -40,17 +40,17 @@ namespace BSMTTasks_UnitTests
             string expectedPluginVersion = "1.1.0";
             string expectedGameVersion = "1.9.1";
 
-            GetManifestInfo getManifestInfo = new GetManifestInfo();
-            bool taskResult = getManifestInfo.Execute();
-            MockTaskLogger mockTaskLogger = getManifestInfo.Logger as MockTaskLogger;
+            GetManifestInfo task = new GetManifestInfo();
+            bool taskResult = task.Execute();
+            MockTaskLogger mockTaskLogger = task.Logger as MockTaskLogger;
             foreach (MockLogEntry entry in mockTaskLogger.LogEntries)
             {
                 Console.WriteLine(entry);
             }
             Assert.AreEqual(0, mockTaskLogger.LogEntries.Count);
             Assert.AreEqual(expectedResult, taskResult);
-            Assert.AreEqual(expectedPluginVersion, getManifestInfo.PluginVersion);
-            Assert.AreEqual(expectedGameVersion, getManifestInfo.GameVersion);
+            Assert.AreEqual(expectedPluginVersion, task.PluginVersion);
+            Assert.AreEqual(expectedGameVersion, task.GameVersion);
         }
 
         [TestMethod]
@@ -62,21 +62,21 @@ namespace BSMTTasks_UnitTests
             string expectedBasePluginVersion = "1.2.3";
             string expectedGameVersion = "1.9.1";
 
-            GetManifestInfo getManifestInfo = new GetManifestInfo()
+            GetManifestInfo task = new GetManifestInfo()
             {
                 ManifestPath = manifestPath
             };
-            bool taskResult = getManifestInfo.Execute();
-            MockTaskLogger mockTaskLogger = getManifestInfo.Logger as MockTaskLogger;
+            bool taskResult = task.Execute();
+            MockTaskLogger mockTaskLogger = task.Logger as MockTaskLogger;
             foreach (MockLogEntry entry in mockTaskLogger.LogEntries)
             {
                 Console.WriteLine(entry);
             }
             Assert.AreEqual(0, mockTaskLogger.LogEntries.Count);
             Assert.AreEqual(expectedResult, taskResult);
-            Assert.AreEqual(expectedPluginVersion, getManifestInfo.PluginVersion);
-            Assert.AreEqual(expectedBasePluginVersion, getManifestInfo.BasePluginVersion);
-            Assert.AreEqual(expectedGameVersion, getManifestInfo.GameVersion);
+            Assert.AreEqual(expectedPluginVersion, task.PluginVersion);
+            Assert.AreEqual(expectedBasePluginVersion, task.BasePluginVersion);
+            Assert.AreEqual(expectedGameVersion, task.GameVersion);
         }
 
         [TestMethod]
@@ -86,23 +86,23 @@ namespace BSMTTasks_UnitTests
             bool expectedResult = false;
             string expectedPluginVersion = MessageCodes.ErrorString;
             string expectedGameVersion = MessageCodes.ErrorString;
-            GetManifestInfo getManifestInfo = new GetManifestInfo()
+            GetManifestInfo task = new GetManifestInfo()
             {
                 ManifestPath = manifestPath
             };
 
-            bool taskResult = getManifestInfo.Execute();
-            MockTaskLogger mockTaskLogger = getManifestInfo.Logger as MockTaskLogger;
+            bool taskResult = task.Execute();
+            MockTaskLogger mockTaskLogger = task.Logger as MockTaskLogger;
             foreach (MockLogEntry entry in mockTaskLogger.LogEntries)
             {
                 Console.WriteLine(entry);
             }
             Assert.AreEqual(1, mockTaskLogger.LogEntries.Count);
             MockLogEntry logEntry = mockTaskLogger.LogEntries.First();
-            Assert.AreEqual($"Error in GetManifestInfo: Manifest file not found at {manifestPath}", logEntry.ToString());
+            Assert.AreEqual($"{task.GetType().Name}: Error in GetManifestInfo: Manifest file not found at {manifestPath}", logEntry.ToString());
             Assert.AreEqual(expectedResult, taskResult);
-            Assert.AreEqual(expectedPluginVersion, getManifestInfo.PluginVersion);
-            Assert.AreEqual(expectedGameVersion, getManifestInfo.GameVersion);
+            Assert.AreEqual(expectedPluginVersion, task.PluginVersion);
+            Assert.AreEqual(expectedGameVersion, task.GameVersion);
         }
 
         [TestMethod]
@@ -112,21 +112,21 @@ namespace BSMTTasks_UnitTests
             bool expectedResult = true;
             string expectedPluginVersion = MessageCodes.ErrorString;
             string expectedGameVersion = "1.9.1";
-            GetManifestInfo getManifestInfo = new GetManifestInfo()
+            GetManifestInfo task = new GetManifestInfo()
             {
                 ManifestPath = manifestPath
             };
 
-            bool taskResult = getManifestInfo.Execute();
-            MockTaskLogger mockTaskLogger = getManifestInfo.Logger as MockTaskLogger;
+            bool taskResult = task.Execute();
+            MockTaskLogger mockTaskLogger = task.Logger as MockTaskLogger;
             foreach (MockLogEntry entry in mockTaskLogger.LogEntries)
             {
                 Console.WriteLine(entry);
             }
             Assert.AreEqual(1, mockTaskLogger.LogEntries.Count);
             Assert.AreEqual(expectedResult, taskResult);
-            Assert.AreEqual(expectedPluginVersion, getManifestInfo.PluginVersion);
-            Assert.AreEqual(expectedGameVersion, getManifestInfo.GameVersion);
+            Assert.AreEqual(expectedPluginVersion, task.PluginVersion);
+            Assert.AreEqual(expectedGameVersion, task.GameVersion);
         }
 
         [TestMethod]
@@ -136,22 +136,22 @@ namespace BSMTTasks_UnitTests
             bool expectedResult = false;
             string expectedPluginVersion = MessageCodes.ErrorString;
             string expectedGameVersion = MessageCodes.ErrorString;
-            GetManifestInfo getManifestInfo = new GetManifestInfo()
+            GetManifestInfo task = new GetManifestInfo()
             {
                 ManifestPath = manifestPath,
                 FailOnError = true
             };
 
-            bool taskResult = getManifestInfo.Execute();
-            MockTaskLogger mockTaskLogger = getManifestInfo.Logger as MockTaskLogger;
+            bool taskResult = task.Execute();
+            MockTaskLogger mockTaskLogger = task.Logger as MockTaskLogger;
             foreach (MockLogEntry entry in mockTaskLogger.LogEntries)
             {
                 Console.WriteLine(entry);
             }
             Assert.AreEqual(1, mockTaskLogger.LogEntries.Count);
             Assert.AreEqual(expectedResult, taskResult);
-            Assert.AreEqual(expectedPluginVersion, getManifestInfo.PluginVersion);
-            Assert.AreEqual(expectedGameVersion, getManifestInfo.GameVersion);
+            Assert.AreEqual(expectedPluginVersion, task.PluginVersion);
+            Assert.AreEqual(expectedGameVersion, task.GameVersion);
         }
 
 
@@ -186,24 +186,24 @@ namespace BSMTTasks_UnitTests
             bool expectedResult = false;
             string expectedPluginVersion = "1.1.0";
             string expectedGameVersion = MessageCodes.ErrorString;
-            GetManifestInfo getManifestInfo = new GetManifestInfo()
+            GetManifestInfo task = new GetManifestInfo()
             {
                 ManifestPath = manifestPath,
                 FailOnError = true
             };
 
-            bool taskResult = getManifestInfo.Execute();
-            MockTaskLogger mockTaskLogger = getManifestInfo.Logger as MockTaskLogger;
+            bool taskResult = task.Execute();
+            MockTaskLogger mockTaskLogger = task.Logger as MockTaskLogger;
             foreach (MockLogEntry entry in mockTaskLogger.LogEntries)
             {
                 Console.WriteLine(entry);
             }
             Assert.AreEqual(1, mockTaskLogger.LogEntries.Count);
             MockLogEntry logEntry = mockTaskLogger.LogEntries.First();
-            Assert.AreEqual($"GameVersion not found in {manifestPath}", logEntry.ToString());
+            Assert.AreEqual($"{task.GetType().Name}: GameVersion not found in {manifestPath}", logEntry.ToString());
             Assert.AreEqual(expectedResult, taskResult);
-            Assert.AreEqual(expectedPluginVersion, getManifestInfo.PluginVersion);
-            Assert.AreEqual(expectedGameVersion, getManifestInfo.GameVersion);
+            Assert.AreEqual(expectedPluginVersion, task.PluginVersion);
+            Assert.AreEqual(expectedGameVersion, task.GameVersion);
         }
 
 
@@ -214,7 +214,7 @@ namespace BSMTTasks_UnitTests
             string manifestPath = Path.GetFullPath(Path.Combine("Manifests", "ParsingError.json"));
             Assert.IsTrue(File.Exists(manifestPath), $"File not found: '{manifestPath}'");
             Console.WriteLine(Path.GetFullPath(manifestPath));
-            GetManifestInfo getManifestInfo = new GetManifestInfo()
+            GetManifestInfo task = new GetManifestInfo()
             {
                 ManifestPath = manifestPath
             };
@@ -223,20 +223,20 @@ namespace BSMTTasks_UnitTests
             string expectedBasePluginVersion = "E.R.R";
             string expectedGameVersion = "E.R.R";
 
-            bool taskResult = getManifestInfo.Execute();
-            MockTaskLogger mockTaskLogger = getManifestInfo.Logger as MockTaskLogger;
+            bool taskResult = task.Execute();
+            MockTaskLogger mockTaskLogger = task.Logger as MockTaskLogger;
             foreach (MockLogEntry entry in mockTaskLogger.LogEntries)
             {
                 Console.WriteLine(entry);
             }
             Assert.AreEqual(1, mockTaskLogger.LogEntries.Count);
             MockLogEntry logEntry = mockTaskLogger.LogEntries.First();
-            Assert.AreEqual("Error reading version in manifest: 1.b.0 is not a valid SemVer version string.", logEntry.ToString());
+            Assert.AreEqual($"{task.GetType().Name}: Error reading version in manifest: 1.b.0 is not a valid SemVer version string.", logEntry.ToString());
             Assert.AreEqual(8, logEntry.LineNumber);
             Assert.AreEqual(expectedResult, taskResult);
-            Assert.AreEqual(expectedPluginVersion, getManifestInfo.PluginVersion);
-            Assert.AreEqual(expectedBasePluginVersion, getManifestInfo.BasePluginVersion);
-            Assert.AreEqual(expectedGameVersion, getManifestInfo.GameVersion);
+            Assert.AreEqual(expectedPluginVersion, task.PluginVersion);
+            Assert.AreEqual(expectedBasePluginVersion, task.BasePluginVersion);
+            Assert.AreEqual(expectedGameVersion, task.GameVersion);
         }
 
         [TestMethod]

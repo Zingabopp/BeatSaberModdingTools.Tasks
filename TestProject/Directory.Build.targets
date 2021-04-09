@@ -1,9 +1,9 @@
 ﻿<Project>
   <Target Name="GenerateManifestTest" AfterTargets="Build">
-    <GenerateManifest Id="$(AssemblyName)Id" 
-                      Name="$(AssemblyName)" 
+    <!--Version="$(Version)"-->
+    <GenerateManifest Id="$(AssemblyName)Id"
+                      Name="$(AssemblyName)"
                       Author="Zingabopp" 
-                      Version="$(Version)"
                       GameVersion="$(GameVersion)" 
                       Description="$(Description)"
                       Icon="IconFile.png"

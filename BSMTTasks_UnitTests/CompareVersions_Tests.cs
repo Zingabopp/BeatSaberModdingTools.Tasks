@@ -102,16 +102,16 @@ namespace BSMTTasks_UnitTests
             bool expectedResult = true;
             string assemblyVersion = "1.1.0";
             string pluginVersion = "1.2.0";
-            string[] logMessages = new string[]
-            {
-                $"PluginVersion {pluginVersion} does not match AssemblyVersion {assemblyVersion}."
-            };
             CompareVersions task = new CompareVersions()
             {
                 AssemblyVersion = assemblyVersion,
                 PluginVersion = pluginVersion
             };
 
+            string[] logMessages = new string[]
+            {
+                $"{task.GetType().Name}: PluginVersion {pluginVersion} does not match AssemblyVersion {assemblyVersion}."
+            };
             bool taskResult = task.Execute();
             MockTaskLogger mockTaskLogger = task.Logger as MockTaskLogger;
             foreach (MockLogEntry entry in mockTaskLogger.LogEntries)

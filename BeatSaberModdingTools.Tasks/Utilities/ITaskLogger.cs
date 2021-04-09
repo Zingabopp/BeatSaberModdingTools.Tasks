@@ -9,6 +9,11 @@ namespace BeatSaberModdingTools.Tasks.Utilities
     public interface ITaskLogger
     {
         /// <summary>
+        /// The name of the Task using this logger.
+        /// </summary>
+        string TaskName { get; }
+
+        /// <summary>
         /// Logs a warning.
         /// </summary>
         /// <param name="subcategory"></param>

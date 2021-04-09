@@ -14,6 +14,13 @@ namespace BeatSaberModdingTools.Tasks.Utilities.Mock
         /// </summary>
         public List<MockLogEntry> LogEntries = new List<MockLogEntry>();
 
+        /// <summary>
+        /// Creates a new <see cref="MockTaskLogger"/> with the given task name.
+        /// </summary>
+        /// <param name="taskName"></param>
+        public MockTaskLogger(string taskName)
+            : base(taskName) { }
+
         /// <inheritdoc/>
         public override void LogError(string subcategory, string errorCode, string helpKeyword, string file, int lineNumber, int columnNumber, int endLineNumber, int endColumnNumber, string message, params object[] messageArgs)
         {
@@ -27,7 +34,7 @@ namespace BeatSaberModdingTools.Tasks.Utilities.Mock
                 ColumnNumber = columnNumber,
                 EndLineNumber = endLineNumber,
                 EndColumnNumber = endColumnNumber,
-                Message = message,
+                Message = $"{TaskName}: {message}",
                 MessageArgs = messageArgs,
                 Importance = MessageImportance.High
             };
@@ -40,7 +47,7 @@ namespace BeatSaberModdingTools.Tasks.Utilities.Mock
         {
             MockLogEntry entry = new MockLogEntry(LogEntryType.Error)
             {
-                Message = message,
+                Message = $"{TaskName}: {message}",
                 MessageArgs = messageArgs,
                 Importance = MessageImportance.High
             };
@@ -65,7 +72,7 @@ namespace BeatSaberModdingTools.Tasks.Utilities.Mock
         {
             MockLogEntry entry = new MockLogEntry(LogEntryType.Message)
             {
-                Message = message,
+                Message = $"{TaskName}: {message}",
                 MessageArgs = messageArgs,
                 Importance = importance
             };
@@ -86,7 +93,7 @@ namespace BeatSaberModdingTools.Tasks.Utilities.Mock
                 ColumnNumber = columnNumber,
                 EndLineNumber = endLineNumber,
                 EndColumnNumber = endColumnNumber,
-                Message = message,
+                Message = $"{TaskName}: {message}",
                 MessageArgs = messageArgs,
                 Importance = MessageImportance.High
             };
@@ -107,7 +114,7 @@ namespace BeatSaberModdingTools.Tasks.Utilities.Mock
                 ColumnNumber = columnNumber,
                 EndLineNumber = endLineNumber,
                 EndColumnNumber = endColumnNumber,
-                Message = message,
+                Message = $"{TaskName}: {message}",
                 MessageArgs = messageArgs,
                 Importance = MessageImportance.High
             };
@@ -120,7 +127,7 @@ namespace BeatSaberModdingTools.Tasks.Utilities.Mock
         {
             MockLogEntry entry = new MockLogEntry(LogEntryType.Warning)
             {
-                Message = message,
+                Message = $"{TaskName}: {message}",
                 MessageArgs = messageArgs,
                 Importance = MessageImportance.High
             };

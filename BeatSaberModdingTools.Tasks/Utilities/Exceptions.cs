@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace BeatSaberModdingTools.Tasks.Utilities
 {
@@ -132,21 +134,28 @@ namespace BeatSaberModdingTools.Tasks.Utilities
     /// <summary>
     /// Thrown when BsipaManifest validation fails.
     /// </summary>
-    public class ManifestValidationException : ArgumentNullException
+    public class ManifestValidationException : Exception
     {
+        /// <summary>
+        /// Names of properties that failed validation.
+        /// </summary>
+        public string[] InvalidProperties { get; }
         /// <summary>
         /// Creates a new <see cref="ManifestValidationException"/>.
         /// </summary>
-        public ManifestValidationException(string paramName) 
-            : base(paramName, $"{paramName} is required for the manifest.")
+        /// <param name="message"></param>
+        public ManifestValidationException(string message)
+            : base(message)
         {
+
         }
         /// <summary>
         /// Creates a new <see cref="ManifestValidationException"/>.
         /// </summary>
-        public ManifestValidationException(string paramName, string message)
-            : base(paramName, message)
+        public ManifestValidationException(string message, IEnumerable<string> invalidProperties)
+            : base(message)
         {
+            InvalidProperties = invalidProperties?.ToArray() ?? Array.Empty<string>();
         }
     }
 
@@ -159,7 +168,7 @@ namespace BeatSaberModdingTools.Tasks.Utilities
         /// Creates a new <see cref="BsipaDependsOnException"/>.
         /// </summary>
         public BsipaDependsOnException() 
-            : base("BSIPA", "BSIPA must be listed in DependsOn. If BSIPA is not required, set the RequiresBsipa Task parameter to false." )
+            : base("BSIPA must be listed in DependsOn. If BSIPA is not required, set the RequiresBsipa Task parameter to false." )
         {
         }
     }

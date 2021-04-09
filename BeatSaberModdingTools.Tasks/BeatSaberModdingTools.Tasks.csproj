@@ -11,6 +11,7 @@
     <RepositoryType>git</RepositoryType>
     <PackageProjectUrl>https://github.com/Zingabopp/BeatSaberModdingTools.Tasks</PackageProjectUrl>
     <RepositoryUrl>https://github.com/Zingabopp/BeatSaberModdingTools.Tasks.git</RepositoryUrl>
+    <LangVersion>8</LangVersion>
   </PropertyGroup>
   <PropertyGroup Condition="'$(GITHUB_ACTIONS)' == 'true'">
     <ContinuousIntegrationBuild>true</ContinuousIntegrationBuild>

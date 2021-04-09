@@ -107,9 +107,9 @@ namespace BeatSaberModdingTools.Tasks
         public override bool Execute()
         {
             if (this.BuildEngine != null)
-                Logger = new LogWrapper(Log);
+                Logger = new LogWrapper(Log, GetType().Name);
             else
-                Logger = new MockTaskLogger();
+                Logger ??= new MockTaskLogger(GetType().Name);
             try
             {
                 var manifest = MakeManifest();

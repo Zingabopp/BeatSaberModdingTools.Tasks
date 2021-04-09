@@ -9,6 +9,15 @@ namespace BeatSaberModdingTools.Tasks.Utilities
     public abstract class LoggerBase : ITaskLogger
     {
         /// <inheritdoc/>
+        public string TaskName { get; }
+
+        /// <summary>
+        /// Creates a new <see cref="LoggerBase"/> with the given task name.
+        /// </summary>
+        /// <param name="taskName"></param>
+        public LoggerBase(string taskName) => TaskName = taskName;
+
+        /// <inheritdoc/>
         public abstract void LogError(string subcategory, string errorCode, string helpKeyword, string file,
             int lineNumber, int columnNumber, int endLineNumber, int endColumnNumber, string message, params object[] messageArgs);
         /// <inheritdoc/>

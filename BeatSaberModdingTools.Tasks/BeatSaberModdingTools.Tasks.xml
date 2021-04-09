@@ -790,12 +790,18 @@
             Thrown when BsipaManifest validation fails.
             </summary>
         </member>
+        <member name="P:BeatSaberModdingTools.Tasks.Utilities.ManifestValidationException.InvalidProperties">
+            <summary>
+            Names of properties that failed validation.
+            </summary>
+        </member>
         <member name="M:BeatSaberModdingTools.Tasks.Utilities.ManifestValidationException.#ctor(System.String)">
             <summary>
             Creates a new <see cref="T:BeatSaberModdingTools.Tasks.Utilities.ManifestValidationException"/>.
             </summary>
+            <param name="message"></param>
         </member>
-        <member name="M:BeatSaberModdingTools.Tasks.Utilities.ManifestValidationException.#ctor(System.String,System.String)">
+        <member name="M:BeatSaberModdingTools.Tasks.Utilities.ManifestValidationException.#ctor(System.String,System.Collections.Generic.IEnumerable{System.String})">
             <summary>
             Creates a new <see cref="T:BeatSaberModdingTools.Tasks.Utilities.ManifestValidationException"/>.
             </summary>

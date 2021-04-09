@@ -13,24 +13,33 @@ namespace BeatSaberModdingTools.Tasks.Utilities
         /// The <see cref="TaskLoggingHelper"/> instance.
         /// </summary>
         public TaskLoggingHelper Logger;
+
         /// <summary>
         /// Creates a new <see cref="LogWrapper"/> using a <see cref="TaskLoggingHelper"/>.
         /// </summary>
         /// <param name="logger"></param>
-        public LogWrapper(TaskLoggingHelper logger) => Logger = logger;
+        /// <param name="taskName"></param>
+        public LogWrapper(TaskLoggingHelper logger, string taskName)
+            : base(taskName)
+        {
+            Logger = logger;
+        }
         /// <inheritdoc/>
         public override void LogError(string subcategory, string errorCode, string helpKeyword, string file,
             int lineNumber, int columnNumber, int endLineNumber, int endColumnNumber, string message, params object[] messageArgs)
-            => Logger.LogError(subcategory, errorCode, helpKeyword, file, lineNumber, columnNumber, endLineNumber, endColumnNumber, message, messageArgs);
+            => Logger.LogError(subcategory, errorCode, helpKeyword, file, lineNumber, columnNumber, endLineNumber, endColumnNumber, $"{TaskName}: {message}", messageArgs);
 
         /// <inheritdoc/>
-        public override void LogError(string message, params object[] messageArgs) => Logger.LogError(message, messageArgs);
+        public override void LogError(string message, params object[] messageArgs) 
+            => Logger.LogError($"{TaskName}: {message}", messageArgs);
 
         /// <inheritdoc/>
-        public override void LogErrorFromException(Exception exception) => Logger.LogErrorFromException(exception);
+        public override void LogErrorFromException(Exception exception) 
+            => Logger.LogErrorFromException(exception);
 
         /// <inheritdoc/>
-        public override void LogMessage(MessageImportance importance, string message, params object[] messageArgs) => Logger.LogMessage(importance, message, messageArgs);
+        public override void LogMessage(MessageImportance importance, string message, params object[] messageArgs) 
+            => Logger.LogMessage(importance, $"{TaskName}: {message}", messageArgs);
 
         /// <inheritdoc/>
         public override void LogMessage(string subcategory, string code, string helpKeyword, string file,
@@ -38,15 +47,16 @@ namespace BeatSaberModdingTools.Tasks.Utilities
             MessageImportance messageImportance, string message, params object[] messageArgs)
         => Logger.LogMessage(subcategory, code, helpKeyword, file,
                 lineNumber, columnNumber, endLineNumber, endColumnNumber,
-                messageImportance, message, messageArgs);
+                messageImportance, $"{TaskName}: {message}", messageArgs);
 
 
         /// <inheritdoc/>
         public override void LogWarning(string subcategory, string warningCode, string helpKeyword, string file, int lineNumber, int columnNumber, int endLineNumber, int endColumnNumber, string message, params object[] messageArgs)
-            => Logger.LogWarning(subcategory, warningCode, helpKeyword, file, lineNumber, columnNumber, endLineNumber, endColumnNumber, message, messageArgs);
+            => Logger.LogWarning(subcategory, warningCode, helpKeyword, file, lineNumber, columnNumber, endLineNumber, endColumnNumber, $"{TaskName}: {message}", messageArgs);
 
         /// <inheritdoc/>
-        public override void LogWarning(string message, params object[] messageArgs) => Logger.LogWarning(message, messageArgs);
+        public override void LogWarning(string message, params object[] messageArgs) 
+            => Logger.LogWarning($"{TaskName}: {message}", messageArgs);
 
         /// <inheritdoc/>
         public override void Log(LogMessageLevel level, string message, params object[] messageArgs)

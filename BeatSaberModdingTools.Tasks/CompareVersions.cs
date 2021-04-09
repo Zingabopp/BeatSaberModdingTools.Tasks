@@ -43,9 +43,9 @@ namespace BeatSaberModdingTools.Tasks
             AssemblyInfoData asmInfo = default;
             string assemblyInfoPath = null;
             if (this.BuildEngine != null)
-                Logger = new LogWrapper(Log);
+                Logger = new LogWrapper(Log, GetType().Name);
             else
-                Logger = new MockTaskLogger();
+                Logger = new MockTaskLogger(GetType().Name);
             try
             {
                 if (!Util.MatchVersions(AssemblyVersion, PluginVersion))
