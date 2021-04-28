@@ -188,14 +188,15 @@ Example:
                     "Description": "Reads blood sugar from a nightscout site.",
                     "CounterLocation": "NightscoutCounter.Counters.NightscoutCounterCountersPlus",
                     "ConfigDefaults": {
-                    "Enabled": true,
-                    "Position": "AboveMultiplier",
-                    "Distance": 0
-                },
-                "BSML": {
-                    "Resource": "NightscoutCounter.UI.Views.NightscoutSettings.bsml",
-                    "Host": "NightscoutCounter.UI.NightscoutSettingsHandler",
-                    "Icon": "NightscoutCounter.UI.Images.nightscout-counter.png"
+                        "Enabled": true,
+                        "Position": "AboveMultiplier",
+                        "Distance": 0
+                    },
+                    "BSML": {
+                        "Resource": "NightscoutCounter.UI.Views.NightscoutSettings.bsml",
+                        "Host": "NightscoutCounter.UI.NightscoutSettingsHandler",
+                        "Icon": "NightscoutCounter.UI.Images.nightscout-counter.png"
+                    }
                 }
             }
         </Features>
