@@ -40,7 +40,9 @@
   <PropertyGroup>
     <DocumentationFile>BeatSaberModdingTools.Tasks.xml</DocumentationFile>
     <PackageTags>Beat Saber;BeatSaberModdingTools</PackageTags>
-    <PackageReleaseNotes>* Added `GenerateManifest` task</PackageReleaseNotes>
+    <PackageReleaseNotes>* GeneratedManifest
+  * Added `misc` JSON property
+  * Added `hint-path` string property</PackageReleaseNotes>
     <PackageIcon>bsmt.tasks_icon.png</PackageIcon>
   </PropertyGroup>
 
