@@ -83,6 +83,7 @@ namespace BSMTTasks_UnitTests
                 Donate = "http://donate.com",
                 ProjectHome = "http://project.home",
                 ProjectSource = "http://project.source",
+                PluginHint = "Namespace.Plugin.Type",
                 RequiresBsipa = false,
                 TargetPath = targetPath
             };
@@ -92,6 +93,7 @@ namespace BSMTTasks_UnitTests
             Assert.AreEqual(task.Donate, manifest.Donate);
             Assert.AreEqual(task.ProjectHome, manifest.ProjectHome);
             Assert.AreEqual(task.ProjectSource, manifest.ProjectSource);
+            Assert.AreEqual(task.PluginHint, manifest.PluginHint);
         }
 
         [TestMethod]
@@ -165,6 +167,8 @@ namespace BSMTTasks_UnitTests
                 ProjectHome = "http://New-project.home",
                 ProjectSource = "http://New-project.source",
                 Features = "{ \"New-Feature\" : { \"name\" : \"New-feature-name\" } }",
+                Misc = "{ \"Other-Misc\" : { \"name\" : \"New-Misc-name\" } }",
+                PluginHint = "Namespace.Plugin.Type",
                 RequiresBsipa = true,
                 BaseManifestPath = basePath,
                 TargetPath = targetPath

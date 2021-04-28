@@ -375,5 +375,61 @@ namespace BeatSaberModdingTools.Tasks.Models
                 }
             }
         }
+        /// <summary>
+        /// A JSON object to utilize BSIPA's Features architecture.
+        /// </summary>
+        [JsonProperty("misc", NullValueHandling = NullValueHandling.Ignore)]
+        public JSONObject Misc
+        {
+            get
+            {
+                var val = json["misc"];
+
+                if (val != null && val is JSONObject obj && obj.Count > 0)
+                    return obj;
+                return null;
+            }
+            set
+            {
+                if (value != null && value is JSONObject obj && obj.Count > 0)
+                {
+                    var existing = json["misc"];
+                    if (existing != null && existing.Count > 0 && existing is JSONObject eObj)
+                    {
+                        foreach (var key in obj.Keys)
+                        {
+                            eObj[key] = obj[key];
+                        }
+                    }
+                    else
+                        json["misc"] = value;
+                }
+            }
+        }
+
+        /// <summary>
+        /// A hint for the loader for where to find the plugin type
+        /// </summary>
+        public string PluginHint
+        {
+            get => GetStringValue("plugin-hint", json["misc"]);
+            set
+            {
+                if (!string.IsNullOrWhiteSpace(value))
+                    json["misc"]["plugin-hint"] = value;
+            }
+        }
+        /// <summary>
+        /// Tool that generated the manifest.
+        /// </summary>
+        public string GeneratedBy
+        {
+            get => GetStringValue("generated-by", json["misc"]);
+            set
+            {
+                if (!string.IsNullOrWhiteSpace(value))
+                    json["misc"]["generated-by"] = value;
+            }
+        }
     }
 }

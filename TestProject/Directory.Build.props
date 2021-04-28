@@ -21,6 +21,15 @@
         }
       }
     </Feature>
+    <Misc>
+      {
+        "Other-Misc" : {
+          "name" : "New-Misc-name"
+      },
+        "plugin-hint" : "Overwritten.Plugin.Type"
+      }
+    </Misc>
+    <PluginHint>ActualPluginType</PluginHint>
   </PropertyGroup>
   <ItemGroup>
     <Dependency Include="BSIPA" Version="^4.4.0"/>

@@ -125,6 +125,16 @@
             A JSON object string to utilize BSIPA's Features architecture.
             </summary>
         </member>
+        <member name="P:BeatSaberModdingTools.Tasks.GenerateManifest.Misc">
+            <summary>
+            A JSON object string for the 'misc' property.
+            </summary>
+        </member>
+        <member name="P:BeatSaberModdingTools.Tasks.GenerateManifest.PluginHint">
+            <summary>
+            A hint for the loader for where to find the plugin type
+            </summary>
+        </member>
         <member name="P:BeatSaberModdingTools.Tasks.GenerateManifest.BaseManifestPath">
             <summary>
             Path to an existing manifest file.
@@ -624,6 +634,21 @@
             A JSON object to utilize BSIPA's Features architecture.
             </summary>
         </member>
+        <member name="P:BeatSaberModdingTools.Tasks.Models.BsipaManifest.Misc">
+            <summary>
+            A JSON object to utilize BSIPA's Features architecture.
+            </summary>
+        </member>
+        <member name="P:BeatSaberModdingTools.Tasks.Models.BsipaManifest.PluginHint">
+            <summary>
+            A hint for the loader for where to find the plugin type
+            </summary>
+        </member>
+        <member name="P:BeatSaberModdingTools.Tasks.Models.BsipaManifest.GeneratedBy">
+            <summary>
+            Tool that generated the manifest.
+            </summary>
+        </member>
         <member name="T:BeatSaberModdingTools.Tasks.ReplaceInFile">
             <summary>
             Replaces a string pattern with a value in a file.
@@ -937,6 +962,11 @@
             Logging interface for easier unit testing.
             </summary>
         </member>
+        <member name="P:BeatSaberModdingTools.Tasks.Utilities.ITaskLogger.TaskName">
+            <summary>
+            The name of the Task using this logger.
+            </summary>
+        </member>
         <member name="M:BeatSaberModdingTools.Tasks.Utilities.ITaskLogger.LogWarning(System.String,System.String,System.String,System.String,System.Int32,System.Int32,System.Int32,System.Int32,System.String,System.Object[])">
             <summary>
             Logs a warning.
@@ -1110,6 +1140,15 @@
             Base class for an <see cref="T:BeatSaberModdingTools.Tasks.Utilities.ITaskLogger"/>
             </summary>
         </member>
+        <member name="P:BeatSaberModdingTools.Tasks.Utilities.LoggerBase.TaskName">
+            <inheritdoc/>
+        </member>
+        <member name="M:BeatSaberModdingTools.Tasks.Utilities.LoggerBase.#ctor(System.String)">
+            <summary>
+            Creates a new <see cref="T:BeatSaberModdingTools.Tasks.Utilities.LoggerBase"/> with the given task name.
+            </summary>
+            <param name="taskName"></param>
+        </member>
         <member name="M:BeatSaberModdingTools.Tasks.Utilities.LoggerBase.LogError(System.String,System.String,System.String,System.String,System.Int32,System.Int32,System.Int32,System.Int32,System.String,System.Object[])">
             <inheritdoc/>
         </member>
@@ -1159,11 +1198,12 @@
             The <see cref="T:Microsoft.Build.Utilities.TaskLoggingHelper"/> instance.
             </summary>
         </member>
-        <member name="M:BeatSaberModdingTools.Tasks.Utilities.LogWrapper.#ctor(Microsoft.Build.Utilities.TaskLoggingHelper)">
+        <member name="M:BeatSaberModdingTools.Tasks.Utilities.LogWrapper.#ctor(Microsoft.Build.Utilities.TaskLoggingHelper,System.String)">
             <summary>
             Creates a new <see cref="T:BeatSaberModdingTools.Tasks.Utilities.LogWrapper"/> using a <see cref="T:Microsoft.Build.Utilities.TaskLoggingHelper"/>.
             </summary>
             <param name="logger"></param>
+            <param name="taskName"></param>
         </member>
         <member name="M:BeatSaberModdingTools.Tasks.Utilities.LogWrapper.LogError(System.String,System.String,System.String,System.String,System.Int32,System.Int32,System.Int32,System.Int32,System.String,System.Object[])">
             <inheritdoc/>
@@ -1426,6 +1466,12 @@
             <summary>
             List of log entries created by this instance.
             </summary>
+        </member>
+        <member name="M:BeatSaberModdingTools.Tasks.Utilities.Mock.MockTaskLogger.#ctor(System.String)">
+            <summary>
+            Creates a new <see cref="T:BeatSaberModdingTools.Tasks.Utilities.Mock.MockTaskLogger"/> with the given task name.
+            </summary>
+            <param name="taskName"></param>
         </member>
         <member name="M:BeatSaberModdingTools.Tasks.Utilities.Mock.MockTaskLogger.LogError(System.String,System.String,System.String,System.String,System.Int32,System.Int32,System.Int32,System.Int32,System.String,System.Object[])">
             <inheritdoc/>

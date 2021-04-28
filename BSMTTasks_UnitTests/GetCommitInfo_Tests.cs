@@ -218,7 +218,7 @@ namespace BSMTTasks_UnitTests
             string directory = Environment.CurrentDirectory;
             IGitRunner gitRunner = new GitCommandRunner(directory);
             //string expectedUser = "Zingabopp";
-            MockTaskLogger logger = new MockTaskLogger();
+            MockTaskLogger logger = new MockTaskLogger("GitCommandRunner");
             GitInfo status = GetCommitInfo.GetGitStatus(gitRunner, logger);
             string logEntries = string.Join('\n', logger.LogEntries.Select(e => e.ToString()));
             Assert.IsFalse(string.IsNullOrEmpty(status.Branch), $"Branch should not be null/empty.\n{logEntries}");

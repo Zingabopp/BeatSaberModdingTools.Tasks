@@ -3,6 +3,7 @@
     <!--Version="$(Version)"-->
     <GenerateManifest Id="$(AssemblyName)Id"
                       Name="$(AssemblyName)"
+                      Version="$(Version)"
                       Author="Zingabopp" 
                       GameVersion="$(GameVersion)" 
                       Description="$(Description)"
@@ -16,6 +17,8 @@
                       ProjectHome="http://project.home"
                       Donate="http://donate.tome"
                       Features="$(Feature)"
+                      Misc="$(Misc)"
+                      PluginHint="$(PluginHint)"
                       BaseManifestPath=""
                       TargetPath="$(ProjectDir)/big-manifest.json"
                       RequiresBsipa="True"/>

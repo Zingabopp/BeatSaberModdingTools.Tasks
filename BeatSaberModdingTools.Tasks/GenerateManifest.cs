@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Reflection;
 using System.Text;
 using BeatSaberModdingTools.Tasks.Models;
 using BeatSaberModdingTools.Tasks.Utilities;
@@ -87,6 +88,14 @@ namespace BeatSaberModdingTools.Tasks
         /// A JSON object string to utilize BSIPA's Features architecture.
         /// </summary>
         public string Features { get; set; }
+        /// <summary>
+        /// A JSON object string for the 'misc' property.
+        /// </summary>
+        public string Misc { get; set; }
+        /// <summary>
+        /// A hint for the loader for where to find the plugin type
+        /// </summary>
+        public string PluginHint { get; set; }
         /// <summary>
         /// Path to an existing manifest file.
         /// </summary>
@@ -228,6 +237,11 @@ namespace BeatSaberModdingTools.Tasks
             manifest.Donate = Donate;
             if (!string.IsNullOrWhiteSpace(Features))
                 manifest.Features = SimpleJSON.JSON.Parse(Features) as SimpleJSON.JSONObject;
+            if (!string.IsNullOrWhiteSpace(Misc))
+                manifest.Misc = SimpleJSON.JSON.Parse(Misc) as SimpleJSON.JSONObject;
+            if (!string.IsNullOrWhiteSpace(PluginHint))
+                manifest.PluginHint = PluginHint;
+            manifest.GeneratedBy = $"BSMT.Tasks/{Assembly.GetExecutingAssembly().GetName().Version.ToString()}";
         }
 
 
