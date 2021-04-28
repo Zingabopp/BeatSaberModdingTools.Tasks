@@ -126,6 +126,8 @@ Inputs:
 |ProjectHome|string|No|Link to the mod's project web site.|
 |Donate|string|No|Donation link for the mod.|
 |Features|[JSON Object String](#json-object-string)|No|A JSON object string to utilize BSIPA's `Features` architecture.|
+|Misc|[JSON Object String](#json-object-string)|No|A JSON object string for miscellaneous properties.<sup>1.4.2</sup>|
+|PluginHint|string|No|A hint for the loader for where to find the plugin type.<sup>1.4.2</sup>|
 |BaseManifestPath|string|No|Path to a manifest file you want to use as a base. GenerateManifest will merge into this manifest.|
 |TargetPath|string|No|Output path (including filename) for the generated manifest.|
 |RequiresBsipa|bool|No|If true (default), GenerateManifest will error if you don't have BSIPA listed in `DependsOn`.|
