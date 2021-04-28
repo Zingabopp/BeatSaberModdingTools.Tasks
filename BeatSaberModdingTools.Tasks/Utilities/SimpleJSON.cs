@@ -1008,8 +1008,8 @@ namespace SimpleJSON
         {
             aSB.Append('{');
             bool first = true;
-            if (inline)
-                aMode = JSONTextMode.Compact;
+            //if (inline)
+            //    aMode = JSONTextMode.Compact;
             foreach (var k in m_Dict)
             {
                 if (!first)
