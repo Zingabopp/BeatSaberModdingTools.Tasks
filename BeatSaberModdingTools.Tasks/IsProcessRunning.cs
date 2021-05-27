@@ -16,6 +16,13 @@ namespace BeatSaberModdingTools.Tasks
         /// </summary>
         [Required]
         public virtual string ProcessName { get; set; }
+
+        /// <summary>
+        /// Return this value if IsProcessRunning fails.
+        /// Defaults to true.
+        /// </summary>
+        public virtual bool Fallback { get; set; } = true;
+
         /// <summary>
         /// True if the process is running, false otherwise.
         /// </summary>
@@ -38,6 +45,13 @@ namespace BeatSaberModdingTools.Tasks
                 Logger = new LogWrapper(Log, GetType().Name);
             else
                 Logger = new MockTaskLogger(GetType().Name);
+            PlatformID platform = Environment.OSVersion.Platform;
+            if (platform != PlatformID.Win32NT)
+            {
+                Logger.LogMessage(MessageImportance.High, $"This task isn't supported on platform: '{platform}'");
+                IsRunning = Fallback;
+                return true;
+            }
             string errorCode = null;
             try
             {
@@ -60,17 +74,18 @@ namespace BeatSaberModdingTools.Tasks
             {
                 if (string.IsNullOrEmpty(errorCode))
                     errorCode = MessageCodes.IsProcessRunning.GeneralFailure;
+                int line = 0;
+                int column = 0;
+                string projectFile = null;
                 if (BuildEngine != null)
                 {
-                    int line = BuildEngine.LineNumberOfTaskNode;
-                    int column = BuildEngine.ColumnNumberOfTaskNode;
-                    Logger.LogError(null, errorCode, null, BuildEngine.ProjectFileOfTaskNode, line, column, line, column, $"Error in {GetType().Name}: {ex.Message}");
+                    line = BuildEngine.LineNumberOfTaskNode;
+                    column = BuildEngine.ColumnNumberOfTaskNode;
+                    projectFile = BuildEngine.ProjectFileOfTaskNode;
                 }
-                else
-                {
-                    Logger.LogError(null, errorCode, null, null, 0, 0, 0, 0, $"Error in {GetType().Name}: {ex.Message}");
-                }
-                return false;
+                Logger.LogError(null, errorCode, null, projectFile, line, column, line, column, $"Error in {GetType().Name}: {ex.Message}");
+                IsRunning = Fallback;
+                return true;
             }
         }
     }
