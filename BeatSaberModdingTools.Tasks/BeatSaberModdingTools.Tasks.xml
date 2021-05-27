@@ -493,6 +493,12 @@
             Name of the process.
             </summary>
         </member>
+        <member name="P:BeatSaberModdingTools.Tasks.IsProcessRunning.Fallback">
+            <summary>
+            Return this value if IsProcessRunning fails.
+            Defaults to true.
+            </summary>
+        </member>
         <member name="P:BeatSaberModdingTools.Tasks.IsProcessRunning.IsRunning">
             <summary>
             True if the process is running, false otherwise.

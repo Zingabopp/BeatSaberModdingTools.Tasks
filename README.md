@@ -70,7 +70,8 @@ Checks if the specified process is running.
 Inputs:
 |Name|Type|Required?|Description|
 |---|---|---|---|
-|ProcessName|string|Yes|Name of the process to check.|
+|ProcessName|string|Yes|Name of the process to check. Case sensitive, do not include extension.|
+|ProcessName|bool|No|Return this value if IsProcessRunning fails. Defaults to true.|
 
 Outputs:
 |Name|Type|Description|
