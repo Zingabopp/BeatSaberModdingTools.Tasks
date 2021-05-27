@@ -40,9 +40,10 @@
   <PropertyGroup>
     <DocumentationFile>BeatSaberModdingTools.Tasks.xml</DocumentationFile>
     <PackageTags>Beat Saber;BeatSaberModdingTools</PackageTags>
-    <PackageReleaseNotes>* GeneratedManifest
-  * Added `misc` JSON property
-  * Added `hint-path` string property</PackageReleaseNotes>
+    <PackageReleaseNotes>* IsProcessRunning
+  * Does not stop build on errors.
+  * Only supported in Windows
+  * Added 'Fallback' value option for if it fails.</PackageReleaseNotes>
     <PackageIcon>bsmt.tasks_icon.png</PackageIcon>
   </PropertyGroup>
 
