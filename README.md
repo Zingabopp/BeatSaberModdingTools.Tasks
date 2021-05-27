@@ -71,7 +71,7 @@ Inputs:
 |Name|Type|Required?|Description|
 |---|---|---|---|
 |ProcessName|string|Yes|Name of the process to check. Case sensitive, do not include extension.|
-|ProcessName|bool|No|Return this value if IsProcessRunning fails. Defaults to true.|
+|Fallback|bool|No|Return this value if IsProcessRunning fails. Defaults to true.|
 
 Outputs:
 |Name|Type|Description|
