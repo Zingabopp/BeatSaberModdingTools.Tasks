@@ -13,9 +13,11 @@
     <RepositoryUrl>https://github.com/Zingabopp/BeatSaberModdingTools.Tasks.git</RepositoryUrl>
     <LangVersion>8</LangVersion>
   </PropertyGroup>
+  
   <PropertyGroup Condition="'$(GITHUB_ACTIONS)' == 'true'">
     <ContinuousIntegrationBuild>true</ContinuousIntegrationBuild>
   </PropertyGroup>
+  
   <PropertyGroup>
     <TargetFrameworks>netstandard2.0</TargetFrameworks>
     <RootNamespace>BeatSaberModdingTools.Tasks</RootNamespace>
@@ -37,6 +39,7 @@
     <developmentDependency>true</developmentDependency>
     <NoWarn>NU5100</NoWarn>
   </PropertyGroup>
+  
   <PropertyGroup>
     <DocumentationFile>BeatSaberModdingTools.Tasks.xml</DocumentationFile>
     <PackageTags>Beat Saber;BeatSaberModdingTools</PackageTags>
@@ -49,6 +52,9 @@
 
   <ItemGroup>
     <Content Include="BeatSaberModdingTools.Tasks.TargetFramework.props" Pack="true" PackagePath="build\BeatSaberModdingTools.Tasks.props" />
+    <Content Include="BeatSaberModdingTools.Tasks.targets" Pack="true" PackagePath="build\BeatSaberModdingTools.Tasks.targets" />
+    <Content Include="BSMT.DefaultProps.props" Pack="true" PackagePath="build\BSMT.DefaultProps.props" />
+    <Content Include="BSMT.DefaultTargets.targets" Pack="true" PackagePath="build\BSMT.DefaultTargets.targets" />
     <!--<Content Include="BeatSaberModdingTools.Tasks.TargetFrameworks.props" Pack="true" PackagePath="buildMultiTargeting\BeatSaberModdingTools.Tasks.props" />-->
   </ItemGroup>
 
@@ -65,19 +71,31 @@
       <PackagePath></PackagePath>
     </None>
   </ItemGroup>
+
+  <ItemGroup>
+    <!-- NuGetizer makes controlling NuGet pack *much* nicer -->
+    <PackageReference Include="NuGetizer" Version="0.7.4">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
+    </PackageReference>
+  </ItemGroup>
+  
   <ItemGroup Condition="'$(ContinuousIntegrationBuild)' == 'True'">
     <PackageReference Include="Microsoft.SourceLink.GitHub" Version="1.0.0" PrivateAssets="All" />
   </ItemGroup>
+  
   <ItemGroup Condition=" '$(TargetFramework)' == 'netstandard2.0' ">
     <PackageReference Include="Microsoft.Build.Framework" Version="16.5.0" />
     <PackageReference Include="Microsoft.Build.Tasks.Core" Version="16.5.0" />
     <PackageReference Include="System.Diagnostics.Process" Version="4.3.0" />
   </ItemGroup>
+  
   <!--<ItemGroup Condition=" '$(TargetFramework)' == 'net46' ">
     <PackageReference Include="Microsoft.Build.Framework" Version="15.9.20" />
     <PackageReference Include="Microsoft.Build.Tasks.Core" Version="15.9.20" />
     <PackageReference Include="System.Diagnostics.Process" Version="4.3.0" />
   </ItemGroup>-->
+  
   <Target Name="GithubActionsInfo" AfterTargets="Build">
     <Message Text="::set-output name=filename::$(AssemblyName)-$(PackageVersion)" Importance="high" />
     <Message Text="::set-output name=assemblyname::$(AssemblyName)" Importance="high" />
