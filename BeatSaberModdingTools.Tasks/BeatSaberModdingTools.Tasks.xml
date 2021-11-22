@@ -1204,12 +1204,13 @@
             The <see cref="T:Microsoft.Build.Utilities.TaskLoggingHelper"/> instance.
             </summary>
         </member>
-        <member name="M:BeatSaberModdingTools.Tasks.Utilities.LogWrapper.#ctor(Microsoft.Build.Utilities.TaskLoggingHelper,System.String)">
+        <member name="M:BeatSaberModdingTools.Tasks.Utilities.LogWrapper.#ctor(Microsoft.Build.Utilities.TaskLoggingHelper,System.String,System.String)">
             <summary>
             Creates a new <see cref="T:BeatSaberModdingTools.Tasks.Utilities.LogWrapper"/> using a <see cref="T:Microsoft.Build.Utilities.TaskLoggingHelper"/>.
             </summary>
             <param name="logger"></param>
             <param name="taskName"></param>
+            <param name="messagePrefix"></param>
         </member>
         <member name="M:BeatSaberModdingTools.Tasks.Utilities.LogWrapper.LogError(System.String,System.String,System.String,System.String,System.Int32,System.Int32,System.Int32,System.Int32,System.String,System.Object[])">
             <inheritdoc/>
@@ -1730,6 +1731,11 @@
         <member name="P:BeatSaberModdingTools.Tasks.ZipDir.DestinationFile">
             <summary>
             Name of the created zip file.
+            </summary>
+        </member>
+        <member name="P:BeatSaberModdingTools.Tasks.ZipDir.MessagePrefix">
+            <summary>
+            Optional: Prefixes all log message with this string.
             </summary>
         </member>
         <member name="P:BeatSaberModdingTools.Tasks.ZipDir.ZipPath">

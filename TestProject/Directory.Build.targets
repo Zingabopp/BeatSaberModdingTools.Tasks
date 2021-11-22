@@ -1,30 +1,30 @@
 ﻿<Project>
-  <Target Name="GenerateManifestTest" AfterTargets="Build">
-    <IsProcessRunning ProcessName="explorer">
-      <Output TaskParameter="IsRunning" PropertyName="IsRunning" />
-    </IsProcessRunning>
-    <Message Text="Explorer Running: '$(IsRunning)'" Importance="high" />
-    <!--Version="$(Version)"-->
-    <GenerateManifest Id="$(AssemblyName)Id"
-                      Name="$(AssemblyName)"
-                      Version="$(Version)"
-                      Author="Zingabopp" 
-                      GameVersion="$(GameVersion)" 
-                      Description="$(Description)"
-                      Icon="IconFile.png"
-                      DependsOn="@(Dependency)"
-                      ConflictsWith="@(Conflict)"
-                      Files="@(RequiredFile)"
-                      LoadBefore="@(LoadBefore)"
-                      LoadAfter="@(LoadAfter)"
-                      ProjectSource="http://project.source"
-                      ProjectHome="http://project.home"
-                      Donate="http://donate.tome"
-                      Features="$(Feature)"
-                      Misc="$(Misc)"
-                      PluginHint="$(PluginHint)"
-                      BaseManifestPath=""
-                      TargetPath="$(ProjectDir)/big-manifest.json"
-                      RequiresBsipa="True"/>
-  </Target>
+    <Target Name="GenerateManifestTest" AfterTargets="Build">
+        <IsProcessRunning ProcessName="explorer">
+            <Output TaskParameter="IsRunning" PropertyName="IsRunning" />
+        </IsProcessRunning>
+        <Message Text="Explorer Running: '$(IsRunning)'" Importance="high" />
+        <!--Version="$(Version)"-->
+        <GenerateManifest Id="$(AssemblyName)Id"
+                          Name="$(AssemblyName)"
+                          Version="$(Version)"
+                          Author="Zingabopp"
+                          GameVersion="$(GameVersion)"
+                          Description="$(Description)"
+                          Icon="IconFile.png"
+                          DependsOn="@(Dependency)"
+                          ConflictsWith="@(Conflict)"
+                          Files="@(RequiredFile)"
+                          LoadBefore="@(LoadBefore)"
+                          LoadAfter="@(LoadAfter)"
+                          ProjectSource="http://project.source"
+                          ProjectHome="http://project.home"
+                          Donate="http://donate.tome"
+                          Features="$(Feature)"
+                          Misc="$(Misc)"
+                          PluginHint="$(PluginHint)"
+                          BaseManifestPath=""
+                          TargetPath="$(ProjectDir)/big-manifest.json"
+                          RequiresBsipa="True"/>
+    </Target>
 </Project>

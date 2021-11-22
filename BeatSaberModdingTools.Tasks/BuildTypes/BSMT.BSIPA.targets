@@ -1,0 +1,108 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project>
+    <!--Build Targets-->
+    <Target Name="LegacyWarnings" BeforeTargets="GetProjectInfo" DependsOnTargets="BSMT_BeforeBuild">
+        <Warning Text="'BeatSaberDir' property has been deprecated, please switch to 'GameDirectory' to set the Beat Saber path for your project."
+                 Condition="'$(BeatSaberDir)' != ''" />
+    </Target>
+    <!--Runs a build task to get info about the project used by later targets.-->
+    <Target Name="GetProjectInfo" BeforeTargets="BeforeBuild" DependsOnTargets="BSMT_BeforeBuild">
+
+        <GetManifestInfo FailOnError="$(ErrorOnMismatchedVersions)">
+            <Output TaskParameter="PluginVersion" PropertyName="PluginVersion" />
+            <Output TaskParameter="GameVersion" PropertyName="GameVersion" />
+        </GetManifestInfo>
+        <GetCommitInfo ProjectDir="$(ProjectDir)">
+            <Output TaskParameter="CommitHash" PropertyName="CommitHash" />
+            <Output TaskParameter="Branch" PropertyName="Branch" />
+            <Output TaskParameter="Modified" PropertyName="GitModified" />
+        </GetCommitInfo>
+        <Message Text="Reading AssemblyInfo from 'Properties\AssemblyInfo.cs'" Importance="high" Condition="Exists('Properties\AssemblyInfo.cs')" />
+        <GetAssemblyInfo FailOnError="$(ErrorOnMismatchedVersions)" Condition="Exists('Properties/AssemblyInfo.cs')">
+            <Output TaskParameter="AssemblyVersion" PropertyName="AssemblyVersion" />
+        </GetAssemblyInfo>
+        <CompareVersions PluginVersion="$(PluginVersion)" AssemblyVersion="$(AssemblyVersion)" ErrorOnMismatch="$(ErrorOnMismatchedVersions)"
+							Condition="Exists('Properties\AssemblyInfo.cs')" />
+        <PropertyGroup>
+            <Version>$(PluginVersion)</Version>
+            <!--Build name for artifact/zip file-->
+            <ArtifactName>$(AssemblyName)</ArtifactName>
+            <ArtifactName Condition="'$(PluginVersion)' != ''">$(ArtifactName)-$(PluginVersion)</ArtifactName>
+            <ArtifactName Condition="'$(GameVersion)' != ''">$(ArtifactName)-bs$(GameVersion)</ArtifactName>
+            <ArtifactName Condition="'$(CommitHash)' != '' AND '$(CommitHash)' != 'local'">$(ArtifactName)-$(CommitHash)</ArtifactName>
+        </PropertyGroup>
+        <CompareVersions PluginVersion="$(PluginVersion)" AssemblyVersion="$(Version)" ErrorOnMismatch="$(ErrorOnMismatchedVersions)" />
+    </Target>
+
+    <Target Name="BSMT_SetOutputs" AfterTargets="Build" DependsOnTargets="BSMT_AfterBuild">
+        <Message Text="Target: BSMT_SetOutputs | Number of existing items in OutputCopy: @(OutputCopy->Count())" Importance="high" />
+        <PropertyGroup>
+            <BSMT_SetOutputs_Default Condition="'@(OutputCopy->Count())' == 0">True</BSMT_SetOutputs_Default>
+        </PropertyGroup>
+        <ItemGroup Condition="'@(OutputCopy->Count())' == 0">
+            <OutputCopy Include="$(OutputAssemblyName).dll" OutputPath="Plugins\$(AssemblyName).dll"/>
+            <OutputCopy Include="$(OutputAssemblyName).pdb" OutputPath="Plugins\$(AssemblyName).pdb" 
+                        Condition="Exists('$(OutputAssemblyName).pdb') AND '$(CopyPDB)' == 'True'" />
+        </ItemGroup>
+        <Message Text="   Using default output: '%(OutputCopy.Identity)' -> '%(OutputCopy.OutputPath)'" Importance="high" Condition="'$(BSMT_SetOutputs_Default)' == 'True'" />
+        <Message Text="   Using custom output: '%(OutputCopy.Identity)' -> '%(OutputCopy.OutputPath)'" Importance="high" Condition="'$(BSMT_SetOutputs_Default)' != 'True'" />
+        <Message Text="   PluginVersion: $(PluginVersion), AssemblyVersion: $(AssemblyVersion), GameVersion: $(GameVersion)" Importance="high" />
+    </Target>
+    <Target Name="CopyToArtifactDestination" AfterTargets="Build" DependsOnTargets="BSMT_AfterBuild;BSMT_SetOutputs">
+        <Message Text="Target: CopyToArtifactDestination | ArtifactDestination: '$(ArtifactDestination)'" Importance="high" />
+        <Message Text="   Copying '%(OutputCopy.Identity)' to '$(ArtifactDestination)\%(OutputCopy.OutputPath)'." Importance="high" />
+        <Copy SourceFiles="%(OutputCopy.Identity)" DestinationFiles="$(ArtifactDestination)\%(OutputCopy.OutputPath)" />
+    </Target>
+    <!--Build target for Continuous Integration builds. Set up for GitHub Actions.-->
+    <Target Name="BuildForCI" AfterTargets="Build" DependsOnTargets="GetProjectInfo;BSMT_AfterBuild;CopyToArtifactDestination" Condition="'$(ContinuousIntegrationBuild)' != 'True'">
+        <Message Text="Target: BuildForCI" Importance="high" />
+        <PropertyGroup>
+            <!--Set 'ArtifactName' if it failed before.-->
+            <ArtifactName Condition="'$(ArtifactName)' == ''">$(AssemblyName)</ArtifactName>
+        </PropertyGroup>
+        <Message Text="   Building for CI" Importance="high" />
+        <Message Text="::set-output name=filename::$(ArtifactName)" Importance="high" />
+        <Message Text="::set-output name=assemblyname::$(AssemblyName)" Importance="high" />
+        <Message Text="::set-output name=artifactpath::$(ProjectDir)$(ArtifactDestination)" Importance="high" />
+    </Target>
+    <!--Creates a BeatMods compliant zip file with the release.-->
+    <Target Name="ZipRelease" AfterTargets="Build" DependsOnTargets="BSMT_AfterBuild;CopyToArtifactDestination" Condition="'$(DisableZipRelease)' != 'True' AND '$(Configuration)' == 'Release'">
+        <Message Text="Target: ZipRelease" Importance="high" />
+        <PropertyGroup>
+            <!--Set 'ArtifactName' if it failed before.-->
+            <ArtifactName Condition="'$(ArtifactName)' == ''">$(AssemblyName)</ArtifactName>
+            <DestinationDirectory>$(OutDir)zip\</DestinationDirectory>
+        </PropertyGroup>
+        <ItemGroup>
+            <OldZips Include="$(DestinationDirectory)$(AssemblyName)*.zip"/>
+        </ItemGroup>
+        <Delete Files="@(OldZips)" TreatErrorsAsWarnings="true" ContinueOnError="true" />
+        <ZipDir SourceDirectory="$(ArtifactDestination)" DestinationFile="$(DestinationDirectory)$(ArtifactName).zip" MessagePrefix="   " />
+    </Target>
+    <!--Copies the assembly and pdb to the Beat Saber folder.-->
+    <Target Name="CopyToPlugins" AfterTargets="Build" DependsOnTargets="BSMT_AfterBuild;CopyToArtifactDestination" Condition="'$(DisableCopyToGame)' != 'True' AND '$(ContinuousIntegrationBuild)' != 'True'">
+        <Message Text="Target: CopyToPlugins" Importance="high" />
+        <PropertyGroup>
+            <PluginDir>$(GameDirectory)\Plugins</PluginDir>
+            <CanCopyToPlugins>True</CanCopyToPlugins>
+            <CopyToPluginsError Condition="!Exists('$(PluginDir)')">Unable to copy assembly to game folder, did you set 'GameDirectory' correctly in your 'csproj.user' file? Plugins folder doesn't exist: '$(PluginDir)'.</CopyToPluginsError>
+            <!--Error if 'BeatSaberDir' does not have 'Beat Saber.exe'-->
+            <CopyToPluginsError Condition="!Exists('$(GameDirectory)\Beat Saber.exe')">Unable to copy to Plugins folder, '$(GameDirectory)' does not appear to be a Beat Saber game install.</CopyToPluginsError>
+            <!--Error if 'GameDirectory' is the same as 'LocalRefsDir'-->
+            <CopyToPluginsError Condition="'$(GameDirectory)' == '$(LocalRefsDir)' OR '$(GameDirectory)' == ''">Unable to copy to Plugins folder, 'GameDirectory' has not been set in your 'csproj.user' file.</CopyToPluginsError>
+            <CanCopyToPlugins Condition="'$(CopyToPluginsError)' != ''">False</CanCopyToPlugins>
+        </PropertyGroup>
+        <!--Check if Beat Saber is running-->
+        <IsProcessRunning ProcessName="Beat Saber" Condition="'$(BSMTTaskAssembly)' != ''">
+            <Output TaskParameter="IsRunning" PropertyName="IsRunning" />
+        </IsProcessRunning>
+        <PropertyGroup>
+            <!--If Beat Saber is running, output to the Pending folder-->
+            <PluginDir Condition="'$(IsRunning)' == 'True'">$(GameDirectory)\IPA\Pending\Plugins</PluginDir>
+        </PropertyGroup>
+        <Warning Text="   $(CopyToPluginsError)" Condition="'$(CopyToPluginsError)' != ''" />
+        <Message Text="   Copying '%(OutputCopy.Identity)' to '$(GameDirectory)\%(OutputCopy.OutputPath)'." Importance="high" Condition="$(CanCopyToPlugins)" />
+        <Copy SourceFiles="%(OutputCopy.Identity)" DestinationFiles="$(GameDirectory)\%(OutputCopy.OutputPath)" Condition="$(CanCopyToPlugins)"  />
+        <Warning Text="   Beat Saber is running, restart the game to use the latest build." Condition="'$(IsRunning)' == 'True'" />
+    </Target>
+</Project>

@@ -13,16 +13,19 @@ namespace BeatSaberModdingTools.Tasks.Utilities
         /// The <see cref="TaskLoggingHelper"/> instance.
         /// </summary>
         public TaskLoggingHelper Logger;
+        private string _messagePrefix;
 
         /// <summary>
         /// Creates a new <see cref="LogWrapper"/> using a <see cref="TaskLoggingHelper"/>.
         /// </summary>
         /// <param name="logger"></param>
         /// <param name="taskName"></param>
-        public LogWrapper(TaskLoggingHelper logger, string taskName)
+        /// <param name="messagePrefix"></param>
+        public LogWrapper(TaskLoggingHelper logger, string taskName, string messagePrefix = null)
             : base(taskName)
         {
             Logger = logger;
+            _messagePrefix = messagePrefix ?? string.Empty;
         }
         /// <inheritdoc/>
         public override void LogError(string subcategory, string errorCode, string helpKeyword, string file,
@@ -39,7 +42,7 @@ namespace BeatSaberModdingTools.Tasks.Utilities
 
         /// <inheritdoc/>
         public override void LogMessage(MessageImportance importance, string message, params object[] messageArgs) 
-            => Logger.LogMessage(importance, $"{TaskName}: {message}", messageArgs);
+            => Logger.LogMessage(importance, $"{_messagePrefix}{TaskName}: {message}", messageArgs);
 
         /// <inheritdoc/>
         public override void LogMessage(string subcategory, string code, string helpKeyword, string file,
@@ -47,7 +50,7 @@ namespace BeatSaberModdingTools.Tasks.Utilities
             MessageImportance messageImportance, string message, params object[] messageArgs)
         => Logger.LogMessage(subcategory, code, helpKeyword, file,
                 lineNumber, columnNumber, endLineNumber, endColumnNumber,
-                messageImportance, $"{TaskName}: {message}", messageArgs);
+                messageImportance, $"{_messagePrefix}{TaskName}: {message}", messageArgs);
 
 
         /// <inheritdoc/>

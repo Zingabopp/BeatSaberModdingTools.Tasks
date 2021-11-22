@@ -122,8 +122,8 @@ namespace BeatSaberModdingTools.Tasks
         /// <returns></returns>
         public AssemblyInfoData ParseAssembly(string assemblyFile, bool errorOnMismatch)
         {
-            string assemblyVersionStart = "[assembly: AssemblyVersion(";
-            string assemblyFileVersionStart = "[assembly: AssemblyFileVersion(";
+            string assemblyVersionStart = "[assembly: AssemblyVersion";
+            string assemblyFileVersionStart = "[assembly: AssemblyFileVersion";
             string assemblyVersionString = null;
             string assemblyFileVersionString = null;
             int asmVerLineNum = 0;

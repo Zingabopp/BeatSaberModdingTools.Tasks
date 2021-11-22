@@ -23,6 +23,10 @@ namespace BeatSaberModdingTools.Tasks
         [Required]
         public virtual string DestinationFile { get; set; }
         /// <summary>
+        /// Optional: Prefixes all log message with this string.
+        /// </summary>
+        public virtual string MessagePrefix { get; set; }
+        /// <summary>
         /// Full path to the created zip file.
         /// </summary>
         [Output]
@@ -40,7 +44,7 @@ namespace BeatSaberModdingTools.Tasks
         public override bool Execute()
         {
             if (this.BuildEngine != null)
-                Logger = new LogWrapper(Log, GetType().Name);
+                Logger = new LogWrapper(Log, GetType().Name, MessagePrefix);
             else
                 Logger = new MockTaskLogger(GetType().Name);
             string errorCode = null;
@@ -81,7 +85,7 @@ namespace BeatSaberModdingTools.Tasks
                 {
                     int line = BuildEngine.LineNumberOfTaskNode;
                     int column = BuildEngine.ColumnNumberOfTaskNode;
-                    Logger.LogError(null, errorCode, null, BuildEngine.ProjectFileOfTaskNode, line, column, line, column, $"Error in {GetType().Name}: {ex.Message}");
+                    Logger.LogError(null, errorCode, null, BuildEngine.ProjectFileOfTaskNode, line, column, line, column, $"$Error in {GetType().Name}: {ex.Message}");
                 }
                 else
                 {

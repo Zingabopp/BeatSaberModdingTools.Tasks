@@ -1,0 +1,30 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project>
+    <!-- All BSMT targets should DependsOnTargets one of these. -->
+    <Target Name="BSMT_BeforeBuild" BeforeTargets="Build">
+        <Message Text="Target: BSMT_BeforeBuild" Importance="high" />
+        <Warning Text="BSMT Build targets file found (usually named Directory.Build.targets), disabling default targets. If you intend to use a custom targets file, set &lt;ImportBSMTTargets&gt; to false in your project."
+                 Condition="'$(BSMT_ImportOverridden)' == 'True'" />
+        <PropertyGroup>
+            <OutputAssemblyName Condition="'$(OutputAssemblyName)' == ''">$(OutputPath)$(AssemblyName)</OutputAssemblyName>
+            <!--Path to folder to be zipped. Needs to be relative to the project directory to work without changes to the 'BuildForCI' target.-->
+            <ArtifactDestination Condition="'$(ArtifactDestination)' == ''">$(OutputPath)Artifact</ArtifactDestination>
+            <ErrorOnMismatchedVersions Condition="'$(ErrorOnMismatchedVersions)' == '' AND '$(Configuration)' == 'Release'">True</ErrorOnMismatchedVersions>
+            <GameDirectory Condition="'$(GameDirectory)' == '' AND '$(BeatSaberDir)' != '' ">$(BeatSaberDir)</GameDirectory>
+            <GameDirectory Condition="'$(GameDirectory)' == '' AND '$(GameReferences)' != '' ">$(GameReferences)</GameDirectory>
+        </PropertyGroup>
+        <Message Text="   OutputAssemblyName= '$(OutputAssemblyName)' (Path relative to project, no extension)" Importance="high" Condition="'$(ImportBSMTTargets)' == 'True'" />
+        <Message Text="   ArtifactDestination= '$(ArtifactDestination)' (Path to directory relative to project)" Importance="high" Condition="'$(ImportBSMTTargets)' == 'True'" />
+        <Message Text="   ErrorOnMismatchedVersions= '$(ErrorOnMismatchedVersions)'" Importance="high" Condition="'$(ImportBSMTTargets)' == 'True'" />
+        <Message Text="   GameDirectory= '$(GameDirectory)' (Set from GameReferences. Path to root game folder, used to copy output)" Importance="high" 
+                 Condition="'$(ImportBSMTTargets)' == 'True' AND '$(GameDirectory)' == '$(GameReferences)' AND '$(GameDirectory)' != ''" />
+        <Message Text="   GameDirectory= '$(GameDirectory)' (Path to root game folder, used to copy output)" Importance="high" 
+                 Condition="'$(ImportBSMTTargets)' == 'True' AND '$(GameDirectory)' != '$(GameReferences)'" />
+        <Message Text="   DisableCopyToGame= '$(DisableCopyToGame)' (If true, do not copy output to the game folder.)" Importance="high" Condition="'$(ImportBSMTTargets)' == 'True'" />
+        <Message Text="   DisableZipRelease= '$(DisableZipRelease)' (If true, do not zip the output)" Importance="high" Condition="'$(ImportBSMTTargets)' == 'True'" />
+    </Target>
+
+    <Target Name="BSMT_AfterBuild" AfterTargets="Build">
+        <Message Text="Target: BSMT_AfterBuild" Importance="high" />
+    </Target>
+</Project>

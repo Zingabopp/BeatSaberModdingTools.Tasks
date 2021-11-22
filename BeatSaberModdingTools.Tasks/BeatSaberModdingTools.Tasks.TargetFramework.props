@@ -4,27 +4,30 @@
 -->
 <!--<Project TreatAsLocalProperty="BSMTTaskFolder;BSMTTaskAssembly" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">-->
 <Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-  <PropertyGroup>
+    <PropertyGroup>
 
-    <!--<BSMTTaskFolder>netstandard2.0</BSMTTaskFolder>-->
-    <IsNetCoreApp Condition="$(MSBuildRuntimeType) == 'Core'">true</IsNetCoreApp>
-    <IsNetCoreApp Condition="$(MSBuildRuntimeType) != 'Core'">false</IsNetCoreApp>
-    <!--
-    <BSMTTaskFolder Condition="$(IsNetCoreApp)">netstandard2.0</BSMTTaskFolder>
-    <BSMTTaskFolder Condition="!$(IsNetCoreApp)">net46</BSMTTaskFolder> -->
-    <BSMTTaskFolder>netstandard2.0</BSMTTaskFolder>
-    <BSMTTaskAssembly>$(MSBuildThisFileDirectory)..\tasks\$(BSMTTaskFolder)\BeatSaberModdingTools.Tasks.dll</BSMTTaskAssembly>
-    <ImportBSMTTargets>true</ImportBSMTTargets>
-  </PropertyGroup>
-  
-  <UsingTask TaskName="BeatSaberModdingTools.Tasks.CompareVersions" AssemblyFile="$(BSMTTaskAssembly)" />
-  <UsingTask TaskName="BeatSaberModdingTools.Tasks.GetAssemblyInfo" AssemblyFile="$(BSMTTaskAssembly)" />
-  <UsingTask TaskName="BeatSaberModdingTools.Tasks.GetCommitInfo" AssemblyFile="$(BSMTTaskAssembly)" />
-  <UsingTask TaskName="BeatSaberModdingTools.Tasks.GetManifestInfo" AssemblyFile="$(BSMTTaskAssembly)" />
-  <UsingTask TaskName="BeatSaberModdingTools.Tasks.IsProcessRunning" AssemblyFile="$(BSMTTaskAssembly)" />
-  <UsingTask TaskName="BeatSaberModdingTools.Tasks.ReplaceInFile" AssemblyFile="$(BSMTTaskAssembly)" />
-  <UsingTask TaskName="BeatSaberModdingTools.Tasks.ZipDir" AssemblyFile="$(BSMTTaskAssembly)" />
-  <UsingTask TaskName="BeatSaberModdingTools.Tasks.GenerateManifest" AssemblyFile="$(BSMTTaskAssembly)" />
+        <!--<BSMTTaskFolder>netstandard2.0</BSMTTaskFolder>-->
+        <IsNetCoreApp Condition="$(MSBuildRuntimeType) == 'Core'">true</IsNetCoreApp>
+        <IsNetCoreApp Condition="$(MSBuildRuntimeType) != 'Core'">false</IsNetCoreApp>
+        <!--
+        <BSMTTaskFolder Condition="$(IsNetCoreApp)">netstandard2.0</BSMTTaskFolder>
+        <BSMTTaskFolder Condition="!$(IsNetCoreApp)">net46</BSMTTaskFolder>
+        <BSMTTaskFolder>netstandard2.0</BSMTTaskFolder>
+        -->
+        <BSMTTaskAssembly>$(MSBuildThisFileDirectory)..\tasks\$(BSMTTaskFolder)\BeatSaberModdingTools.Tasks.dll</BSMTTaskAssembly>
+        <BSMT_ImportOverridden Condition="'$(BuildTargetsVersion)' != '' AND '$(ImportBSMTTargets)' != 'False'">True</BSMT_ImportOverridden>
+        <ImportBSMTTargets Condition="'$(BSMT_ImportOverridden)' != 'True' AND '$(ImportBSMTTargets)' == ''">true</ImportBSMTTargets>
+    </PropertyGroup>
 
-  <Import Project="$(MSBuildThisFileDirectory)BSMT.DefaultProps.props"/>
+    <UsingTask TaskName="BeatSaberModdingTools.Tasks.CompareVersions" AssemblyFile="$(BSMTTaskAssembly)" />
+    <UsingTask TaskName="BeatSaberModdingTools.Tasks.GetAssemblyInfo" AssemblyFile="$(BSMTTaskAssembly)" />
+    <UsingTask TaskName="BeatSaberModdingTools.Tasks.GetCommitInfo" AssemblyFile="$(BSMTTaskAssembly)" />
+    <UsingTask TaskName="BeatSaberModdingTools.Tasks.GetManifestInfo" AssemblyFile="$(BSMTTaskAssembly)" />
+    <UsingTask TaskName="BeatSaberModdingTools.Tasks.IsProcessRunning" AssemblyFile="$(BSMTTaskAssembly)" />
+    <UsingTask TaskName="BeatSaberModdingTools.Tasks.ReplaceInFile" AssemblyFile="$(BSMTTaskAssembly)" />
+    <UsingTask TaskName="BeatSaberModdingTools.Tasks.ZipDir" AssemblyFile="$(BSMTTaskAssembly)" />
+    <UsingTask TaskName="BeatSaberModdingTools.Tasks.GenerateManifest" AssemblyFile="$(BSMTTaskAssembly)" />
+
+    <Import Project="$(MSBuildThisFileDirectory)BSMT.DefaultProps.props"/>
+    <Import Project="$(MSBuildThisFileDirectory)BSMT.RequiredTargets.targets"/>
 </Project>

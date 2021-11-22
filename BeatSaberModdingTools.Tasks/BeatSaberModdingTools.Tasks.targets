@@ -1,6 +1,21 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <Project>
+    <PropertyGroup>
+        <DefaultedBSIPA Condition="'$(BSMTProjectType)' == '' AND '$(ImportBSMTTargets)' == 'True'">True</DefaultedBSIPA>
+        <BSMTProjectType Condition="'$(BSMTProjectType)' == ''">BSIPA</BSMTProjectType>
+        <BSMTProjectType Condition="'$(BSMTProjectType)' == 'BSIPA'">BSIPA</BSMTProjectType>
+        <BSMTProjectType Condition="'$(BSMTProjectType)' == 'Test'">Test</BSMTProjectType>
 
-  <Import Project="$(MSBuildThisFileDirectory)BSMT.DefaultTargets.targets" Condition="'$(ImportBSMTTargets)' != 'false'"/>
-  
+
+
+        <BSMTProjectType Condition="'$(ImportBSMTTargets)' != 'True'"></BSMTProjectType>
+    </PropertyGroup>
+
+    <Target Name="BSMT_InvalidProjectType" AfterTargets="BSMT_BeforeBuild" Condition="'$(DefaultedBSIPA)' == 'True'">
+        <Warning Text="BSMT project type not specified, defaulting to BSIPA. Define &lt;BSMTProjectType&gt;BSIPA&lt;/BSMTProjectType&gt; to get rid of this warning."/>
+    </Target>
+    
+    <Import Project="$(MSBuildThisFileDirectory)BuildTypes\BSMT.BSIPA.targets" Condition="'$(BSMTProjectType)' == 'BSIPA'"/>
+    <Import Project="$(MSBuildThisFileDirectory)BuildTypes\BSMT.Test.targets" Condition="'$(BSMTProjectType)' == 'Test'"/>
+
 </Project>

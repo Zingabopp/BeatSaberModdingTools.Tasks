@@ -1,0 +1,8 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project>
+    <!--Build Targets-->
+    <Target Name="LegacyWarnings" AfterTargets="Build" DependsOnTargets="BSMT_AfterBuild">
+        <Warning Text="BSMT Test Target" />
+    </Target>
+    
+</Project>

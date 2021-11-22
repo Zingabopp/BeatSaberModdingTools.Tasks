@@ -1,13 +1,16 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <Project>
-  <PropertyGroup Condition="'$(GITHUB_ACTIONS)' == 'true'">
-    <ContinuousIntegrationBuild>true</ContinuousIntegrationBuild>
-    <DisableCopyToPlugins>true</DisableCopyToPlugins>
-    <DisableZipRelease>true</DisableZipRelease>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(NCrunch)' == '1'">
-    <ContinuousIntegrationBuild>false</ContinuousIntegrationBuild>
-    <DisableCopyToPlugins>true</DisableCopyToPlugins>
-    <DisableZipRelease>true</DisableZipRelease>
-  </PropertyGroup>
+    <PropertyGroup>
+        <CopyPDB Condition="'$(CopyPDB)' == ''">True</CopyPDB>
+    </PropertyGroup>
+    <PropertyGroup Condition="'$(GITHUB_ACTIONS)' == 'true'">
+        <ContinuousIntegrationBuild>true</ContinuousIntegrationBuild>
+        <DisableCopyToGame>true</DisableCopyToGame>
+        <DisableZipRelease>true</DisableZipRelease>
+    </PropertyGroup>
+    <PropertyGroup Condition="'$(NCrunch)' == '1'">
+        <ContinuousIntegrationBuild>false</ContinuousIntegrationBuild>
+        <DisableCopyToGame>true</DisableCopyToGame>
+        <DisableZipRelease>true</DisableZipRelease>
+    </PropertyGroup>
 </Project>
