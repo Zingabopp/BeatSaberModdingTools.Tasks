@@ -1,10 +1,12 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project>
     <!--Build Targets-->
+    <!--
     <Target Name="LegacyWarnings" BeforeTargets="BSMT_GetProjectInfo" DependsOnTargets="BSMT_BeforeBuild">
         <Warning Text="'BeatSaberDir' property has been deprecated, please switch to 'GameDirectory' to set the Beat Saber path for your project."
                  Condition="'$(BeatSaberDir)' != ''" />
     </Target>
+    -->
     <!--Runs a build task to get info about the project used by later targets.-->
     <Target Name="BSMT_GetProjectInfo" BeforeTargets="BeforeBuild" DependsOnTargets="BSMT_BeforeBuild">
         <Message Text="Target: BSMT_GetProjectInfo" Importance="high" />
@@ -55,7 +57,7 @@
         <Copy SourceFiles="%(OutputCopy.Identity)" DestinationFiles="$(ArtifactDestination)\%(OutputCopy.OutputPath)" />
     </Target>
     <!--Build target for Continuous Integration builds. Set up for GitHub Actions.-->
-    <Target Name="BSMT_OutputForCI" AfterTargets="Build" DependsOnTargets="BSMT_GetProjectInfo;BSMT_AfterBuild;CopyToArtifactDestination" Condition="'$(ContinuousIntegrationBuild)' != 'True'">
+    <Target Name="BSMT_OutputForCI" AfterTargets="Build" DependsOnTargets="BSMT_GetProjectInfo;BSMT_AfterBuild;CopyToArtifactDestination" Condition="'$(ContinuousIntegrationBuild)' == 'True'">
         <Message Text="Target: BSMT_OutputForCI" Importance="high" />
         <PropertyGroup>
             <!--Set 'ArtifactName' if it failed before.-->
