@@ -2,7 +2,7 @@
     <PropertyGroup>
         <id>BeatSaberModdingTools.Tasks</id>
         <Title>BeatSaberModdingTools.Tasks</Title>
-        <Version>2.0.0</Version>
+        <Version>2.0.0-beta1</Version>
         <Authors>Zingabopp</Authors>
         <Company>Zingabopp</Company>
         <Description>A set of MSBuild Tasks created for Beat Saber Modding Tools.</Description>
@@ -120,7 +120,7 @@
         <Message Text="::set-output name=assemblyname::$(AssemblyName)" Importance="high" />
     </Target>
     <Target Name="CopyToLocalNuget" AfterTargets="Pack" Condition ="'$(ContinuousIntegrationBuild)' != 'True'">
-        <Message Text="Output: '$(OutDir)' -&gt; '$(HOMEDRIVE)$(HOMEPATH)\Nuget\$(AssemblyName)-$(PackageVersion).nupkg'" 
+        <Message Text="Output: '$(OutDir)..\$(AssemblyName).$(PackageVersion).nupkg' -&gt; '$(HOMEDRIVE)$(HOMEPATH)\Nuget\$(AssemblyName)-$(PackageVersion).nupkg'" 
                  Importance="high" />
         <Copy SourceFiles="$(OutDir)..\$(AssemblyName).$(PackageVersion).nupkg" 
               DestinationFiles="$(HOMEDRIVE)$(HOMEPATH)\Nuget\$(AssemblyName).$(PackageVersion).nupkg" />
