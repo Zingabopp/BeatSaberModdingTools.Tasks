@@ -1,15 +1,16 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project>
     <!--Build Targets-->
-    <Target Name="LegacyWarnings" BeforeTargets="GetProjectInfo" DependsOnTargets="BSMT_BeforeBuild">
+    <Target Name="LegacyWarnings" BeforeTargets="BSMT_GetProjectInfo" DependsOnTargets="BSMT_BeforeBuild">
         <Warning Text="'BeatSaberDir' property has been deprecated, please switch to 'GameDirectory' to set the Beat Saber path for your project."
                  Condition="'$(BeatSaberDir)' != ''" />
     </Target>
     <!--Runs a build task to get info about the project used by later targets.-->
-    <Target Name="GetProjectInfo" BeforeTargets="BeforeBuild" DependsOnTargets="BSMT_BeforeBuild">
-
+    <Target Name="BSMT_GetProjectInfo" BeforeTargets="BeforeBuild" DependsOnTargets="BSMT_BeforeBuild">
+        <Message Text="Target: BSMT_GetProjectInfo" Importance="high" />
         <GetManifestInfo FailOnError="$(ErrorOnMismatchedVersions)">
             <Output TaskParameter="PluginVersion" PropertyName="PluginVersion" />
+            <Output TaskParameter="BasePluginVersion" PropertyName="BasePluginVersion" />
             <Output TaskParameter="GameVersion" PropertyName="GameVersion" />
         </GetManifestInfo>
         <GetCommitInfo ProjectDir="$(ProjectDir)">
@@ -21,17 +22,17 @@
         <GetAssemblyInfo FailOnError="$(ErrorOnMismatchedVersions)" Condition="Exists('Properties/AssemblyInfo.cs')">
             <Output TaskParameter="AssemblyVersion" PropertyName="AssemblyVersion" />
         </GetAssemblyInfo>
-        <CompareVersions PluginVersion="$(PluginVersion)" AssemblyVersion="$(AssemblyVersion)" ErrorOnMismatch="$(ErrorOnMismatchedVersions)"
+        <CompareVersions PluginVersion="$(BasePluginVersion)" AssemblyVersion="$(AssemblyVersion)" ErrorOnMismatch="$(ErrorOnMismatchedVersions)"
 							Condition="Exists('Properties\AssemblyInfo.cs')" />
         <PropertyGroup>
-            <Version>$(PluginVersion)</Version>
+            <Version Condition="'$(Version)' == ''">$(AssemblyVersion)</Version>
             <!--Build name for artifact/zip file-->
             <ArtifactName>$(AssemblyName)</ArtifactName>
             <ArtifactName Condition="'$(PluginVersion)' != ''">$(ArtifactName)-$(PluginVersion)</ArtifactName>
             <ArtifactName Condition="'$(GameVersion)' != ''">$(ArtifactName)-bs$(GameVersion)</ArtifactName>
             <ArtifactName Condition="'$(CommitHash)' != '' AND '$(CommitHash)' != 'local'">$(ArtifactName)-$(CommitHash)</ArtifactName>
         </PropertyGroup>
-        <CompareVersions PluginVersion="$(PluginVersion)" AssemblyVersion="$(Version)" ErrorOnMismatch="$(ErrorOnMismatchedVersions)" />
+        <CompareVersions PluginVersion="$(BasePluginVersion)" AssemblyVersion="$(Version)" ErrorOnMismatch="$(ErrorOnMismatchedVersions)" />
     </Target>
 
     <Target Name="BSMT_SetOutputs" AfterTargets="Build" DependsOnTargets="BSMT_AfterBuild">
@@ -54,8 +55,8 @@
         <Copy SourceFiles="%(OutputCopy.Identity)" DestinationFiles="$(ArtifactDestination)\%(OutputCopy.OutputPath)" />
     </Target>
     <!--Build target for Continuous Integration builds. Set up for GitHub Actions.-->
-    <Target Name="BuildForCI" AfterTargets="Build" DependsOnTargets="GetProjectInfo;BSMT_AfterBuild;CopyToArtifactDestination" Condition="'$(ContinuousIntegrationBuild)' != 'True'">
-        <Message Text="Target: BuildForCI" Importance="high" />
+    <Target Name="BSMT_OutputForCI" AfterTargets="Build" DependsOnTargets="BSMT_GetProjectInfo;BSMT_AfterBuild;CopyToArtifactDestination" Condition="'$(ContinuousIntegrationBuild)' != 'True'">
+        <Message Text="Target: BSMT_OutputForCI" Importance="high" />
         <PropertyGroup>
             <!--Set 'ArtifactName' if it failed before.-->
             <ArtifactName Condition="'$(ArtifactName)' == ''">$(AssemblyName)</ArtifactName>
@@ -66,8 +67,8 @@
         <Message Text="::set-output name=artifactpath::$(ProjectDir)$(ArtifactDestination)" Importance="high" />
     </Target>
     <!--Creates a BeatMods compliant zip file with the release.-->
-    <Target Name="ZipRelease" AfterTargets="Build" DependsOnTargets="BSMT_AfterBuild;CopyToArtifactDestination" Condition="'$(DisableZipRelease)' != 'True' AND '$(Configuration)' == 'Release'">
-        <Message Text="Target: ZipRelease" Importance="high" />
+    <Target Name="BSMT_ZipRelease" AfterTargets="Build" DependsOnTargets="BSMT_AfterBuild;CopyToArtifactDestination" Condition="'$(DisableZipRelease)' != 'True' AND '$(Configuration)' == 'Release'">
+        <Message Text="Target: BSMT_ZipRelease" Importance="high" />
         <PropertyGroup>
             <!--Set 'ArtifactName' if it failed before.-->
             <ArtifactName Condition="'$(ArtifactName)' == ''">$(AssemblyName)</ArtifactName>
@@ -80,8 +81,8 @@
         <ZipDir SourceDirectory="$(ArtifactDestination)" DestinationFile="$(DestinationDirectory)$(ArtifactName).zip" MessagePrefix="   " />
     </Target>
     <!--Copies the assembly and pdb to the Beat Saber folder.-->
-    <Target Name="CopyToPlugins" AfterTargets="Build" DependsOnTargets="BSMT_AfterBuild;CopyToArtifactDestination" Condition="'$(DisableCopyToGame)' != 'True' AND '$(ContinuousIntegrationBuild)' != 'True'">
-        <Message Text="Target: CopyToPlugins" Importance="high" />
+    <Target Name="BSMT_CopyToPlugins" AfterTargets="Build" DependsOnTargets="BSMT_AfterBuild;CopyToArtifactDestination" Condition="'$(DisableCopyToGame)' != 'True' AND '$(ContinuousIntegrationBuild)' != 'True'">
+        <Message Text="Target: BSMT_CopyToPlugins" Importance="high" />
         <PropertyGroup>
             <PluginDir>$(GameDirectory)\Plugins</PluginDir>
             <CanCopyToPlugins>True</CanCopyToPlugins>

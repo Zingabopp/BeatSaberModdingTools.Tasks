@@ -1,6 +1,53 @@
 # BeatSaberModdingTools.Tasks
 A set of MSBuild tasks for Beat Saber mods. Created for the templates in [Beat Saber Modding Tools](https://github.com/Zingabopp/BeatSaberModdingTools).
 
+# Default Targets (v2.0.0+)
+BSMT.Tasks now automatically includes a set of build targets for your project (your project doesn't need its own `Directory.Build.targets` file). This functionality can be disabled by setting `ImportBSMTTargets` to `false` in your project (`<ImportBSMTTargets>False</ImportBSMTTargets>` in your csproj file).
+
+## Properties and ItemGroups
+Properties and ItemGroups can be set to alter the behavior of the default targets. 
+* Properties
+  * `ImportBSMTTargets`: Set to false to disable the automatically included targets if you want to create your own targets.
+  * `BSMTProjectType`: Determines which set of default targets to run. Currently, the only option is `BSIPA`. Future versions may include other options.
+    * Default is `BSIPA`. Projects should set this explicitly.
+  * `OutputAssemblyName`: Path to the output assembly (relative to project folder, no extension). This is used to copy the output assembly and PDB file to the artifact folder.
+    * Default is `$(OutputPath)$(AssemblyName)`.
+  * `ArtifactDestination`: Path to the artifact folder (relative to project folder). This is the folder that gets zipped for Release builds or CI builds.
+    * Default is `$(OutputPath)Artifact`.
+  * `ErrorOnMismatchedVersions`: If true, a build error will be raised if the project's assembly version doesn't match the manifest.
+    * Default is true for Release builds, false otherwise
+  * `GameDirectory`: Path to an actual game install.
+    * Default is `$(GameReferences)`. `GameReferences` should be set by the `csproj.user` file (current, the value of `BeatSaberDir` will also be used, but this behavior is deprecated).
+    * Projects should set this explicitly if `GameReferences` does not point to a Beat Saber install.
+* ItemGroups
+  * `OutputCopy`: The items in this group represent files to copy to the artifact folder and their relative path inside it. This can be used for non-standard outputs such as libraries or projects using ILRepack.
+    * `Include`: The file to be copied.
+    * `OutputPath`: Relative path of the copied file.
+    * Example: `<OutputCopy Include="Plugin.dll" OutputPath="Plugins\Plugin.dll" />`
+
+## BSIPA Targets Information
+* BSMT_BeforeBuild
+  * This is the first target that runs, all other BSMT targets will run after this one.
+  * Prints information to the build output (property names and values).
+* BSMT_GetProjectInfo
+  * This target attempts to determine the plugin version, assembly version, game version, and git information. It also compares the assembly and plugin versions and errors/warns on a mismatch. The `ArtifactName` property is also set (used for naming the Release zip and GitHub Actions artifact).
+  * Properties Set:
+    * `PluginVersion`, `GameVersion`, `CommitHash`, `Branch`, `Modified`, `ArtifactName`
+* BSMT_AfterBuild
+  * This is the first BSMT target that runs after the build finishes, all other post-build BSMT targets run after this one.
+    * For ILRepack users, ensure your ILRepack task specifies `BeforeTargets="BSMT_AfterBuild"`
+* BSMT_SetOutputs
+  * This target sets `OutputCopy` if it does not already have items in it.
+* BSMT_OutputForCI
+  * This target prints messages that can be read by GitHub Actions
+    * `filename`: Name for the artifact.
+    * `assemblyname`: Name of the assembly (no extension).
+    * `artifactpath`: Path to the artifact folder.
+* BSMT_ZipRelease
+  * Creates a BeatMods compliant zip file for Release builds. The zip can be found in the `zip` folder of the output directory (Usually `bin\Release\zip`).
+* BSMT_CopyToPlugins
+  * Copies the output files to your game directory (or BSIPA's `Pending` folder if the game is running).
+
 # Tasks 
 **Current as of v1.3.2**
 ## CompareVersions
