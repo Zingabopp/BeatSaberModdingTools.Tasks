@@ -118,7 +118,11 @@
     <Target Name="GithubActionsInfo" AfterTargets="Pack">
         <Message Text="::set-output name=filename::$(AssemblyName)-$(PackageVersion)" Importance="high" />
         <Message Text="::set-output name=assemblyname::$(AssemblyName)" Importance="high" />
-        <Message Text="Output: '$(OutDir)' -&gt; '$(HOMEDRIVE)$(HOMEPATH)\Nuget\$(AssemblyName)-$(PackageVersion).nupkg'" Importance="high" />
-        <Copy SourceFiles="$(OutDir)..\$(AssemblyName).$(PackageVersion).nupkg" DestinationFiles="$(HOMEDRIVE)$(HOMEPATH)\Nuget\$(AssemblyName).$(PackageVersion).nupkg" />
+    </Target>
+    <Target Name="CopyToLocalNuget" AfterTargets="Pack" Condition ="'$(ContinuousIntegrationBuild)' != 'True'">
+        <Message Text="Output: '$(OutDir)' -&gt; '$(HOMEDRIVE)$(HOMEPATH)\Nuget\$(AssemblyName)-$(PackageVersion).nupkg'" 
+                 Importance="high" />
+        <Copy SourceFiles="$(OutDir)..\$(AssemblyName).$(PackageVersion).nupkg" 
+              DestinationFiles="$(HOMEDRIVE)$(HOMEPATH)\Nuget\$(AssemblyName).$(PackageVersion).nupkg" />
     </Target>
 </Project>
