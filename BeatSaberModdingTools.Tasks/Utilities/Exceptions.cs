@@ -167,8 +167,8 @@ namespace BeatSaberModdingTools.Tasks.Utilities
         /// <summary>
         /// Creates a new <see cref="BsipaDependsOnException"/>.
         /// </summary>
-        public BsipaDependsOnException() 
-            : base("BSIPA must be listed in DependsOn. If BSIPA is not required, set the RequiresBsipa Task parameter to false." )
+        public BsipaDependsOnException()
+            : base("BSIPA must be listed in DependsOn. If BSIPA is not required, set the RequiresBsipa Task parameter to false.")
         {
         }
     }

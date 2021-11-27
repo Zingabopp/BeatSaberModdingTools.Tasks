@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-
-using System.Globalization;
-using System.Linq;
+﻿using System.Collections.Generic;
 using SimpleJSON;
 using static BeatSaberModdingTools.Tasks.Utilities.ParseUtil;
 
@@ -333,7 +329,7 @@ namespace BeatSaberModdingTools.Tasks.Models
                 JSONArray ary = new JSONArray();
                 SetStringArray(ary, value);
                 var node = json["loadAfter"];
-                if(node is JSONArray existing)
+                if (node is JSONArray existing)
                 {
                     foreach (var item in ary)
                     {

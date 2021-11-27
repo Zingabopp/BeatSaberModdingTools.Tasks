@@ -1,8 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
 using System.Reflection;
-using System.Text;
 using BeatSaberModdingTools.Tasks.Models;
 using BeatSaberModdingTools.Tasks.Utilities;
 using BeatSaberModdingTools.Tasks.Utilities.Mock;

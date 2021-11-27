@@ -1,8 +1,8 @@
-﻿using BeatSaberModdingTools.Tasks.Utilities;
+﻿using System;
+using System.IO;
+using BeatSaberModdingTools.Tasks.Utilities;
 using BeatSaberModdingTools.Tasks.Utilities.Mock;
 using Microsoft.Build.Framework;
-using System;
-using System.IO;
 using static BeatSaberModdingTools.Tasks.Utilities.MessageCodes;
 
 namespace BeatSaberModdingTools.Tasks

@@ -1,9 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using BeatSaberModdingTools.Tasks.Utilities;
-using SimpleJSON;
 
 namespace BeatSaberModdingTools.Tasks.Models
 {
@@ -21,7 +18,7 @@ namespace BeatSaberModdingTools.Tasks.Models
         /// <exception cref="BsipaDependsOnException"/>
         public void Validate(bool requiresBsipa)
         {
-            var nullProps = json.Linq.Where(n => 
+            var nullProps = json.Linq.Where(n =>
             n.Value == null || (n.Value.ToString() == string.Empty)).Select(n => n.Key).ToArray();
             foreach (var prop in nullProps)
             {

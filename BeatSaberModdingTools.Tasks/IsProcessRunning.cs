@@ -1,8 +1,8 @@
-﻿using BeatSaberModdingTools.Tasks.Utilities;
+﻿using System;
+using System.Diagnostics;
+using BeatSaberModdingTools.Tasks.Utilities;
 using BeatSaberModdingTools.Tasks.Utilities.Mock;
 using Microsoft.Build.Framework;
-using System;
-using System.Diagnostics;
 
 namespace BeatSaberModdingTools.Tasks
 {

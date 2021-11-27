@@ -1,10 +1,9 @@
-﻿using BeatSaberModdingTools.Tasks.Utilities;
-using BeatSaberModdingTools.Tasks.Utilities.Mock;
-using Microsoft.Build.Framework;
-using System;
-using System.Diagnostics;
+﻿using System;
 using System.IO;
 using System.Text.RegularExpressions;
+using BeatSaberModdingTools.Tasks.Utilities;
+using BeatSaberModdingTools.Tasks.Utilities.Mock;
+using Microsoft.Build.Framework;
 
 namespace BeatSaberModdingTools.Tasks
 {
@@ -143,7 +142,7 @@ namespace BeatSaberModdingTools.Tasks
                 else
                 {
                     Match detatchedMatch = DetatchedBranchSearch.Match(statusText);
-                    if(detatchedMatch.Success && detatchedMatch.Groups.Count > 1)
+                    if (detatchedMatch.Success && detatchedMatch.Groups.Count > 1)
                     {
                         string branch = detatchedMatch.Groups[1].Value;
                         status.Branch = branch;

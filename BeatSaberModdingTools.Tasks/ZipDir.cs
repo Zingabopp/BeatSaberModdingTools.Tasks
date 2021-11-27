@@ -1,9 +1,9 @@
-﻿using BeatSaberModdingTools.Tasks.Utilities;
-using BeatSaberModdingTools.Tasks.Utilities.Mock;
-using Microsoft.Build.Framework;
-using System;
+﻿using System;
 using System.IO;
 using System.IO.Compression;
+using BeatSaberModdingTools.Tasks.Utilities;
+using BeatSaberModdingTools.Tasks.Utilities.Mock;
+using Microsoft.Build.Framework;
 
 namespace BeatSaberModdingTools.Tasks
 {

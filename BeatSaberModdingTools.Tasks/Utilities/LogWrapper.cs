@@ -1,6 +1,6 @@
-﻿using Microsoft.Build.Framework;
+﻿using System;
+using Microsoft.Build.Framework;
 using Microsoft.Build.Utilities;
-using System;
 
 namespace BeatSaberModdingTools.Tasks.Utilities
 {
@@ -33,15 +33,15 @@ namespace BeatSaberModdingTools.Tasks.Utilities
             => Logger.LogError(subcategory, errorCode, helpKeyword, file, lineNumber, columnNumber, endLineNumber, endColumnNumber, $"{TaskName}: {message}", messageArgs);
 
         /// <inheritdoc/>
-        public override void LogError(string message, params object[] messageArgs) 
+        public override void LogError(string message, params object[] messageArgs)
             => Logger.LogError($"{TaskName}: {message}", messageArgs);
 
         /// <inheritdoc/>
-        public override void LogErrorFromException(Exception exception) 
+        public override void LogErrorFromException(Exception exception)
             => Logger.LogErrorFromException(exception);
 
         /// <inheritdoc/>
-        public override void LogMessage(MessageImportance importance, string message, params object[] messageArgs) 
+        public override void LogMessage(MessageImportance importance, string message, params object[] messageArgs)
             => Logger.LogMessage(importance, $"{_messagePrefix}{TaskName}: {message}", messageArgs);
 
         /// <inheritdoc/>
@@ -58,7 +58,7 @@ namespace BeatSaberModdingTools.Tasks.Utilities
             => Logger.LogWarning(subcategory, warningCode, helpKeyword, file, lineNumber, columnNumber, endLineNumber, endColumnNumber, $"{TaskName}: {message}", messageArgs);
 
         /// <inheritdoc/>
-        public override void LogWarning(string message, params object[] messageArgs) 
+        public override void LogWarning(string message, params object[] messageArgs)
             => Logger.LogWarning($"{TaskName}: {message}", messageArgs);
 
         /// <inheritdoc/>
