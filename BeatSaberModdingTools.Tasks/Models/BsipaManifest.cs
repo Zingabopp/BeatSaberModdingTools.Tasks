@@ -10,6 +10,10 @@ namespace BeatSaberModdingTools.Tasks.Models
     public partial class BsipaManifest
     {
         /// <summary>
+        /// URL for the JSON schema.
+        /// </summary>
+        public const string SchemaUrl = @"https://raw.githubusercontent.com/bsmg/BSIPA-MetadataFileSchema/master/Schema.json";
+        /// <summary>
         /// Throws an exception if the <see cref="BsipaManifest"/> is not valid.
         /// </summary>
         /// <param name="requiresBsipa"></param>

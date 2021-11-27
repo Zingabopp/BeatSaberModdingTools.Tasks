@@ -42,7 +42,7 @@ namespace BeatSaberModdingTools.Tasks.Models
         public BsipaManifest(JSONObject j = null)
         {
             json = j ?? new JSONObject();
-            Schema = @"https://raw.githubusercontent.com/bsmg/BSIPA-MetadataFileSchema/master/Schema.json";
+            Schema = SchemaUrl;
         }
 
         private string GetStringValue(string key, JSONNode startNode = null)
