@@ -60,9 +60,7 @@
             <PackagePath>build\BSMT.RequiredTargets.targets</PackagePath>
             <Pack>true</Pack>
         </Content>
-        <Content Include="BSMT.DefaultProps.props"
-                 Pack="true" 
-                 PackagePath="build\BSMT.DefaultProps.props" />
+        <Content Include="BSMT.DefaultProps.props" Pack="true" PackagePath="build\BSMT.DefaultProps.props" />
         <Content Include="BuildTypes\BSMT.Test.targets">
             <PackagePath>build\BuildTypes\BSMT.Test.targets</PackagePath>
             <Pack>true</Pack>
@@ -93,7 +91,7 @@
 
     <ItemGroup>
         <!-- NuGetizer makes controlling NuGet pack *much* nicer -->
-        <PackageReference Include="NuGetizer" Version="0.7.4">
+        <PackageReference Include="NuGetizer" Version="0.7.5">
             <PrivateAssets>all</PrivateAssets>
             <IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
         </PackageReference>
@@ -118,7 +116,7 @@
     <Target Name="GithubActionsInfo" AfterTargets="Pack">
         <Message Text="::set-output name=filename::$(AssemblyName)-$(PackageVersion)" Importance="high" />
         <Message Text="::set-output name=assemblyname::$(AssemblyName)" Importance="high" />
-        <Message Text="Output: '$(OutDir)' -> '$(HOMEDRIVE)$(HOMEPATH)\Nuget\$(AssemblyName)-$(PackageVersion).nupkg'" Importance="high" />
-        <Copy SourceFiles="$(OutDir)..\$(AssemblyName).$(PackageVersion).nupkg" DestinationFiles="$(HOMEDRIVE)$(HOMEPATH)\Nuget\$(AssemblyName).$(PackageVersion).nupkg"/>
+        <Message Text="Output: '$(OutDir)' -&gt; '$(HOMEDRIVE)$(HOMEPATH)\Nuget\$(AssemblyName)-$(PackageVersion).nupkg'" Importance="high" />
+        <Copy SourceFiles="$(OutDir)..\$(AssemblyName).$(PackageVersion).nupkg" DestinationFiles="$(HOMEDRIVE)$(HOMEPATH)\Nuget\$(AssemblyName).$(PackageVersion).nupkg" />
     </Target>
 </Project>
