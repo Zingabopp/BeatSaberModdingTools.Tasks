@@ -43,11 +43,7 @@
     <PropertyGroup>
         <DocumentationFile>BeatSaberModdingTools.Tasks.xml</DocumentationFile>
         <PackageTags>Beat Saber;BeatSaberModdingTools</PackageTags>
-        <PackageReleaseNotes>
-            * IsProcessRunning
-            * Does not stop build on errors.
-            * Only supported in Windows
-            * Added 'Fallback' value option for if it fails.
+        <PackageReleaseNotes>* Standard build targets are now automatically run, projects don't need their own Directory.Build.targets file.
         </PackageReleaseNotes>
         <PackageIcon>bsmt.tasks_icon.png</PackageIcon>
         <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
@@ -119,10 +115,8 @@
         <Message Text="::set-output name=filename::$(AssemblyName)-$(PackageVersion)" Importance="high" />
         <Message Text="::set-output name=assemblyname::$(AssemblyName)" Importance="high" />
     </Target>
-    <Target Name="CopyToLocalNuget" AfterTargets="Pack" Condition ="'$(ContinuousIntegrationBuild)' != 'True'">
-        <Message Text="Output: '$(OutDir)..\$(AssemblyName).$(PackageVersion).nupkg' -&gt; '$(HOMEDRIVE)$(HOMEPATH)\Nuget\$(AssemblyName)-$(PackageVersion).nupkg'" 
-                 Importance="high" />
-        <Copy SourceFiles="$(OutDir)..\$(AssemblyName).$(PackageVersion).nupkg" 
-              DestinationFiles="$(HOMEDRIVE)$(HOMEPATH)\Nuget\$(AssemblyName).$(PackageVersion).nupkg" />
+    <Target Name="CopyToLocalNuget" AfterTargets="Pack" Condition="'$(ContinuousIntegrationBuild)' != 'True'">
+        <Message Text="Output: '$(OutDir)..\$(AssemblyName).$(PackageVersion).nupkg' -&gt; '$(HOMEDRIVE)$(HOMEPATH)\Nuget\$(AssemblyName)-$(PackageVersion).nupkg'" Importance="high" />
+        <Copy SourceFiles="$(OutDir)..\$(AssemblyName).$(PackageVersion).nupkg" DestinationFiles="$(HOMEDRIVE)$(HOMEPATH)\Nuget\$(AssemblyName).$(PackageVersion).nupkg" />
     </Target>
 </Project>
