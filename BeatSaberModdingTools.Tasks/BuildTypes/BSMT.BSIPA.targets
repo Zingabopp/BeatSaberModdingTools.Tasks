@@ -25,7 +25,7 @@
         <CompareVersions PluginVersion="$(BasePluginVersion)" AssemblyVersion="$(AssemblyVersion)" ErrorOnMismatch="$(ErrorOnMismatchedVersions)"
 							Condition="Exists('Properties\AssemblyInfo.cs')" />
         <PropertyGroup>
-            <Version Condition="'$(Version)' == ''">$(AssemblyVersion)</Version>
+            <Version>$(BasePluginVersion)</Version>
             <!--Build name for artifact/zip file-->
             <ArtifactName>$(AssemblyName)</ArtifactName>
             <ArtifactName Condition="'$(PluginVersion)' != ''">$(ArtifactName)-$(PluginVersion)</ArtifactName>
