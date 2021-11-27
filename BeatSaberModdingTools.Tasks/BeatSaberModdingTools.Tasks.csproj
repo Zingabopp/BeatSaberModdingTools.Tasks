@@ -91,6 +91,7 @@
 
     <ItemGroup>
         <!-- NuGetizer makes controlling NuGet pack *much* nicer -->
+        <PackageReference Include="NuGet.Packaging" Version="6.0.0" />
         <PackageReference Include="NuGetizer" Version="0.7.5">
             <PrivateAssets>all</PrivateAssets>
             <IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
