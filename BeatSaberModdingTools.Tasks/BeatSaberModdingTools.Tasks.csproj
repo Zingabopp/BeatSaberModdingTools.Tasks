@@ -91,11 +91,12 @@
 
     <ItemGroup>
         <!-- NuGetizer makes controlling NuGet pack *much* nicer -->
-        <PackageReference Include="NuGet.Packaging" Version="6.0.0" />
+        <!-- Breaks GitHub Actions build
         <PackageReference Include="NuGetizer" Version="0.7.5">
             <PrivateAssets>all</PrivateAssets>
             <IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
         </PackageReference>
+        -->
     </ItemGroup>
 
     <ItemGroup Condition="'$(ContinuousIntegrationBuild)' == 'True'">
