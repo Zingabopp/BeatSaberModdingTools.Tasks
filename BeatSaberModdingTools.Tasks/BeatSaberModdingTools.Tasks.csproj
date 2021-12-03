@@ -43,14 +43,16 @@
     <PropertyGroup>
         <DocumentationFile>BeatSaberModdingTools.Tasks.xml</DocumentationFile>
         <PackageTags>Beat Saber;BeatSaberModdingTools</PackageTags>
-        <PackageReleaseNotes>* Added more options.
-        * Added GenerateManifest boolean property.
+        <PackageReadmeFile>README.md</PackageReadmeFile>
+        <PackageReleaseNotes>* PluginVersion bug fix with GenerateManifest.
+        * Added property to specify the game exe.
         </PackageReleaseNotes>
         <PackageIcon>bsmt.tasks_icon.png</PackageIcon>
         <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
     </PropertyGroup>
 
     <ItemGroup>
+        <None Include="$(SolutionDir)README.md" Pack="true" PackagePath="\" />
         <Content Include="BeatSaberModdingTools.Tasks.TargetFramework.props" Pack="true" PackagePath="build\BeatSaberModdingTools.Tasks.props" />
         <Content Include="BeatSaberModdingTools.Tasks.targets" Pack="true" PackagePath="build\BeatSaberModdingTools.Tasks.targets" />
         <Content Include="BSMT.RequiredTargets.targets">
