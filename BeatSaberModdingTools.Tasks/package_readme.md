@@ -1,0 +1,1 @@
+﻿Descriptions of tasks can be found [Here](https://github.com/Zingabopp/BeatSaberModdingTools.Tasks).
