@@ -109,8 +109,16 @@ namespace BeatSaberModdingTools.Tasks
         #endregion
 
         #region Outputs
+        /// <summary>
+        /// Plugin version without any prerelease labels.
+        /// </summary>
         [Output]
-        public string BasePluginVersion { get; set; }
+        public string BasePluginVersion { get; set; } = "";
+        /// <summary>
+        /// Plugin version written to the manifest.
+        /// </summary>
+        [Output]
+        public string PluginVersion { get; set; } = "";
         #endregion
         /// <summary>
         /// Executes the task.
@@ -128,6 +136,7 @@ namespace BeatSaberModdingTools.Tasks
                 manifest.Validate(RequiresBsipa);
                 WriteManifest(manifest, TargetPath);
                 BasePluginVersion = Util.StripVersionLabel(manifest.Version);
+                PluginVersion = manifest.Version;
                 return true;
             }
             catch (ManifestValidationException ex)

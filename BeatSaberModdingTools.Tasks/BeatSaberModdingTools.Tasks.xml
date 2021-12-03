@@ -150,6 +150,16 @@
             If true, manifest validation will fail if BSIPA isn't listed as a DependsOn.
             </summary>
         </member>
+        <member name="P:BeatSaberModdingTools.Tasks.GenerateManifest.BasePluginVersion">
+            <summary>
+            Plugin version without any prerelease labels.
+            </summary>
+        </member>
+        <member name="P:BeatSaberModdingTools.Tasks.GenerateManifest.PluginVersion">
+            <summary>
+            Plugin version written to the manifest.
+            </summary>
+        </member>
         <member name="M:BeatSaberModdingTools.Tasks.GenerateManifest.Execute">
             <summary>
             Executes the task.
