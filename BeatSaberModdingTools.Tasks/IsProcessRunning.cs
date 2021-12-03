@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Diagnostics;
+using System.IO;
 using BeatSaberModdingTools.Tasks.Utilities;
 using BeatSaberModdingTools.Tasks.Utilities.Mock;
 using Microsoft.Build.Framework;
@@ -55,6 +56,8 @@ namespace BeatSaberModdingTools.Tasks
             string errorCode = null;
             try
             {
+                if(ProcessName.EndsWith(".exe", StringComparison.OrdinalIgnoreCase))
+                    ProcessName = Path.GetFileNameWithoutExtension(ProcessName);
                 if (string.IsNullOrEmpty(ProcessName))
                 {
                     errorCode = MessageCodes.IsProcessRunning.EmptyProcessName;
