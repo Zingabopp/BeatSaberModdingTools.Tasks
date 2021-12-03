@@ -24,8 +24,9 @@
             <Output TaskParameter="AssemblyVersion" PropertyName="AssemblyVersion" />
         </GetAssemblyInfo>
         <PropertyGroup>
-            <Version Condition="'$(Version)' == ''">$(AssemblyVersion)</Version>
+            <Version Condition="Exists('Properties/AssemblyInfo.cs')">$(AssemblyVersion)</Version>
         </PropertyGroup>
+        <Message Text="   Version= '$(Version)' (Filename to check if game is running)" Importance="high" Condition="Exists('Properties\AssemblyInfo.cs')"  />
     </Target>
     <Target Name="BSMT_GenerateManifest" BeforeTargets="BeforeBuild" DependsOnTargets="BSMT_StartBSIPA" Condition="'$(GenerateManifest)' == 'true'">
         <Message Text="Target: BSMT_GenerateManifest" Importance="high" />
