@@ -43,7 +43,8 @@
     <PropertyGroup>
         <DocumentationFile>BeatSaberModdingTools.Tasks.xml</DocumentationFile>
         <PackageTags>Beat Saber;BeatSaberModdingTools</PackageTags>
-        <PackageReleaseNotes>* Standard build targets are now automatically run, projects don't need their own Directory.Build.targets file.
+        <PackageReleaseNotes>* Added more options.
+        * Added GenerateManifest boolean property.
         </PackageReleaseNotes>
         <PackageIcon>bsmt.tasks_icon.png</PackageIcon>
         <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
