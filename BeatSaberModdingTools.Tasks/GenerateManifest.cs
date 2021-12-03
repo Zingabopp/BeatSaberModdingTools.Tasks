@@ -107,6 +107,11 @@ namespace BeatSaberModdingTools.Tasks
         /// </summary>
         public bool RequiresBsipa { get; set; } = true;
         #endregion
+
+        #region Outputs
+        [Output]
+        public string BasePluginVersion { get; set; }
+        #endregion
         /// <summary>
         /// Executes the task.
         /// </summary>
@@ -122,6 +127,7 @@ namespace BeatSaberModdingTools.Tasks
                 var manifest = MakeManifest();
                 manifest.Validate(RequiresBsipa);
                 WriteManifest(manifest, TargetPath);
+                BasePluginVersion = Util.StripVersionLabel(manifest.Version);
                 return true;
             }
             catch (ManifestValidationException ex)

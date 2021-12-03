@@ -7,10 +7,54 @@
                  Condition="'$(BeatSaberDir)' != ''" />
     </Target>
     -->
+    <Target Name="BSMT_StartBSIPA" BeforeTargets="BeforeBuild" DependsOnTargets="BSMT_BeforeBuild">
+        <Message Text="Target: BSMT_StartBSIPA" Importance="high" />
+        <PropertyGroup>
+            <ManifestPath Condition="'$(ManifestPath)' == ''">manifest.json</ManifestPath>
+        </PropertyGroup>
+        <Message Text="   ManifestPath= '$(ManifestPath)' (Manifest path relative to project)" Importance="high" />
+        <Message Text="   GenerateManifest= '$(GenerateManifest)' (Generate manifest if true)" Importance="high" />
+
+        <Message Text="   Reading AssemblyInfo from 'Properties\AssemblyInfo.cs'" Importance="high" Condition="Exists('Properties\AssemblyInfo.cs')" />
+        <GetAssemblyInfo FailOnError="$(ErrorOnMismatchedVersions)" Condition="Exists('Properties/AssemblyInfo.cs')">
+            <Output TaskParameter="AssemblyVersion" PropertyName="AssemblyVersion" />
+        </GetAssemblyInfo>
+        <PropertyGroup>
+            <Version Condition="'$(Version)' == ''">$(AssemblyVersion)</Version>
+        </PropertyGroup>
+    </Target>
+    <Target Name="BSMT_GenerateManifest" BeforeTargets="BeforeBuild" DependsOnTargets="BSMT_StartBSIPA" Condition="'$(GenerateManifest)' == 'true'">
+        <Message Text="Target: BSMT_GenerateManifest" Importance="high" />
+        <PropertyGroup>
+            <ManifestPath Condition="!Exists('$(ManifestPath)')"></ManifestPath>
+            <RequiresBsipa Condition="'$(RequiresBsipa)' == ''">True</RequiresBsipa>
+        </PropertyGroup>
+        <Message Text="   PluginId= '$(PluginId)' (ID string used for generated manifest.)" Importance="high" />
+        <Message Text="   PluginName= '$(PluginName)' (Name string used for generated manifest.)" Importance="high" />
+        <Message Text="   Version= '$(Version)' (Version string used for generated manifest.)" Importance="high" />
+        <Message Text="   RequiresBsipa= '$(RequiresBsipa)' (Version string used for generated manifest.)" Importance="high" />
+        <GenerateManifest ID="$(PluginId)" Name="$(PluginName)" Author="$(Authors)" Version="$(Version)" GameVersion="$(GameVersion)"
+                          Description="$(Description)" Icon="$(PluginIcon)" DependsOn="@(DependsOn)" ConflictsWith="@(ConflictsWith)"
+                          Files="@(RequiredFile)" LoadBefore="@(LoadBefore)" LoadAfter="@(LoadAfter)"
+                          ProjectSource="$(ProjectSource)" ProjectHome="$(ProjectHome)" Donate="$(Donate)"
+                          Features="$(PluginFeatures)" Misc="$(PluginMisc)" PluginHint="$(PluginHint)"
+                          BaseManifestPath="$(ManifestPath)" TargetPath="$(IntermediateOutputPath)manifest.json"
+                          RequiresBsipa="$(RequiresBsipa)">
+            <Output TaskParameter="BasePluginVersion" PropertyName="BasePluginVersion" />            
+        </GenerateManifest>
+        <ItemGroup>
+            <EmbeddedResource Include="$(IntermediateOutputPath)manifest.json" LogicalName="$(AssemblyName).manifest.json" />
+        </ItemGroup>
+        <PropertyGroup>
+            <ManifestPath>$(ProjectDir)$(IntermediateOutputPath)manifest.json"</ManifestPath>
+        </PropertyGroup>
+        <Copy SourceFiles="$(IntermediateOutputPath)manifest.json" DestinationFiles="$(OutputAssemblyName).manifest" />
+        <Message Text="   Generated manifest copied to '$(OutputAssemblyName).manifest'" Importance="high" />
+    </Target>
     <!--Runs a build task to get info about the project used by later targets.-->
-    <Target Name="BSMT_GetProjectInfo" BeforeTargets="BeforeBuild" DependsOnTargets="BSMT_BeforeBuild">
+    <Target Name="BSMT_GetProjectInfo" BeforeTargets="BeforeBuild" DependsOnTargets="BSMT_StartBSIPA;BSMT_GenerateManifest">
         <Message Text="Target: BSMT_GetProjectInfo" Importance="high" />
-        <GetManifestInfo FailOnError="$(ErrorOnMismatchedVersions)">
+        <GetManifestInfo ManifestPath="$(ManifestPath)" FailOnError="$(ErrorOnMismatchedVersions)" Condition="'$(GenerateManifest)' != 'True'">
             <Output TaskParameter="PluginVersion" PropertyName="PluginVersion" />
             <Output TaskParameter="BasePluginVersion" PropertyName="BasePluginVersion" />
             <Output TaskParameter="GameVersion" PropertyName="GameVersion" />

@@ -520,6 +520,11 @@
             Models a BSIPA manifest file.
             </summary>
         </member>
+        <member name="F:BeatSaberModdingTools.Tasks.Models.BsipaManifest.SchemaUrl">
+            <summary>
+            URL for the JSON schema.
+            </summary>
+        </member>
         <member name="M:BeatSaberModdingTools.Tasks.Models.BsipaManifest.Validate(System.Boolean)">
             <summary>
             Throws an exception if the <see cref="T:BeatSaberModdingTools.Tasks.Models.BsipaManifest"/> is not valid.
