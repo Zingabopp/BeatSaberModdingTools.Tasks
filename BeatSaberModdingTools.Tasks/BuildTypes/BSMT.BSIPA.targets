@@ -13,7 +13,7 @@
         <Message Text="   No 'GameExe' was specified, defaulting to 'Beat Saber.exe'" Importance="high" />
         <PropertyGroup>
             <ManifestPath Condition="'$(ManifestPath)' == ''">manifest.json</ManifestPath>
-            <GameExe Condition="'$(GameExe)' == ''"></GameExe>
+            <GameExe Condition="'$(GameExe)' == ''">Beat Saber</GameExe>
         </PropertyGroup>
         <Message Text="   ManifestPath= '$(ManifestPath)' (Manifest path relative to project)" Importance="high" />
         <Message Text="   GenerateManifest= '$(GenerateManifest)' (Generate manifest if true)" Importance="high" />
