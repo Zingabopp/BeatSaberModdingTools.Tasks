@@ -38,7 +38,7 @@
         <Message Text="   PluginId= '$(PluginId)' (ID string used for generated manifest.)" Importance="high" />
         <Message Text="   PluginName= '$(PluginName)' (Name string used for generated manifest.)" Importance="high" />
         <Message Text="   Version= '$(Version)' (Version string used for generated manifest.)" Importance="high" />
-        <Message Text="   RequiresBsipa= '$(RequiresBsipa)' (Version string used for generated manifest.)" Importance="high" />
+        <Message Text="   RequiresBsipa= '$(RequiresBsipa)' (Set to 'false' if your mod does not require BSIPA to function.)" Importance="high" />
         <GenerateManifest ID="$(PluginId)" Name="$(PluginName)" Author="$(Authors)" Version="$(Version)" GameVersion="$(GameVersion)"
                           Description="$(Description)" Icon="$(PluginIcon)" DependsOn="@(DependsOn)" ConflictsWith="@(ConflictsWith)"
                           Files="@(RequiredFile)" LoadBefore="@(LoadBefore)" LoadAfter="@(LoadAfter)"
