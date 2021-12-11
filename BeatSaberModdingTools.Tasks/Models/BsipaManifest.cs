@@ -33,7 +33,7 @@ namespace BeatSaberModdingTools.Tasks.Models
                 invalidProperties.Add(nameof(Author));
             if (string.IsNullOrWhiteSpace(Version))
                 invalidProperties.Add(nameof(Version));
-            if (string.IsNullOrWhiteSpace(GameVersion))
+            if (string.IsNullOrWhiteSpace(GameVersion) && requiresBsipa)
                 invalidProperties.Add(nameof(GameVersion));
             if (string.IsNullOrWhiteSpace(GetDescription()))
                 invalidProperties.Add(nameof(Description));
