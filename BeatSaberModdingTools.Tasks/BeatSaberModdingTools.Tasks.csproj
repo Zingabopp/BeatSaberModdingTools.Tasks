@@ -44,7 +44,7 @@
         <DocumentationFile>BeatSaberModdingTools.Tasks.xml</DocumentationFile>
         <PackageTags>Beat Saber;BeatSaberModdingTools</PackageTags>
         <PackageReadmeFile>package_readme.md</PackageReadmeFile>
-        <PackageReleaseNotes>* Version is set if AssemblyInfo.cs is read.
+        <PackageReleaseNotes>* GameVersion optional if RequiresBsipa is false.
         </PackageReleaseNotes>
         <PackageIcon>bsmt.tasks_icon.png</PackageIcon>
         <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
