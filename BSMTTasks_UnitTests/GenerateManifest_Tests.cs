@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -7,6 +8,7 @@ using BeatSaberModdingTools.Tasks;
 using BeatSaberModdingTools.Tasks.Models;
 using BeatSaberModdingTools.Tasks.Utilities;
 using BeatSaberModdingTools.Tasks.Utilities.Mock;
+using Microsoft.Build.Framework;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace BSMTTasks_UnitTests
@@ -222,13 +224,39 @@ namespace BSMTTasks_UnitTests
             Assert.IsTrue(props.Any(p => p == nameof(GenerateManifest.Name)));
             Assert.IsTrue(props.Any(p => p == nameof(GenerateManifest.Author)));
             Assert.IsTrue(props.Any(p => p == nameof(GenerateManifest.Version)));
+            //Assert.IsTrue(props.Any(p => p == nameof(GenerateManifest.GameVersion)));
+            Assert.IsTrue(props.Any(p => p == nameof(GenerateManifest.Description)));
+        }
+
+        [TestMethod]
+        public void InvalidPropertiesRequiresBsipa_ThrowsException()
+        {
+            Directory.CreateDirectory(OutputPath);
+            string targetPath = Path.Combine(OutputPath, nameof(InvalidProperties_ThrowsException) + ".json");
+            MockTaskLogger logger = new MockTaskLogger(nameof(GenerateManifest));
+            var task = new GenerateManifest()
+            {
+                RequiresBsipa = true,
+                TargetPath = targetPath,
+                Logger = logger,
+                DependsOn = 
+                    MockTaskItem.FromDictString("DependsOn", "BSIPA|^4.3.0"),
+            };
+            Assert.IsFalse(task.Execute());
+            var logEntry = logger.LogEntries.First();
+            Console.Write(logEntry.Message);
+            var exception = logEntry.Exception as ManifestValidationException;
+            Assert.IsNotNull(exception);
+            var props = exception.InvalidProperties;
+            Assert.IsTrue(props.Any(p => p == nameof(GenerateManifest.Id)));
+            Assert.IsTrue(props.Any(p => p == nameof(GenerateManifest.Name)));
+            Assert.IsTrue(props.Any(p => p == nameof(GenerateManifest.Author)));
+            Assert.IsTrue(props.Any(p => p == nameof(GenerateManifest.Version)));
             Assert.IsTrue(props.Any(p => p == nameof(GenerateManifest.GameVersion)));
             Assert.IsTrue(props.Any(p => p == nameof(GenerateManifest.Description)));
         }
 
-
-
-
+        
         public void TestManifest(GenerateManifest task, BsipaManifest manifest, int baseDepends = 0, int baseConflicts = 0)
         {
             Assert.AreEqual(task.Id, manifest.Id);

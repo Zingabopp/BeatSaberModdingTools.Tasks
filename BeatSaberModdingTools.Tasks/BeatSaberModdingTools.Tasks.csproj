@@ -2,7 +2,7 @@
     <PropertyGroup>
         <id>BeatSaberModdingTools.Tasks</id>
         <Title>BeatSaberModdingTools.Tasks</Title>
-        <Version>2.0.0-beta3</Version>
+        <Version>2.0.0-beta4</Version>
         <Authors>Zingabopp</Authors>
         <Company>Zingabopp</Company>
         <Description>A set of MSBuild Tasks created for Beat Saber Modding Tools.</Description>
@@ -44,7 +44,7 @@
         <DocumentationFile>BeatSaberModdingTools.Tasks.xml</DocumentationFile>
         <PackageTags>Beat Saber;BeatSaberModdingTools</PackageTags>
         <PackageReadmeFile>package_readme.md</PackageReadmeFile>
-        <PackageReleaseNotes>* Version is set if AssemblyInfo.cs is read.
+        <PackageReleaseNotes>* GameVersion optional if RequiresBsipa is false.
         </PackageReleaseNotes>
         <PackageIcon>bsmt.tasks_icon.png</PackageIcon>
         <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
