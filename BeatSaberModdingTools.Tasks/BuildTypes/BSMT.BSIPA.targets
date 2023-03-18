@@ -128,9 +128,12 @@
             <!--Set 'ArtifactName' if it failed before.-->
             <ArtifactName Condition="'$(ArtifactName)' == ''">$(AssemblyName)</ArtifactName>
         </PropertyGroup>
-        <Message Text="   ::set-output name=filename::$(ArtifactName)" Importance="high" />
-        <Message Text="   ::set-output name=assemblyname::$(AssemblyName)" Importance="high" />
-        <Message Text="   ::set-output name=artifactpath::$(ProjectDir)$(ArtifactDestination)" Importance="high" />
+        <!--<Message Text="   ::set-output name=filename::$(ArtifactName)" Importance="high" />-->
+        <SetActionOutput OutputName="filename" OutputValue="$(ArtifactName)" />
+        <!--<Message Text="   ::set-output name=assemblyname::$(AssemblyName)" Importance="high" />-->
+        <SetActionOutput OutputName="assemblyname" OutputValue="$(AssemblyName)" />
+        <!--<Message Text="   ::set-output name=artifactpath::$(ProjectDir)$(ArtifactDestination)" Importance="high" />-->
+        <SetActionOutput OutputName="artifactpath" OutputValue="$(ProjectDir)$(ArtifactDestination)" />
         <Message Text="   Output Properties:" Importance="high" />
         <Message Text="      ArtifactName= '$(ArtifactName)'" Importance="high" />
     </Target>

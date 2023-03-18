@@ -728,6 +728,42 @@
             </summary>
             <returns>true if successful</returns>
         </member>
+        <member name="T:BeatSaberModdingTools.Tasks.SetActionOutput">
+            <summary>
+            Compares an assembly and manifest version string, logs an error and optionally fails if they don't match.
+            </summary>
+        </member>
+        <member name="F:BeatSaberModdingTools.Tasks.SetActionOutput.Logger">
+            <summary>
+            <see cref="T:BeatSaberModdingTools.Tasks.Utilities.ITaskLogger"/> instance used.
+            </summary>
+        </member>
+        <member name="P:BeatSaberModdingTools.Tasks.SetActionOutput.OutputName">
+            <summary>
+            The output variable name
+            </summary>
+        </member>
+        <member name="P:BeatSaberModdingTools.Tasks.SetActionOutput.OutputValue">
+            <summary>
+            The output variable value
+            </summary>
+        </member>
+        <member name="P:BeatSaberModdingTools.Tasks.SetActionOutput.PathVariableName">
+            <summary>
+            Optional: Name of the environmental variable to get the file path from
+            </summary>
+        </member>
+        <member name="P:BeatSaberModdingTools.Tasks.SetActionOutput.OutputPath">
+            <summary>
+            Optional: Path to the file to write to
+            </summary>
+        </member>
+        <member name="M:BeatSaberModdingTools.Tasks.SetActionOutput.Execute">
+            <summary>
+            Executes the task.
+            </summary>
+            <returns>true if successful</returns>
+        </member>
         <member name="T:BeatSaberModdingTools.Tasks.Utilities.ParsingException">
             <summary>
             Exception thrown on parsing errors.
@@ -1424,6 +1460,21 @@
         <member name="F:BeatSaberModdingTools.Tasks.Utilities.MessageCodes.ReplaceInFile.ReplaceFailed">
             <summary>
             Other error.
+            </summary>
+        </member>
+        <member name="T:BeatSaberModdingTools.Tasks.Utilities.MessageCodes.SetActionOutput">
+            <summary>
+            Message codes for <see cref="T:BeatSaberModdingTools.Tasks.SetActionOutput"/>
+            </summary>
+        </member>
+        <member name="F:BeatSaberModdingTools.Tasks.Utilities.MessageCodes.SetActionOutput.GeneralFailure">
+            <summary>
+            Some error
+            </summary>
+        </member>
+        <member name="F:BeatSaberModdingTools.Tasks.Utilities.MessageCodes.SetActionOutput.OutputNameNotSet">
+            <summary>
+            Output variable name was not set
             </summary>
         </member>
         <member name="T:BeatSaberModdingTools.Tasks.Utilities.Mock.MockTaskItem">

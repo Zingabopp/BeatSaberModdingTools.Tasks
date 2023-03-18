@@ -27,6 +27,7 @@
     <UsingTask TaskName="BeatSaberModdingTools.Tasks.ReplaceInFile" AssemblyFile="$(BSMTTaskAssembly)" />
     <UsingTask TaskName="BeatSaberModdingTools.Tasks.ZipDir" AssemblyFile="$(BSMTTaskAssembly)" />
     <UsingTask TaskName="BeatSaberModdingTools.Tasks.GenerateManifest" AssemblyFile="$(BSMTTaskAssembly)" />
+    <UsingTask TaskName="BeatSaberModdingTools.Tasks.SetActionOutput" AssemblyFile="$(BSMTTaskAssembly)" />
 
     <Import Project="$(MSBuildThisFileDirectory)BSMT.DefaultProps.props"/>
     <Import Project="$(MSBuildThisFileDirectory)BSMT.RequiredTargets.targets"/>

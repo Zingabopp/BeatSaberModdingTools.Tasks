@@ -159,5 +159,19 @@
             public const string ReplaceFailed = "BSMT21";
         }
 
+        /// <summary>
+        /// Message codes for <see cref="Tasks.SetActionOutput"/>
+        /// </summary>
+        public static class SetActionOutput
+        {
+            /// <summary>
+            /// Some error
+            /// </summary>
+            public const string GeneralFailure = "BSMT22";
+            /// <summary>
+            /// Output variable name was not set
+            /// </summary>
+            public const string OutputNameNotSet = "BSMT23";
+        }
     }
 }
