@@ -52,7 +52,7 @@
         <Message Text="   Output Properties:" Importance="high" />
         <Message Text="      PluginVersion= '$(PluginVersion)'" Importance="high" />
         <Message Text="      BasePluginVersion= '$(BasePluginVersion)'" Importance="high" />
-        <ItemGroup>
+        <ItemGroup Condition="'$(DisableManifestEmbed)' != 'True'">
             <EmbeddedResource Include="$(IntermediateOutputPath)manifest.json" LogicalName="$(AssemblyName).manifest.json" />
         </ItemGroup>
         <PropertyGroup>
