@@ -44,7 +44,11 @@
         <DocumentationFile>BeatSaberModdingTools.Tasks.xml</DocumentationFile>
         <PackageTags>Beat Saber;BeatSaberModdingTools</PackageTags>
         <PackageReadmeFile>package_readme.md</PackageReadmeFile>
-        <PackageReleaseNotes>* GameVersion optional if RequiresBsipa is false.
+        <PackageReleaseNotes>
+            * Converted to new GitHub Actions environment files for output
+            * Added new SetActionOutput Task
+            * Added option to disable embedding generated manifests
+            * GameVersion is also an output for GenerateManifest (for when it's defined by an existing manifest)
         </PackageReleaseNotes>
         <PackageIcon>bsmt.tasks_icon.png</PackageIcon>
         <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
