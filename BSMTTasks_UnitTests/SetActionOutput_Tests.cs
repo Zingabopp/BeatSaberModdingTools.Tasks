@@ -21,6 +21,10 @@ public class SetActionOutput_Tests
         string outputName = "test1";
         string outputValue = "test_value1";
         Environment.SetEnvironmentVariable("GITHUB_OUTPUT", outputPath);
+        if(File.Exists(outputPath))
+        {
+            File.Delete(outputPath);
+        }
         var task = new SetActionOutput()
         {
             OutputName = outputName,

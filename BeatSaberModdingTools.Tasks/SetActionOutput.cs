@@ -77,7 +77,7 @@ namespace BeatSaberModdingTools.Tasks
                 }
                 FileInfo outputFile = new FileInfo(outputPath);
                 outputFile.Directory.Create();
-                File.AppendAllText(outputPath, $"{OutputName}={OutputValue}");
+                File.AppendAllText(outputPath, $"{OutputName}={OutputValue}\n");
                 return true;
             }
             catch (Exception ex)
