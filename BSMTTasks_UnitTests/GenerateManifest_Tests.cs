@@ -101,16 +101,19 @@ namespace BSMTTasks_UnitTests
         {
             Directory.CreateDirectory(OutputPath);
             string basePath = Path.Combine(Data, "manifest.json");
+            BsipaManifest baseManifest = BsipaManifest.FromJson(File.ReadAllText(basePath));
+            Assert.IsFalse(string.IsNullOrWhiteSpace(baseManifest.GameVersion));
+            Assert.IsTrue(File.Exists(basePath));
             int baseDepends = 2;
             int baseConflicts = 0;
-            string targetPath = Path.Combine(OutputPath, nameof(Valid_WithBaseManifest_DependsOnSingle) + ".json");
+            string targetPath = Path.Combine(OutputPath, nameof(Valid_WithBaseManifest_DependsOnSingle) + ".json");            
             var task = new GenerateManifest()
             {
                 Id = "TestPlugin",
                 Name = "Test Plugin",
                 Author = "Zingabopp",
                 Version = "1.0.0",
-                GameVersion = "1.14.0",
+                //GameVersion = "1.14.0",
                 Description = "Description of a test plugin.",
                 DependsOn =
                     MockTaskItem.FromDictString("DependsOn", "BSIPA|^4.3.0", "TestDepend1|^2.0.1", "TestDepend2|^1.0.0"),
@@ -122,6 +125,7 @@ namespace BSMTTasks_UnitTests
             };
             Assert.IsTrue(task.Execute());
             BsipaManifest manifest = BsipaManifest.FromJson(File.ReadAllText(targetPath));
+           
             TestManifest(task, manifest, baseDepends, baseConflicts);
         }
 

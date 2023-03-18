@@ -39,6 +39,7 @@ namespace BeatSaberModdingTools.Tasks
         /// <summary>
         /// The Beat Saber game version the mod was built for.
         /// </summary>
+        [Output]
         public string GameVersion { get; set; }
         /// <summary>
         /// The mod's description.
@@ -137,6 +138,7 @@ namespace BeatSaberModdingTools.Tasks
                 WriteManifest(manifest, TargetPath);
                 BasePluginVersion = Util.StripVersionLabel(manifest.Version);
                 PluginVersion = manifest.Version;
+                GameVersion = manifest.GameVersion;
                 return true;
             }
             catch (ManifestValidationException ex)
