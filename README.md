@@ -280,7 +280,3 @@ Inputs:
 |PathVariableName|string|No|Name of the environmental variable containing the path to the output file (Default is `GITHUB_OUTPUT`).|
 |OutputPath|string|No|Path to the output file.|
 
-Outputs:
-|Name|Type|Description|
-|---|---|---|
-|ZipPath|string|Full path to the created zip file. Empty if the file could not be created.|
