@@ -21,7 +21,7 @@ jobs:
       run: dotnet restore
     - name: Git Status Output
       run: git status
-    - name: Git Commit Ouput
+    - name: Git Commit Output
       run: git rev-parse HEAD
     - name: Git OriginURL Output
       run: git config --local --get remote.origin.url
