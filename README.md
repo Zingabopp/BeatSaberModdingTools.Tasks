@@ -182,6 +182,15 @@ Inputs:
 
 *Properties are not required by the task if you are using a base manifest file (specified in `BaseManifestPath`) that already has those properties.<br>
 **If a mod references BSIPA and uses its `Plugin` architecture, you *must* have a `DependsOn` for BSIPA.
+
+
+Outputs:
+|Name|Type|Description|
+|---|---|---|
+|BasePluginVersion|string|Plugin version without any prerelease labels.|
+|PluginVersion|string|Plugin version written to the manifest.|
+|GameVersion|string|The Beat Saber game version the mod was built for.|
+
 ## Special Types
 ### Mod Identifier
 * Mod identifiers need to have an `Include` attribute (Mod ID from their manifest) and `Version` attribute (SemVer)
@@ -260,3 +269,18 @@ Example:
     </Target>
 </Project>
 ```
+## SetActionOutput
+Writes a property to GitHub Action runner's environment file.
+
+Inputs:
+|Name|Type|Required?|Description|
+|---|---|---|---|
+|OutputName|string|Yes|Name of the output property.|
+|OutputValue|string|Yes|Value of the output property.|
+|PathVariableName|string|No|Name of the environmental variable containing the path to the output file (Default is `GITHUB_OUTPUT`).|
+|OutputPath|string|No|Path to the output file.|
+
+Outputs:
+|Name|Type|Description|
+|---|---|---|
+|ZipPath|string|Full path to the created zip file. Empty if the file could not be created.|
