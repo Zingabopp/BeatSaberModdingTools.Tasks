@@ -132,7 +132,7 @@ namespace BeatSaberModdingTools.Tasks.Models
         }
 
         /// <summary>
-        /// compatable game version
+        /// compatible game version
         /// </summary>
         [JsonProperty("gameVersion")]
         public string GameVersion

@@ -159,10 +159,10 @@ namespace BeatSaberModdingTools.Tasks
                     if (FailOnError)
                         return false;
                 }
-
-                if (!string.IsNullOrEmpty(manifest_gameVerLine))
+                string gameVersion = manifest_gameVerLine?.Substring(manifest_gameVerStart.Length).Replace(":", "").Replace("\"", "").TrimEnd(',').Trim();
+                if (!string.IsNullOrEmpty(gameVersion))
                 {
-                    GameVersion = manifest_gameVerLine.Substring(manifest_gameVerStart.Length).Replace(":", "").Replace("\"", "").TrimEnd(',').Trim();
+                    GameVersion = gameVersion;
                 }
                 else
                 {
