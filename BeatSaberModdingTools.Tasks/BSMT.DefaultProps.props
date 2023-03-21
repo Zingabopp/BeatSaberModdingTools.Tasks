@@ -3,14 +3,17 @@
     <PropertyGroup>
         <CopyPDB Condition="'$(CopyPDB)' == ''">True</CopyPDB>
     </PropertyGroup>
-    <PropertyGroup Condition="'$(GITHUB_ACTIONS)' == 'true'">
-        <ContinuousIntegrationBuild>true</ContinuousIntegrationBuild>
-        <DisableCopyToGame>true</DisableCopyToGame>
-        <DisableZipRelease>true</DisableZipRelease>
+    
+    <PropertyGroup Condition="'$(GITHUB_ACTIONS)' == 'true' OR '$(NCrunch)' == '1'">
+        <DisableCopyToGame Condition="'$(DisableCopyToGame)' == ''">true</DisableCopyToGame>
+        <DisableZipRelease Condition="'$(DisableZipRelease)' == ''">true</DisableZipRelease>
     </PropertyGroup>
+    
+    <PropertyGroup Condition="'$(GITHUB_ACTIONS)' == 'true'">
+        <ContinuousIntegrationBuild Condition="'$(ContinuousIntegrationBuild)' == ''">true</ContinuousIntegrationBuild>
+    </PropertyGroup>
+    
     <PropertyGroup Condition="'$(NCrunch)' == '1'">
-        <ContinuousIntegrationBuild>false</ContinuousIntegrationBuild>
-        <DisableCopyToGame>true</DisableCopyToGame>
-        <DisableZipRelease>true</DisableZipRelease>
+        <ContinuousIntegrationBuild Condition="'$(ContinuousIntegrationBuild)' == ''">false</ContinuousIntegrationBuild>
     </PropertyGroup>
 </Project>
