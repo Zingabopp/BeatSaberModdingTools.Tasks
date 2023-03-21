@@ -730,7 +730,7 @@
         </member>
         <member name="T:BeatSaberModdingTools.Tasks.SetActionOutput">
             <summary>
-            Compares an assembly and manifest version string, logs an error and optionally fails if they don't match.
+            Writes data to a GitHub Actions environment file
             </summary>
         </member>
         <member name="F:BeatSaberModdingTools.Tasks.SetActionOutput.Logger">
@@ -746,11 +746,6 @@
         <member name="P:BeatSaberModdingTools.Tasks.SetActionOutput.OutputValue">
             <summary>
             The output variable value
-            </summary>
-        </member>
-        <member name="P:BeatSaberModdingTools.Tasks.SetActionOutput.PathVariableName">
-            <summary>
-            Optional: Name of the environmental variable to get the file path from
             </summary>
         </member>
         <member name="P:BeatSaberModdingTools.Tasks.SetActionOutput.OutputPath">

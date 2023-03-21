@@ -277,6 +277,5 @@ Inputs:
 |---|---|---|---|
 |OutputName|string|Yes|Name of the output property.|
 |OutputValue|string|Yes|Value of the output property.|
-|PathVariableName|string|No|Name of the environmental variable containing the path to the output file (Default is `GITHUB_OUTPUT`).|
-|OutputPath|string|No|Path to the output file.|
+|OutputPath|string|No|Path to the output file. Default is value of `GITHUB_OUTPUT`|
 

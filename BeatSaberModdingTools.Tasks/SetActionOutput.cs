@@ -7,7 +7,7 @@ using Microsoft.Build.Framework;
 namespace BeatSaberModdingTools.Tasks
 {
     /// <summary>
-    /// Compares an assembly and manifest version string, logs an error and optionally fails if they don't match.
+    /// Writes data to a GitHub Actions environment file
     /// </summary>
     public class SetActionOutput : Microsoft.Build.Utilities.Task
     {
@@ -27,10 +27,6 @@ namespace BeatSaberModdingTools.Tasks
         /// </summary>
         [Required]
         public virtual string OutputValue { get; set; }
-        /// <summary>
-        /// Optional: Name of the environmental variable to get the file path from
-        /// </summary>
-        public virtual string PathVariableName { get; set; }
         /// <summary>
         /// Optional: Path to the file to write to
         /// </summary>
@@ -53,25 +49,14 @@ namespace BeatSaberModdingTools.Tasks
                 {
                     outputPath = OutputPath;
                 }
-                else if (!string.IsNullOrWhiteSpace(PathVariableName))
-                {
-                    outputPath = Environment.GetEnvironmentVariable(PathVariableName);
-                }
                 else
                 {
                     outputPath = Environment.GetEnvironmentVariable("GITHUB_OUTPUT");
                 }
                 if (string.IsNullOrWhiteSpace(outputPath))
                 {
-                    string errorMessage;
-                    if(!string.IsNullOrWhiteSpace(PathVariableName))
-                    {
-                        errorMessage = $"A path could not be read from environment variable '${PathVariableName}'";
-                    }
-                    else
-                    {
-                        errorMessage = "'GithubOutputPath' property was not set and/or 'GITHUB_OUTPUT' has no value";
-                    }
+                    string errorMessage = "'GithubOutputPath' property was not set and/or 'GITHUB_OUTPUT' has no value";
+                    
                     if (BuildEngine != null)
                     {
                         int line = BuildEngine.LineNumberOfTaskNode;
