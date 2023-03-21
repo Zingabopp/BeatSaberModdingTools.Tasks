@@ -600,7 +600,7 @@
         </member>
         <member name="P:BeatSaberModdingTools.Tasks.Models.BsipaManifest.GameVersion">
             <summary>
-            compatable game version
+            compatible game version
             </summary>
         </member>
         <member name="P:BeatSaberModdingTools.Tasks.Models.BsipaManifest.Icon">

@@ -61,6 +61,30 @@ namespace BeatSaberModdingTools.Tasks
                 {
                     outputPath = Environment.GetEnvironmentVariable("GITHUB_OUTPUT");
                 }
+                if (string.IsNullOrWhiteSpace(outputPath))
+                {
+                    string errorMessage;
+                    if(!string.IsNullOrWhiteSpace(PathVariableName))
+                    {
+                        errorMessage = $"A path could not be read from environment variable '${PathVariableName}'";
+                    }
+                    else
+                    {
+                        errorMessage = "'GithubOutputPath' property was not set and/or 'GITHUB_OUTPUT' has no value";
+                    }
+                    if (BuildEngine != null)
+                    {
+                        int line = BuildEngine.LineNumberOfTaskNode;
+                        int column = BuildEngine.ColumnNumberOfTaskNode;
+                        Logger.LogError(null, errorCode, null, BuildEngine.ProjectFileOfTaskNode, line, column, line, column, $"Error in {GetType().Name}: {errorMessage}");
+                    }
+                    else
+                    {
+                        Logger.LogError(null, errorCode, null, null, 0, 0, 0, 0, $"Error in {GetType().Name}: {errorMessage}");
+                    }
+                    return false;
+
+                }
                 if (string.IsNullOrWhiteSpace(OutputName))
                 {
                     if (BuildEngine != null)
@@ -97,6 +121,5 @@ namespace BeatSaberModdingTools.Tasks
                 return false;
             }
         }
-
     }
 }

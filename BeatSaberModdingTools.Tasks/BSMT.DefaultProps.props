@@ -11,6 +11,7 @@
     
     <PropertyGroup Condition="'$(GITHUB_ACTIONS)' == 'true'">
         <ContinuousIntegrationBuild Condition="'$(ContinuousIntegrationBuild)' == ''">true</ContinuousIntegrationBuild>
+        <GithubOutputPath Condition="'$(GithubOutputPath)' == ''">$(GITHUB_OUTPUT)</GithubOutputPath>
     </PropertyGroup>
     
     <PropertyGroup Condition="'$(NCrunch)' == '1'">

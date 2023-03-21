@@ -131,11 +131,11 @@
             <ArtifactName Condition="'$(ArtifactName)' == ''">$(AssemblyName)</ArtifactName>
         </PropertyGroup>
         <!--<Message Text="   ::set-output name=filename::$(ArtifactName)" Importance="high" />-->
-        <SetActionOutput OutputName="filename" OutputValue="$(ArtifactName)" />
+        <SetActionOutput OutputName="filename" OutputValue="$(ArtifactName)" OutputPath="$(GithubOutputPath)" />
         <!--<Message Text="   ::set-output name=assemblyname::$(AssemblyName)" Importance="high" />-->
-        <SetActionOutput OutputName="assemblyname" OutputValue="$(AssemblyName)" />
+        <SetActionOutput OutputName="assemblyname" OutputValue="$(AssemblyName)" OutputPath="$(GithubOutputPath)" />
         <!--<Message Text="   ::set-output name=artifactpath::$(ProjectDir)$(ArtifactDestination)" Importance="high" />-->
-        <SetActionOutput OutputName="artifactpath" OutputValue="$(ProjectDir)$(ArtifactDestination)" />
+        <SetActionOutput OutputName="artifactpath" OutputValue="$(ProjectDir)$(ArtifactDestination)" OutputPath="$(GithubOutputPath)" />
         <Message Text="   Output Properties:" Importance="high" />
         <Message Text="      ArtifactName= '$(ArtifactName)'" Importance="high" />
     </Target>
