@@ -2,7 +2,7 @@
     <PropertyGroup>
         <id>BeatSaberModdingTools.Tasks</id>
         <Title>BeatSaberModdingTools.Tasks</Title>
-        <Version>2.0.0-beta6</Version>
+        <Version>2.0.0-beta7</Version>
         <Authors>Zingabopp</Authors>
         <Company>Zingabopp</Company>
         <Description>A set of MSBuild Tasks created for Beat Saber Modding Tools.</Description>
