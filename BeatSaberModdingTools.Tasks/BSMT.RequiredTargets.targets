@@ -9,7 +9,7 @@
             <OutputAssemblyName Condition="'$(OutputAssemblyName)' == ''">$(OutputPath)$(AssemblyName)</OutputAssemblyName>
             <!--Path to folder to be zipped. Needs to be relative to the project directory to work without changes to the 'BuildForCI' target.-->
             <ArtifactDestination Condition="'$(ArtifactDestination)' == ''">$(OutputPath)Artifact</ArtifactDestination>
-            <ErrorOnMismatchedVersions Condition="'$(ErrorOnMismatchedVersions)' == '' AND '$(Configuration)' == 'Release'">True</ErrorOnMismatchedVersions>
+            <ErrorOnMismatchedVersions Condition="'$(ErrorOnMismatchedVersions)' == '' AND $(Configuration.Contains('Release'))">True</ErrorOnMismatchedVersions>
             <GameDirectory Condition="'$(GameDirectory)' == '' AND '$(BeatSaberDir)' != '' ">$(BeatSaberDir)</GameDirectory>
             <GameDirectory Condition="'$(GameDirectory)' == '' AND '$(GameReferences)' != '' ">$(GameReferences)</GameDirectory>
         </PropertyGroup>
